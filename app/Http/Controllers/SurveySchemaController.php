@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSurveyRequest;
-use App\Http\Requests\UpdateSurveyRequest;
-use App\Models\Survey;
+use App\Http\Requests\StoreSurveySchemaRequest;
+use App\Http\Requests\UpdateSurveySchemaRequest;
+use App\Models\SurveySchema;
 
-class SurveyController extends Controller
+class SurveySchemaController extends Controller
 {
     /**
      * Display a listing of the resource.
