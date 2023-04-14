@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\SurveySchemaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('survey_creator', [SurveyController::class, 'survey_creator']);
+Route::get('survey_creator', [SurveySchemaController::class, 'create']);
+Route::post('survey_schema', [SurveySchemaController::class, 'store']);
