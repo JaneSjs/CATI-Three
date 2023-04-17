@@ -27,14 +27,14 @@ class SurveySchemaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store survey schema into the database
      */
     public function store(StoreSurveySchemaRequest $request)
     {
         $survey_schema = new SurveySchema;
 
         //$survey_schema->user_id = 1;
-        $survey_schema->name = json_encode($request->name);
+        $survey_schema->name = $request->name;
         $survey_schema->content = json_encode($request->content);
         //$survey_schema->updated_by = 'test';
         //$survey_schema->deleted_by = 'test';
