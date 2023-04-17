@@ -11,22 +11,29 @@
           </div>
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
           	<div class="bg-light p-3 border border-primary rounded my-4">
-          		<h3 class="text-primary">TIFA Call Center</h3>
+          		<h3 class="text-primary">TIFA Research Ltd</h3>
           	</div>
-            <form>
+            <form method="post" action="{{ route('login') }}" class="needs-validation">
+            	@csrf
 
               <!-- Email input -->
               <div class="form-outline mb-4">
-                <input type="email" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Your email address" />
-                
+                <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Your email address" value="{{ old('email') }}"/>
+                @error('email')
+                	<div class="invalid-feedback bg-light rounded text-center" role="alert">
+                	    {{ $message }}
+                	</div>
+              	@enderror
               </div>
 
               <!-- Password input -->
               <div class="form-outline mb-3">
-                <input type="password" id="form3Example4" class="form-control form-control-lg"
-                  placeholder="Password" />
-                
+                <input type="password" name="password" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Password" />
+                @error('password')
+                	<div class=" bg-light invalid-feedback" role="alert">
+                	    {{ $message }}
+                	</div>
+              	@enderror
               </div>
 
               <div class="d-flex justify-content-between align-items-center">
@@ -41,8 +48,10 @@
               </div>
 
               <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="button" class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                <button type="submit" class="btn btn-primary btn-lg"
+                  style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                  Login
+              	</button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account?
                   <a href="#" class="link-primary">
