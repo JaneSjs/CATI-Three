@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SurveyResult extends Model
+class Feedback extends Model
 {
     use HasFactory;
 
     /**
-     * Survey Results belongs to a Survey Schema
+     * Feedbacks belongs to a user
      *
      */
-    public function survey_schema(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(SurveySchema::class);
+        return $this->belongsTo(User::class);
     }
 }

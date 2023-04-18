@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
-use App\Models\Project;
+use App\Http\Requests\StoreRespondentRequest;
+use App\Http\Requests\UpdateRespondentRequest;
+use App\Models\Respondent;
 
-class ProjectController extends Controller
+class RespondentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('projects.index');
+        //
     }
 
     /**
-     * Show the form for creating a new project.
+     * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('projects.create');
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreRespondentRequest $request)
     {
         //
     }
@@ -35,15 +35,15 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(Respondent $respondent)
     {
-        $data['surveys'] = $project->surveys;
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $project)
+    public function edit(Respondent $respondent)
     {
         //
     }
@@ -51,7 +51,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateRespondentRequest $request, Respondent $respondent)
     {
         //
     }
@@ -59,7 +59,7 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy(Respondent $respondent)
     {
         //
     }

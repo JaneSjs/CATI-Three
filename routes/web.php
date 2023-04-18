@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SurveySchemaController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [DashboardController::class, 'index']);
+Route::resource('projects', ProjectController::class);
 
 Route::get('survey_creator', [SurveySchemaController::class, 'create']);
 Route::post('survey_schema', [SurveySchemaController::class, 'store']);
