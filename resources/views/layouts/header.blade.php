@@ -50,10 +50,17 @@
 
                 <div class="dropdown-divider"></div>
 
-                  <a class="dropdown-item" href="#">
-                    <i class="fa-solid fa-right-from-bracket" ></i>
-                    Logout
-                  </a>
+                <form action="{{ route('logout') }}" method="post">
+                  @csrf
+                  <div class="dropdown-item">
+                    <button type="submit" class="btn btn-default">
+                      <i class="fa-solid fa-right-from-bracket" ></i>
+                      Logout
+                    </button>
+                  </div>
+                </form>
+
+                  
               </div>
             </li>
           </ul>

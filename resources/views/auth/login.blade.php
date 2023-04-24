@@ -11,7 +11,9 @@
           </div>
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
           	<div class="bg-light p-3 border border-primary rounded my-4">
-          		<h3 class="text-primary">TIFA Research Ltd</h3>
+          		<h3 class="text-primary">
+                TIFA Research Ltd
+              </h3>
           	</div>
             <form method="post" action="{{ route('login') }}" class="needs-validation">
             	@csrf
@@ -30,17 +32,17 @@
               <div class="form-outline mb-3">
                 <input type="password" name="password" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Password" />
                 @error('password')
-                	<div class=" bg-light invalid-feedback" role="alert">
-                	    {{ $message }}
-                	</div>
+                	<div class="invalid-feedback bg-light rounded text-center" role="alert">
+                      {{ $message }}
+                  </div>
               	@enderror
               </div>
 
               <div class="d-flex justify-content-between align-items-center">
                 <!-- Checkbox -->
                 <div class="form-check mb-0">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                  <label class="form-check-label" for="form2Example3">
+                  <input class="form-check-input me-2" type="checkbox" name="remember" value="true" id="remember_me" />
+                  <label class="form-check-label" for="remember_me">
                     Remember me
                   </label>
                 </div>
