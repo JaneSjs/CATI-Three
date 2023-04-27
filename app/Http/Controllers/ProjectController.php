@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 
 class ProjectController extends Controller
 {
@@ -27,9 +29,20 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request): RedirectResponse
     {
-        //
+        // Use role ids for supervisors, scriptors and qcs
+        $project = [
+            'name' => $request->input('name'),
+            'supervisors' => [1,2,3],
+            'scriptors' => [1,2,3],
+            'qcs' => [1,2,3],
+            'database' => $request->input('database'),
+            'start_date' => Carbon::parse($request->date('start_date')),
+            'end_date' => Carbon::parse($request->date('end_date')),
+        ];
+
+        dd($project);
     }
 
     /**

@@ -14,7 +14,7 @@
         </li>
         <li class="nav-title">User Management</li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ route('roles.index') }}">
             <i class="fa-solid fa-user-lock nav-icon" style="color: #fff;"></i> 
             User Roles
           </a>
@@ -25,10 +25,13 @@
             Users
           </a>
         </li>
+        <li class="nav-title">
+          Projects
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('projects.index') }}">
             <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
-            Projects
+            List Projects
           </a>
         </li>
         
@@ -43,13 +46,13 @@
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i> 
-                Processor
+                Data Processing
               </a>
             </li>
             <li class="nav-item" title="RDMS">
               <a class="nav-link" href="#">
                 <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i> 
-                Controller
+                Data Controlling
               </a>
             </li>
           </ul>
