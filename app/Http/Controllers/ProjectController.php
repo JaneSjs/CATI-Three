@@ -31,10 +31,11 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request): RedirectResponse
     {
+        dd($request->all());
         // Use role ids for supervisors, scriptors and qcs
         $project = [
             'name' => $request->input('name'),
-            'supervisors' => [1,2,3],
+            'supervisors' => $request->collect('supervisors'),
             'scriptors' => [1,2,3],
             'qcs' => [1,2,3],
             'database' => $request->input('database'),
@@ -43,6 +44,15 @@ class ProjectController extends Controller
         ];
 
         dd($project);
+
+        
+        if (Project::create()) {
+            // Send Email Notification
+            redirect('projects.create')->with('success', 'Project Has Been Created Successfully');
+        } else {
+            // code...
+        }
+
     }
 
     /**

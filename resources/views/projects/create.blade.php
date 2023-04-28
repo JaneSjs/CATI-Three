@@ -2,7 +2,6 @@
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
@@ -23,11 +22,11 @@
           <label for="supervisors" class="form-label">
             Assign Supervisors
           </label>
-          <select class="form-multi-select" id="supervisors" name="supervisors[]" multiple data-coreui-search="true">
-            <option value="Supervisor 1">Supervisor 1</option>
-            <option value="Supervisor 2">Supervisor 2</option>
-            <option value="Supervisor 3">Supervisor 3</option>
-            <option value="Supervisor 4">Supervisor 4</option>
+          <select class="form-select" id="supervisors" name="supervisors[]" multiple>
+            <option value="Supervisor1">Supervisor 1</option>
+            <option value="Supervisor2">Supervisor 2</option>
+            <option value="Supervisor3">Supervisor 3</option>
+            <option value="Supervisor4">Supervisor 4</option>
           </select>
           <div id="supervisor" class="form-text">Assign Supervisors</div>
         </div>
@@ -36,7 +35,7 @@
           <label for="scriptors" class="form-label">
             Assign Scriptors
           </label>
-          <select class="form-multi-select" id="scriptors" name="scriptors[]" multiple data-coreui-search="true">
+          <select class="form-select" id="scriptors" name="scriptors[]" multiple>
             <option value="Scriptor 1">Scriptor 1</option>
             <option value="Scriptor 2">Scriptor 2</option>
             <option value="Scriptor 3">Scriptor 3</option>
@@ -49,7 +48,7 @@
           <label for="qcs" class="form-label">
             Assign QCs
           </label>
-          <select class="form-multi-select" id="qcs" name="qcs[]" multiple data-coreui-search="true">
+          <select class="form-select" id="qcs" name="qcs[]" multiple>
             <option value="Qc 1">Qc 1</option>
             <option value="Qc 2">Qc 2</option>
             <option value="Qc 3">Qc 3</option>
