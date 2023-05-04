@@ -101,7 +101,7 @@
             </p>
             @else
             <div id="nameDescription" class="form-text">
-              Name of the role e.g scripter, agent e.t.c
+              Name of the role e.g agent, qc e.t.c
             </div>
             @endif
           </div>
@@ -116,7 +116,7 @@
             </p>
             @else
             <div id="roleDescription" class="form-text">
-              Desctiption of the role i.e what tasks the user assigned with that role is intended to do in the system.
+              Description of the role i.e what tasks the user assigned with that role is intended to see or do in the system.
             </div>
             @endif
           </div>

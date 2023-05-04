@@ -8,7 +8,10 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          Manage Users
+          User Management
+        </div>
+        <div class="col">
+          @include('partials/alerts')
         </div>
         <div class="col text-end">
           <a href="{{ route('users.create') }}" class="btn btn-outline-success">
@@ -20,7 +23,7 @@
     <div class="card-body">
       <div class="row">
 
-        <div class="col-8">
+        <div class="col-9">
           <div class="table-responsive">
             <table class="table caption-top">
               <caption>
@@ -37,25 +40,29 @@
                 @foreach($users as $user)
                 <tr>
                   <th scope="row">
-                    {{ $user->first_name . ' ' . $user->last_name  }}
+                    <i class="fas fa-eye"></i>
+                    <a href="{{ route('users.show', $user->id) }}">
+                      {{ $user->first_name . ' ' . $user->last_name  }}
+                    </a>
                   </th>
                   <td>
                     {{ $user->email }}
                   </td>
                   <td>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-secondary" title="View User Profile">
-                        <i class="fas fa-eye"></i>
-                      </button>
-                      <button type="button" class="btn btn-sm btn-primary" title="Recruit This User">
+                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
+                        <i class="fas fa-pen"></i>
+                      </a>
+                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $user->last_name }}">
                         <i class="fas fa-user-tie"></i>
                       </button>
-                      <button type="button" class="btn btn-sm btn-warning" title="Suspend">
-                        <i class="fas fa-eraser"></i>
-                      </button>
-                      <button type="button" class="btn btn-sm btn-danger" title="Delete">
-                        <i class="fas fa-trash"></i>
-                      </button>
+                      <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $user->last_name }}">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </form>
                     </div>
                   </td>
                 </tr>
@@ -68,7 +75,7 @@
           </div>
         </div>
 
-        <div class="col-4 bg-warning">
+        <div class="col-3 bg-secondary">
           Total System Users = {{ count($users) }}
         </div>
       </div>

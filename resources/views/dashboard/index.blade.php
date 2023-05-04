@@ -112,8 +112,10 @@
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <div>
-                  <h4 class="card-title mb-0">Calls</h4>
-                  <div class="small text-medium-emphasis">January - July 2022</div>
+                  <h4 class="card-title mb-0">
+                    Recordings
+                  </h4>
+                  <div class="small text-medium-emphasis">January - July {{ date('Y') }}</div>
                 </div>
                 <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
                   <div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">

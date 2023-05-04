@@ -3,6 +3,7 @@
         <img src="{{ asset('assets/images/company-logo.png') }}" class="sidebar-brand-full" width="90" height="46" alt="TIFA Logo">
       </div>
       <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+
         <li class="nav-item">
           <a class="nav-link" href="{{ url('dashboard') }}">
             <i class="fa-solid fa-gauge nav-icon" style="color: #fff;"></i> 

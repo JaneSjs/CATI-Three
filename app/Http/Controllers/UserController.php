@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $data['roles'] = Role::all();
+
+        return view('users.create', $data);
     }
 
     /**
@@ -34,31 +37,29 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'ext_no' => 'required|integer|numeric|max:999',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:6|max:255',
-        ]);
-        
+        //dd($request);
 
-        User::create([
+        $user = User::create([
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
-            'ext_no' => $request->input('ext_no'),
             'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
+            'ext_no' => $request->input('ext_no'),
+            'password' => Hash::make('password')
         ]);
+
+        //dd($user);
+        
 
         //Email The User with reset Password Link.
 
         
-        if (true) {
+        if ($user) {
+            $user->roles()->sync($request->roles);
+            
             //If email has been sent,flash success message
             return redirect('users/create')->with('success', ' User is now registered. Ask them to check their email.');
         } else {
-            return redirect('register')->with('error', ' User registration has failed.');
+            return redirect('users.create')->with('error', ' User registration has failed.');
         }
     }
 
@@ -75,7 +76,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $data['user'] = $user;
+        $data['roles'] = Role::all();
+
+        return view('users.edit', $data);
     }
 
     /**
@@ -83,7 +87,39 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        //dd($user);
+        if ($user)
+        {
+            if ($request->has(['password']))
+            {
+                $user->update([
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
+                    'email' => $request->input('email'),
+                    'ext_no' => $request->input('ext_no'),
+                    'password' => Hash::make('buzzword')
+                ]);
+                $user->roles()->sync($request->roles);
+
+                return redirect()->back()->with('warning', 'User Has Been DeActivated');
+            }
+            else
+            {
+                $user->update([
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
+                    'email' => $request->input('email'),
+                    'ext_no' => $request->input('ext_no'),
+                ]);
+                $user->roles()->sync($request->roles);
+
+                return redirect()->back()->with('success', 'User Details Has Been Updated Successfully.');
+            }
+            
+        } else {
+            // code...
+        }
+        
     }
 
     /**
@@ -91,7 +127,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if ($user) {
+            $user->delete();
+
+            return redirect()->route('users.index')->with('info', 'User has been removed from the system');
+        } else {
+            return redirect()->route('users.index')->with('error', 'User was not found in the system');
+        }
+
     }
 
     /**

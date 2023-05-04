@@ -15,13 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('role_id')
                   ->constrained()
-                  ->references('id')
-                  ->on('roles')
                   ->onDelete('cascade');
             $table->foreignId('user_id')
                   ->constrained()
-                  ->references('id')
-                  ->on('users')
                   ->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
