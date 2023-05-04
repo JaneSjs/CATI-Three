@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -17,7 +18,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data['users'] = User::paginate(10);
+        if (Gate::denies('admin')) {
+            $data['users'] = User::where('role', '!=', 'admin')
+                                ->paginate(10);
+        } else {
+            $data['users'] = User::paginate(10);
+        }
 
         return view('users.index', $data);
     }

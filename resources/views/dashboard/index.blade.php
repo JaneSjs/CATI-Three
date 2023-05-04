@@ -5,6 +5,7 @@
 
 <div class="body flex-grow-1 px-3">
         <div class="container-lg">
+          @include('partials.alerts')
           <div class="row">
             <div class="col-sm-6 col-lg-3">
               <div class="card mb-4 text-white bg-primary">

@@ -53,9 +53,13 @@
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
                         <i class="fas fa-pen"></i>
                       </a>
+                      @can('supervisor')
                       <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $user->last_name }}">
                         <i class="fas fa-user-tie"></i>
                       </button>
+                      @endcan
+
+                      @can('supervisor')
                       <form action="{{ route('users.destroy', $user->id) }}" method="post">
                         @csrf
                         @method('DELETE')
@@ -63,6 +67,7 @@
                           <i class="fas fa-trash-alt"></i>
                         </button>
                       </form>
+                      @endcan
                     </div>
                   </td>
                 </tr>

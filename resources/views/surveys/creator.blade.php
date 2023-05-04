@@ -1,5 +1,13 @@
-@extends('layouts.main')
-<!-- ... -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Survey Creator</title>
+
+    <!-- ... -->
     <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script>
 
     <!-- SurveyJS resources -->
@@ -12,14 +20,10 @@
     <script src="https://unpkg.com/survey-creator-core/survey-creator-core.min.js"></script>
     <script src="https://unpkg.com/survey-creator-knockout/survey-creator-knockout.min.js"></script>
     <!-- ... -->
-    
+
     <script src="{{ asset('assets/survey_js/creator.js') }}"></script>
-@section('content')
-
-
-<div class="body flex-grow-1 px-3">
-  <div id="surveyCreator" style="height: 100vh;"></div>
-</div>
-
-
-@endsection
+</head>
+<body>
+    <div id="surveyCreator" style="height: 100vh;"></div>
+</body>
+</html>

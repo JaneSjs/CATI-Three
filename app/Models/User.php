@@ -68,6 +68,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if the user has any of the given roles
+     * @param array $role
+     * 
+     */
+    public function hasAnyRoles(array $roles): bool
+    {
+        return null !== $this->roles()->whereIn('name', $roles)->first();
+    }
+
+    /**
      * User can have many feedbacks
      * 
      */

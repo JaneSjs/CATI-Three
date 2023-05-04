@@ -10,6 +10,7 @@
             Dashboard
           </a>
         </li>
+        @can('admin')
         <li class="nav-title">User Management</li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('roles.index') }}">
@@ -17,6 +18,7 @@
             User Roles
           </a>
         </li>
+        @endcan
         <li class="nav-item">
           <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 

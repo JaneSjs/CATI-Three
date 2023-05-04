@@ -59,11 +59,38 @@
                         <i class="fas fa-pen"></i>
                       </button>
 
-                      <button type="button" class="btn btn-sm btn-danger" title="Delete Role" data-coreui-toggle="modal" data-coreui-target="#deleteRole">
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete Role" data-coreui-toggle="modal" data-coreui-target="#deleteRole{{ $role->id  }}">
                         <i class="fas fa-trash"></i>
                       </button>
                       
                     </div>
+
+                    <!-- Delete Role Modal -->
+                    <div class="modal fade" id="deleteRole{{ $role->id  }}" tabindex="-1" aria-labelledby="title" aria-hidden="true" data-coreui-backdrop="static">
+                      <div class="modal-dialog modal-sm modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="title">
+                              Are you sure You want to delete this role
+                            </h5>
+                            <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form method="post" action="{{ route('roles.destroy', $role->id) }}">
+                              @csrf
+                              @method('delete')
+                              <button type="submit" class="btn btn-sm btn-danger" title="Delete Role">
+                                  Delete {{ $role->name }}
+                                </button>
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Delete Role Modal -->
                   </td>
                 </tr>
                 @endforeach
@@ -132,32 +159,5 @@
   </div>
 </div>
 <!-- End Create Role Modal -->
-
-<!-- Delete Role Modal -->
-<div class="modal fade" id="deleteRole" tabindex="-1" aria-labelledby="title" aria-hidden="true" data-coreui-backdrop="static">
-  <div class="modal-dialog modal-sm modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="title">
-          Are you sure You want to delete this role
-        </h5>
-        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="{{ route('roles.destroy', $role->id) }}">
-          @csrf
-          @method('delete')
-          <button type="submit" class="btn btn-sm btn-danger" title="Delete Role">
-              Delete {{ $role->name }}
-            </button>
-          </form>
-      </div>
-      <div class="modal-footer">
-        
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End Delete Role Modal -->
 
 @endsection

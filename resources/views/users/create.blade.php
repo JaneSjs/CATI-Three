@@ -83,7 +83,7 @@
         <div class="col mb-4">
           @foreach($roles as $role)
             <div class="form-check">
-              <input type="checkbox" name="roles[]" class="form-check-input @error('ext_no') is-invalid @enderror" id="{{ $role->name }}" value="{{ $role->id }}">
+              <input type="checkbox" name="roles[]" class="form-check-input @error('roles') is-invalid @enderror" id="{{ $role->name }}" value="{{ $role->id }}">
               <label class="form-check-label" for="{{ $role->name }}">
                 {{ $role->name }}
               </label>

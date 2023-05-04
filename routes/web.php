@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // User Management Routes
-Route::middleware('auth')->group(function ()
+Route::middleware(['auth','admin'])->group(function ()
 {
 	Route::get('admin', [DashboardController::class, 'index']);
 	Route::resource('users', UserController::class);
@@ -27,12 +27,12 @@ Route::middleware('auth')->group(function ()
 });
 
 // Project Management Routes
-Route::middleware('auth')->group(function ()
+Route::middleware(['auth'])->group(function ()
 {
 	Route::resource('projects', ProjectController::class);
-	Route::get('survey_creator', [SurveySchemaController::class, 'create']);
+	Route::middleware('scripter')->get('survey_creator', [SurveySchemaController::class, 'create']);
 	Route::post('survey_schema', [SurveySchemaController::class, 'store']);
 });
 
 Route::get('/', [UserController::class, 'login']);
-Route::get('dashboard', [DashboardController::class, 'index']);
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
