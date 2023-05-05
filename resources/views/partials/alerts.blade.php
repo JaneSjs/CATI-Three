@@ -5,6 +5,13 @@
       {{ session('success') }}
     </div>
   </div>
+@elseif (session('status'))
+  <div class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
+    <div>
+      {{ session('status') }}
+    </div>
+  </div>
 @elseif (session('info'))
   <div class="alert alert-info d-flex align-items-center" role="alert">
     <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>

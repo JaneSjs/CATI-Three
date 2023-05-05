@@ -6,8 +6,10 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
@@ -56,20 +58,24 @@ class UserController extends Controller
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
             'ext_no' => $request->input('ext_no'),
-            'password' => Hash::make('password')
+            'password' => Hash::make('buzz-word')
         ]);
 
         //dd($user);
-        
 
-        //Email The User with reset Password Link.
-
-        
         if ($user) {
             $user->roles()->sync($request->roles);
-            
+
             //If email has been sent,flash success message
-            return redirect('users/create')->with('success', ' User is now registered. Ask them to check their email.');
+            if (Password::sendResetLink($request->only(['email']))) {
+                return redirect('users/create')->with('success', ' User is now registered. Ask them to check their email.');
+            } else {
+                return redirect('users/create')->with('error', ' User has been registered. But the system has not been able to Successfully email them their login instructions. They can meanwhile use <strong>buzz-word</strong> as their temporary password');
+            }
+            
+            
+            
+            
         } else {
             return redirect('users.create')->with('error', ' User registration has failed.');
         }
@@ -80,7 +86,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $data['user'] = $user;
+        $data['roles'] = $user->roles()->get();
+
+        return view('users.show', $data);
     }
 
     /**
@@ -155,5 +164,13 @@ class UserController extends Controller
     public function login()
     {
         return view('auth.login');
+    }
+
+    /**
+     * Send User Reset Password Link
+     */
+    public function password_reset_link(Request $request)
+    {
+        Password::sendResetLink($request->only(['email']));
     }
 }

@@ -24,6 +24,7 @@ Route::middleware(['auth','admin'])->group(function ()
 	Route::get('admin', [DashboardController::class, 'index']);
 	Route::resource('users', UserController::class);
 	Route::resource('roles', RoleController::class);
+	Route::post('password_reset_link', [UserController::class, 'password_reset_link']);
 });
 
 // Project Management Routes
