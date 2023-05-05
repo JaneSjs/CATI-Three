@@ -35,4 +35,4 @@ Route::middleware(['auth'])->group(function ()
 });
 
 Route::get('/', [UserController::class, 'login']);
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware('auth')->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -18,6 +18,14 @@
             User Roles
           </a>
         </li>
+        @elseif(auth()->user()->id == 1)
+        <li class="nav-title">User Management</li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('roles.index') }}">
+            <i class="fa-solid fa-user-lock nav-icon" style="color: #fff;"></i> 
+            User Roles
+          </a>
+        </li>
         @endcan
         <li class="nav-item">
           <a class="nav-link" href="{{ route('users.index') }}">

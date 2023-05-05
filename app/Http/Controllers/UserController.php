@@ -18,12 +18,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Gate::denies('admin')) {
-            $data['users'] = User::where('role', '!=', 'admin')
-                                ->paginate(10);
-        } else {
-            $data['users'] = User::paginate(10);
-        }
+        $user = new User();
+
+        // if (Gate::allows('admin')){
+        //     $data['users'] = $user->paginate(10);
+        //     //dd($data);
+        // } else {
+        //     $data['users'] = $user->roles()
+        //                         ->where('role_id', '!=', '1')
+        //                         ->paginate(10);
+        //     //dd($data);
+        // }
+        $data['users'] = $user->paginate(10);
 
         return view('users.index', $data);
     }
