@@ -41,69 +41,37 @@
           </form>
         </div>
         <div class="col-4">
-          @if (session('success'))
-            <div class="alert alert-success">
-              {{ session('success') }}
-            </div>
-          @elseif (session('warning'))
-            <div class="alert alert-danger">
-              {{ session('warning') }}
-            </div>
-          @elseif (session('error'))
-            <div class="alert alert-danger">
-              {{ session('error') }}
-            </div>
-          @endif
+          @include('partials.alerts')
         </div>
       </div>
     </div>
     <div class="card-body">
-      <form action="{{ route('users.update', $user->id) }}" method="post">
+      <form class="needs-validation"  action="{{ route('users.update', $user->id) }}" method="post">
         @csrf
         @method('PATCH')
-        <div class="row">
-          <!-- First Name input -->
-          <div class="col">
-            <div class="form-outline mb-4">
-              <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="First Name" value="{{ $user->first_name }}"/>
-                @error('first_name')
-                <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                  {{ $message }}
-                </div>
-                @enderror
-            </div>
-          </div>
+        <input type="hidden" name="first_name" value="{{ $user->first_name }}"/>
 
-          <!-- Last Name input -->
-          <div class="col">
-            <div class="form-outline mb-4">
-              <input type="text" name="last_name" class="form-control form-control-lg @error('last_name') is-invalid @enderror" placeholder="Last Name" value="{{ $user->last_name }}"/>
-                @error('last_name')
-                <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                  {{ $message }}
-                </div>
-                @enderror
-            </div>
-          </div>
-        </div>
+        <input type="hidden" name="last_name" value="{{ $user->last_name }}"/>
         
         <div class="row">
           <!-- Email input -->
           <div class="col">
             <div class="form-outline mb-4">
-              <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Email address" value="{{ $user->email }}"/>
-                @error('email')
-                <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                  {{ $message }}
-                </div>
-                @enderror
+              <input type="email" name="email" id="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Email address" value="{{ $user->email }}" readonly/>
+              <label for="email" class="form-text-label text-primary">Email</label>
+              @error('email')
+              <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                {{ $message }}
+              </div>
+              @enderror
             </div>
           </div>
 
           <!-- Extension Number input -->
           <div class="col">
-              <div class="form-outline mb-4">
-                <input type="number" name="ext_no" class="form-control form-control-lg @error('ext_no') is-invalid @enderror" placeholder="Caller's Extension Number" value="{{ $user->ext_no }}"/>
+              <div class="form-floating form-outline mb-4">
+                <input type="number" name="ext_no" id="ext_no" class="form-control form-control-lg @error('ext_no') is-invalid @enderror" placeholder="Caller's Extension Number" value="{{ $user->ext_no }}"/>
+                <label for="ext_no" class="form-text-label text-primary">Ext No</label>
                   @error('ext_no')
                   <div class="invalid-feedback bg-light rounded text-center" role="alert">
                     {{ $message }}

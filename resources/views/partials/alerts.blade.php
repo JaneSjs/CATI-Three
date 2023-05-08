@@ -21,14 +21,14 @@
   </div>
 @elseif (session('warning'))
   <div class="alert alert-warning d-flex align-items-center" role="alert">
-    <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
+    <i class="fas fa-exclamation fa-lg me-2" style="color: #074411;"></i>
     <div>
       {{ session('warning') }}
     </div>
   </div>
 @elseif (session('danger'))
   <div class="alert alert-danger d-flex align-items-center" role="alert">
-    <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
+    <i class="fas fa-circle-exclamation fa-lg me-2" style="color: #074411;"></i>
     <div>
       {{ session('danger') }}
     </div>

@@ -122,7 +122,7 @@ class UserController extends Controller
                 ]);
                 $user->roles()->sync($request->roles);
 
-                return redirect()->back()->with('warning', 'User Has Been DeActivated');
+                return redirect()->back()->with('warning', 'User Has Been Deactivated');
             }
             else
             {
@@ -172,5 +172,7 @@ class UserController extends Controller
     public function password_reset_link(Request $request)
     {
         Password::sendResetLink($request->only(['email']));
+
+        return redirect()->back()->with('success', "Activation Link Sent to $request->email. Ask them to check their inbox");
     }
 }
