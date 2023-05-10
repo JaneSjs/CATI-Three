@@ -13,28 +13,52 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        // System Admin
         DB::table('roles')->insert([
-            'name' => 'Admin'
+            'name' => 'Admin',
+            'description' => 'System Administrator'
         ]);
 
+        // Head of Research
         DB::table('roles')->insert([
-            'name' => 'Head of Research'
+            'name' => 'Head',
+            'description' => 'Head of Research'
         ]);
 
+        // Project Manager
         DB::table('roles')->insert([
-            'name' => 'Research Manager'
+            'name' => 'Manager',
+            'description' => 'Project Manager'
         ]);
 
+        // Survey Scripter
         DB::table('roles')->insert([
-            'name' => 'Scripter'
+            'name' => 'Scripter',
+            'description' => 'Survey Scripter'
         ]);
 
+        // Survey Supervisor
         DB::table('roles')->insert([
-            'name' => 'Agent'
+            'name' => 'Supervisor',
+            'description' => 'Survey Supervisor'
         ]);
 
+        // Data Collection Agent
         DB::table('roles')->insert([
-            'name' => 'Client'
+            'name' => 'Agent',
+            'description' => 'Data Collection Agent'
+        ]);
+
+        // Quality Control
+        DB::table('roles')->insert([
+            'name' => 'QC',
+            'description' => 'Quality Control Agent'
+        ]);
+
+        // Project Client.
+        DB::table('roles')->insert([
+            'name' => 'Client',
+            'description' => 'Project Client'
         ]);
 
     }

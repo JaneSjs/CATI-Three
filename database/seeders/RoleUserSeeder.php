@@ -14,13 +14,19 @@ class RoleUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = Role::all();
+        // $roles = Role::all();
 
-        User::all()->each(function ($user) use ($roles)
+        // User::all()->each(function ($user) use ($roles)
+        // {
+        //     $user->roles()->attach(
+        //         $roles->random(1)->pluck('id')
+        //     );
+        // });
+
+        User::all()->each(function ($user)
         {
-            $user->roles()->attach(
-                $roles->random(1)->pluck('id')
-            );
+            // Seeded Users to default to Admin Role i.e role id of 1
+            $user->roles()->attach(1);
         });
     }
 }

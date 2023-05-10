@@ -23,10 +23,11 @@
             Assign Supervisors
           </label>
           <select class="form-select" id="supervisors" name="supervisors[]" multiple>
-            <option value="Supervisor1">Supervisor 1</option>
-            <option value="Supervisor2">Supervisor 2</option>
-            <option value="Supervisor3">Supervisor 3</option>
-            <option value="Supervisor4">Supervisor 4</option>
+            @foreach($supervisors as $supervisor)
+            <option value="{{ $supervisor->last_name }}">
+              {{ $supervisor->last_name }}
+            </option>
+            @endforeach
           </select>
           <div id="supervisor" class="form-text">Assign Supervisors</div>
         </div>
@@ -36,10 +37,11 @@
             Assign Scriptors
           </label>
           <select class="form-select" id="scriptors" name="scriptors[]" multiple>
-            <option value="Scriptor 1">Scriptor 1</option>
-            <option value="Scriptor 2">Scriptor 2</option>
-            <option value="Scriptor 3">Scriptor 3</option>
-            <option value="Scriptor 4">Scriptor 4</option>
+            @foreach($scriptors as $scriptor)
+            <option value="{{ $scriptor->last_name }}">
+              {{ $scriptor->last_name }}
+            </option>
+            @endforeach
           </select>
           <div id="scriptors" class="form-text">Assign Scriptor</div>
         </div>
@@ -49,10 +51,11 @@
             Assign QCs
           </label>
           <select class="form-select" id="qcs" name="qcs[]" multiple>
-            <option value="Qc 1">Qc 1</option>
-            <option value="Qc 2">Qc 2</option>
-            <option value="Qc 3">Qc 3</option>
-            <option value="Qc 4">Qc 4</option>
+            @foreach($qcs as $qc)
+            <option value="{{ $qc->last_name }}">
+              {{ $qc->last_name }}
+            </option>
+            @endforeach
           </select>
           <div id="qcs" class="form-text">Assign QCs</div>
         </div>
@@ -62,7 +65,7 @@
             Data Protection Module
           </label>
           <select class="form-select" name="database" aria-label="Select Database">
-            <option selected>Choose Database</option>
+            <option value="" selected>Choose Database</option>
             <option value="controller" title="Controlled">
               RDMS
             </option>

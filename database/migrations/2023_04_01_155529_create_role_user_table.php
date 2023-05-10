@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('role_user', function (Blueprint $table) {
+            $table->comment('User Roles Pivot Table');
             $table->id();
             $table->foreignId('role_id')
                   ->constrained()

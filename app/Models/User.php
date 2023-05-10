@@ -22,7 +22,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'role_id',
         'first_name',
         'last_name',
         'ext_no',
@@ -51,7 +50,6 @@ class User extends Authenticatable
 
     /**
      * User can belong to many roles
-     * 
      */
     public function roles(): BelongsToMany
     {
@@ -59,18 +57,17 @@ class User extends Authenticatable
     }
 
     /**
-     * User can have many projects
-     * 
+     * User can belong to many projects
      */
-    public function projects(): HasMany
+    public function projects(): BelongsToMany
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsToMany(Project::class);
     }
 
     /**
      * Check if the user has any of the given roles
-     * @param array $role
      * 
+     * @param array $roles
      */
     public function hasAnyRoles(array $roles): bool
     {
@@ -79,7 +76,6 @@ class User extends Authenticatable
 
     /**
      * User can have many feedbacks
-     * 
      */
     public function feedbacks(): HasMany
     {
@@ -88,7 +84,6 @@ class User extends Authenticatable
 
     /**
      * User can have many survey schemas
-     * 
      */
     public function survey_schemas(): HasMany
     {

@@ -32,7 +32,10 @@
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
-                  <th scope="col">Email</th>
+                  @can('admin')
+                    <th scope="col">Role</th>
+                  @endcan
+                  <!-- <th scope="col">Email</th> -->
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -45,9 +48,16 @@
                       {{ $user->first_name . ' ' . $user->last_name  }}
                     </a>
                   </th>
-                  <td>
+                  @can('admin')
+                    <td class="bg-warning">
+                      @foreach($user->roles as $role)
+                          {{ $role->name }}
+                      @endforeach
+                    </td>
+                  @endcan
+                  <!-- <td>
                     {{ $user->email }}
-                  </td>
+                  </td> -->
                   <td>
                     <div class="btn-group">
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">

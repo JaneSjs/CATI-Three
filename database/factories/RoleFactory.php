@@ -18,7 +18,7 @@ class RoleFactory extends Factory
     {
         return [
             'name' => 'Admin',
-            'description' => 'Overall System Admin'
+            'description' => 'System Administrator'
         ];
     }
 }

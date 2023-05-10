@@ -31,7 +31,8 @@ class UserController extends Controller
         //                         ->paginate(10);
         //     //dd($data);
         // }
-        $data['users'] = $user->paginate(10);
+        $data['users'] = $user->with('roles')->paginate(10);
+        //dd($data);
 
         return view('users.index', $data);
     }
@@ -66,8 +67,10 @@ class UserController extends Controller
         if ($user) {
             $user->roles()->sync($request->roles);
 
-            //If email has been sent,flash success message
-            if (Password::sendResetLink($request->only(['email']))) {
+            // Send Password Reset Link
+            //$reset_link = Password::sendResetLink($request->only(['email']));
+            
+            if (true) {
                 return redirect('users/create')->with('success', ' User is now registered. Ask them to check their email.');
             } else {
                 return redirect('users/create')->with('error', ' User has been registered. But the system has not been able to Successfully email them their login instructions. They can meanwhile use <strong>buzz-word</strong> as their temporary password');

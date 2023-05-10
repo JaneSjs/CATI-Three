@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 
 class ProjectController extends Controller
@@ -23,34 +25,57 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $data['supervisors'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'Supervisor');
+                            })->get();
+
+        $data['scriptors'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'Scripter');
+                            })->get();
+
+        $data['qcs'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'QC');
+                            })->get();
+
+        //dd($data);
+
+        return view('projects.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request): RedirectResponse
+    public function store(StoreProjectRequest $request)
     {
-        dd($request->all());
-        // Use role ids for supervisors, scriptors and qcs
-        $project = [
+        $project = Project::create([
             'name' => $request->input('name'),
-            'supervisors' => $request->collect('supervisors'),
-            'scriptors' => [1,2,3],
-            'qcs' => [1,2,3],
             'database' => $request->input('database'),
             'start_date' => Carbon::parse($request->date('start_date')),
             'end_date' => Carbon::parse($request->date('end_date')),
-        ];
+        ]);
 
-        dd($project);
+        //dd($project);
 
+        $manager_id[] = auth()->user()->id;
+        //dd($user_id);
         
-        if (Project::create()) {
+        if ($project) {
+            $project->managers()->sync($manager_id);
+            $project->scriptors()->sync($request->scriptors);
+            $project->supervisors()->sync($request->supervisors);
+            $project->qcs()->sync($request->qcs);
+
             // Send Email Notification
             redirect('projects.create')->with('success', 'Project Has Been Created Successfully');
         } else {
-            // code...
+            // Send Email Notification
+            redirect('projects.create')->with('warning', 'Something went wrong. Please try again.');
         }
 
     }
