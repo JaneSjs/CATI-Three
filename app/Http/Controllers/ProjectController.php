@@ -17,7 +17,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('projects.index');
+        $project = new Project();
+
+        $data['projects'] = $project->with('users')
+                                ->orderByDesc('id')
+                                ->paginate(10);
+
+        return view('projects.index', $data);
     }
 
     /**
@@ -62,20 +68,34 @@ class ProjectController extends Controller
 
         //dd($project);
 
-        $manager_id[] = auth()->user()->id;
-        //dd($user_id);
+        $user_id = [];
+
+        $user_id[] = auth()->user()->id;
+        $scriptors = $request->input('scriptors', []);
+        $supervisors = $request->input('supervisors', []);
+        $qcs = $request->input('qcs', []);
+
+        $project_members = array_merge($user_id, $user_id, $scriptors, $supervisors, $qcs);
+
+        //dd($project_members);
         
         if ($project) {
-            $project->managers()->sync($manager_id);
-            $project->scriptors()->sync($request->scriptors);
-            $project->supervisors()->sync($request->supervisors);
-            $project->qcs()->sync($request->qcs);
+            $project->users()->sync($project_members);
+
+            // foreach ($project_members as $member) {
+            //     $project->users()->attach($member, [
+            //         'manager_id' => auth()->user()->id,
+            //         'scriptor_id' => in_array($member, $scriptors) ? $member : null,
+            //         'supervisor_id' => in_array($member, $supervisors)  ? $member : null,
+            //         'qc_id' => in_array($member, $qcs) ? $member : null,
+            //     ]);
+            // }
 
             // Send Email Notification
-            redirect('projects.create')->with('success', 'Project Has Been Created Successfully');
+           return redirect(route('projects.create'))->with('success', 'Project Has Been Created Successfully');
         } else {
             // Send Email Notification
-            redirect('projects.create')->with('warning', 'Something went wrong. Please try again.');
+           return redirect(route('projects.create'))->with('warning', 'Something went wrong. Please try again.');
         }
 
     }
@@ -85,7 +105,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $data['surveys'] = $project->surveys;
+        $data['project'] = $project;
+        $data['users'] = $project->users()->get();
+
+        //dd($data);
+        //$data['surveys'] = $project->surveys;
+
+        return view('projects.show', $data);
     }
 
     /**

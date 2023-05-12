@@ -27,6 +27,14 @@ class SurveySchemaController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource (open in a new tab).
+     */
+    public function create_in_a_new_tab()
+    {
+        return view('surveys.creator');
+    }
+
+    /**
      * Store survey schema into the database
      */
     public function store(StoreSurveySchemaRequest $request)

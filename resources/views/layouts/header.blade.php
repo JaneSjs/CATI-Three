@@ -8,7 +8,7 @@
           </a>
           <ul class="header-nav d-none d-md-flex">
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('admin/log-reader') }}">
+              <a class="nav-link" href="{{ url('admin/log-reader') }}" target="_blank">
                 System Logs
               </a>
             </li>

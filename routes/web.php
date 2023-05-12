@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function ()
 {
 	Route::resource('projects', ProjectController::class);
 	Route::middleware('scripter')->get('survey_creator', [SurveySchemaController::class, 'create']);
+	Route::middleware('scripter')->get('survey_creator_new_tab', [SurveySchemaController::class, 'create_in_a_new_tab']);
 	Route::post('survey_schema', [SurveySchemaController::class, 'store']);
 });
 

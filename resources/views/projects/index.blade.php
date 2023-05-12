@@ -23,7 +23,7 @@
         <div class="col">
           <div class="table-responsive">
             <table class="table table-striped-columns table-hover table-sm caption-top">
-              <caption>
+              <caption class="text-danger">
                Active Projects
               </caption>
               <thead class="table-warning">
@@ -33,11 +33,22 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($projects as $project)
                 <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
+                  <th scope="row">
+                    {{ $project->id }}
+                  </th>
+                  <td>
+                    <a href="{{ route('projects.show', $project->id) }}">
+                      {{ $project->name }}
+                    </a>
+                  </td>
                 </tr>
+                @endforeach
               </tbody>
+              <tfoot>
+                {{ $projects->links() }}
+              </tfoot>
             </table>
           </div>
         </div>
@@ -45,7 +56,7 @@
         <div class="col">
           <div class="table-responsive">
             <table class="table table-sm caption-top">
-              <caption>
+              <caption class="text-success">
                Closed Projects
               </caption>
               <thead class="table-success">

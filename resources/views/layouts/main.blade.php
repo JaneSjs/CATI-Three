@@ -39,7 +39,7 @@
 
     <!-- Fontawesome Kit -->
     <!-- Create code to check internet availability before trying ti link to the fontawesome kit -->
-    <!-- <script src="https://kit.fontawesome.com/63b4fcb6d3.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/63b4fcb6d3.js" crossorigin="anonymous"></script>
 
     <script src="{{ asset('assets/core-ui/js/rocket-loader.min.js') }}" data-cf-settings="de208106593c1661e843c327-|49" defer=""></script>
     

@@ -5,7 +5,14 @@
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
-      <h2>Create New Project</h2>
+      <div class="row">
+        <div class="col-9">
+          <h2>Create New Project</h2>
+        </div>
+        <div class="col-12">
+          @include('partials.alerts')
+        </div>
+      </div>
     </div>
     <div class="card-body">
       <form action="{{ route('projects.store') }}" method="post">
@@ -24,7 +31,7 @@
           </label>
           <select class="form-select" id="supervisors" name="supervisors[]" multiple>
             @foreach($supervisors as $supervisor)
-            <option value="{{ $supervisor->last_name }}">
+            <option value="{{ $supervisor->id }}">
               {{ $supervisor->last_name }}
             </option>
             @endforeach
@@ -38,12 +45,12 @@
           </label>
           <select class="form-select" id="scriptors" name="scriptors[]" multiple>
             @foreach($scriptors as $scriptor)
-            <option value="{{ $scriptor->last_name }}">
+            <option value="{{ $scriptor->id }}">
               {{ $scriptor->last_name }}
             </option>
             @endforeach
           </select>
-          <div id="scriptors" class="form-text">Assign Scriptor</div>
+          <div id="scriptors" class="form-text">Assign Scriptors</div>
         </div>
 
         <div class="mb-3">
@@ -52,7 +59,7 @@
           </label>
           <select class="form-select" id="qcs" name="qcs[]" multiple>
             @foreach($qcs as $qc)
-            <option value="{{ $qc->last_name }}">
+            <option value="{{ $qc->id }}">
               {{ $qc->last_name }}
             </option>
             @endforeach
