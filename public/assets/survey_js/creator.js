@@ -5,12 +5,13 @@ const creatorOptions = {
 
 const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 
-let csrf = document.getElementsByTagName("meta")[3];
+const csrf = document.getElementsByTagName("meta")[3];
+//const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
 const survey_id = document.getElementsByTagName("meta")[4];
 const url = document.getElementById("url");
 
-console.log(url.textContent);
+//console.log(survey_id.content);
 
 document.addEventListener("DOMContentLoaded", function() {
     creator.render("surveyCreator");
@@ -44,10 +45,17 @@ function saveSurveyJson(url, json, saveNo, callback) {
         credentials: "same-origin",
     };
 
-    //console.log(csrf.content);
+    console.log(data);
 
     fetch(url, options)
-    .then((response) => response.json())
+    .then((response) => {
+        if (response.ok) {
+            // Parse the response only if its JSON
+            return response.json();
+        } else {
+            throw new Error('Server or Network Error.');
+        }
+    })
     .then((data) => console.log(data))
-    .catch(error => console.log(error));
+    .catch(error => console.error('Error: ',error));
 }

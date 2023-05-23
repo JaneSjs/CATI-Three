@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateSurveySchemaRequest;
 use App\Http\Resources\SurveySchemaResource;
 use App\Models\SurveySchema;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class SurveySchemaController extends Controller
@@ -48,6 +49,7 @@ class SurveySchemaController extends Controller
         $data['survey'] = $survey;
 
         return view('surveys.show', $data);
+        //return SurveySchemaResource::collection($data);
     }
 
     /**
@@ -56,6 +58,7 @@ class SurveySchemaController extends Controller
     public function edit(SurveySchema $survey)
     {
         $data['survey'] = $survey;
+        //dd($data);
 
         return view('surveys.edit', $data);
     }
@@ -63,30 +66,28 @@ class SurveySchemaController extends Controller
     /**
      * Update the Survey Schemas in storage.
      */
-    public function update(UpdateSurveySchemaRequest $request, SurveySchema $survey)
+    public function update(Request $request)
     {
-        //dd($survey);
-        try {
-        $survey = $survey;
 
-        $survey->save([
-            //'id' => $request->id,
-            'content' => $request->content,
-            'version' => $request->version,
-            'updated_by' => auth()->user()->first_name . auth()->user()->last_name
-        ]);
-
-        //dd($survey);
-
-        return response()->json([
-            'message' => 'Survey Schema Updated Successfully'
-        ]);
-        } catch(Exception $e) {
-            return response()->json([
-                'message' => 'Survey Schema Failed To Be Updated'
-            ]);
+        $survey = SurveySchema::find($request->id);
         
-}    }
+        if ($survey) {
+            $survey->content = $request->content;
+            $survey->version = $request->version;
+            $survey->updated_by = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            $survey->save();
+
+            //dd($survey);
+
+            return response()->json([
+                'message' => 'Survey Schema Updated Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Survey Schema was not found'
+            ]);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

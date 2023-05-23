@@ -34,55 +34,6 @@ class Project extends Model
     }
 
     /**
-     * This Project can belong to many managers
-     */
-    public function managers(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'project_user', 'manager_id');
-    }
-
-    /**
-     * This Project can belong to many scriptors
-     */
-    public function scriptors() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'project_user', 'scriptor_id');
-    }
-
-    /**
-     * This Project can belong to many supervisors
-     */
-    public function supervisors() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'project_user', 'supervisor_id');
-    }
-
-    /**
-     * This Project can belong to many agents
-     */
-    public function agents() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'agent_id');
-    }
-
-    /**
-     * This Project can belong to many qcs
-     */
-    public function qcs() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'qc_id');
-    }
-
-    /**
-     * This Project can belong to many clients
-     */
-    public function clients() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'client_id');
-    }
-
-
-    /**
      * This Project can have many surveys
      */
     public function surveys(): HasMany

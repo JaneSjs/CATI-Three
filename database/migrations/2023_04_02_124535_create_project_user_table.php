@@ -25,49 +25,6 @@ return new class extends Migration
                   ->on('users')
                   ->cascadeOnDelete();
 
-            $table->foreignId('manager_id')
-                  ->nullable()
-                  //->default(1)
-                  ->references('id')
-                  ->on('users')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
-
-            $table->foreignId('scriptor_id')
-                  ->nullable()
-                  ->references('id')
-                  ->on('users')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
-
-            $table->foreignId('supervisor_id')
-                  ->nullable()
-                  ->references('id')
-                  ->on('users')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
-
-            $table->foreignId('agent_id')
-                  ->nullable()
-                  ->references('id')
-                  ->on('users')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
-
-            $table->foreignId('qc_id')
-                  ->nullable()
-                  ->references('id')
-                  ->on('users')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
-
-            $table->foreignId('client_id')
-                  ->nullable()
-                  ->references('id')
-                  ->on('users')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
-
             $table->timestamps();
         });
     }
