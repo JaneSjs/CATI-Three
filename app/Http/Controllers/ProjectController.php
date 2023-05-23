@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\SurveySchema;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -82,15 +83,6 @@ class ProjectController extends Controller
         if ($project) {
             $project->users()->sync($project_members);
 
-            // foreach ($project_members as $member) {
-            //     $project->users()->attach($member, [
-            //         'manager_id' => auth()->user()->id,
-            //         'scriptor_id' => in_array($member, $scriptors) ? $member : null,
-            //         'supervisor_id' => in_array($member, $supervisors)  ? $member : null,
-            //         'qc_id' => in_array($member, $qcs) ? $member : null,
-            //     ]);
-            // }
-
             // Send Email Notification
            return redirect(route('projects.create'))->with('success', 'Project Has Been Created Successfully');
         } else {
@@ -107,11 +99,33 @@ class ProjectController extends Controller
     {
         $data['project'] = $project;
         $data['users'] = $project->users()->get();
+        $data['surveys'] = SurveySchema::all();
 
         //dd($data);
         //$data['surveys'] = $project->surveys;
 
         return view('projects.show', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function creator(Project $project)
+    {
+        $data['project'] = $project;
+
+        return view('surveys.creator', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource (open in a new tab).
+     */
+    public function creator_in_a_new_tab(Project $project)
+    {
+        $data['project'] = $project;
+        //dd($data);
+
+        return view('surveys.creator_in_a_new_tab', $data);
     }
 
     /**

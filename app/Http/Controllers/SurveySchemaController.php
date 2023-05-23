@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSurveySchemaRequest;
 use App\Http\Requests\UpdateSurveySchemaRequest;
 use App\Http\Resources\SurveySchemaResource;
 use App\Models\SurveySchema;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class SurveySchemaController extends Controller
@@ -19,37 +20,24 @@ class SurveySchemaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('surveys.create');
-    }
-
-    /**
-     * Show the form for creating a new resource (open in a new tab).
-     */
-    public function create_in_a_new_tab()
-    {
-        return view('surveys.creator');
-    }
-
-    /**
-     * Store survey schema into the database
+     * Store survey name into the database
      */
     public function store(StoreSurveySchemaRequest $request)
     {
-        $survey_schema = new SurveySchema;
+        //dd($request);
+        $survey = SurveySchema::create([
+            'user_id' => auth()->user()->id,
+            'project_id' => $request->input('project_id'),
+            'survey_name' => $request->input('survey_name'),
+        ]);
+        
 
-        //$survey_schema->user_id = 1;
-        $survey_schema->name = $request->name;
-        $survey_schema->content = json_encode($request->content);
-        //$survey_schema->updated_by = 'test';
-        //$survey_schema->deleted_by = 'test';
-
-        $survey_schema->save();
-
-        return response('Survey Schema Stored Successfully', 200);
+        if ($survey) {
+           return redirect()->back()->with('success', 'Survey Has Been Created Successfully');
+        } else {
+            // Send Email Notification
+           return redirect()->back()->with('warning', 'Something went wrong. Please try again.');
+        }
     }
 
     /**
@@ -57,7 +45,9 @@ class SurveySchemaController extends Controller
      */
     public function show(SurveySchema $survey)
     {
-        return response($survey, 200);
+        $data['survey'] = $survey;
+
+        return view('surveys.show', $data);
     }
 
     /**
@@ -65,16 +55,38 @@ class SurveySchemaController extends Controller
      */
     public function edit(SurveySchema $survey)
     {
-        //
+        $data['survey'] = $survey;
+
+        return view('surveys.edit', $data);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the Survey Schemas in storage.
      */
     public function update(UpdateSurveySchemaRequest $request, SurveySchema $survey)
     {
-        //
-    }
+        //dd($survey);
+        try {
+        $survey = $survey;
+
+        $survey->save([
+            //'id' => $request->id,
+            'content' => $request->content,
+            'version' => $request->version,
+            'updated_by' => auth()->user()->first_name . auth()->user()->last_name
+        ]);
+
+        //dd($survey);
+
+        return response()->json([
+            'message' => 'Survey Schema Updated Successfully'
+        ]);
+        } catch(Exception $e) {
+            return response()->json([
+                'message' => 'Survey Schema Failed To Be Updated'
+            ]);
+        
+}    }
 
     /**
      * Remove the specified resource from storage.

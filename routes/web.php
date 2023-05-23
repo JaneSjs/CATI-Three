@@ -5,6 +5,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SurveySchemaController;
 use App\Http\Controllers\UserController;
+use App\Models\SurveySchema;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,9 +32,13 @@ Route::middleware(['auth','admin'])->group(function ()
 Route::middleware(['auth'])->group(function ()
 {
 	Route::resource('projects', ProjectController::class);
-	Route::middleware('scripter')->get('survey_creator', [SurveySchemaController::class, 'create']);
-	Route::middleware('scripter')->get('survey_creator_new_tab', [SurveySchemaController::class, 'create_in_a_new_tab']);
-	Route::post('survey_schema', [SurveySchemaController::class, 'store']);
+	Route::middleware('scripter')->get('survey_creator', [ProjectController::class, 'creator']);
+
+	// Route::middleware('scripter')->get('survey_creator_new_tab', [ProjectController::class, 'creator_in_a_new_tab']);
+
+	//Route::post('survey_schema', [SurveySchemaController::class, 'update']);
+
+	Route::resource('surveys', SurveySchemaController::class);
 });
 
 Route::get('/', [UserController::class, 'login']);

@@ -7,6 +7,11 @@ const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 
 let csrf = document.getElementsByTagName("meta")[3];
 
+const survey_id = document.getElementsByTagName("meta")[4];
+const url = document.getElementById("url");
+
+console.log(url.textContent);
+
 document.addEventListener("DOMContentLoaded", function() {
     creator.render("surveyCreator");
 });
@@ -14,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
 creator.saveSurveyFunc = (saveNo, callback) => {
     // If you use a web service:
     saveSurveyJson(
-        "http://127.0.0.1:8000/survey_schema",
+        url.textContent,
         creator.JSON,
         saveNo,
         callback
@@ -23,12 +28,13 @@ creator.saveSurveyFunc = (saveNo, callback) => {
 
 function saveSurveyJson(url, json, saveNo, callback) {
     const data = {
-        name: "blank",
-        content: json
+        id: survey_id.content,
+        content: json,
+        version: saveNo
     }
 
     const options = {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json; charset=UTF8",

@@ -12,8 +12,23 @@ class SurveySchema extends Model
     use HasFactory;
 
     /**
-     * Survey Schema belongs to a User
+     * The attributes that are mass assignable.
      *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'project_id',
+        'survey_name',
+        'content',
+        'version',
+        'stage',
+        'updated_by',
+        'deleted_by',
+    ];
+
+    /**
+     * Survey Schema belongs to a User
      */
     public function user(): BelongsTo
     {
@@ -22,7 +37,6 @@ class SurveySchema extends Model
 
     /**
      * Survey Schema belongs to a Project
-     *
      */
     public function project(): BelongsTo
     {
@@ -31,7 +45,6 @@ class SurveySchema extends Model
 
     /**
      * Survey Schema has many survey results
-     * 
      */
     public function survey_results(): HasMany
     {
