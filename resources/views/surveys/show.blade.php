@@ -42,11 +42,16 @@
           
     </div>
     <div class="card-body">
-      
-      
+
+      <p id="url" style="display: none;">
+        {{ route('surveys.show', $survey->id) }}
+      </p>
+
+      <survey params="survey: model"></survey>
+
     </div>
   </div>
 </div>
-
+<script type="text/javascript" src="{{ asset('assets/survey_js/model.js') }}"></script>
 
 @endsection

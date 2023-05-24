@@ -24,7 +24,9 @@
               </a>
               <div class="dropdown-menu dropdown-menu-end pt-0">
                 <div class="dropdown-header bg-light py-2">
-                  <div class="fw-semibold">Account</div>
+                  <div class="fw-semibold">
+                    {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
+                  </div>
                 </div>
 
                 <a class="dropdown-item" href="#">

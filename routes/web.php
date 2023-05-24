@@ -41,5 +41,5 @@ Route::middleware(['auth'])->group(function ()
 	Route::resource('surveys', SurveySchemaController::class);
 });
 
-Route::get('/', [UserController::class, 'login']);
+Route::middleware('guest')->get('/', [UserController::class, 'login']);
 Route::middleware('auth')->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

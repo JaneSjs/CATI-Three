@@ -99,10 +99,10 @@ class ProjectController extends Controller
     {
         $data['project'] = $project;
         $data['users'] = $project->users()->get();
-        $data['surveys'] = SurveySchema::all();
+        //$data['surveys'] = SurveySchema::all();
 
-        //dd($data);
-        //$data['surveys'] = $project->surveys;
+        //dd($data['users']);
+        $data['surveys'] = $project->surveys;
 
         return view('projects.show', $data);
     }
