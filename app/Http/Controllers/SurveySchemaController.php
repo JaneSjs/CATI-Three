@@ -48,8 +48,9 @@ class SurveySchemaController extends Controller
     {
         $data['survey'] = $survey;
 
+        //dd($data);
+
         return view('surveys.show', $data);
-        //return SurveySchemaResource::collection($data);
     }
 
     /**

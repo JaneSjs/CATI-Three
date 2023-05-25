@@ -44,9 +44,10 @@
     <div class="card-body">
 
       <p id="url" style="display: none;">
-        {{ route('surveys.show', $survey->id) }}
+        {{ url("api/surveys/$survey->id") }}
       </p>
 
+      <div id="surveyContainer"></div>
       <survey params="survey: model"></survey>
 
     </div>
