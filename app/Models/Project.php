@@ -29,8 +29,7 @@ class Project extends Model
      */
     public function users() : BelongsToMany
     {
-        return $this->belongsToMany(User::class)
-            ->withPivot('manager_id', 'supervisor_id', 'scriptor_id', 'qc_id');
+        return $this->belongsToMany(User::class);
     }
 
     /**
