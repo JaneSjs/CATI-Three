@@ -1,12 +1,14 @@
-const url = document.getElementById("url");
+document.addEventListener("DOMContentLoaded", function () {
+	let url = document.getElementById("survey-url");
 
-console.log(url.innerHTML);
+	let SURVEY_ID = document.getElementById("survey_id");
 
-let fetchedSchema;
+	console.log(url.textContent);
+	console.log(SURVEY_ID);
 
-async function fetchSurvey() {
+	async function fetchSurvey() {
 	try {
-		const response = await fetch(url.innerHTML);
+		const response = await fetch(url.textContent);
 
 		if (response.ok) {
 			const responseData = await response.json();
@@ -27,21 +29,17 @@ async function fetchSurvey() {
             	elements: elements
             };
 
-			console.log(surveyJson);
+			console.log('Survey JSON: ', surveyJson);
+
             // Create the SurveyJS instance with the generated model
 			const survey = new Survey.Model(surveyJson);
 
+            // Render survey inside the page
 			document.addEventListener("DOMContentLoaded", function() {
 			    ko.applyBindings({
 			        model: survey
 			    });
 			});
-
-            // Render the survey on the page
-            // Survey.StylesManager.applyTheme("default");
-    		// SurrveyNG.render('surveyContainer', { model: survey });
-
-
 		} else {
             throw new Error('Server or Network Error.');
         }
@@ -51,4 +49,9 @@ async function fetchSurvey() {
 }
 
 fetchSurvey();
+});
+
+//let fetchedSchema;
+
+
 

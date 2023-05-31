@@ -2,7 +2,6 @@
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
@@ -12,23 +11,11 @@
                 {{ $survey->survey_name }}
               </h5>
 
-              <div class="dropdown float-end">
-                <button class="btn btn-warning dropdown-toggle" type="button" data-coreui-toggle="dropdown" aria-expanded="false">
-                  Script
-                </button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="{{ route('surveys.edit', $survey->id) }}" class="dropdown-item">
-                     Here
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{ route('surveys.edit', $survey->id) }}" class="dropdown-item" target="_blank">
-                     New Tab
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              @can('scripter')
+              <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-warning float-end" target="_blank">
+                Script
+              </a>
+              @endcan
 
               <div class="btn-group float-end" role="group" aria-label="Project Actions">
                 
@@ -42,17 +29,29 @@
           
     </div>
     <div class="card-body">
-
-      <p id="url" style="display: none;">
+      <!-- Survey Model-->
+      <p id="survey-url" style="display: none;">
         {{ url("api/surveys/$survey->id") }}
       </p>
+      <p id="survey_id" style="display: none;">
+        {{ $survey->id }}
+      </p>
+      <!-- End Survey Model-->
 
-      <div id="surveyContainer"></div>
+
+      <!-- Survey Results-->
+      <p id="result-url" style="display: none;">
+        {{ route('results.update', $survey->id) }}
+      </p>
+      <!-- Survey Results-->
+
+      <!-- <div id="surveyContainer"></div> -->
       <survey params="survey: model"></survey>
 
     </div>
   </div>
 </div>
-<script type="text/javascript" src="{{ asset('assets/survey_js/model.js') }}"></script>
 
+<script type="text/javascript" src="{{ asset('assets/survey_js/model.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('assets/survey_js/results.js') }}" defer></script>
 @endsection

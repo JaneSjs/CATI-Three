@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProjectApiController;
+use App\Http\Controllers\SurveyResultApiController;
 use App\Http\Controllers\SurveySchemaApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,5 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
+    'projects' => ProjectApiController::class,
     'surveys' => SurveySchemaApiController::class,
+    'results' => SurveyResultApiController::class
 ]);

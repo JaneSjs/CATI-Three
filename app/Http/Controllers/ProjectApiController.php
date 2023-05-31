@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SurveySchemaResource;
-use App\Models\SurveySchema;
+use App\Http\Resources\ProjectResource;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
-class SurveySchemaApiController extends Controller
+class ProjectApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['surveys'] = SurveySchema::all();
+        $projects = Project::with('users')
+                                ->orderByDesc('id')
+                                ->paginate(10);
+
+        //dd($data);
+        return new ProjectResource($projects);
     }
 
     /**
@@ -29,10 +34,11 @@ class SurveySchemaApiController extends Controller
      */
     public function show(string $id)
     {
-        $data['survey'] = SurveySchema::select('content')
-                                        ->findOrFail($id);
+       $surveys = Project::where('id', $id)
+        ->orderByDesc('id')
+        ->first();
 
-        return $data;
+        return new ProjectResource($surveys);
     }
 
     /**

@@ -6,19 +6,21 @@
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
-          <div class="row">
-            <div class="col">
-              <h2>
-                {{ $project->name }}
-                <span class="badge bg-info">
-                  Data {{ $project->database }}
-                </span>
-              </h2>
-            </div>
-            <div class="col text-end">
-              @include('partials.alerts')
-            </div>
-          </div>
+      <div class="row">
+        <div class="col">
+          <h2>
+            {{ $project->name }}
+            @can('scripter', 'admin', 'manager', 'client')
+            <span class="badge bg-info">
+              Data {{ $project->database }}
+            </span>
+            @endcan
+          </h2>
+        </div>
+        <div class="col text-end">
+          @include('partials.alerts')
+        </div>
+      </div>
           
     </div>
     <div class="card-body">
@@ -35,6 +37,7 @@
               </thead>
               <tbody>
                 <tr>
+                  <?php //date('D dS/M/Y') ?>
                   <td>{{ $project->start_date }}</td>
                   <td>{{ $project->end_date }}</td>
                   <td>
@@ -43,7 +46,7 @@
                       $start_date = Carbon::parse($project->start_date);
                       $end_date = Carbon::parse($project->end_date);
 
-                      echo $start_date->diffInDays($end_date) . 'days';
+                      echo $start_date->diffInDays($end_date) . ' days';
                     ?>
                   </td>
                 </tr>
@@ -52,10 +55,12 @@
           </div>
         </div>
         <div class="col">
+          @can('scripter')
           <!-- Trigger Survey Modal -->
           <button type="button" class="btn btn-warning" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
             Create Survey
           </button>
+          @endcan
 
           <!-- Create Survey Modal -->
           <div class="modal fade" id="createSurvey" data-coreui-backdrop="static" tabindex="-1" aria-labelledby="surveyLabel" aria-hidden="true">
