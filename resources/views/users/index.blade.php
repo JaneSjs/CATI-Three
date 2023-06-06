@@ -26,9 +26,11 @@
         <div class="col-9">
           <div class="table-responsive">
             <table class="table caption-top">
+              @canany(['admin','ceo','head'])
               <caption>
                All System Users
               </caption>
+              @endcan
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
@@ -89,10 +91,11 @@
             </table>
           </div>
         </div>
-
+        @canany(['admin','ceo','head'])
         <div class="col-3 bg-secondary">
           Total System Users = {{ count($users) }}
         </div>
+        @endcan
       </div>
     </div>
   </div>

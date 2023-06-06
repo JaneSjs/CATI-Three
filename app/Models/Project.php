@@ -35,9 +35,9 @@ class Project extends Model
     /**
      * This Project can have many surveys
      */
-    public function surveys(): HasMany
+    public function surveys(): BelongsToMany
     {
-        return $this->hasMany(SurveySchema::class);
+        return $this->belongsToMany(SurveySchema::class);
     }
 
     /**

@@ -27,13 +27,16 @@ class SurveySchemaController extends Controller
     {
         //dd($request);
         $survey = SurveySchema::create([
-            'user_id' => auth()->user()->id,
-            'project_id' => $request->input('project_id'),
+            //'user_id' => auth()->user()->id,
+            //'project_id' => $request->input('project_id'),
             'survey_name' => $request->input('survey_name'),
         ]);
         
 
         if ($survey) {
+            $survey->users()->attach(auth()->user()->id);
+            $survey->projects()->attach($request->input('project_id'));
+
            return redirect()->back()->with('success', 'Survey Has Been Created Successfully');
         } else {
             // Send Email Notification

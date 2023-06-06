@@ -10,7 +10,7 @@
             Dashboard
           </a>
         </li>
-        @can('admin')
+        @canany(['admin','head','ceo'])
         <li class="nav-title">User Management</li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('roles.index') }}">
@@ -36,13 +36,35 @@
         <li class="nav-title">
           Projects
         </li>
+
+        @canany(['admin','head','ceo'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('projects.index') }}">
             <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
-            List Projects
+            All Projects
           </a>
         </li>
+        @endcan
+
+        @canany(['manager','scripter'])
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('projects.index') }}">
+            <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
+            My Projects
+          </a>
+        </li>
+        @endcan
+
+        @canany(['supervisor','agent','qc'])
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('projects.index') }}">
+            <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
+            My Assigned Projects
+          </a>
+        </li>
+        @endcan
         
+        @canany('admin','ceo','head','manager','scripter')
         <li class="nav-title">
           Data Protection Module
         </li>
@@ -65,6 +87,7 @@
             </li>
           </ul>
         </li>
+        @endcan
       </ul>
       <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SurveySchemaController;
@@ -19,7 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// User Management Routes
+// User Routes
+Route::middleware(['auth'])->group(function ()
+{
+	Route::resource('profile', ProfileController::class);
+});
+
+// Admin Routes
 Route::middleware(['auth','admin'])->group(function ()
 {
 	Route::get('admin', [DashboardController::class, 'index']);

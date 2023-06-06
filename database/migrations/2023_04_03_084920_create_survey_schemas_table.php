@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('survey_schemas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('project_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('survey_name');
             $table->json('content')->nullable();
             $table->string('version')->nullable();

@@ -47,7 +47,7 @@
                 <div class="dropdown-header bg-light py-2">
                   <div class="fw-semibold">Settings</div>
                 </div>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{ route('profile.show', auth()->user()->id) }}">
                   <i class="fa-solid fa-user" ></i>
                   Profile
                 </a>

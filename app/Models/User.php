@@ -61,8 +61,7 @@ class User extends Authenticatable
      */
     public function projects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class)
-            ->withPivot('manager_id', 'supervisor_id', 'scriptor_id', 'qc_id');
+        return $this->belongsToMany(Project::class);
     }
 
     /**
@@ -86,8 +85,16 @@ class User extends Authenticatable
     /**
      * User can have many survey schemas
      */
-    public function survey_schemas(): HasMany
+    public function survey_schemas(): BelongsToMany
     {
-        return $this->hasMany(SurveySchema::class);
+        return $this->belongsToMany(SurveySchema::class);
+    }
+
+    /**
+     * User can have many survey results
+     */
+    public function survey_results(): BelongsToMany
+    {
+        return $this->belongsToMany(SurveyResult::class);
     }
 }
