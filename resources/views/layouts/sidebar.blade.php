@@ -27,12 +27,22 @@
           </a>
         </li>
         @endcan
+
+        @canany(['admin','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
             Users
           </a>
         </li>
+        @elseif(auth()->user()->id == 1)
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('users.index') }}">
+            <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
+            Users
+          </a>
+        </li>
+        @endcan
         <li class="nav-title">
           Projects
         </li>

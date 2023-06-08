@@ -105,6 +105,7 @@
       </div>
 
       <div class="row">
+        @canany(['admin','head','ceo','manager','supervisor','client'])
         <div class="col">
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
@@ -128,6 +129,7 @@
             @endforeach
           </ul>
         </div>
+        @endcan
         <div class="col">
           <hr>
 

@@ -57,8 +57,11 @@ class UserController extends Controller
         $user = User::create([
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
-            'email' => $request->input('email'),
             'ext_no' => $request->input('ext_no'),
+            'email' => $request->input('email'),
+            'national_id' => $request->input('national_id'),
+            'phone_1' => $request->input('phone_1'),
+            'gender' => $request->input('gender'),
             'password' => Hash::make('buzz-word')
         ]);
 

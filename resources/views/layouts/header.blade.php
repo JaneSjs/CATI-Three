@@ -7,11 +7,13 @@
             <img src="{{ asset('assets/images/company-logo.png') }}" alt="TIFA Logo" height="50px" width="50px">
           </a>
           <ul class="header-nav d-none d-md-flex">
+            @can('admin')
             <li class="nav-item">
               <a class="nav-link" href="{{ url('admin/log-reader') }}" target="_blank">
                 System Logs
               </a>
             </li>
+            @endcan
             <!-- <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Settings</a></li> -->
           </ul>
@@ -29,19 +31,16 @@
                   </div>
                 </div>
 
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#" disabled>
                   <i class="fa-solid fa-bell" ></i>
                   Notices
                   <span class="badge badge-sm bg-success ms-2">
                    42
                   </span>
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{ route('projects.index') }}">
                   <i class="fa-solid fa-bars-progress" ></i>
                   My Projects
-                  <span class="badge badge-sm bg-primary ms-2">
-                    42
-                  </span>
                 </a>
 
                 <div class="dropdown-header bg-light py-2">

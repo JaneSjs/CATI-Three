@@ -11,9 +11,11 @@
           Projects
         </div>
         <div class="col text-end">
+          @canany(['admin','manager'])
           <a href="{{ route('projects.create') }}" class="btn btn-outline-success">
             Create Project
           </a>
+          @endcan
         </div>
       </div>
     </div>
@@ -68,7 +70,7 @@
               <tbody>
                 <tr>
                   <th scope="row">1</th>
-                  <td>Mark</td>
+                  <td>Completed</td>
                 </tr>
               </tbody>
             </table>

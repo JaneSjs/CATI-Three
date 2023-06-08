@@ -28,6 +28,7 @@
           </div>
           
     </div>
+    @canany(['admin', 'agent', 'respondent',])
     <div class="card-body">
       <!-- Survey Model-->
       <p id="survey-url" style="display: none;">
@@ -49,6 +50,7 @@
       <survey params="survey: model"></survey>
 
     </div>
+    @endcan
   </div>
 </div>
 

@@ -77,12 +77,49 @@
                   @enderror
               </div>
           </div>
-        </div>   
+        </div>
+
+        <div class="row">
+          <!-- National Id input -->
+          <div class="col">
+            <div class="form-outline mb-4">
+              <input type="text" name="national_id" class="form-control form-control-lg @error('national_id') is-invalid @enderror" placeholder="National Id Number" value="{{ old('national_id') }}"/>
+                @error('national_id')
+                <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                  {{ $message }}
+                </div>
+                @enderror
+            </div>
+          </div>
+
+          <!-- Extension Number input -->
+          <div class="col">
+              <div class="form-outline mb-4">
+                <input type="text" name="phone_1" class="form-control form-control-lg @error('phone_1') is-invalid @enderror" placeholder="Phone Number" value="{{ old('phone_1') }}"/>
+                  @error('phone_1')
+                  <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                    {{ $message }}
+                  </div>
+                  @enderror
+              </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <!-- Gender Input -->
+        <div class="col mb-4">
+          <select class="form-select" name="gender" aria-label="Select Gender">
+            <option value="" selected>--Select Gender--</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <!-- End Gender Input -->
         
         <!-- Roles Input -->
         <div class="col mb-4">
           @foreach($roles as $role)
-            <div class="form-check">
+            <div class="form-check form-check-inline">
               <input type="checkbox" name="roles[]" class="form-check-input @error('roles') is-invalid @enderror" id="{{ $role->name }}" value="{{ $role->id }}">
               <label class="form-check-label" for="{{ $role->name }}">
                 {{ $role->name }}
@@ -96,7 +133,8 @@
             </div>
           @endforeach
         </div>
-        <!-- End Roles Input -->
+        <!-- End Roles Input -->      
+        </div>
 
         <button type="submit" class="btn btn-primary">
           Create

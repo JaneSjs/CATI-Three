@@ -73,11 +73,11 @@
           </label>
           <select class="form-select" name="database" aria-label="Select Database">
             <option value="" selected>Choose Database</option>
-            <option value="controller" title="Controlled">
-              RDMS
+            <option value="controller" title="Controlled Database">
+              Controller
             </option>
-            <option value="processor" title="Processed">
-              Client's Database
+            <option value="processor" title="Processed Database">
+              Processor
             </option>
           </select>
           <div id="database" class="form-text">Choose Database</div>
