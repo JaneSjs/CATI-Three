@@ -21,7 +21,7 @@ return new class extends Migration
                 ->constrained('survey_schemas')
                 ->cascadeOnDelete();
             $table->ipAddress('ip_address')->nullable();
-            $table->macAddress('device_mac_address');
+            $table->macAddress('mac_address')->nullable();
             $table->string('user_agent')->nullable();
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);

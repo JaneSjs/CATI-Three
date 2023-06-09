@@ -53,7 +53,7 @@ class SurveyResultController extends Controller
      */
     public function update(UpdateSurveyResultRequest $request, SurveyResult $surveyResult)
     {
-        //
+        dd('Here');
     }
 
     /**

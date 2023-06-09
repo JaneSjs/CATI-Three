@@ -32,14 +32,14 @@
                 </div>
 
                 <a class="dropdown-item" href="#" disabled>
-                  <i class="fa-solid fa-bell" ></i>
+                  <i class="fas fa-bell" ></i>
                   Notices
                   <span class="badge badge-sm bg-success ms-2">
                    42
                   </span>
                 </a>
                 <a class="dropdown-item" href="{{ route('projects.index') }}">
-                  <i class="fa-solid fa-bars-progress" ></i>
+                  <i class="fas fa-bars-progress" ></i>
                   My Projects
                 </a>
 
@@ -56,8 +56,8 @@
                 <form action="{{ route('logout') }}" method="post">
                   @csrf
                   <div class="dropdown-item">
-                    <button type="submit" class="btn btn-default">
-                      <i class="fa-solid fa-right-from-bracket" ></i>
+                    <i class="fas fa-right-from-bracket fa-fade" ></i>
+                    <button type="submit" class="btn btn-outline-default">
                       Logout
                     </button>
                   </div>

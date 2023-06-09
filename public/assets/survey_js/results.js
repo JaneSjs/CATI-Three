@@ -1,55 +1,61 @@
-const url = document.getElementById("result-url").innerHTML;
+const result_url = document.getElementById("result-url").innerHTML;
 const SURVEY_ID = document.getElementById("survey_id").innerHTML;
 const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
-console.log(url);
+let surveyJson = {};
+
+console.log(result_url);
 console.log(SURVEY_ID);
 console.log(csrf);
 
-function surveyComplete(sender) {
-	saveSurveyResults(url, sender.data);
-}
+async function saveSurveyResults(result_url, json) {
+  const data = {
+    content: json,
+  };
 
-function saveSurveyResults(url, json) {
-    const data = {
-        content: json,
+  const options = {
+    method: "PATCH",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      "X-Requested-With": "XMLHttpRequest",
+      "X-CSRF-TOKEN": csrf,
+    },
+    credentials: "same-origin",
+  };
+
+  console.log(data);
+
+  try {
+    const response = await fetch(result_url, options);
+    if (response.ok) {
+      console.log('Results Submitted Successfully');
+      
+      surveyJson = await response.json();
+      const survey = new Survey.Model(surveyJson);
+      survey.onComplete.add(surveyComplete);
+      console.log(surveyJson);
+    } else {
+      throw new Error('Server or Network Error.');
     }
-
-    const options = {
-        method: "PATCH",
-        body: JSON.stringify(data),
-        headers: {
-            "Content-Type": "application/json; charset=UTF8",
-            "X-Requested-With": "XMLHttpRequest",
-            "X-CSRF-TOKEN": csrf
-        },
-        credentials: "same-origin",
-    };
-
-    console.log(data);
-
-    fetch(url, options)
-    .then((response) => {
-        if (response.ok) {
-            console.log('Results Submitted Successfully');
-            // Parse the response only if its JSON
-            surveyJson = response.json();
-            return surveyJson;
-        } else {
-            throw new Error('Server or Network Error.');
-        }
-
-        const survey = new Survey.Model(surveyJson);
-
-        survey.onComplete.add(surveyComplete);
-    })
-    .then((data) => console.log(data))
-    .catch(error => console.error('Error: ',error));
+  } catch (error) {
+    console.error('Error: ', error);
+  }
 }
 
-// function alertResults(sender) {
-//     const results = JSON.stringify(sender.data);
+function surveyComplete(sender) {
+    const surveyData = sender.data;
 
-//     alert(results);
-// }
+    console.log('Survey Data: ', surveyData);
 
+    saveSurveyResults(result_url, surveyData);
+}
+
+// Create a new instance of the SurveyJS model
+const survey = new Survey.Model(surveyJson);
+
+// Add the onComplete event handler
+survey.onComplete.add(surveyComplete);
+
+// Render the survey on the page
+survey.render("surveyContainer");
