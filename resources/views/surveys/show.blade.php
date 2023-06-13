@@ -9,6 +9,11 @@
         <div class="col">
           <h5 class="card-title float-start">
             {{ $survey->survey_name }}
+            @can('admin')
+             @if($survey->updated_by)
+              was last scripted by : <span>{{ $survey->updated_by }}</span>
+             @endif
+            @endcan
           </h5>
 
           @can('scripter')
@@ -40,7 +45,13 @@
 
       <!-- For Survey Results-->
       <p id="result-url" style="display: none;">
-        {{ route('results.store') }}
+        {{ route('api.results.store') }}
+      </p>
+      <p id="user_id" style="display: none;">
+        {{ auth()->user()->id }}
+      </p>
+      <p id="survey_schema_id" style="display: none;">
+        {{ route('api.results.store') }}
       </p>
       <!-- Survey Results-->
 

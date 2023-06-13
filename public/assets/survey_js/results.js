@@ -1,6 +1,8 @@
 const result_url = document.getElementById("result-url").innerHTML;
 const SURVEY_ID = document.getElementById("survey_id").innerHTML;
 const csrf = document.querySelector('meta[name="csrf-token"]').content;
+const user_id = document.getElementById("user_id");
+const survey_schema_id = document.getElementById("survey_schema_id");
 
 let surveyJson = {};
 
@@ -10,6 +12,8 @@ console.log(csrf);
 
 async function saveSurveyResults(result_url, json) {
   const data = {
+    user_id: user_id,
+    survey_id: SURVEY_ID,
     content: json,
   };
 

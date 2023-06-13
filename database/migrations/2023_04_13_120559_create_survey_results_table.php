@@ -13,13 +13,6 @@ return new class extends Migration
     {
         Schema::create('survey_results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->comment('This is an agent who is submitting survey results on behalf of a respondent. It can also be a logged in respondent submitting their own results independently')
-                ->constrained();
-            $table->foreignId('survey_schema_id')
-                ->comment('Foreign Key for the survey schema(Questinnaire in which this results belongs to.)')
-                ->constrained('survey_schemas')
-                ->cascadeOnDelete();
             $table->ipAddress('ip_address')->nullable();
             $table->macAddress('mac_address')->nullable();
             $table->string('user_agent')->nullable();

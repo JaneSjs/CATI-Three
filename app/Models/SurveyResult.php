@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SurveyResult extends Model
 {
@@ -27,11 +28,19 @@ class SurveyResult extends Model
     ];
 
     /**
+     * Survey Results belongs to many Users
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
      * Survey Results belongs to a Survey Schema
      *
      */
-    public function survey_schema(): BelongsTo
+    public function survey_schemas(): BelongsToMany
     {
-        return $this->belongsTo(SurveySchema::class);
+        return $this->belongsToMany(SurveySchema::class);
     }
 }

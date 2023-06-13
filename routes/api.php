@@ -21,8 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResources([
-    'projects' => ProjectApiController::class,
-    'surveys' => SurveySchemaApiController::class,
-    'results' => SurveyResultApiController::class
-]);
+Route::name('api.')->group(function ()
+{
+    Route::apiResources([
+        'projects' => ProjectApiController::class,
+        'surveys' => SurveySchemaApiController::class,
+        'results' => SurveyResultApiController::class
+    ]);
+});

@@ -10,8 +10,11 @@ const csrf = document.getElementsByTagName("meta")[3];
 
 const survey_id = document.getElementsByTagName("meta")[4];
 const url = document.getElementById("url");
+const user = document.getElementById("user");
 
-//console.log(survey_id.content);
+console.log(survey_id.content);
+console.log(url.textContent);
+console.log(user.textContent);
 
 document.addEventListener("DOMContentLoaded", function() {
     creator.render("surveyCreator");
@@ -29,6 +32,7 @@ creator.saveSurveyFunc = (saveNo, callback) => {
 
 function saveSurveyJson(url, json, saveNo, callback) {
     const data = {
+        user: user.textContent,
         id: survey_id.content,
         content: json,
         version: saveNo

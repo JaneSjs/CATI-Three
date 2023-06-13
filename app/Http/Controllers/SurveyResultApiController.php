@@ -25,8 +25,8 @@ class SurveyResultApiController extends Controller
         //dd($content);
 
         $surveyResult = SurveyResult::create([
-            'user_id' => 1,
-            'survey_schema_id' => 1,
+            // 'user_id' => $request->user_id,
+            //'survey_schema_id' => $request->survey_id,
             'ip_address' => $request->ip(),
             'mac_address' => '123abcd',
             'user_agent' => $request->userAgent(),
@@ -35,7 +35,18 @@ class SurveyResultApiController extends Controller
             'content' => $content,
         ]);
 
-        return response()->json($surveyResult, 201);
+        if ($surveyResult) {
+            $surveyResult->users()->sync($request->user_id);
+            $surveyResult->survey_schemas()->sync($request->survey_id);
+
+            // You can do something here
+           return response()->json($surveyResult, 201);
+        } else {
+            // You can send email and/or sms notification
+           return response()->json($surveyResult, 500);
+        }
+
+        
     }
 
     /**

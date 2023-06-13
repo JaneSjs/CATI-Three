@@ -9,7 +9,9 @@
     <meta name="id" content="{{ $survey->id }}">
     <meta name="url" content="">
     
-    <title>Survey Creator | {{ $survey->survey_name }} </title>
+    <title> 
+        {{ $survey->survey_name ?? ' ' }}
+    </title>
 
     <!-- ... -->
     <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script>
@@ -29,7 +31,10 @@
 </head>
 <body>
     <p id="url" style="display: none;">
-        {{ route('surveys.update', $survey->id) }}
+        {{ route('api.surveys.update', $survey->id) }}
+    </p>
+    <p id="user" style="display: none;">
+        {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
     </p>
     <div id="surveyCreator" style="height: 100vh;"></div>
 

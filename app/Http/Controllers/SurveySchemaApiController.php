@@ -40,7 +40,24 @@ class SurveySchemaApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $survey = SurveySchema::find($request->id);
+        
+        if ($survey) {
+            $survey->content = $request->content;
+            $survey->version = $request->version;
+            $survey->updated_by = $request->user;
+            $survey->save();
+
+            //dd($survey);
+
+            return response()->json([
+                'message' => 'Survey Schema Updated Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Survey Schema was not found'
+            ]);
+        }
     }
 
     /**

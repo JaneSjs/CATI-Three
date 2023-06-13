@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateSurveySchemaRequest;
 use App\Http\Resources\SurveySchemaResource;
 use App\Models\SurveySchema;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -23,12 +24,11 @@ class SurveySchemaController extends Controller
     /**
      * Store survey name into the database
      */
-    public function store(StoreSurveySchemaRequest $request)
+    public function store(StoreSurveySchemaRequest $request): RedirectResponse
     {
         //dd($request);
         $survey = SurveySchema::create([
-            //'user_id' => auth()->user()->id,
-            //'project_id' => $request->input('project_id'),
+            'stage' => 'Draft',
             'survey_name' => $request->input('survey_name'),
         ]);
         
@@ -49,11 +49,17 @@ class SurveySchemaController extends Controller
      */
     public function show(SurveySchema $survey)
     {
-        $data['survey'] = $survey;
+        //dd('Here');
+        if ($survey) {
+            $data['survey'] = $survey;
 
-        //dd($data);
+            //dd($data);
 
-        return view('surveys.show', $data);
+            return view('surveys.show', $data);
+        } else {
+            return redirect()->route('surveys.index')->with('error', 'That survey was not found');
+        }
+        
     }
 
     /**
@@ -76,8 +82,9 @@ class SurveySchemaController extends Controller
         $survey = SurveySchema::find($request->id);
         
         if ($survey) {
-            $survey->content = $request->content;
-            $survey->version = $request->version;
+            $survey->user_id = auth()->user()->id;
+            $survey->project_id = $request->input('project_id');
+            $survey->stage = $request->input('stage');
             $survey->updated_by = auth()->user()->first_name . ' ' . auth()->user()->last_name;
             $survey->save();
 

@@ -19,6 +19,7 @@
         </div>
         <div class="col text-end">
           @include('partials.alerts')
+          @include('partials.errors')
         </div>
       </div>
           
@@ -56,10 +57,10 @@
         </div>
         <div class="col">
           @can('scripter')
-          <!-- Trigger Survey Modal -->
-          <button type="button" class="btn btn-warning" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
-            Create Survey
-          </button>
+            <!-- Trigger Survey Modal -->
+            <button type="button" class="btn btn-warning" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
+              Create Survey
+            </button>
           @endcan
 
           <!-- Create Survey Modal -->
@@ -70,16 +71,17 @@
                     @csrf
                 <div class="modal-header">
                   <h5 class="modal-title" id="surveyLabel">
-                    Create A Survey For This Project
+                    Create A New Survey For This Project
                   </h5>
                   <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                  <input type="hidden" name="project_id" value="{{ $project->id }}">
                   <div class="mb-3">
                     <label for="survey_name" class="form-label">
                       Survey Name
                     </label>
-                    <input type="text" class="form-control" name="survey_name" id="survey_name" aria-describedby="nameDescription">
+                    <input type="text" class="form-control" name="survey_name" id="survey_name" aria-describedby="nameDescription" value="{{ old('survey_name') }}">
                     @error('survey_name')
                     <p class="text-danger">
                       {{ $message }}
@@ -139,6 +141,9 @@
                 <tr>
                   <th>#</th>
                   <th>Survey</th>
+                  <th>
+                    Stage
+                  </th>
                   <th></th>
                 </tr>
               </thead>
@@ -154,6 +159,73 @@
                     </a>
                   </td>
                   <td>
+                    {{ $survey->stage }}
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#survey-{{ $survey->id }}" title="Change Stage">
+                      <i class="fas fa-pen"></i>
+                    </button>
+
+                    <!-- Survey Edit Modal -->
+                    <div class="modal fade" id="survey-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="stageLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="stageLabel">
+                             Edit {{ $survey->survey_name }}
+                            </h5>
+                            <button type="button" class="btn btn-outline-info btn-sm float-end" data-coreui-dismiss="modal">
+                              x
+                            </button>
+                          </div>
+                          <div class="modal-body"> 
+                            <form action="{{ route('surveys.update', $survey->id) }}" method="post">
+                              @csrf
+                              @method('PATCH')
+
+                              <div class="mb-3">
+                                <label for="survey_name" class="form-label">
+                                  Edit Survey Name
+                                </label>
+                                <input type="text" name="survey_name" class="form-control" id="survey_name" value="{{ $survey->survey_name }}">
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="stage" class="form-label">
+                                  Change Stage
+                                </label>
+                                <select name="stage" class="form-select" aria-label="Default select example">
+                                <option value="Draft" selected>
+                                  Draft
+                                </option>
+                                <option value="Test">
+                                  Test
+                                </option>
+                                <option value="Production">
+                                  Production
+                                </option>
+                                <option value="Closed">
+                                  Closed
+                                </option>
+                              </select>
+                              </div>
+
+                              <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">
+                                  Update
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Survey Edit Modal -->
+                  </td>
+                  <td>
                     
                   </td>
                 </tr>
@@ -167,6 +239,5 @@
     </div>
   </div>
 </div>
-
 
 @endsection
