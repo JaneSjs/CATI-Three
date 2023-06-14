@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survey_result_survey_schema', function (Blueprint $table) {
+        Schema::create('project_schema', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('survey_schema_id')
+            $table->foreignId('project_id')
                   ->references('id')
-                  ->on('survey_schemas')
+                  ->on('projects')
                   ->constrained()
                   ->cascadeOnDelete();
 
-            $table->foreignId('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->cascadeOnDelete();
+            $table->foreignId('schema_id')
+                ->references('id')
+                ->on('survey_schemas')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('survey_schema_survey_result');
+        Schema::dropIfExists('project_schema_');
     }
 };

@@ -91,7 +91,7 @@ class User extends Authenticatable
     /**
      * User can have many survey schemas
      */
-    public function survey_schemas(): BelongsToMany
+    public function surveySchemas(): BelongsToMany
     {
         return $this->belongsToMany(SurveySchema::class);
     }
@@ -99,7 +99,7 @@ class User extends Authenticatable
     /**
      * User can have many survey results
      */
-    public function survey_results(): BelongsToMany
+    public function surveyResults(): BelongsToMany
     {
         return $this->belongsToMany(SurveyResult::class);
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SurveySchema extends Model
+class Schema extends Model
 {
     use HasFactory;
 
@@ -45,7 +45,7 @@ class SurveySchema extends Model
     }
 
     /**
-     * Survey Schema has many survey results
+     * Survey Schema has many results
      */
     public function survey_results(): HasMany
     {

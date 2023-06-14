@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survey_results', function (Blueprint $table) {
+        Schema::create('schema_user', function (Blueprint $table) {
             $table->id();
-            $table->ipAddress('ip_address')->nullable();
-            $table->macAddress('mac_address')->nullable();
-            $table->string('user_agent')->nullable();
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
-            $table->json('content');
+            
+            $table->foreignId('schema_id')
+                ->references('id')
+                ->on('schemas')
+                ->cascadeOnDelete();
+
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('survey_results');
+        Schema::dropIfExists('schema_user');
     }
 };

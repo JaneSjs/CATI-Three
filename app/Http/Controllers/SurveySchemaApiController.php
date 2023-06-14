@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SurveySchemaResource;
-use App\Models\SurveySchema;
+use App\Http\Resources\SchemaResource;
+use App\Models\Schema;
 use Illuminate\Http\Request;
 
-class SurveySchemaApiController extends Controller
+class SchemaApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['surveys'] = SurveySchema::all();
+        $data['surveys'] = Schema::all();
     }
 
     /**
@@ -29,7 +29,7 @@ class SurveySchemaApiController extends Controller
      */
     public function show(string $id)
     {
-        $data['survey'] = SurveySchema::select('content')
+        $data['survey'] = Schema::select('content')
                                         ->findOrFail($id);
 
         return $data;
@@ -40,7 +40,7 @@ class SurveySchemaApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $survey = SurveySchema::find($request->id);
+        $survey = Schema::find($request->id);
         
         if ($survey) {
             $survey->content = $request->content;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSurveyResultRequest;
-use App\Http\Requests\UpdateSurveyResultRequest;
-use App\Models\SurveyResult;
+use App\Http\Requests\StoreResultRequest;
+use App\Http\Requests\UpdateResultRequest;
+use App\Models\Result;
 
-class SurveyResultController extends Controller
+class ResultController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class SurveyResultController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSurveyResultRequest $request)
+    public function store(StoreResultRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class SurveyResultController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SurveyResult $surveyResult)
+    public function show(Result $Result)
     {
         //
     }
@@ -43,7 +43,7 @@ class SurveyResultController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SurveyResult $surveyResult)
+    public function edit(Result $Result)
     {
         //
     }
@@ -51,7 +51,7 @@ class SurveyResultController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSurveyResultRequest $request, SurveyResult $surveyResult)
+    public function update(UpdateResultRequest $request, Result $Result)
     {
         dd('Here');
     }
@@ -59,7 +59,7 @@ class SurveyResultController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SurveyResult $surveyResult)
+    public function destroy(Result $Result)
     {
         //
     }

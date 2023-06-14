@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SurveyResult;
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class SurveyResultApiController extends Controller
@@ -24,7 +24,7 @@ class SurveyResultApiController extends Controller
         $content = json_encode($request->content);
         //dd($content);
 
-        $surveyResult = SurveyResult::create([
+        $surveyResult = Result::create([
             // 'user_id' => $request->user_id,
             //'survey_schema_id' => $request->survey_id,
             'ip_address' => $request->ip(),
@@ -62,7 +62,7 @@ class SurveyResultApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $survey_result = SurveyResult::find($id);
+        $survey_result = Result::find($id);
 
         $content = $request->input('content');
 

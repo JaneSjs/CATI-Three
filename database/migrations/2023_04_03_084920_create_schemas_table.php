@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survey_schemas', function (Blueprint $table) {
+        Schema::create('schemas', function (Blueprint $table) {
             $table->id();
             $table->string('survey_name');
             $table->json('content')->nullable();

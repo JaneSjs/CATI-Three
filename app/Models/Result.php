@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class SurveyResult extends Model
+class Result extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,7 @@ class SurveyResult extends Model
      */
     protected $fillable = [
         'user_id',
-        'survey_schema_id',
+        'schema_id',
         'ip_address',
         'mac_address',
         'user_agent',

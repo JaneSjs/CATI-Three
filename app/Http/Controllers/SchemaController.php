@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSurveySchemaRequest;
-use App\Http\Requests\UpdateSurveySchemaRequest;
-use App\Http\Resources\SurveySchemaResource;
-use App\Models\SurveySchema;
+use App\Http\Requests\StoreSchemaRequest;
+use App\Http\Requests\UpdateSchemaRequest;
+use App\Http\Resources\SchemaResource;
+use App\Models\Schema;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class SurveySchemaController extends Controller
+class SchemaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,10 +24,10 @@ class SurveySchemaController extends Controller
     /**
      * Store survey name into the database
      */
-    public function store(StoreSurveySchemaRequest $request): RedirectResponse
+    public function store(StoreSchemaRequest $request): RedirectResponse
     {
         //dd($request);
-        $survey = SurveySchema::create([
+        $survey = Schema::create([
             'stage' => 'Draft',
             'survey_name' => $request->input('survey_name'),
         ]);
@@ -47,25 +47,21 @@ class SurveySchemaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SurveySchema $survey)
+    public function show(Schema $survey)
     {
         //dd('Here');
-        if ($survey) {
-            $data['survey'] = $survey;
+        $data['survey'] = $survey;
 
-            //dd($data);
+        //dd($data);
 
-            return view('surveys.show', $data);
-        } else {
-            return redirect()->route('surveys.index')->with('error', 'That survey was not found');
-        }
+        return view('surveys.show', $data);
         
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SurveySchema $survey)
+    public function edit(Schema $survey)
     {
         $data['survey'] = $survey;
         //dd($data);
@@ -79,7 +75,7 @@ class SurveySchemaController extends Controller
     public function update(Request $request)
     {
 
-        $survey = SurveySchema::find($request->id);
+        $survey = Schema::find($request->id);
         
         if ($survey) {
             $survey->user_id = auth()->user()->id;
@@ -103,7 +99,7 @@ class SurveySchemaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SurveySchema $survey)
+    public function destroy(Schema $survey)
     {
         //
     }
