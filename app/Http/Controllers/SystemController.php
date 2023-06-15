@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+/**
+ * Controller class to handle system monitoring
+ *  for the System Admin. This is especially things
+ * like server environment, logs and things like that
+ */
 class SystemController extends Controller
 {
     /**
@@ -14,11 +19,4 @@ class SystemController extends Controller
         return view('system.info');
     }
 
-    /**
-     * Display Adminer
-     */
-    public function adminer()
-    {
-        return view('system.adminer');
-    }
 }
