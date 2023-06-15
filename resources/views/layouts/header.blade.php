@@ -27,7 +27,7 @@
               <div class="dropdown-menu dropdown-menu-end pt-0">
                 <div class="dropdown-header bg-light py-2">
                   <div class="fw-semibold">
-                    {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
+                    {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }} ({{ auth()->user()->id }})
                   </div>
                 </div>
 

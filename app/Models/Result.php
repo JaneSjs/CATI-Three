@@ -24,6 +24,12 @@ class Result extends Model
         'user_agent',
         'latitude',
         'longitude',
+        'altitude',
+        'altitude_accuracy',
+        'position_accuracy',
+        'heading',
+        'speed',
+        'timestamp',
         'content'
     ];
 
@@ -39,8 +45,8 @@ class Result extends Model
      * Survey Results belongs to a Survey Schema
      *
      */
-    public function survey_schemas(): BelongsToMany
+    public function schema(): BelongsTo
     {
-        return $this->belongsToMany(SurveySchema::class);
+        return $this->belongsTo(Schema::class);
     }
 }

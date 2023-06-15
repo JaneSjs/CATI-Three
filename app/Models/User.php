@@ -91,16 +91,16 @@ class User extends Authenticatable
     /**
      * User can have many survey schemas
      */
-    public function surveySchemas(): BelongsToMany
+    public function schemas(): BelongsToMany
     {
-        return $this->belongsToMany(SurveySchema::class);
+        return $this->belongsToMany(Schema::class);
     }
 
     /**
      * User can have many survey results
      */
-    public function surveyResults(): BelongsToMany
+    public function results(): HasMany
     {
-        return $this->belongsToMany(SurveyResult::class);
+        return $this->hasMany(Result::class);
     }
 }

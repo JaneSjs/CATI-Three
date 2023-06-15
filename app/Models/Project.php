@@ -37,7 +37,7 @@ class Project extends Model
      */
     public function surveys(): BelongsToMany
     {
-        return $this->belongsToMany(SurveySchema::class);
+        return $this->belongsToMany(Schema::class);
     }
 
     /**

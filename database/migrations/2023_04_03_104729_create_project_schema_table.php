@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->foreignId('schema_id')
                 ->references('id')
-                ->on('survey_schemas')
+                ->on('schemas')
                 ->cascadeOnDelete();
 
             $table->timestamps();

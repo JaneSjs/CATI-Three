@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProjectApiController;
-use App\Http\Controllers\SurveyResultApiController;
-use App\Http\Controllers\SurveySchemaApiController;
+use App\Http\Controllers\ResultApiController;
+use App\Http\Controllers\SchemaApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +25,7 @@ Route::name('api.')->group(function ()
 {
     Route::apiResources([
         'projects' => ProjectApiController::class,
-        'surveys' => SurveySchemaApiController::class,
-        'results' => SurveyResultApiController::class
+        'surveys' => SchemaApiController::class,
+        'results' => ResultApiController::class
     ]);
 });

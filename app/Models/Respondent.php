@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Respondent extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
      /**
      * The attributes that are mass assignable.

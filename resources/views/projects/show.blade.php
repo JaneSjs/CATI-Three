@@ -31,16 +31,19 @@
             <table class="table table-sm caption-top">
               <thead class="table-success">
                 <tr>
+                  @canany(['head','manager','scripter'])
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
+                  @endcan
                   <th scope="col">Project Duration</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <?php //date('D dS/M/Y') ?>
+                  @canany(['head','manager','scripter'])
                   <td>{{ $project->start_date }}</td>
                   <td>{{ $project->end_date }}</td>
+                  @endcan
                   <td>
                     <?php
                       use Illuminate\Support\Carbon;
@@ -56,7 +59,7 @@
           </div>
         </div>
         <div class="col">
-          @can('scripter')
+          @canany(['head','manager','scripter'])
             <!-- Trigger Survey Modal -->
             <button type="button" class="btn btn-warning" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
               Create Survey
@@ -141,10 +144,12 @@
                 <tr>
                   <th>#</th>
                   <th>Survey</th>
+                  @canany(['head','manager','scripter'])
                   <th>
                     Stage
                   </th>
                   <th></th>
+                  @endcan
                 </tr>
               </thead>
               <tbody>
@@ -158,6 +163,7 @@
                       {{ $survey->survey_name }}
                     </a>
                   </td>
+                  @canany(['head','manager','scripter'])
                   <td>
                     {{ $survey->stage }}
                   </td>
@@ -228,6 +234,7 @@
                   <td>
                     
                   </td>
+                  @endcan
                 </tr>
                 @endforeach
               </tbody>

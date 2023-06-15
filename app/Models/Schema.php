@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Schema extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -47,8 +48,8 @@ class Schema extends Model
     /**
      * Survey Schema has many results
      */
-    public function survey_results(): HasMany
+    public function results(): HasMany
     {
-        return $this->hasMany(SurveyResult::class);
+        return $this->hasMany(Result::class);
     }
 }

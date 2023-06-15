@@ -4,9 +4,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SurveySchemaController;
+use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\UserController;
-use App\Models\SurveySchema;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,9 +42,9 @@ Route::middleware(['auth'])->group(function ()
 
 	// Route::middleware('scripter')->get('survey_creator_new_tab', [ProjectController::class, 'creator_in_a_new_tab']);
 
-	//Route::post('survey_schema', [SurveySchemaController::class, 'update']);
+	//Route::post('survey_schema', [SchemaController::class, 'update']);
 
-	Route::resource('surveys', SurveySchemaController::class);
+	Route::resource('surveys', SchemaController::class);
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
