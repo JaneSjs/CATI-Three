@@ -3,6 +3,33 @@
         <img src="{{ asset('assets/images/company-logo.png') }}" class="sidebar-brand-full" width="90" height="46" alt="TIFA Logo">
       </div>
       <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        @can('admin')
+        <li class="nav-group">
+          <a class="nav-link nav-group-toggle" href="#">
+             System Admin
+           </a>
+          <ul class="nav-group-items">
+            <li class="nav-item" title="Server Environment">
+              <a href="{{ url('admin/info') }}" class="nav-link" target="_blank" rel="noreferrer">
+                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+                PHP Info
+              </a>
+            </li>
+            <li class="nav-item" title="System Logs">
+              <a href="{{ url('admin/log-reader') }}" class="nav-link" target="_blank" rel="noreferrer">
+                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+                System Logs
+              </a>
+            </li>
+            <li class="nav-item" title="Maria DB">
+              <a href="{{ url('admin/p-dmin') }}" class="nav-link" target="_blank" rel="noreferrer">
+                <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i>
+                phpMyAdmin
+              </a>
+            </li>
+          </ul>
+        </li>
+        @endcan
 
         <li class="nav-item">
           <a class="nav-link" href="{{ url('dashboard') }}">

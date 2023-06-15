@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchemaController;
+use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,3 +50,9 @@ Route::middleware(['auth'])->group(function ()
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
 Route::middleware('auth')->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::middleware(['auth','admin'])->group(function ()
+{
+	Route::get('info', [SystemController::class, 'info']);
+	Route::get('adminer', [SystemController::class, 'adminer']);
+});
