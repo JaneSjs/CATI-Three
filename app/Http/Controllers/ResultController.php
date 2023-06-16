@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ResultsExport;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
 use App\Models\Result;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResultController extends Controller
 {
@@ -62,5 +65,23 @@ class ResultController extends Controller
     public function destroy(Result $Result)
     {
         //
+    }
+
+    /**
+     * xlsx Results Export
+     */
+    public function xlsx_export(int $id)
+    {
+        return Excel::download(new ResultsExport($id), 'survey_results.xlsx', ExcelExcel::XLSX);
+    }
+
+    /**
+     * csv Results Export
+     */
+    public function csv_export(int $id)
+    {
+        return Excel::download(new ResultsExport($id), 'survey_results.csv', ExcelExcel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 }

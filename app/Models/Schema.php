@@ -40,9 +40,9 @@ class Schema extends Model
     /**
      * Survey Schema belongs to a Project
      */
-    public function projects(): BelongsToMany
+    public function project(): BelongsTo
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsTo(Project::class);
     }
 
     /**

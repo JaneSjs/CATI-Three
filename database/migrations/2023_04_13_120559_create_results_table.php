@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('position_accuracy')->nullable();
             $table->string('heading')->nullable();
             $table->string('speed')->nullable();
-            $table->timestamp('timestamp')->nullable();
+            $table->bigInteger('timestamp')->nullable();
             $table->json('content');
             $table->timestamps();
             $table->softDeletes();

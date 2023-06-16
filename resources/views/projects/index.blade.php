@@ -10,6 +10,9 @@
         <div class="col">
           Projects
         </div>
+        <div class="col">
+          @include('partials.alerts')
+        </div>
         <div class="col text-end">
           @canany(['admin','manager'])
           <a href="{{ route('projects.create') }}" class="btn btn-outline-success">

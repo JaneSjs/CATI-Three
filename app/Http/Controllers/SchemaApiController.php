@@ -52,7 +52,7 @@ class SchemaApiController extends Controller
 
             return response()->json([
                 'message' => 'Survey Schema Updated Successfully'
-            ]);
+            ], 201);
         } else {
             return response()->json([
                 'message' => 'Survey Schema was not found'

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\SystemController;
@@ -46,6 +47,10 @@ Route::middleware(['auth'])->group(function ()
 	//Route::post('survey_schema', [SchemaController::class, 'update']);
 
 	Route::resource('surveys', SchemaController::class);
+
+	// Survey Results Exports
+	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
+	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);

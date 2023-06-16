@@ -100,9 +100,13 @@
       </div>
       <div class="modal-footer">
         <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-            <a href="" class="btn btn-outline-warning" title="CSV Format">
+            <a href="{{ url('csv_export', $survey->id) }}" class="btn btn-outline-warning" title="CSV Format">
               <i class="fas fa-download"></i>
               CSV
+            </a>
+            <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
+              <i class="fas fa-download"></i>
+              Excel
             </a>
             <a href="" class="btn btn-outline-primary" title="JSON Format">
               <i class="fas fa-download"></i>

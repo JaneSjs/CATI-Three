@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('schemas', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('project_id')
+                  ->references('id')
+                  ->on('projects')
+                  ->constrained()
+                  ->cascadeOnDelete();
+
             $table->string('survey_name');
             $table->json('content')->nullable();
             $table->string('version')->nullable();
