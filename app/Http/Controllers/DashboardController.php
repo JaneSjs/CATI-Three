@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDashboardRequest;
 use App\Http\Requests\UpdateDashboardRequest;
 use App\Models\Dashboard;
+use App\Models\Project;
+use App\Models\Role;
+use App\Models\Schema;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -13,7 +17,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.index');
+        $user = new User();
+
+        $data['roles'] = Role::all();
+        $data['users'] = User::all();
+        $data['supervisors'] = $user->supervisors()->get();
+        $data['projects'] = Project::all();
+        $data['surveys'] = Schema::all();
+        dd($data['supervisors']);
+
+
+        return view('dashboard.index', $data);
     }
 
     /**

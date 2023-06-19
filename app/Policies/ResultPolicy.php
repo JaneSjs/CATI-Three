@@ -6,7 +6,7 @@ use App\Models\SurveyResult;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SurveyResultPolicy
+class ResultPolicy
 {
     /**
      * Determine whether the user can view any models.

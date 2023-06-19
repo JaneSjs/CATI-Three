@@ -99,7 +99,7 @@ class ProjectController extends Controller
     {
         $data['project'] = $project;
         $data['users'] = $project->users()->get();
-        //$data['surveys'] = SurveySchema::all();
+        //$data['surveys'] = Schema::all();
 
         //dd($data['users']);
         $data['surveys'] = $project->surveys;

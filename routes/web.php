@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function ()
 	// Survey Results Exports
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
+	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);

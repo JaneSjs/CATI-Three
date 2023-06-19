@@ -103,4 +103,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Result::class);
     }
+
+    /**
+     * Get all users with the role of supervisor
+     */
+    public function supervisors()
+    {
+        return $this->belongsToMany(Role::class)
+                ->wherePivot('role_id', 5);
+    }
 }

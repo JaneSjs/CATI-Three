@@ -26,9 +26,6 @@
             <a href="" class="btn btn-outline-primary" title="View Tool">
               Tool
             </a>
-            <a href="" class="btn btn-outline-primary" title="Generate PDF">
-              PDF
-            </a>
             <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results" title="Survey Results Actions">
               Results
             </button>
@@ -101,15 +98,19 @@
       <div class="modal-footer">
         <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
             <a href="{{ url('csv_export', $survey->id) }}" class="btn btn-outline-warning" title="CSV Format">
-              <i class="fas fa-download"></i>
+              <i class="fas fa-file-csv"></i>
               CSV
             </a>
             <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
-              <i class="fas fa-download"></i>
+              <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
               Excel
             </a>
+            <a href="{{ url('pdf_export', $survey->id) }}" class="btn btn-outline-dark" title="Portable Document Format">
+              <i class="fas fa-file-pdf" style="color: #ef2929;"></i>
+              PDF
+            </a>
             <a href="" class="btn btn-outline-primary" title="JSON Format">
-              <i class="fas fa-download"></i>
+              <i class="fas fa-brackets-curly"></i>
               JSON
             </a>
           </div>

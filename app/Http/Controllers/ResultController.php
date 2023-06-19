@@ -84,4 +84,12 @@ class ResultController extends Controller
             'Content-Type' => 'text/csv',
         ]);
     }
+
+    /**
+     * PDF Results Export
+     */
+    public function pdf_export(int $id)
+    {
+        return Excel::download(new ResultsExport($id), 'survey_results.pdf', ExcelExcel::DOMPDF);
+    }
 }

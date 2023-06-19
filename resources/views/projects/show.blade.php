@@ -26,7 +26,7 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col">
+        <div class="col-9">
           <div class="table-responsive">
             <table class="table table-sm caption-top">
               <thead class="table-success">
@@ -58,7 +58,7 @@
             </table>
           </div>
         </div>
-        <div class="col">
+        <div class="col-3">
           @canany(['head','manager','scripter'])
             <!-- Trigger Survey Modal -->
             <button type="button" class="btn btn-warning" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
@@ -111,7 +111,7 @@
 
       <div class="row">
         @canany(['admin','head','ceo','manager','supervisor','client'])
-        <div class="col">
+        <div class="col-4">
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
@@ -135,7 +135,7 @@
           </ul>
         </div>
         @endcan
-        <div class="col">
+        <div class="col-8">
           <hr>
 
           <div class="table-responsive">
@@ -232,7 +232,65 @@
                     <!-- End Survey Edit Modal -->
                   </td>
                   <td>
-                    
+                    @canany(['admin','ceo','head','manager','scripter'])
+                    <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
+                      <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
+                        Script
+                      </a>
+                      <a href="" class="btn btn-outline-primary" title="Change The Survey Stage">
+                        Staging
+                      </a>
+                      <a href="" class="btn btn-outline-primary" title="View Tool">
+                        Tool
+                      </a>
+                      <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
+                        Results
+                      </button>
+                      <a href="" class="btn btn-outline-primary" title="View Analytics" rel="noopener">
+                        Analytics
+                      </a>
+                    </div>
+                    @endcan
+
+                    <!-- Survey Results Modal -->
+
+<div class="modal fade" id="#results-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">
+          Available Data Formats For Download
+        </h5>
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
+            <a href="{{ url('csv_export', $survey->id) }}" class="btn btn-outline-warning" title="CSV Format">
+              <i class="fas fa-file-csv"></i>
+              CSV
+            </a>
+            <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
+              <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
+              Excel
+            </a>
+            <a href="{{ url('pdf_export', $survey->id) }}" class="btn btn-outline-dark" title="Portable Document Format">
+              <i class="fas fa-file-pdf" style="color: #ef2929;"></i>
+              PDF
+            </a>
+            <a href="" class="btn btn-outline-primary" title="JSON Format">
+              <i class="fas fa-brackets-curly"></i>
+              JSON
+            </a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Survey Results Modal -->
                   </td>
                   @endcan
                 </tr>
