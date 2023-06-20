@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const survey_url = document.getElementById("survey-url");
-  const SURVEY_ID = document.getElementById("survey_id");
-  const user_id = document.getElementById("user_id");
+  const survey_url = document.getElementById("survey_url");
+  const survey_id  = document.getElementById("survey_id");
+  const user_id    = document.getElementById("user_id");
 
-  console.log('survey url:',survey_url.textContent);
-  console.log('survey id:',SURVEY_ID.textContent);
+  console.log('survey url:', survey_url.textContent);
+  console.log('survey id:',survey_id.textContent);
   console.log('user id:',user_id.textContent);
 
   let survey; // Declare the survey variable outside fetchSurvey()
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   /**
    * Collecting Survey Results
    */
-  const result_url = document.getElementById("result-url").innerHTML;
+  const result_url = document.getElementById("result_url").innerHTML;
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
   console.log('Result Url: ',result_url);
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const data = {
         user_id: user_id.textContent,
-        survey_id: SURVEY_ID.textContent,
+        survey_id: survey_id.textContent,
         latitude: position.latitude,
         longitude: position.longitude, 
         altitude: position.altitude,

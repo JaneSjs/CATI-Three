@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SurveySchema;
+use App\Models\Schema;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -38,14 +38,14 @@ class ProfileController extends Controller
     public function show(string $id)
     {
         $user = new User();
-        $survey = new SurveySchema();
+        $survey = new Schema();
 
         $data['user']  = $user->find($id);
         $data['roles'] = $user->roles()->get();
         $data['projects'] = $user->projects()->get();
-        $data['surveys'] = $survey->users()->get();
+        $data['surveys'] = $user->schemas()->get();
         //dd($data['projects']);
-        $data['results'] = $user->survey_results();
+        $data['results'] = $user->results();
 
         return view('profiles.show', $data);
     }

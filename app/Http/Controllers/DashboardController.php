@@ -21,10 +21,17 @@ class DashboardController extends Controller
 
         $data['roles'] = Role::all();
         $data['users'] = User::all();
-        $data['supervisors'] = $user->supervisors()->get();
         $data['projects'] = Project::all();
         $data['surveys'] = Schema::all();
-        dd($data['supervisors']);
+        
+        $roleName = 'Supervisor';
+
+        $data['supervisors'] = User::whereHas('roles', function ($query) use ($roleName)
+        {
+            $query->where('name', $roleName);
+        })->get();
+
+        //dd($data['supervisors']);
 
 
         return view('dashboard.index', $data);

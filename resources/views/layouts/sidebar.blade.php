@@ -10,19 +10,19 @@
            </a>
           <ul class="nav-group-items">
             <li class="nav-item" title="Server Environment">
-              <a href="{{ url('admin/info') }}" class="nav-link" target="_blank" rel="noreferrer">
+              <a href="{{ url('admin/info') }}" class="nav-link" rel="noreferrer">
                 <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
                 PHP Info
               </a>
             </li>
             <li class="nav-item" title="System Logs">
-              <a href="{{ url('admin/log-reader') }}" class="nav-link" target="_blank" rel="noreferrer">
+              <a href="{{ url('admin/log-reader') }}" class="nav-link" rel="noreferrer">
                 <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
                 System Logs
               </a>
             </li>
             <li class="nav-item" title="Maria DB">
-              <a href="{{ url('admin/p-dmin') }}" class="nav-link" target="_blank" rel="noreferrer">
+              <a href="{{ url('p-dmin') }}" class="nav-link" target="_blank" rel="noreferrer">
                 <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i>
                 phpMyAdmin
               </a>

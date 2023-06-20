@@ -9,7 +9,7 @@
           <ul class="header-nav d-none d-md-flex">
             @can('admin')
             <li class="nav-item">
-              <a class="nav-link" href="{{ url('admin/log-reader') }}" target="_blank">
+              <a class="nav-link" href="{{ url('admin/log-reader') }}">
                 System Logs
               </a>
             </li>

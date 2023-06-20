@@ -50,7 +50,6 @@ class SchemaController extends Controller
      */
     public function show(Schema $survey)
     {
-        //dd('Here');
         $data['survey'] = $survey;
 
         //dd($data);

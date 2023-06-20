@@ -57,8 +57,7 @@ Route::middleware(['auth'])->group(function ()
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
 Route::middleware('auth')->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::middleware(['auth','admin'])->group(function ()
+Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 {
 	Route::get('info', [SystemController::class, 'info']);
-	Route::get('adminer', [SystemController::class, 'adminer']);
 });

@@ -42,19 +42,28 @@
         <div class="col text-end">
           @include('partials.alerts')
           <button type="button" class="btn btn-primary text-light text-end">
-              Version 
-              <span class="badge text-bg-secondary">
-                {{ $survey->version ?? 0 }}
-              </span>
-            </button>
+            Version 
+            <span class="badge text-bg-secondary">
+              {{ $survey->version ?? 0 }}
+            </span>
+          </button>
+          <hr>
+          <div class="alert alert-info">
+            <p> 
+              <strong>API Survey url: </strong> {{ route("api.surveys.show", $survey->id) }}
+            </p>
+            <p> 
+              <strong>Survey Id: </strong> {{ $survey->id }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
     @canany(['admin', 'agent', 'respondent',])
     <div class="card-body">
       <!-- For Survey Model-->
-      <p id="survey-url" style="display: none;">
-        {{ url("api/surveys/$survey->id") }}
+      <p id="survey_url" style="display: none;">
+        {{ route("api.surveys.show", $survey->id) }}
       </p>
       <p id="survey_id" style="display: none;">
         {{ $survey->id }}
@@ -63,7 +72,7 @@
 
 
       <!-- For Survey Results-->
-      <p id="result-url" style="display: none;">
+      <p id="result_url" style="display: none;">
         {{ route('api.results.store') }}
       </p>
       <p id="user_id" style="display: none;">
