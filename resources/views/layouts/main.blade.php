@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="{{ asset('assets/core-ui/css/simplebar.css') }}">
     <!-- Main styles for this application-->
     <link href="{{ asset('assets/core-ui/css/style.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/core-ui/css/coreui.min.css') }}"> -->
     
   </head>
   <body>
@@ -96,7 +98,7 @@
         console.log("No Internet Connection Available");
       }
     </script>
-    <script src="https://kit.fontawesome.com/63b4fcb6d3.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/63b4fcb6d3.js" crossorigin="anonymous"></script> -->
 
     <script src="{{ asset('assets/core-ui/js/rocket-loader.min.js') }}" data-cf-settings="de208106593c1661e843c327-|49" defer=""></script>
     

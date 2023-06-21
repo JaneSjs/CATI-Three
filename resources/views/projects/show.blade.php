@@ -121,7 +121,6 @@
                 </div>
               </li>
 
-
             @foreach($users as $user)
             <dl class="list-group-item">
               <dt>
@@ -148,7 +147,9 @@
                   <th>
                     Stage
                   </th>
-                  <th></th>
+                  <th>
+                    Actions
+                  </th>
                   @endcan
                 </tr>
               </thead>
@@ -168,12 +169,10 @@
                     {{ $survey->stage }}
                   </td>
                   <td>
-                    <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#survey-{{ $survey->id }}" title="Change Stage">
-                      <i class="fas fa-pen"></i>
-                    </button>
+                    
 
                     <!-- Survey Edit Modal -->
-                    <div class="modal fade" id="survey-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="stageLabel" aria-hidden="true">
+                    <div class="modal fade" id="edit-survey-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="stageLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -230,22 +229,25 @@
                       </div>
                     </div>
                     <!-- End Survey Edit Modal -->
-                  </td>
-                  <td>
+                  
                     @canany(['admin','ceo','head','manager','scripter'])
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
                       <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
                         Script
                       </a>
-                      <a href="" class="btn btn-outline-primary" title="Change The Survey Stage">
-                        Staging
-                      </a>
+
+                      <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#edit-survey-{{ $survey->id }}" title="Edit Survey Name or Change Survey Stage">
+                        <i class="fas fa-pen"></i>
+                      </button>
+                      
                       <a href="" class="btn btn-outline-primary" title="View Tool">
                         Tool
                       </a>
+
                       <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
                         Results
                       </button>
+                      
                       <a href="" class="btn btn-outline-primary" title="View Analytics" rel="noopener">
                         Analytics
                       </a>

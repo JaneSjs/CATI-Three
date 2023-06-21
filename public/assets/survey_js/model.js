@@ -21,18 +21,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Parse the survey content from the response
         const surveyContent = JSON.parse(responseData.survey.content);
 
-        // Process the fetched survey content and create a SurveyJS model
-        const elements = surveyContent.pages[0].elements.map(item => ({
-          name: item.name,
-          title: item.title,
-          type: item.type
-        }));
+        // // Process the fetched survey content and create a SurveyJS model
+        // const elements = surveyContent.pages[0].elements.map(item => ({
+        //   name: item.name,
+        //   title: item.title,
+        //   type: item.type
+        // }));
 
-        const surveyJson = {
-          elements: elements
-        };
+        // const surveyJson = {
+        //   elements: elements
+        // };
 
-        console.log('Survey JSON: ', surveyJson);
+        // console.log('Survey JSON: ', surveyJson);
+
+        const surveyJson = surveyContent;
 
         // Create the SurveyJS instance with the generated model
         survey = new Survey.Model(surveyJson);
