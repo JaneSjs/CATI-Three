@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ResultsExport;
+use App\Exports\ResultsjsonExport;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
 use App\Models\Result;
@@ -67,20 +68,21 @@ class ResultController extends Controller
         //
     }
 
+
     /**
-     * xlsx Results Export
+     * xlsx Survey Results Export
      */
-    public function xlsx_export(int $id)
+    public function xlsx_export(int $schema_id)
     {
-        return Excel::download(new ResultsExport($id), 'survey_results.xlsx', ExcelExcel::XLSX);
+        return Excel::download(new ResultsjsonExport($schema_id), 'only_survey_results.xlsx', ExcelExcel::XLSX);
     }
 
     /**
-     * csv Results Export
+     * csv Survey Results Export
      */
-    public function csv_export(int $id)
+    public function csv_export(int $schema_id)
     {
-        return Excel::download(new ResultsExport($id), 'survey_results.csv', ExcelExcel::CSV, [
+        return Excel::download(new ResultsjsonExport($schema_id), 'only_survey_results.csv', ExcelExcel::CSV, [
             'Content-Type' => 'text/csv',
         ]);
     }

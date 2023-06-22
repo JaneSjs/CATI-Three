@@ -30,25 +30,31 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function map($result): array
     {
         return [
+            $result->user_id,
             $result->schema_id,
+            $result->ip_address,
+            $result->user_agent,
             $result->content,
-            Date::dateTimeFromTimestamp($result->timestamp),
+            Date::dateTimeFromTimestamp($result->created_at),
         ];
     }
 
     public function headings(): array
     {
         return [
+            'User Id',
             'Survey Id',
+            'Device Ip Address',
+            'User Agent',
             'Survey Results',
-            'Date Results Was Submitted',
+            'Date and Time Results Was Submitted',
         ];   
     }
 
     public function columnFormats(): array
     {
         return [
-            'C' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'F' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 }
