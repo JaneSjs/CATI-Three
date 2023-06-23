@@ -39,9 +39,11 @@ class ResultController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Result $Result)
+    public function show($id)
     {
-        //
+        $data['result'] = Result::where('schema_id', $id)->first();
+
+        return view('results.show', $data);
     }
 
     /**

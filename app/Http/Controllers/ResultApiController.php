@@ -42,11 +42,11 @@ class ResultApiController extends Controller
             'user_agent'  => $request->userAgent(),
             'latitude'    => $latitude,
             'longitude'   => $longitude,
-            'altitude'   => $altitude,
+            'altitude'    => $altitude,
             'altitude_accuracy'   => $altitude_accuracy,
             'position_accuracy'   => $position_accuracy,
-            'heading'   => $heading,
-            'speed'   => $speed,
+            'heading'     => $heading,
+            'speed'       => $speed,
             'timestamp'   => $timestamp,
             'content'     => $content,
         ]);
@@ -64,11 +64,15 @@ class ResultApiController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Pull the specified survey results.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $result = Result::where('schema_id', $id)->get('content');
+
+        //dd($result);
+
+        return response()->json($result, 201);
     }
 
     /**

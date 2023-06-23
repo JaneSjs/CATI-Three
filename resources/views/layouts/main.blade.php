@@ -30,6 +30,10 @@
     <!-- ... -->
     @endif
 
+    @if(request()->is('results/*'))
+      @include('layouts.analytics-resources')
+    @endif
+
     <!-- Vendors styles-->
     <link rel="stylesheet" href="{{ asset('assets/core-ui/css/simplebar.css') }}">
     <!-- Main styles for this application-->

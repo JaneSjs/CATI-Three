@@ -252,7 +252,7 @@
                         Results
                       </button>
 
-                      <a href="" class="btn btn-outline-primary" title="View Analytics" rel="noopener">
+                      <a href="{{ route('results.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
                         Analytics
                       </a>
                     </div>
@@ -290,7 +290,7 @@
                                         </a>
                                         <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
                                           <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
-                                          Excel
+                                          Excel Sheets
                                         </a>
                                         <a href="{{ url('pdf_export', $survey->id) }}" class="btn btn-outline-dark" title="Portable Document Format">
                                           <i class="fas fa-file-pdf" style="color: #ef2929;"></i>

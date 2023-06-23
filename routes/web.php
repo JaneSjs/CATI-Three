@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -21,20 +22,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// User Routes
+// Dashboard Routes
 Route::middleware(['auth'])->group(function ()
+{
+	Route::get('admin', [DashboardController::class, 'index']);
+});
+
+// User Routes
+Route::middleware(['auth'])->prefix('admin')->group(function ()
 {
 	Route::resource('profile', ProfileController::class);
 });
 
 // Admin Routes
-Route::middleware(['auth','admin'])->group(function ()
+Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 {
-	Route::get('admin', [DashboardController::class, 'index']);
+	
 	Route::resource('users', UserController::class);
 	Route::resource('roles', RoleController::class);
 	Route::post('password_reset_link', [UserController::class, 'password_reset_link']);
+	Route::get('info', [SystemController::class, 'info']);
 });
+
 
 // Project Management Routes
 Route::middleware(['auth'])->group(function ()
@@ -47,17 +56,16 @@ Route::middleware(['auth'])->group(function ()
 	//Route::post('survey_schema', [SchemaController::class, 'update']);
 
 	Route::resource('surveys', SchemaController::class);
+	Route::resource('results', ResultController::class);
 
 	// Survey Results Exports
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
+
+	//Analytics
+	Route::resource('analytics', AnalyticsController::class);
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
 Route::middleware('auth')->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
-{
-	Route::get('info', [SystemController::class, 'info']);
-});
