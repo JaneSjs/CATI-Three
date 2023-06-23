@@ -35,8 +35,14 @@
 
             @foreach ($resultContent as $question => $answer)
                 <tr>
-                    <td>{{ $question ??  }}</td>
-                    <td>{{ $answer }}</td>
+                    <td>{{ $question }}</td>
+                    <td>
+                        @if (is_array($answer))
+                            {{ json_encode($answer) }}
+                        @else
+                            {{ $answer }}
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>
