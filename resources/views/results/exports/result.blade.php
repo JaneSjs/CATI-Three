@@ -35,7 +35,7 @@
 
             @foreach ($resultContent as $question => $answer)
                 <tr>
-                    <td>{{ $question }}</td>
+                    <td>{{ $question ??  }}</td>
                     <td>{{ $answer }}</td>
                 </tr>
             @endforeach

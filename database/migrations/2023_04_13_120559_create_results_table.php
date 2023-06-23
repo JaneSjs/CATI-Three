@@ -25,6 +25,16 @@ return new class extends Migration
                   ->constrained()
                   ->cascadeOnDelete();
 
+            $table->json('content');
+            
+            $table->string('ext_no')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->boolean('qcd')->nullable();
+            $table->boolean('approved')->nullable();
+            $table->dateTimeTz('start_time')->nullable();
+            $table->dateTimeTz('end_time')->nullable();
+            $table->text('feedback')->nullable();
+
             $table->ipAddress('ip_address')->nullable();
             $table->macAddress('mac_address')->nullable();
             $table->string('user_agent')->nullable();
@@ -36,7 +46,7 @@ return new class extends Migration
             $table->string('heading')->nullable();
             $table->string('speed')->nullable();
             $table->bigInteger('timestamp')->nullable();
-            $table->json('content');
+
             $table->timestamps();
             $table->softDeletes();
         });
