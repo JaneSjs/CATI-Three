@@ -13,7 +13,9 @@ class RespondentController extends Controller
      */
     public function index()
     {
-        //
+        $data['respondents'] = Respondent::paginate();
+
+        return view('respondents.index', $data);
     }
 
     /**
@@ -62,5 +64,10 @@ class RespondentController extends Controller
     public function destroy(Respondent $respondent)
     {
         //
+    }
+
+    public function xlsx_import()
+    {
+        // code...
     }
 }

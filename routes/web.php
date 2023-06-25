@@ -4,6 +4,7 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RespondentController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchemaController;
@@ -29,16 +30,17 @@ Route::middleware(['auth'])->group(function ()
 });
 
 // User Routes
-Route::middleware(['auth'])->prefix('admin')->group(function ()
+Route::middleware(['auth'])->group(function ()
 {
 	Route::resource('profile', ProfileController::class);
+	Route::resource('users', UserController::class);
+	Route::get('agents', [UserController::class, 'agents']);
 });
 
 // Admin Routes
 Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 {
 	
-	Route::resource('users', UserController::class);
 	Route::resource('roles', RoleController::class);
 	Route::post('password_reset_link', [UserController::class, 'password_reset_link']);
 	Route::get('info', [SystemController::class, 'info']);
@@ -57,6 +59,9 @@ Route::middleware(['auth'])->group(function ()
 
 	Route::resource('surveys', SchemaController::class);
 	Route::resource('results', ResultController::class);
+	Route::resource('respondents', RespondentController::class);
+
+	Route::get('respondents/xlsx_import', [RespondentController::class, 'xlsx_import']);
 
 	// Survey Results Exports
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);

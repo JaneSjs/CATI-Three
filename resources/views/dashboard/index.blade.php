@@ -68,9 +68,11 @@
       </div>
     </div>
     @endcan
-          <!-- /.row-->
-          <div class="card mb-4">
-            <div class="card-body">
+
+    @canany(['admin','qc'])
+    <!-- /.row-->
+    <div class="card mb-4">
+      <div class="card-body">
               <div class="d-flex justify-content-between">
                 <div>
                   <h4 class="card-title mb-0">
@@ -97,8 +99,8 @@
               <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
                 <canvas class="chart" id="main-chart" height="300"></canvas>
               </div>
-            </div>
-            <div class="card-footer">
+      </div>
+      <div class="card-footer">
               <div class="row row-cols-1 row-cols-md-5 text-center">
                 <div class="col mb-sm-2 mb-0">
                   <div class="text-medium-emphasis">Successful</div>
@@ -136,11 +138,12 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <!-- /.card.mb-4-->
-        </div>
       </div>
+    </div>
+    <!-- /.card.mb-4-->
+    @endcan
+  </div>
+</div>
 
 
 @endsection

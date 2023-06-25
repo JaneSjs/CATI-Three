@@ -18,11 +18,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $project = new Project();
+        $user = User::find(auth()->user()->id);
 
-        $data['projects'] = $project->with('users')
-                                ->orderByDesc('id')
-                                ->paginate(10);
+        $data['projects'] = $user->projects()->paginate(10);
 
         return view('projects.index', $data);
     }

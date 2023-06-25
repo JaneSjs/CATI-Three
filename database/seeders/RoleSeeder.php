@@ -31,6 +31,12 @@ class RoleSeeder extends Seeder
             'description' => 'Project Manager'
         ]);
 
+        // Project Coordinator
+        DB::table('roles')->insert([
+            'name' => 'Coordinator',
+            'description' => 'Project Coordinator'
+        ]);
+
         // Survey Scripter
         DB::table('roles')->insert([
             'name' => 'Scripter',

@@ -74,5 +74,11 @@ class AuthServiceProvider extends ServiceProvider
         {
             return $user->hasAnyRoles(['supervisor']);
         });
+
+        // Check if user is coordinator
+        Gate::define('coordinator', function ($user)
+        {
+            return $user->hasAnyRoles(['coordinator']);
+        });
     }
 }

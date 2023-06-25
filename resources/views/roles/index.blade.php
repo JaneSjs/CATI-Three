@@ -36,6 +36,7 @@
               </caption>
               <thead class="table-success">
                 <tr>
+                  <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
                   <th>Actions</th>
@@ -44,6 +45,9 @@
               <tbody>
                 @foreach($roles as $role)
                 <tr>
+                  <td>
+                    {{ $role->id }}
+                  </td>
                   <th scope="row">
                     {{ $role->name  }}
                   </th>

@@ -127,7 +127,7 @@
                 {{ $user->first_name . ' ' . $user->last_name }}
               </dt>
               <dd>
-                Survey
+                User Role Here
               </dd>
             </dl>
             @endforeach

@@ -55,7 +55,7 @@
         </li>
         @endcan
 
-        @canany(['admin','supervisor'])
+        @canany(['admin'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
@@ -99,6 +99,22 @@
             My Assigned Projects
           </a>
         </li>
+        @endcan
+
+        @canany(['supervisor'])
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('agents') }}">
+              <i class="fa-solid fa-user-tag nav-icon" style="color: #fff;"></i> 
+              Agents
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('respondents.index') }}">
+              <i class="fa-solid fa-users-between-lines nav-icon" style="color: #fff;"></i> 
+              Respondents
+            </a>
+          </li>
         @endcan
         
         @canany('admin','ceo','head','manager','scripter')

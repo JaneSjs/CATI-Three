@@ -20,19 +20,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = new User();
+        if (Gate::allows('admin')){
+            $data['users'] = User::paginate(10);
+        } else {
+            $admin = Role::find(6);
 
-        // if (Gate::allows('admin')){
-        //     $data['users'] = $user->paginate(10);
-        //     //dd($data);
-        // } else {
-        //     $data['users'] = $user->roles()
-        //                         ->where('role_id', '!=', '1')
-        //                         ->paginate(10);
-        //     //dd($data);
-        // }
-        $data['users'] = $user->with('roles')->paginate(10);
-        //dd($data);
+            $data['users'] = $admin->users()->paginate(10);
+        }
 
         return view('users.index', $data);
     }
@@ -74,7 +68,7 @@ class UserController extends Controller
             //$reset_link = Password::sendResetLink($request->only(['email']));
             
             if (true) {
-                return redirect('users/create')->with('success', ' User is now registered. Ask them to check their email.');
+                return redirect(route('users.index'))->with('success', ' User is now registered. Ask them to check their email.');
             } else {
                 return redirect('users/create')->with('error', ' User has been registered. But the system has not been able to Successfully email them their login instructions. They can meanwhile use <strong>buzz-word</strong> as their temporary password');
             }
@@ -83,7 +77,7 @@ class UserController extends Controller
             
             
         } else {
-            return redirect('users.create')->with('error', ' User registration has failed.');
+            return redirect(route('users.create'))->with('error', ' User registration has failed.');
         }
     }
 
@@ -180,5 +174,14 @@ class UserController extends Controller
         Password::sendResetLink($request->only(['email']));
 
         return redirect()->back()->with('success', "Activation Link Sent to $request->email. Ask them to check their inbox");
+    }
+
+    public function agents()
+    {
+        $admin = Role::find(6);
+
+        $data['users'] = $admin->users()->paginate(10);
+
+        return view('users.index', $data);
     }
 }
