@@ -95,8 +95,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $data['users'] = User::all();
+
         $data['project'] = $project;
-        $data['users'] = $project->users()->get();
+        $data['members'] = $project->users()->get();
         //$data['surveys'] = Schema::all();
 
         //dd($data['users']);
@@ -131,7 +133,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $data['users'] = User::all();
+
+        return view('projects.edit', $data);
     }
 
     /**
@@ -139,8 +143,24 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        //dd($project);
+        if ($project)
+        {
+            
+            $project->update([
+                'name' => $request->input('name'),
+            ]);
+
+            $project->users()->sync($request->users);
+
+            return redirect()->back()->with('success', 'Project Updated Successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Project not found.');
+        }
+        
     }
+
+
 
     /**
      * Remove the specified resource from storage.

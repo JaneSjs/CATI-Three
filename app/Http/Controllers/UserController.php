@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('admin')){
+        if (Gate::allows('admin') || auth()->user()->id == 1){
             $data['users'] = User::paginate(10);
         } else {
             $admin = Role::find(6);

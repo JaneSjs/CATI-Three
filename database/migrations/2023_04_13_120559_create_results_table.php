@@ -26,6 +26,7 @@ return new class extends Migration
                   ->cascadeOnDelete();
 
             $table->json('content');
+            $table->string('audio_recording');
             
             $table->string('ext_no')->nullable();
             $table->string('phone_number')->nullable();
