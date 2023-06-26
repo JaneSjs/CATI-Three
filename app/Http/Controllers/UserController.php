@@ -167,6 +167,33 @@ class UserController extends Controller
     }
 
     /**
+     * API Login
+     */
+    public function api_login()
+    {
+        validator(request()->all(), [
+            'email'    => ['required', 'email'],
+            'password' => ['required']
+        ])->validate();
+
+        $user = User::where('email', request('email'))->first();
+
+        if (Hash::check(request('password'), $user->getAuthPassword())) {
+            return [
+                'token' => $user->createToken(auth()->user()->first_name . '-' . auth()->user()->last_name)->plainTextToken
+            ];
+        }
+    }
+
+    /**
+     * API Logout
+     */
+    // public function api_logout()
+    // {
+    //     auth()->user()->currentAccessToken()->delete();
+    // }
+
+    /**
      * Send User Reset Password Link
      */
     public function password_reset_link(Request $request)
