@@ -9,7 +9,9 @@
     <meta name="author" content="Kenneth Kipchumba">
     <meta name="author" content="Kipchumba.Kenneth@ymail.com">
     <meta name="keyword" content="Laravel PHP Framework, SurveyJS Form Management Library, CoreUI Admin Template">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>Cati 3.0 </title>
     
     <meta name="theme-color" content="#ffffff">

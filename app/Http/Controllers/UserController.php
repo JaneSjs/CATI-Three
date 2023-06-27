@@ -180,7 +180,7 @@ class UserController extends Controller
 
         if (Hash::check(request('password'), $user->getAuthPassword())) {
             return [
-                'token' => $user->createToken(auth()->user()->first_name . '-' . auth()->user()->last_name)->plainTextToken
+                'token' => $user->createToken(time())->plainTextToken
             ];
         }
     }
@@ -190,7 +190,9 @@ class UserController extends Controller
      */
     // public function api_logout()
     // {
-    //     auth()->user()->currentAccessToken()->delete();
+    //     auth()->user()->tokens()
+    //                 ->where('id', )
+    //                 ->delete();
     // }
 
     /**

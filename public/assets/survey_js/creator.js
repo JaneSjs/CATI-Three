@@ -1,24 +1,27 @@
-const creatorOptions = {
+    const creatorOptions = {
     showLogicTab: true,
     isAutoSave: false
 };
 
 const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 
-const csrf = document.getElementsByTagName("meta")[3];
-//const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
-const survey_id = document.getElementsByTagName("meta")[4];
+document.addEventListener("DOMContentLoaded", function () {
+
+const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
+//const survey_id = document.getElementsByTagName("meta")[4];
 const url = document.getElementById("url");
-const user = document.getElementById("user");
+const survey_id = document.getElementById("survey_id").textContent;
+const user = document.getElementById("user").textContent;
 
-console.log(survey_id.content);
+console.log(survey_id);
 console.log(url.textContent);
-console.log(user.textContent);
+console.log(user);
+console.log(csrf);
 
-document.addEventListener("DOMContentLoaded", function() {
     creator.render("surveyCreator");
-});
+
 
 creator.saveSurveyFunc = (saveNo, callback) => {
     // If you use a web service:
@@ -32,8 +35,8 @@ creator.saveSurveyFunc = (saveNo, callback) => {
 
 function saveSurveyJson(url, json, saveNo, callback) {
     const data = {
-        user: user.textContent,
-        id: survey_id.content,
+        user: user,
+        id: survey_id,
         content: json,
         version: saveNo
     }
@@ -44,7 +47,7 @@ function saveSurveyJson(url, json, saveNo, callback) {
         headers: {
             "Content-Type": "application/json; charset=UTF8",
             "X-Requested-With": "XMLHttpRequest",
-            "X-CSRF-TOKEN": csrf.content
+            "X-CSRF-TOKEN": csrf
         },
         credentials: "same-origin",
     };
@@ -63,3 +66,5 @@ function saveSurveyJson(url, json, saveNo, callback) {
     .then((data) => console.log(data))
     .catch(error => console.error('Error: ',error));
 }
+
+});
