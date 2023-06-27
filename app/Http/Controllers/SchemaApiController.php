@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SchemaResource;
+use App\Models\Result;
 use App\Models\Schema;
 use Illuminate\Http\Request;
 
@@ -29,8 +30,8 @@ class SchemaApiController extends Controller
      */
     public function show(string $id)
     {
-        $data['survey'] = Schema::select('content')
-                                        ->findOrFail($id);
+        $data['survey']  = Schema::select('content')
+                            ->findOrFail($id);
 
         return $data;
     }

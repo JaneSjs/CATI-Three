@@ -17,7 +17,10 @@ class ResultController extends Controller
      */
     public function index()
     {
-        //
+        $data['results'] = Result::paginate();
+        //dd($data);
+
+        return view('results.index', $data);
     }
 
     /**

@@ -48,14 +48,16 @@
             </span>
           </button>
           <hr>
-          <div class="alert alert-info">
-            <p> 
-              <strong>API Survey url: </strong> {{ route("api.surveys.show", $survey->id) }}
-            </p>
-            <p> 
-              <strong>Survey Id: </strong> {{ $survey->id }}
-            </p>
-          </div>
+          @canany(['admin'])
+            <div class="alert alert-info">
+              <p> 
+                <strong>API Survey url: </strong> {{ route("api.surveys.show", $survey->id) }}
+              </p>
+              <p> 
+                <strong>Survey Id: </strong> {{ $survey->id }}
+              </p>
+            </div>
+          @endcan
         </div>
       </div>
     </div>
@@ -131,6 +133,6 @@
 <!-- End Survey Results Modal -->
 
 
-<script type="text/javascript" src="{{ asset('assets/survey_js/model.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('assets/survey_js/survey.js') }}" defer></script>
 
 @endsection

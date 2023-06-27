@@ -31,8 +31,11 @@
     
 </head>
 <body>
-    <p id="url" style="display: none;">
+    <p id="patch_url" style="display: none;">
         {{ route('api.surveys.update', $survey->id) }}
+    </p>
+    <p id="results_url" style="display: none;">
+        {{ route('api.results.show', $survey->id) }}
     </p>
     <p id="survey_id" style="display: none;">
         {{ $survey->id }}

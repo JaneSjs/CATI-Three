@@ -71,6 +71,7 @@ class ResultApiController extends Controller
         $result = Result::where('schema_id', $id)->get('content');
 
         //dd($result);
+        //return $result;
 
         return response()->json($result, 201);
     }
@@ -95,7 +96,7 @@ class ResultApiController extends Controller
             'content' => $content,
         ]);
 
-        return response()->json($result, 201);
+        return response()->json($result, 200);
     }
 
     /**

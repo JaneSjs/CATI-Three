@@ -1,70 +1,89 @@
-    const creatorOptions = {
-    showLogicTab: true,
-    isAutoSave: false
-};
-
-const creator = new SurveyCreator.SurveyCreator(creatorOptions);
-
-
 document.addEventListener("DOMContentLoaded", function () {
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
+  const patch_url = document.getElementById("patch_url").textContent;
+  const results_url = document.getElementById("results_url").textContent;
+  const survey_id = document.getElementById("survey_id").textContent;
+  const user = document.getElementById("user").textContent;
 
-const csrf = document.querySelector('meta[name="csrf-token"]').content;
+  if (csrf && patch_url && results_url && survey_id && user) {
+    console.log(csrf);
+    console.log("PATCH Url: " + patch_url);
+    console.log("Survey Results Url: " + results_url);
+    console.log("Survey ID: " + survey_id);
+    console.log("User: " + user);
 
-//const survey_id = document.getElementsByTagName("meta")[4];
-const url = document.getElementById("url");
-const survey_id = document.getElementById("survey_id").textContent;
-const user = document.getElementById("user").textContent;
+    function fetchSurveyResults() {
+      return fetch(results_url)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Error fetching survey results");
+          }
+        });
+    }
 
-console.log(survey_id);
-console.log(url.textContent);
-console.log(user);
-console.log(csrf);
+    fetchSurveyResults()
+      .then((surveyResults) => {
+        console.log("Survey Results", surveyResults);
+        renderSurveyCreator(surveyResults);
+      })
+      .catch((error) => {
+        console.error("Error fetching survey results:", error);
+      });
 
-    creator.render("surveyCreator");
+    function renderSurveyCreator(surveyResults) {
+      console.log(surveyResults);
+      const creatorOptions = {
+        showLogicTab: true,
+        isAutoSave: false,
+      };
 
+      const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 
-creator.saveSurveyFunc = (saveNo, callback) => {
-    // If you use a web service:
-    saveSurveyJson(
-        url.textContent,
-        creator.JSON,
-        saveNo,
-        callback
-    );
-};
+      // Populate the survey creator with survey results
+      creator.JSON = surveyResults;
 
-function saveSurveyJson(url, json, saveNo, callback) {
-    const data = {
+      creator.render("surveyCreator");
+
+      creator.saveSurveyFunc = (saveNo, callback) => {
+        // If you use a web service:
+        saveSurveyJson(patch_url, creator.JSON, saveNo, callback);
+      };
+    }
+
+    function saveSurveyJson(patch_url, json, saveNo, callback) {
+      const data = {
         user: user,
         id: survey_id,
         content: json,
-        version: saveNo
-    }
+        version: saveNo,
+      };
 
-    const options = {
+      const options = {
         method: "PATCH",
         body: JSON.stringify(data),
         headers: {
-            "Content-Type": "application/json; charset=UTF8",
-            "X-Requested-With": "XMLHttpRequest",
-            "X-CSRF-TOKEN": csrf
+          "Content-Type": "application/json; charset=UTF-8",
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-TOKEN": csrf,
         },
         credentials: "same-origin",
-    };
+      };
 
-    console.log(data);
+      console.log(data);
 
-    fetch(url, options)
-    .then((response) => {
-        if (response.ok) {
-            // Parse the response only if its JSON
+      fetch(patch_url, options)
+        .then((response) => {
+          if (response.ok) {
+            // Parse the response only if it's JSON
             return response.json();
-        } else {
-            throw new Error('Server or Network Error.');
-        }
-    })
-    .then((data) => console.log(data))
-    .catch(error => console.error('Error: ',error));
-}
-
+          } else {
+            throw new Error("Server or Network Error.");
+          }
+        })
+        .then((data) => console.log(data))
+        .catch((error) => console.error("Error:", error));
+    }
+  }
 });
