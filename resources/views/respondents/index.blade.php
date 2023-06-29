@@ -26,7 +26,7 @@
           @include('partials/alerts')
 
           @canany(['admin','head'])
-          <a href="{{ url('respondents.xlsx_import') }}" class="btn btn-outline-success">
+          <a href="{{ url('respondents/import') }}" class="btn btn-outline-success">
             Import respondents
           </a>
           @endcan

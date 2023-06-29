@@ -211,6 +211,6 @@ class UserController extends Controller
 
         $data['users'] = $admin->users()->paginate(10);
 
-        return view('users.index', $data);
+        return view('users.agents', $data);
     }
 }

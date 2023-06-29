@@ -11,7 +11,7 @@
           <h2>
             {{ $project->name }}
           </h2>
-          @can('scripter', 'admin', 'manager', 'client')
+          @can('coordinator', 'admin', 'manager', 'client')
             <button type="button" class="btn btn-success btn-sm" data-coreui-container="" data-coreui-toggle="popover" data-coreui-placement="top" data-coreui-content="Data {{ $project->database }}">
               {{ $project->database }}
             </button>
@@ -31,7 +31,7 @@
             <table class="table table-sm caption-top">
               <thead class="table-success">
                 <tr>
-                  @canany(['head','manager','scripter'])
+                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
                   @endcan
@@ -40,7 +40,7 @@
               </thead>
               <tbody>
                 <tr>
-                  @canany(['head','manager','scripter'])
+                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
                   <td>{{ $project->start_date }}</td>
                   <td>{{ $project->end_date }}</td>
                   @endcan
@@ -107,7 +107,7 @@
                   </div>
                   <input type="hidden" name="project_id" value="{{ $project->id }}">
 
-                  <!-- Roles Input -->
+                  <!-- Members Input -->
                   <div class="col mt-3 mb-4">
                     @foreach($users as $user)
                       <div class="form-check form-check-inline">
@@ -124,7 +124,7 @@
                       </div>
                     @endforeach
                   </div>
-                  <!-- End Roles Input -->  
+                  <!-- End Members Input -->  
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-primary">
@@ -182,7 +182,7 @@
       </div>
 
       <div class="row">
-        @canany(['admin','head','ceo','manager','supervisor','client'])
+        @canany(['admin','head','ceo','manager','coordinator','client'])
         <div class="col-4">
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
@@ -215,13 +215,13 @@
                 <tr>
                   <th>#</th>
                   <th>Survey</th>
-                  @canany(['head','manager','scripter'])
-                  <th>
-                    Stage
-                  </th>
-                  <th>
-                    Actions
-                  </th>
+                  @canany(['admin','ceo','head','manager','scripter'])
+                    <th>
+                      Stage
+                    </th>
+                    <th>
+                      Actions
+                    </th>
                   @endcan
                 </tr>
               </thead>
@@ -236,7 +236,7 @@
                       {{ $survey->survey_name }}
                     @endcan
 
-                    @canany(['agent'])
+                    @canany(['admin','supervisor','agent'])
                       <a href="{{ route('surveys.show', $survey->id) }}">
                         {{ $survey->survey_name }}
                       </a>

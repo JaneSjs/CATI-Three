@@ -59,9 +59,13 @@ Route::middleware(['auth'])->group(function ()
 
 	Route::resource('surveys', SchemaController::class);
 	Route::resource('results', ResultController::class);
-	Route::resource('respondents', RespondentController::class);
+	
 
-	Route::get('respondents/xlsx_import', [RespondentController::class, 'xlsx_import']);
+    // Respondents Import
+	Route::get('respondents/import', [RespondentController::class, 'import']);
+	Route::post('respondents/xlsx_import', [RespondentController::class, 'xlsx_import']);
+
+	Route::resource('respondents', RespondentController::class);
 
 	// Survey Results Exports
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);

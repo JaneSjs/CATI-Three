@@ -101,23 +101,16 @@
         </li>
         @endcan
 
-        @canany(['supervisor'])
+        @canany(['admin','supervisor'])
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('agents') }}">
-              <i class="fa-solid fa-user-tag nav-icon" style="color: #fff;"></i> 
-              Agents
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('respondents.index') }}">
-              <i class="fa-solid fa-users-between-lines nav-icon" style="color: #fff;"></i> 
-              Respondents
-            </a>
-          </li>
+          <a class="nav-link" href="{{ url('agents') }}">
+            <i class="fa-solid fa-user-tag nav-icon" style="color: #fff;"></i> 
+            Agents
+          </a>
+        </li>
         @endcan
         
-        @canany('admin','ceo','head','manager','scripter')
+        @canany('admin','ceo','head','manager','coodinator','supervisor')
         <li class="nav-title">
           Data Protection Module
         </li>
@@ -127,7 +120,7 @@
            </a>
           <ul class="nav-group-items">
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('respondents.index') }}">
                 <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i> 
                 Data Processing
               </a>

@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRespondentRequest;
 use App\Http\Requests\UpdateRespondentRequest;
+use App\Imports\RespondentsImport;
 use App\Models\Respondent;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class RespondentController extends Controller
 {
@@ -66,8 +71,28 @@ class RespondentController extends Controller
         //
     }
 
-    public function xlsx_import()
+    /**
+     * Show Respondents Import Page
+     */
+    public function import()
     {
-        // code...
+        return view('respondents.import');
+    }
+
+    public function xlsx_import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'bulk_respondents' => 'required|file|mimes:xlsx',
+        ]);
+
+        $path = $request->file('bulk_respondents')->store('imports');
+        
+        Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
+        {
+            $reader->ignoreEmpty();
+        });
+
+        return redirect()->back()->with('success', 'All Respondents Imported Successfully');
+        
     }
 }
