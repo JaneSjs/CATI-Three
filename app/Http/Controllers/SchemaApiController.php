@@ -15,6 +15,8 @@ class SchemaApiController extends Controller
     public function index()
     {
         $data['surveys'] = Schema::all();
+
+        return $data;
     }
 
     /**
