@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProjectApiController extends Controller
@@ -13,12 +14,16 @@ class ProjectApiController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('users')
-                                ->orderByDesc('id')
-                                ->paginate(10);
+        //$user = User::find(auth()->id());
+
+        //$data['projects'] = $user->projects()->get();
+
+        $data['projects'] = Project::all();
 
         //dd($data);
-        return new ProjectResource($projects);
+        //return new ProjectResource($data);
+
+        return $data;
     }
 
     /**

@@ -41,6 +41,14 @@ class Project extends Model
     }
 
     /**
+     * This Project can have many interviews
+     */
+    public function interviews(): HasMany
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    /**
      * Processed Respondents 
      * (i.e a client's specific respondents)
      * 

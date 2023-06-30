@@ -32,18 +32,21 @@ return new class extends Migration
                   ->cascadeOnDelete();
 
             $table->foreignId('respondent_id')
+                  ->nullable()
                   ->references('id')
                   ->on('respondents')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                  ->constrained();
 
+            $table->string('ext_no')->nullable();
             $table->string('phone_number');
+            $table->string('audio_recording');
+            
             $table->boolean('qcd');
+            $table->boolean('survey_complete');
             $table->boolean('approved');
             $table->dateTimeTz('start_time');
             $table->dateTimeTz('end_time');
             $table->text('feedback');
-
 
             $table->timestamps();
             $table->softDeletes();

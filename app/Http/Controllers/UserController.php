@@ -169,31 +169,39 @@ class UserController extends Controller
     /**
      * API Login
      */
-    public function api_login()
+    public function api_login(Request $request)
     {
-        validator(request()->all(), [
-            'email'    => ['required', 'email'],
-            'password' => ['required']
-        ])->validate();
+        // validator(request()->all(), [
+        //     'email'    => ['required', 'email'],
+        //     'password' => ['required']
+        // ])->validate();
+
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
         $user = User::where('email', request('email'))->first();
 
         if (Hash::check(request('password'), $user->getAuthPassword())) {
-            return [
-                'token' => $user->createToken(time())->plainTextToken
-            ];
+            $token =  $user->createToken(time())->plainTextToken;
+
+            return response($token, 200);
+        } else {
+            return response([
+                'message' => 'Bad Login Credentials'
+            ], 401);
         }
     }
 
     /**
      * API Logout
      */
-    // public function api_logout()
-    // {
-    //     auth()->user()->tokens()
-    //                 ->where('id', )
-    //                 ->delete();
-    // }
+    public function api_logout()
+    {
+        auth()->user()->tokens()
+                    ->delete();
+    }
 
     /**
      * Send User Reset Password Link

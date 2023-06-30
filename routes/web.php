@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RespondentController;
@@ -50,30 +51,28 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 // Project Management Routes
 Route::middleware(['auth'])->group(function ()
 {
-	Route::resource('projects', ProjectController::class);
 	Route::middleware('scripter')->get('survey_creator', [ProjectController::class, 'creator']);
 
-	// Route::middleware('scripter')->get('survey_creator_new_tab', [ProjectController::class, 'creator_in_a_new_tab']);
-
-	//Route::post('survey_schema', [SchemaController::class, 'update']);
-
-	Route::resource('surveys', SchemaController::class);
-	Route::resource('results', ResultController::class);
-	
-
-    // Respondents Import
+	// Respondents Import
 	Route::get('respondents/import', [RespondentController::class, 'import']);
 	Route::post('respondents/xlsx_import', [RespondentController::class, 'xlsx_import']);
-
-	Route::resource('respondents', RespondentController::class);
 
 	// Survey Results Exports
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
 
-	//Analytics
-	Route::resource('analytics', AnalyticsController::class);
+	// Interview
+	Route::get('begin_interview/{id}', [InterviewController::class, 'begin_interview']);
+	Route::post('search_respondent', [InterviewController::class, 'search_respondent']);
+
+    Route::resource('analytics', AnalyticsController::class);
+    Route::resource('interviews', InterviewController::class);
+    Route::resource('projects', ProjectController::class);
+    Route::resource('respondents', RespondentController::class);
+	Route::resource('surveys', SchemaController::class);
+	Route::resource('results', ResultController::class);
+
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);

@@ -19,6 +19,7 @@ class Result extends Model
     protected $fillable = [
         'user_id',
         'schema_id',
+        'content',
         'ip_address',
         'mac_address',
         'user_agent',
@@ -30,7 +31,6 @@ class Result extends Model
         'heading',
         'speed',
         'timestamp',
-        'content'
     ];
 
     /**

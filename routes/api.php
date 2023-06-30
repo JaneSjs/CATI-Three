@@ -22,7 +22,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/login', [UserController::class, 'api_login']);
+Route::middleware('api')->group(function ()
+{
+    Route::post('/api_login', [UserController::class, 'api_login']);
+});
 
 Route::middleware('auth:sanctum')->name('api.')->group(function ()
 {

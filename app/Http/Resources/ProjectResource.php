@@ -31,7 +31,7 @@ class ProjectResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'users' => $this->users,
-            'surveys' => SurveySchemaResource::collection($this->surveys),
+            'surveys' => SchemaResource::collection($this->surveys),
         ];
     }
 }

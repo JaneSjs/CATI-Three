@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreResultRequest;
 use App\Models\Result;
 use Illuminate\Http\Request;
 
@@ -12,25 +13,27 @@ class ResultApiController extends Controller
      */
     public function index()
     {
-        //
+        $data['results'] = Result::all();
+
+        return $data;
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreResultRequest $request)
     {
         //dd(auth()->user()->id());
         $content   = json_encode($request->content);
         $user_id   = (int) $request->input('user_id');
         $schema_id = (int) $request->input('survey_id');
-        $latitude = (int) $request->input('latitude');
+        $latitude  = (int) $request->input('latitude');
         $longitude = (int) $request->input('longitude');
-        $altitude = (int) $request->input('altitude');
+        $altitude  = (int) $request->input('altitude');
         $altitude_accuracy = (int) $request->input('altitude_accuracy');
         $position_accuracy = (int) $request->input('position_accuracy');
-        $heading = (int) $request->input('heading');
-        $speed = (int) $request->input('speed');
+        $heading  = (int) $request->input('heading');
+        $speed  = (int) $request->input('speed');
         $timestamp = (int) $request->input('timestamp');
         //dd($user_id);
 

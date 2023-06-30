@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
 use App\Models\Interview;
+use App\Models\Respondent;
+use App\Models\Schema;
+use Illuminate\Http\Request;
 
 class InterviewController extends Controller
 {
@@ -62,5 +65,38 @@ class InterviewController extends Controller
     public function destroy(Interview $interview)
     {
         //
+    }
+
+    /**
+     * Begin Interview
+     */
+    public function begin_interview($id)
+    {
+        $data['surveys'] = Schema::where('project_id', $id)
+                        ->where('stage', 'Production')
+                        ->get();
+
+        $data['project_id'] = $id;
+
+        //dd($data);
+
+        return view('interviews.begin', $data);
+    }
+
+    /**
+     * Search for a respondent
+     */
+    public function search_respondent(Request $request)
+    {
+        //dd($request);
+        $data['survey'] = Schema::find($request->input('survey_id'));
+        $data['respondent'] = Respondent::where('project_id', $request->input('project_id'))
+                                        ->where('region', 'EASTERN')
+                                        ->first();
+        dd($data);
+
+        return view('interviews.details', $data);
+
+
     }
 }
