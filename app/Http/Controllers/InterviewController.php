@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
 use App\Models\Interview;
+use App\Models\Project;
 use App\Models\Respondent;
 use App\Models\Schema;
 use Illuminate\Http\Request;
@@ -72,9 +73,13 @@ class InterviewController extends Controller
      */
     public function begin_interview($id)
     {
+        $data['project'] = Project::where('id', $id)->first();
+
         $data['surveys'] = Schema::where('project_id', $id)
                         ->where('stage', 'Production')
                         ->get();
+
+        $data['respondent'] = null;
 
         $data['project_id'] = $id;
 
@@ -88,15 +93,21 @@ class InterviewController extends Controller
      */
     public function search_respondent(Request $request)
     {
-        //dd($request);
-        $data['survey'] = Schema::find($request->input('survey_id'));
-        $data['respondent'] = Respondent::where('project_id', $request->input('project_id'))
-                                        ->where('region', 'EASTERN')
-                                        ->first();
-        dd($data);
+        $data['respondent'] = null;
 
-        return view('interviews.details', $data);
+        if ($query = $request->get('query')) {
+            $data['respondent'] = Respondent::search($query)->first();
+        }
 
+        $data['project'] = Project::where('id', $request->input('project_id'))->first();
+
+        $data['surveys'] = Schema::where('project_id', $request->input('project_id'))
+                        ->where('stage', 'Production')
+                        ->get();
+
+        //dd($data);
+
+        return view('interviews.begin', $data);
 
     }
 }

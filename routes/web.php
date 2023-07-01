@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function ()
 
 	// Interview
 	Route::get('begin_interview/{id}', [InterviewController::class, 'begin_interview']);
-	Route::post('search_respondent', [InterviewController::class, 'search_respondent']);
+	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('interviews', InterviewController::class);
