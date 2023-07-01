@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -23,9 +24,11 @@ class UserController extends Controller
         if (Gate::allows('admin') || auth()->user()->id == 1){
             $data['users'] = User::paginate(10);
         } else {
-            $admin = Role::find(6);
+            $role = Role::where('name', 'Agent')
+                           ->find();
+            dd($role);
 
-            $data['users'] = $admin->users()->paginate(10);
+            $data['users'] = $role->users()->paginate(10);
         }
 
         return view('users.index', $data);
@@ -36,7 +39,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        $data['roles'] = Role::all();
+        if (Gate::allows('admin') || auth()->user()->id == 1){
+            $data['roles'] = Role::all();
+        } else {
+
+            $data['roles'] = Role::where('name', 'Agent')
+                                ->orderBy('name')
+                                ->get();
+        }
 
         return view('users.create', $data);
     }
@@ -98,7 +108,15 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $data['user'] = $user;
-        $data['roles'] = Role::all();
+
+        if (Gate::allows('admin') || auth()->user()->id == 1){
+            $data['roles'] = Role::all();
+        } else {
+
+            $data['roles'] = Role::where('name', 'Agent')
+                                ->orderBy('name')
+                                ->get();
+        }
 
         return view('users.edit', $data);
     }
@@ -106,7 +124,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         //dd($user);
         if ($user)
@@ -215,9 +233,11 @@ class UserController extends Controller
 
     public function agents()
     {
-        $admin = Role::find(6);
+        $role = Role::where('name', 'Agent')
+                           ->first();
+        //dd($role);
 
-        $data['users'] = $admin->users()->paginate(10);
+        $data['users'] = $role->users()->paginate(10);
 
         return view('users.agents', $data);
     }

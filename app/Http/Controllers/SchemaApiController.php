@@ -16,7 +16,8 @@ class SchemaApiController extends Controller
     {
         $data['surveys'] = Schema::all();
 
-        return $data;
+        return response($data, 200)
+                    ->header('Content-Type', 'application/json');
     }
 
     /**

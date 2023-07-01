@@ -14,9 +14,14 @@
           @include('partials/alerts')
         </div>
         <div class="col text-end">
-          <a href="{{ route('users.create') }}" class="btn btn-outline-success">
-            Add Agent
-          </a>
+          <div class="btn-group btn-group-sm" role="group" aria-label="Supervisor Actions">
+            <a href="{{ route('users.create') }}" class="btn btn-outline-success">
+              Add Agent
+            </a>
+            <button type="button" class="btn btn-outline-primary">
+              Print Attendance List
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -25,7 +30,7 @@
 
         <div class="col-9">
           <div class="table-responsive">
-            <table class="table caption-top">
+            <table class="table caption-top table-striped table-bordered">
               @canany(['admin','ceo','head'])
               <caption>
                Call Center Agents
@@ -34,7 +39,10 @@
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
+                  <th scope="col">Phone No</th>
+                  <th scope="col">LT</th>
                   <th scope="col">Ext No</th>
+                  <th scope="col">Signature</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -47,12 +55,26 @@
                       {{ $user->first_name . ' ' . $user->last_name  }}
                     </a>
                   </th>
-                  <td class="bg-warning">
+                  <td>
+                    {{ $user->phone_1 }}
+                    @if($user->phone_2)
+                    <hr>
+                      {{ $user->phone_2 }}
+                    @endif
+                    @if($user->phone_3)
+                    <hr>
+                      {{ $user->phone_3 }}
+                    @endif
+                  </td>
+                  <td>
+                    
+                  </td>
+                  <td>
                     {{ $user->ext_no }}
                   </td>
-                  <!-- <td>
-                    {{ $user->email }}
-                  </td> -->
+                  <td>
+                    
+                  </td>
                   <td>
                     <div class="btn-group">
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
