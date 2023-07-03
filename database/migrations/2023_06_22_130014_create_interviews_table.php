@@ -37,16 +37,17 @@ return new class extends Migration
                   ->on('respondents')
                   ->constrained();
 
+            $table->string('respondent_name')->nullable();
             $table->string('ext_no')->nullable();
-            $table->string('phone_number');
-            $table->string('audio_recording');
+            $table->string('phone_called')->nullable();
+            $table->string('audio_recording')->nullable();
             
-            $table->boolean('qcd');
-            $table->boolean('survey_complete');
-            $table->boolean('approved');
-            $table->dateTimeTz('start_time');
-            $table->dateTimeTz('end_time');
-            $table->text('feedback');
+            $table->boolean('qcd')->nullable();
+            $table->boolean('survey_complete')->nullable();
+            $table->boolean('approved')->nullable();
+            $table->dateTimeTz('start_time')->nullable();
+            $table->dateTimeTz('end_time')->nullable();
+            $table->text('feedback')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

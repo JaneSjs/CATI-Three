@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
@@ -18,9 +19,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $user = User::find(auth()->user()->id);
+        if (Gate::allows('admin') || auth()->user()->id == 1){
+            $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
+        } else {
+            $user = User::find(auth()->user()->id);
 
-        $data['projects'] = $user->projects()->paginate(10);
+            $data['projects'] = $user->projects()->orderBy('id', 'DESC')->paginate(10);
+        }       
 
         return view('projects.index', $data);
     }

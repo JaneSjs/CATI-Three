@@ -8,6 +8,7 @@ use App\Models\Interview;
 use App\Models\Project;
 use App\Models\Respondent;
 use App\Models\Schema;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InterviewController extends Controller
@@ -33,7 +34,26 @@ class InterviewController extends Controller
      */
     public function store(StoreInterviewRequest $request)
     {
-        //
+        $survey_page = route('surveys.show', $request->input('survey_id'));
+        
+        $project = Interview::create([
+            'user_id' => auth()->id(),
+            'project_id' => $request->input('project_id'),
+            'schema_id' => $request->input('survey_id'),
+            'respondent_id' => $request->input('respondent_id'),
+            'respondent_name' => $request->input('respondent_name'),
+            'phone_called' => $request->input('phone_called'),
+            'start_time' => Carbon::parse($request->date('start_time')),
+        ]);
+
+        //dd($project);
+        
+        if ($project) {
+            return redirect($survey_page, 201);
+        } else {
+            // Send Email Notification
+           return redirect($survey_page, 500)->with('warning', 'Something went wrong. Please try again.');
+        }
     }
 
     /**
@@ -93,10 +113,39 @@ class InterviewController extends Controller
      */
     public function search_respondent(Request $request)
     {
+        $interview_period = 0;
         $data['respondent'] = null;
 
-        if ($query = $request->get('query')) {
-            $data['respondent'] = Respondent::search($query)->first();
+        
+
+        if ($query = $request->get('query'))
+        {
+            $respondent = Respondent::search($query)
+                                            ->first();
+
+            if ($respondent != null) {
+                if ($respondent->interview_date_time == null)
+                {
+                    $data['respondent'] = $respondent;
+                }
+                else
+                {
+                    $last_interview_date = Carbon::parse($respondent->interview_date_time);
+
+                    $current_date = Carbon::now();
+
+                    $difference_in_days = $current_date->diffInDays($last_interview_date);
+
+                    if ($difference_in_days > 60) {
+                        $data['respondent'] = $respondent;
+                    }
+                }
+            } else {
+                return redirect()->back()->with('info', 'Search index is empty. Import existing Respondents to the search indexes');
+            }
+            
+            
+
         }
 
         $data['project'] = Project::where('id', $request->input('project_id'))->first();

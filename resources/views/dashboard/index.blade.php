@@ -9,47 +9,53 @@
     @canany(['admin','ceo','head','manager'])
     <div class="row">
       <div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-primary">
-          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-            <div>
-              <div class="fs-4 fw-semibold">
-                {{ $users->count() }} 
-                <span class="fs-6 fw-normal">
-                  <i class="fas fa-user-lock fa-xl"></i>
-                </span></div>
-              <div>System Users</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-primary">
-          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-            <div>
-              <div class="fs-4 fw-semibold">
-                {{ $projects->count() }} 
-                <span class="fs-6 fw-normal">
-                  <i class="fas fa-user-lock fa-xl"></i>
-                </span></div>
-              <div>Projects</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-primary">
-          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-            <div>
-              <div class="fs-4 fw-semibold">
-                {{ $surveys->count() }} 
-                <span class="fs-6 fw-normal">
-                  <i class="fas fa-user-lock fa-xl"></i>
-                </span>
+        <a href="{{ route('users.index') }} ">
+          <div class="card mb-4 text-white bg-primary">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+              <div>
+                <div class="fs-4 fw-semibold">
+                  {{ $users->count() }} 
+                  <span class="fs-6 fw-normal">
+                    <i class="fas fa-user-lock fa-xl"></i>
+                  </span></div>
+                <div>System Users</div>
               </div>
-              <div>Surveys</div>
             </div>
           </div>
-        </div>
+        </a>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <a href="{{ route('projects.index') }}">
+          <div class="card mb-4 text-white bg-primary">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+              <div>
+                <div class="fs-4 fw-semibold">
+                  {{ $projects->count() }} 
+                  <span class="fs-6 fw-normal">
+                    <i class="fas fa-user-lock fa-xl"></i>
+                  </span></div>
+                <div>Projects</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <a href="{{ route('surveys.index') }}">
+          <div class="card mb-4 text-white bg-primary">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+              <div>
+                <div class="fs-4 fw-semibold">
+                  {{ $surveys->count() }} 
+                  <span class="fs-6 fw-normal">
+                    <i class="fas fa-user-lock fa-xl"></i>
+                  </span>
+                </div>
+                <div>Surveys</div>
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
       <div class="col-sm-6 col-lg-3">
         <div class="card mb-4 text-white bg-primary">

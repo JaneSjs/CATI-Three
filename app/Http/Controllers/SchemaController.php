@@ -6,9 +6,11 @@ use App\Http\Requests\StoreSchemaRequest;
 use App\Http\Requests\UpdateSchemaRequest;
 use App\Http\Resources\SchemaResource;
 use App\Models\Schema;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class SchemaController extends Controller
@@ -18,7 +20,15 @@ class SchemaController extends Controller
      */
     public function index()
     {
-        //
+        if (Gate::allows('admin') || auth()->user()->id == 1){
+            $data['surveys'] = Schema::orderBy('id', 'DESC')->paginate(10);
+        } else {
+            $user = User::find(auth()->user()->id);
+
+            $data['surveys'] = $user->schemas()->orderBy('id', 'DESC')->paginate(10);
+        }       
+
+        return view('surveys.index', $data);
     }
 
     /**
