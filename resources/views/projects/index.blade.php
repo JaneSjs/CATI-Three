@@ -46,13 +46,7 @@
                   {{ $project->name }}
                 </a>
               </td>
-              @canany('agent')
-              <td>
-                <a href="{{ url('begin_interview', $project->id) }}" class="btn btn-outline-dark">
-                  Begin Interview
-                </a>
-              </td>
-              @endcan
+              
             </tr>
             @endforeach
           </tbody>

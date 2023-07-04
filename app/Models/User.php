@@ -105,6 +105,14 @@ class User extends Authenticatable
     }
 
     /**
+     * User can have many interviews
+     */
+    public function interviews(): HasMany
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    /**
      * Get all users with the role of supervisor
      */
     public function supervisors()

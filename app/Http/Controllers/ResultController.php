@@ -46,6 +46,8 @@ class ResultController extends Controller
     {
         $data['result'] = Result::where('schema_id', $id)->first();
 
+        //dd($data);
+
         return view('results.show', $data);
     }
 

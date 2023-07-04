@@ -34,15 +34,15 @@ class Result extends Model
     ];
 
     /**
-     * Survey Results belongs to many Users
+     * Survey Result  belongs to a User
      */
-    public function users(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * Survey Results belongs to a Survey Schema
+     * Survey Result belongs to a Survey Schema
      *
      */
     public function schema(): BelongsTo

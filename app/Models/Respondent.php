@@ -32,6 +32,14 @@ class Respondent extends Model
     }
 
     /**
+     * Respondent can have many interviews
+     */
+    public function interviews(): HasMany
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    /**
      * User Feedbacks
      */
     public function feedbacks(): HasMany

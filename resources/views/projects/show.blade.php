@@ -232,14 +232,21 @@
                     {{ $survey->id }}
                   </td>
                   <td>
-                    {{ $survey->survey_name }}
-
                     @canany(['qc'])
-                      <a href="{{ route('results.show', $survey->id) }}">
+                      <a href="{{ route('surveys.show', $survey->id) }}">
                         {{ $survey->survey_name }}
                       </a>
+                    @else
+                      {{ $survey->survey_name }}
                     @endcan
                   </td>
+                  @canany('agent')
+                  <td>
+                    <a href="{{ url('begin_interview', $project->id) }}" class="btn btn-outline-dark">
+                      Begin Interview
+                    </a>
+                  </td>
+                  @endcan
                   @canany(['head','manager','scripter'])
                   <td>
                     {{ $survey->stage }}

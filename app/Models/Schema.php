@@ -46,6 +46,14 @@ class Schema extends Model
     }
 
     /**
+     * Survey Schema has many interviews
+     */
+    public function interviews(): HasMany
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    /**
      * Survey Schema has many results
      */
     public function results(): HasMany

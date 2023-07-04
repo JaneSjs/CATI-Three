@@ -43,13 +43,16 @@
             <form method="post" action="{{ route('interviews.store') }}">
               @csrf
               <div class="d-none">
+
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
 
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
 
                 <input type="hidden" name="respondent_id" value="{{ $respondent->id ?? 0 }}">
 
-                <input type="hidden" name="respondent_name" value="{{ $respondent->respondent_name ?? '' }}">
+                <input type="hidden" name="respondent_name" value="{{ $respondent->name ?? '' }}">
+
+                <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
 
                 <input type="hidden" name="phone_called" value="{{ $respondent->phone_1 ?? 0 }}">
 
@@ -65,6 +68,7 @@
                   @if($respondent)
                   <a href="javascript:void(0)" onclick='launchZoiper()' class="btn btn-outline-info" title="Call Respondent">
                     <i class="fas fa-phone fa-bounce"></i>
+                    {{ auth()->user()->ext_no }}
                   </a>
                   @endif
                 </div>

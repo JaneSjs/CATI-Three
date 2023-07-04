@@ -62,9 +62,11 @@ class SchemaController extends Controller
     {
         $data['survey'] = $survey;
 
-        $data['results'] = $survey->results();
+        $data['results'] = $survey->results;
 
-        //dd($data);
+        $data['interviews'] = $survey->interviews;
+
+        //dd($data['interviews']);
 
         return view('surveys.show', $data);
         

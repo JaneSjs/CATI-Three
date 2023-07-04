@@ -42,6 +42,7 @@ class InterviewController extends Controller
             'schema_id' => $request->input('survey_id'),
             'respondent_id' => $request->input('respondent_id'),
             'respondent_name' => $request->input('respondent_name'),
+            'ext_no' => $request->input('ext_no'),
             'phone_called' => $request->input('phone_called'),
             'start_time' => Carbon::parse($request->date('start_time')),
         ]);
@@ -61,7 +62,9 @@ class InterviewController extends Controller
      */
     public function show(Interview $interview)
     {
-        //
+        $data['interview'] = $interview;
+
+        return view('interviews.show', $data);
     }
 
     /**
