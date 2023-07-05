@@ -242,7 +242,7 @@
                   </td>
                   @canany('agent')
                   <td>
-                    <a href="{{ url('begin_interview', $project->id) }}" class="btn btn-outline-dark">
+                    <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
                       Begin Interview
                     </a>
                   </td>

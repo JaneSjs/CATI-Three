@@ -113,7 +113,7 @@
         @canany(['admin','head','coodinator','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" target="_blank">
-            <i class="fa-solid fa-chart-simple fa-fade nav-icon" style="color: #fff;"></i> 
+            <i class="fa-solid fa-chart-simple fa-fade text-danger nav-icon" style="color: #fff;"></i> 
             Metabase
           </a>
         </li>

@@ -63,7 +63,9 @@ Route::middleware(['auth'])->group(function ()
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
 
 	// Interview
-	Route::get('begin_interview/{id}', [InterviewController::class, 'begin_interview']);
+	Route::get('begin_interview/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_interview'])->name('begin_interview');
+	Route::get('begin_survey/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_survey'])->name('begin_survey');
+
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
 
     Route::resource('analytics', AnalyticsController::class);

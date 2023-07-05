@@ -34,9 +34,21 @@ class InterviewController extends Controller
      */
     public function store(StoreInterviewRequest $request)
     {
-        $survey_page = route('surveys.show', $request->input('survey_id'));
+        //dd($request->input('respondent_id'));
+        $begin_interview = route('begin_interview', [
+            'project_id' => $request->input('project_id'),
+            'survey_id' => $request->input('survey_id'),
+            'interview_id' => 0
+        ]);
+
+        //$ = route('surveys.show', $request->input('survey_id'));
+        $begin_survey = route('begin_survey', [
+            'project_id' => $request->input('project_id'),
+            'survey_id' => $request->input('survey_id'),
+            'interview_id' => 0
+        ]);
         
-        $project = Interview::create([
+        $interview = Interview::create([
             'user_id' => auth()->id(),
             'project_id' => $request->input('project_id'),
             'schema_id' => $request->input('survey_id'),
@@ -49,11 +61,17 @@ class InterviewController extends Controller
 
         //dd($project);
         
-        if ($project) {
-            return redirect($survey_page, 201);
+        if ($interview) {
+            $begin_survey = route('begin_interview', [
+                'project_id' => $request->input('project_id'),
+                'survey_id' => $request->input('survey_id'),
+                'interview_id' => $interview->id
+            ]);
+
+            return redirect($begin_survey, 201);
         } else {
             // Send Email Notification
-           return redirect($survey_page, 500)->with('warning', 'Something went wrong. Please try again.');
+           return redirect($begin_interview, 500)->with('warning', 'Something went wrong. Please try again.');
         }
     }
 
@@ -63,6 +81,7 @@ class InterviewController extends Controller
     public function show(Interview $interview)
     {
         $data['interview'] = $interview;
+        //dd($data);
 
         return view('interviews.show', $data);
     }
@@ -94,21 +113,35 @@ class InterviewController extends Controller
     /**
      * Begin Interview
      */
-    public function begin_interview($id)
+    public function begin_interview($project_id, $survey_id, $interview_id)
     {
-        $data['project'] = Project::where('id', $id)->first();
+        //$data['project'] = Project::where('id', $id)->first();
+        $data['project'] = Project::find($project_id);
 
-        $data['surveys'] = Schema::where('project_id', $id)
-                        ->where('stage', 'Production')
-                        ->get();
+        $data['survey'] = Schema::find($survey_id);
 
         $data['respondent'] = null;
 
-        $data['project_id'] = $id;
+        $data['project_id'] = $project_id;
+        $data['interview_id'] = $interview_id;
 
         //dd($data);
 
         return view('interviews.begin', $data);
+    }
+
+    /**
+     * Begin Survey
+     */
+    public function begin_survey($project_id, $survey_id, $interview_id)
+    {
+        
+        $data['survey'] = Schema::find($project_id);
+        $data['project'] = Project::find($survey_id);
+        $data['interview'] = Interview::find($interview_id);
+        //dd($data);
+
+        return view('surveys.show', $data);
     }
 
     /**
@@ -144,18 +177,17 @@ class InterviewController extends Controller
                     }
                 }
             } else {
-                return redirect()->back()->with('info', 'Search index is empty. Import existing Respondents to the search indexes');
+                return redirect()->back()->with('info', 'Search index is empty or respondent based on your search term was not found.');
             }
             
             
 
         }
 
-        $data['project'] = Project::where('id', $request->input('project_id'))->first();
+        $data['project'] = Project::find($request->input('project_id'));
 
-        $data['surveys'] = Schema::where('project_id', $request->input('project_id'))
-                        ->where('stage', 'Production')
-                        ->get();
+        $data['survey'] = Schema::find($request->input('survey_id'));
+        $data['interview_id'] = $request->input('interview_id');
 
         //dd($data);
 

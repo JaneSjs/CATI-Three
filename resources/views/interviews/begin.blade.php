@@ -4,12 +4,16 @@
 
 
 <div class="body flex-grow-1 px-3">
-  @foreach($surveys as $survey)
+  
   <div class="card">
     <div class="card-header">
       <div class="row">
         <div class="col">
           @if($project)
+            <h2 class="text-primary">
+              {{ $interview_id }}
+            </h2>
+            <hr>
             <h2 class="text-primary">
               {{ $project->name }}
             </h2>
@@ -48,6 +52,8 @@
 
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
 
+                <input type="hidden" name="interview_id" value="{{ $interview_id }}">
+
                 <input type="hidden" name="respondent_id" value="{{ $respondent->id ?? 0 }}">
 
                 <input type="hidden" name="respondent_name" value="{{ $respondent->name ?? '' }}">
@@ -61,7 +67,7 @@
               <div class="row mb-3">
                 <div class="col">
                   <button type="submit" class="btn btn-success">
-                    Start Survey
+                    Begin Survey
                   </button>
                 </div>
                 <div class="col">
@@ -81,6 +87,7 @@
           <form action="{{ url('search_respondent') }}" method="GET">
             <input type="hidden" name="project_id" value="{{ $project->id }}">
             <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+            <input type="hidden" name="interview_id" value="{{ $interview_id }}">
 
             <div class="input-group">
               <input type="search" name="query" class="form-control form-control" placeholder="Search for respondents..." value="{{ request()->get('query') }}">
@@ -145,7 +152,7 @@
       
     </div>
   </div>
-  @endforeach
+  
 </div>
 
 <p class="list-group-item d-none" id="phone_1">

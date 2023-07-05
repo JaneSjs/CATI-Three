@@ -59,6 +59,6 @@ class Interview extends Model
      */
     public function survey(): BelongsTo
     {
-        return $this->belongsTo(Schema::class);
+        return $this->belongsTo(Schema::class, 'schema_id');
     }
 }

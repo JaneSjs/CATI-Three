@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreResultRequest;
 use App\Models\Result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ResultApiController extends Controller
 {
@@ -24,16 +25,17 @@ class ResultApiController extends Controller
     public function store(StoreResultRequest $request)
     {
         //dd(auth()->user()->id());
-        $content   = json_encode($request->content);
-        $user_id   = (int) $request->input('user_id');
-        $schema_id = (int) $request->input('survey_id');
-        $latitude  = (int) $request->input('latitude');
-        $longitude = (int) $request->input('longitude');
-        $altitude  = (int) $request->input('altitude');
+        $content      = json_encode($request->content);
+        $user_id      = (int) $request->input('user_id');
+        $schema_id    = (int) $request->input('survey_id');
+        $interview_id = (int) $request->input('interview_id');
+        $latitude     = (int) $request->input('latitude');
+        $longitude    = (int) $request->input('longitude');
+        $altitude     = (int) $request->input('altitude');
         $altitude_accuracy = (int) $request->input('altitude_accuracy');
         $position_accuracy = (int) $request->input('position_accuracy');
-        $heading  = (int) $request->input('heading');
-        $speed  = (int) $request->input('speed');
+        $heading   = (int) $request->input('heading');
+        $speed     = (int) $request->input('speed');
         $timestamp = (int) $request->input('timestamp');
         //dd($user_id);
 
@@ -57,6 +59,10 @@ class ResultApiController extends Controller
         if ($result) {
             // $result->users()->sync($request->user_id);
             // $result->schemas()->sync($request->survey_id);
+            $resultId = $result->id;
+
+            DB::table('interviews')
+                 ->where('interview_id', $interview_id);
 
             // You can do something here
            return response()->json($result, 201);
@@ -71,12 +77,14 @@ class ResultApiController extends Controller
      */
     public function show(int $id)
     {
-        $result = Result::where('schema_id', $id)->get('content');
+        $result = Result::where('schema_id', $id)
+        ->where('')
+        ->get('content');
 
-        //dd($result);
+        dd($result);
         //return $result;
 
-        return response()->json($result, 201);
+        return response()->json($result, 200);
     }
 
     /**

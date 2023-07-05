@@ -22,7 +22,7 @@ class StoreInterviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'respondent_id' => 'required',
         ];
     }
 }
