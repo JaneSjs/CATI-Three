@@ -75,9 +75,9 @@ class SchemaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Schema $survey)
+    public function edit($id)
     {
-        $data['survey'] = $survey;
+        $data['survey'] = Schema::find($id);
         //dd($data);
 
         return view('surveys.edit', $data);

@@ -19,25 +19,28 @@ use Carbon\Carbon;
         </thead>
         <tbody>
           
-          @foreach($interviews as $interview)
-          <tr>
-            <td>
-              {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
-            </td>
-            <td>{{ $interview->respondent->name ?? $interview->respondent_name }}</td>
-            <td>
-              <?php
-                $interview_date = Carbon::parse($interview->created_at)
-              ?>
-              {{ $interview_date->diffForHumans() }}
-            </td>
-            <td>
-              <a href="{{ route('interviews.show', $interview->id) }}" class="btn btn-dark">
-                Show Interview
-              </a>
-            </td>
-          </tr>
-          @endforeach
+          @if($interviews)
+            @foreach($interviews as $interview)
+            <tr>
+              <td>
+                {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
+              </td>
+              <td>{{ $interview->respondent->name ?? $interview->respondent_name }}</td>
+              <td>
+                <?php
+                  $interview_date = Carbon::parse($interview->created_at)
+                ?>
+                {{ $interview_date->diffForHumans() }}
+              </td>
+              <td>
+                <a href="{{ route('interviews.show', $interview->id) }}" class="btn btn-dark">
+                  Show Interview
+                </a>
+              </td>
+            </tr>
+            @endforeach
+          @endif
+
         </tbody>
       </table>
     </div>

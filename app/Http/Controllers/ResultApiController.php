@@ -42,6 +42,7 @@ class ResultApiController extends Controller
         $result = Result::create([
             'user_id'     => $user_id,
             'schema_id'   => $schema_id,
+            'interview_id'   => $interview_id,
             'ip_address'  => $request->ip(),
             'mac_address' => '',
             'user_agent'  => $request->userAgent(),
@@ -78,10 +79,9 @@ class ResultApiController extends Controller
     public function show(int $id)
     {
         $result = Result::where('schema_id', $id)
-        ->where('')
         ->get('content');
 
-        dd($result);
+        //dd($result);
         //return $result;
 
         return response()->json($result, 200);

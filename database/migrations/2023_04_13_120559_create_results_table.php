@@ -25,6 +25,12 @@ return new class extends Migration
                   ->constrained()
                   ->cascadeOnDelete();
 
+            $table->foreignId('interview_id')
+                  ->nullable()
+                  ->references('id')
+                  ->on('interviews')
+                  ->constrained();
+
             $table->json('content');
             
             $table->ipAddress('ip_address')->nullable();

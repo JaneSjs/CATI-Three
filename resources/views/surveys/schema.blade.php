@@ -16,6 +16,9 @@
   <p id="user_id" style="display: none;">
     {{ auth()->user()->id }}
   </p>
+  <p id="interview_id" style="display: none;">
+    {{ $interview->id ?? 1}}
+  </p>
   <p id="schema_id" style="display: none;">
     {{ route('api.results.store') }}
   </p>

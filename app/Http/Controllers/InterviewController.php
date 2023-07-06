@@ -41,7 +41,6 @@ class InterviewController extends Controller
             'interview_id' => 0
         ]);
 
-        //$ = route('surveys.show', $request->input('survey_id'));
         $begin_survey = route('begin_survey', [
             'project_id' => $request->input('project_id'),
             'survey_id' => $request->input('survey_id'),
@@ -62,7 +61,7 @@ class InterviewController extends Controller
         //dd($project);
         
         if ($interview) {
-            $begin_survey = route('begin_interview', [
+            $begin_survey = route('begin_survey', [
                 'project_id' => $request->input('project_id'),
                 'survey_id' => $request->input('survey_id'),
                 'interview_id' => $interview->id
@@ -111,14 +110,15 @@ class InterviewController extends Controller
     }
 
     /**
-     * Begin Interview
+     * Begin Interview i.e search for respondent to interview
+     * during the survey
      */
     public function begin_interview($project_id, $survey_id, $interview_id)
     {
         //$data['project'] = Project::where('id', $id)->first();
         $data['project'] = Project::find($project_id);
 
-        $data['survey'] = Schema::find($survey_id);
+        $data['survey']  = Schema::find($survey_id);
 
         $data['respondent'] = null;
 
@@ -131,17 +131,20 @@ class InterviewController extends Controller
     }
 
     /**
-     * Begin Survey
+     * Begin Survey i.e display survey questionnaire
      */
     public function begin_survey($project_id, $survey_id, $interview_id)
     {
-        
-        $data['survey'] = Schema::find($project_id);
-        $data['project'] = Project::find($survey_id);
+        $data['project'] = Project::find($project_id);
+        $data['survey'] = Schema::find($survey_id);
         $data['interview'] = Interview::find($interview_id);
-        //dd($data);
+        //dd($data['survey']);
 
-        return view('surveys.show', $data);
+        if ($data['project'] && $data['survey'] && $data['interview']) {
+            return view('surveys.show', $data);
+        } else {
+            return to_route('projects.index')->with('warning', 'Project, Survey and Interview have not been found');
+        }
     }
 
     /**

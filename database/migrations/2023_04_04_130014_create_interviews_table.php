@@ -28,8 +28,7 @@ return new class extends Migration
             $table->foreignId('schema_id')
                   ->references('id')
                   ->on('schemas')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                  ->constrained();
 
             $table->foreignId('respondent_id')
                   ->nullable()

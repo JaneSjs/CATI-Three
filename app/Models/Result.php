@@ -19,6 +19,7 @@ class Result extends Model
     protected $fillable = [
         'user_id',
         'schema_id',
+        'interview_id',
         'content',
         'ip_address',
         'mac_address',

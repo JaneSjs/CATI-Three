@@ -8,7 +8,6 @@
     <meta name="description" content="Research Surveys Management System | CATI System">
     <meta name="author" content="Kenneth Kipchumba">
     <meta name="author" content="Kipchumba.Kenneth@ymail.com">
-    <meta name="keyword" content="Laravel PHP Framework, SurveyJS Form Management Library, CoreUI Admin Template">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
@@ -16,7 +15,6 @@
     
     <meta name="theme-color" content="#ffffff">
 
-    @if(request()->is('surveys/*'))
      <!-- ... -->
     <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script>
 
@@ -30,7 +28,7 @@
     <script type="text/javascript" src="https://unpkg.com/survey-knockout-ui/survey-knockout-ui.min.js"></script>
     
     <!-- ... -->
-    @endif
+
 
     @if(request()->is('results/*'))
       @include('layouts.analytics-resources')

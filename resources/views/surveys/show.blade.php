@@ -5,6 +5,12 @@
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+        <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
+        <div>
+          Kindly allow Location Access On Your Browser in Order For The Survey Results To Be Submitted Successfully.
+        </div>
+      </div>
       <div class="row">
         <div class="col">
           <h5 class="float-start">
@@ -67,9 +73,7 @@
     @endcan
     <!-- End Survey Schema -->
 
-    @canany(['admin', 'qc'])
-      @include('surveys.qc')
-    @endcan
+    
   </div>
 </div>
 
