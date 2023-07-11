@@ -17,10 +17,10 @@ class SchemaResource extends JsonResource
         // return parent::toArray($request);
 
         return [
-             'id' => $this->id,
-             'user_id' => $this->user_id,
-             'project_id' => $this->project_id,
-             'survey_name' => $this->survey_name,
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'project_id' => $this->project_id,
+            'survey_name' => $this->survey_name,
             'content' => $this->content,
             'version' => $this->stage,
         ];

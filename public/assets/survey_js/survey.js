@@ -1,19 +1,19 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const survey_url = document.getElementById("survey_url");
-  const survey_id  = document.getElementById("survey_id");
-  const user_id    = document.getElementById("user_id");
-  const interview_id = document.getElementById("interview_id");
+  const survey_url = document.getElementById("survey_url").textContent;
+  const survey_id  = document.getElementById("survey_id").textContent;
+  const user_id    = document.getElementById("user_id").textContent;
+  const interview_id = document.getElementById("interview_id").textContent;
 
-  console.log('survey url:', survey_url.textContent);
-  console.log('survey id:',survey_id.textContent);
-  console.log('user id:',user_id.textContent);
-  console.log('interview id:',interview_id.textContent);
+  console.log('survey url:', survey_url);
+  console.log('survey id:',survey_id);
+  console.log('user id:',user_id);
+  console.log('interview id:',interview_id);
 
   let survey; // Declare the survey variable outside fetchSurvey()
 
   async function fetchSurvey() {
     try {
-      const response = await fetch(survey_url.textContent);
+      const response = await fetch(survey_url);
 
       if (response.ok) {
         const responseData = await response.json();
@@ -22,19 +22,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Parse the survey content from the response
         const surveyContent = JSON.parse(responseData.survey.content);
-
-        // // Process the fetched survey content and create a SurveyJS model
-        // const elements = surveyContent.pages[0].elements.map(item => ({
-        //   name: item.name,
-        //   title: item.title,
-        //   type: item.type
-        // }));
-
-        // const surveyJson = {
-        //   elements: elements
-        // };
-
-        // console.log('Survey JSON: ', surveyJson);
 
         const surveyJson = surveyContent;
 
@@ -65,16 +52,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
   console.log('Result Url: ',result_url);
-  console.log(csrf);
+  console.log('CSRF Token: ', csrf);
 
   async function saveSurveyResults(result_url, json) {
     try {
       const position = await getCurrentPosition();
 
       const data = {
-        user_id: user_id.textContent,
-        survey_id: survey_id.textContent,
-        interview_id : interview_id.textContent,
+        user_id: user_id,
+        survey_id: survey_id,
+        interview_id : interview_id,
         latitude: position.latitude,
         longitude: position.longitude, 
         altitude: position.altitude,

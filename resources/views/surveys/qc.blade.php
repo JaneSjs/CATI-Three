@@ -13,7 +13,7 @@ use Carbon\Carbon;
           <tr>
             <th>Interviewer</th>
             <th>Respondent</th>
-            <th>Interview DateTime</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>

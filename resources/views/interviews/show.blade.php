@@ -41,9 +41,7 @@
           
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <ul class="list-group">
+          <ul class="list-group list-group-horizontal">
             <li class="list-group-item list-group-item-primary">
               <div class="fw-bold">
                 Gender
@@ -76,11 +74,6 @@
                 {{ $end_time->format('D d/M/Y, h:i:s') }}
                </span>
             </li>
-          </ul>
-        </div>
-        <div class="col">
-          <ul class="list-group">
-            
             <li class="list-group-item">
               <div class="fw-bold">
                 Region
@@ -94,8 +87,6 @@
               {{ $interview->respondent->setting }}
             </li>
           </ul>
-        </div>
-      </div>
     </div>
     <!-- Survey Schema -->
     @canany(['admin', 'agent', 'respondent',])
@@ -108,10 +99,15 @@
 </div>
 
 
-<div>
+<div class="d-none">
   <p id="survey_id">{{ $interview->survey->id  }}</p>
-  <p id="result_url">{{ route('api.results.show', $interview->survey->id)  }}</p>
+  <p id="interview_id">{{ $interview->id  }}</p>
+  <p id="result_url">{{ route('api.results.show', $interview->id)  }}</p>
 </div>
-<script type="text/javascript" src="{{ asset('assets/survey_js/survey_results.js') }}" defer></script>
+
+<div id="survey-results"></div>
+
+
+<script type="text/javascript" src="{{ asset('assets/survey_js/results.js') }}" defer></script>
 
 @endsection

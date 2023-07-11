@@ -37,6 +37,9 @@
     <p id="results_url" style="display: none;">
         {{ route('api.results.show', $survey->id) }}
     </p>
+    <p id="schema_url" style="display: none;">
+        {{ route('api.surveys.show', $survey->id) }}
+    </p>
     <p id="survey_id" style="display: none;">
         {{ $survey->id }}
     </p>

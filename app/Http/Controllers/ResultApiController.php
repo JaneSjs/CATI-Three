@@ -58,13 +58,6 @@ class ResultApiController extends Controller
         ]);
 
         if ($result) {
-            // $result->users()->sync($request->user_id);
-            // $result->schemas()->sync($request->survey_id);
-            $resultId = $result->id;
-
-            DB::table('interviews')
-                 ->where('interview_id', $interview_id);
-
             // You can do something here
            return response()->json($result, 201);
         } else {
@@ -78,13 +71,14 @@ class ResultApiController extends Controller
      */
     public function show(int $id)
     {
-        $result = Result::where('schema_id', $id)
+        //dd($id);
+        $data['result'] = Result::where('interview_id', $id)
         ->get('content');
 
-        //dd($result);
-        //return $result;
+        //dd($data);
+        return $data;
 
-        return response()->json($result, 200);
+        //return response()->json($data, 200);
     }
 
     /**
