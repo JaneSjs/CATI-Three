@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const survey_id = document.getElementById("survey_id").textContent;
   const user = document.getElementById("user").textContent;
 
-  if (csrf && patch_url && results_url && survey_id && user) {
+
+  if (csrf && patch_url && schema_url && survey_id && user) {
     console.log('CSRF', csrf);
     console.log("PATCH Url: " + patch_url);
     console.log("Survey Results Url: " + results_url);
@@ -38,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((error) => {
         console.error("Error fetching Schema:", error);
+        showToast("Error fetching Schema");
       });
 
     function renderSurveyCreator(Schema) {
@@ -86,6 +88,24 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch(patch_url, options)
         .then((response) => {
           if (response.ok) {
+            
+            // Toastify Notifications
+            Toastify({
+              text: "Survey Schema Updated Successfully",
+              duration: 4000,
+              destination: "https://github.com/apvarun/toastify-js",
+              newWindow: true,
+              close: true,
+              gravity: "top", // `top` or `bottom`
+              position: "center", // `left`, `center` or `right`
+              stopOnFocus: true, // Prevents dismissing of toast on hover
+              style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+              },
+              onClick: function(){} // Callback after click
+            }).showToast();
+            // End Toastify Notifications
+
             // Parse the response only if it's JSON
             return response.json();
           } else {
@@ -96,4 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((error) => console.error("Error:", error));
     }
   }
+
+
 });

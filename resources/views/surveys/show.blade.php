@@ -11,7 +11,10 @@
         <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
         <div>
           Kindly allow Location Access On Your Browser in Order For The Survey Results To Be Submitted Successfully.
+          <hr>
+          Wait for the <strong>Results Submitted Successfully</strong> Toast Notification which confirms that your survey has been saved Successfully
         </div>
+        <button type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Close"></button>
       </div>
       @endcan
 

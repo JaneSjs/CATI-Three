@@ -28,6 +28,8 @@
     <script src="https://unpkg.com/survey-creator-knockout/survey-creator-knockout.min.js"></script>
     
 
+    <!-- Toastify CSS (For Notifications) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     
 </head>
 <body>
@@ -50,5 +52,8 @@
 
     <!-- Survey Creator -->
     <script src="{{ asset('assets/survey_js/creator.js') }}"></script>
+
+    <!-- Toastify Js (For Notifications) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
 </body>
 </html>

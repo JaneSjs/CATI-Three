@@ -15,7 +15,7 @@
     
     <meta name="theme-color" content="#ffffff">
 
-     <!-- ... -->
+     <!-- SurveyJs Resources -->
     <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script>
 
     <!-- Default V2 theme -->
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/survey-knockout-ui/survey-knockout-ui.min.js"></script>
     
-    <!-- ... -->
+    <!-- End SurveyJs Resources -->
 
 
     @if(request()->is('results/*'))
@@ -40,6 +40,10 @@
     <link href="{{ asset('assets/core-ui/css/style.css') }}" rel="stylesheet">
 
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/core-ui/css/coreui.min.css') }}"> -->
+
+    <!-- Toastify CSS (For Notifications) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- End Toastify CSS (For Notifications) -->
     
   </head>
   <body>
@@ -105,6 +109,9 @@
     <!-- <script src="https://kit.fontawesome.com/63b4fcb6d3.js" crossorigin="anonymous"></script> -->
 
     <script src="{{ asset('assets/core-ui/js/rocket-loader.min.js') }}" data-cf-settings="de208106593c1661e843c327-|49" defer=""></script>
+
+    <!-- Toastify Js (For Notifications) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
     
   </body>
 </html>
