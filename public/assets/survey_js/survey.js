@@ -115,6 +115,23 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     } catch (error) {
       console.error('Error: ', error);
+
+      // Toastify Notifications
+        Toastify({
+          text: "Results Not Submitted Successfully because your browser has not allowed Geolocation access to this application. Geolocation access is required in order for the Survey Results to be submitted successfully.",
+          duration: 9000,
+          destination: "https://cati.tifaresearch.com/projects",
+          newWindow: true,
+          close: true,
+          gravity: "top", // `top` or `bottom`
+          position: "center", // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            background: "linear-gradient(to right, #ff0000, #ff4d4d)",
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+        // End Toastify Notifications
     }
   }
 

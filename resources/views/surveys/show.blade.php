@@ -7,12 +7,15 @@
     <div class="card-header">
 
       @can('agent')
-      <div class="alert alert-success d-flex align-items-center" role="alert">
-        <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
+      <div class="alert alert-info d-flex align-items-center" role="alert">
+        
         <div>
-          Kindly allow Location Access On Your Browser in Order For The Survey Results To Be Submitted Successfully.
+          <strong>
+            <i class="fas fa-exclamation fa-lg me-2" style="color: #074411;"></i>
+            Kindly allow Geolocation Access On Your Browser in Order For The Survey Results To Be Submitted Successfully.
+          </strong>
           <hr>
-          Wait for the <strong>Results Submitted Successfully</strong> Toast Notification which confirms that your survey has been saved Successfully
+          Wait for the <strong>Results Submitted Successfully Notification</strong>  which confirms that your interview has been captured Successfully before leaving the page.
         </div>
         <button type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Close"></button>
       </div>
