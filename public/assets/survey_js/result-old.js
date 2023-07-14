@@ -25,13 +25,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         console.log('Parsed Results:', parsedData);
 
-        const survey = new Survey.Model(parsedData);
+        const survey = new Survey.Model();
 
-        survey.render('survey-results');
+        // Setting the survey results
+        survey.data = parsedData;
 
-        // Render survey results inside the page
-        // const resultsElement = document.getElementById("survey-results");
-        // resultsElement.textContent = JSON.stringify(surveyResults);
+        const surveyContainer = document.getElementById('survey-results');
+
+        survey.render(surveyContainer);
+
       } else {
         throw new Error('Error fetching survey results');
       }

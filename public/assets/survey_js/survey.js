@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   console.log('interview id:',interview_id);
 
   let survey; // Declare the survey variable outside fetchSurvey()
+  let geolocationData;
 
   async function fetchSurvey() {
     try {
@@ -35,6 +36,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Add the onComplete event handler
         survey.onComplete.add(surveyComplete);
+
+        // Store Geolocation details in a variable
+        geolocationData = await getCurrentPosition();
+
       } else {
         throw new Error('Error fetching data: ');
       }
@@ -56,23 +61,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function saveSurveyResults(result_url, json) {
     try {
-      const position = await getCurrentPosition();
-
-      const data = {
+      
+      data = {
         user_id: user_id,
         survey_id: survey_id,
         interview_id : interview_id,
-        latitude: position.latitude,
-        longitude: position.longitude, 
-        altitude: position.altitude,
-        altitude_accuracy: position.altitudeAccuracy,
-        position_accuracy: position.accuracy,
-        heading: position.heading,
-        speed: position.speed,
-        timestamp: position.timestamp,
+        latitude: geolocationData.latitude,
+        longitude: geolocationData.longitude, 
+        altitude: geolocationData.altitude,
+        altitude_accuracy: geolocationData.altitudeAccuracy,
+        position_accuracy: geolocationData.accuracy,
+        heading: geolocationData.heading,
+        speed: geolocationData.speed,
+        timestamp: geolocationData.timestamp,
         content: json,
       };
 
+      // Create new Record
       const options = {
         method: "POST",
         body: JSON.stringify(data),
@@ -91,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Toastify Notifications
         Toastify({
-          text: "Results Submitted Successfully",
+          text: "Results Recorded Successfully",
           duration: 8000,
           destination: "https://github.com/apvarun/toastify-js",
           newWindow: true,
@@ -111,10 +116,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const surveyResult = await response.json();
         console.log(surveyResult);
       } else {
-        throw new Error('Server Error. Check Logs');
+        throw new Error('Server Error. Check Server Logs');
       }
     } catch (error) {
-      console.error('Error: ', error);
+      console.log(error);
 
       // Toastify Notifications
         Toastify({
@@ -131,7 +136,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           },
           onClick: function(){} // Callback after click
         }).showToast();
-        // End Toastify Notifications
+      // End Toastify Notifications
     }
   }
 
@@ -171,4 +176,5 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     saveSurveyResults(result_url, surveyData);
   }
+
 });

@@ -182,7 +182,7 @@
       </div>
 
       <div class="row">
-        @canany(['admin','head','ceo','manager','coordinator','client'])
+        @canany(['admin','head','ceo','manager','client'])
         <div class="col-4">
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
@@ -199,7 +199,11 @@
                 {{ $member->first_name . ' ' . $member->last_name }}
               </dt>
               <dd>
-                User Role Here
+                @foreach($member->roles as $role)
+                  <span class="badge text-light text-bg-info">
+                    {{ $role->name }}
+                  </span>
+                @endforeach
               </dd>
             </dl>
             @endforeach
@@ -333,6 +337,10 @@
 
                       <a href="{{ route('results.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
                         Analytics
+                      </a>
+
+                      <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="View Analytics" rel="noopener" target="_blank">
+                        Coding
                       </a>
                     </div>
                     @endcan

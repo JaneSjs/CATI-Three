@@ -50,4 +50,13 @@ class Result extends Model
     {
         return $this->belongsTo(Schema::class);
     }
+
+    /**
+     * Survey Result belongs to an Interview
+     *
+     */
+    public function interview(): BelongsTo
+    {
+        return $this->belongsTo(Interview::class);
+    }
 }

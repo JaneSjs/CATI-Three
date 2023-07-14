@@ -104,7 +104,9 @@
         </div>
         @canany(['admin','ceo','head'])
         <div class="col-3 bg-secondary">
-          {{ count($respondents) }} Respondents
+          <strong>
+            {{ $total_respondents }} Respondents
+          </strong>
         </div>
         @endcan
       </div>

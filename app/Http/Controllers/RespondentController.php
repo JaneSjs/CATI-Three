@@ -18,7 +18,8 @@ class RespondentController extends Controller
      */
     public function index()
     {
-        $data['respondents'] = Respondent::paginate();
+        $data['respondents'] = Respondent::paginate(10);
+        $data['total_respondents'] = count(Respondent::all());
 
         return view('respondents.index', $data);
     }

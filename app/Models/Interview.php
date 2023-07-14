@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Interview extends Model
 {
@@ -60,5 +61,13 @@ class Interview extends Model
     public function survey(): BelongsTo
     {
         return $this->belongsTo(Schema::class, 'schema_id');
+    }
+
+    /**
+     * An Interview has one Survey result
+     */
+    public function result(): HasOne
+    {
+        return $this->hasOne(Result::class);
     }
 }

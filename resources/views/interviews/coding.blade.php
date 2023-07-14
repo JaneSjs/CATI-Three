@@ -102,16 +102,22 @@
 </div>
 
 <div class="container">
-  <div id="survey-results"></div>
+
+  	<div class="table-responsive">
+	  <table class="table table-bordered">
+	  	<thead>
+	  		<tr>
+	  			<th>
+	  				Survey Results
+	  			</th>
+	  		</tr>
+	  	</thead>
+	    <tbody id="json-data"></tbody>
+	  </table>
+	</div>
+
 </div>
 
-<div class="container">
-
-  @include('interviews/coding')
-
-</div>
-
-
-<script type="text/javascript" src="{{ asset('assets/survey_js/result.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('assets/custom/coding.js') }}" defer></script>
 
 @endsection

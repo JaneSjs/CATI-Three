@@ -51,10 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 
-      const parsedSchema = JSON.parse(Schema.content);
+      if (Schema && Schema.content) {
+        const parsedSchema = JSON.parse(Schema.content);
 
-      // Populate the survey creator with survey Schema
-      creator.text = JSON.stringify(parsedSchema);
+        // Populate the survey creator with survey Schema
+        creator.text = JSON.stringify(parsedSchema);
+      }
 
       creator.render("surveyCreator");
 

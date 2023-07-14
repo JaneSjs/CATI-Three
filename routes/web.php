@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(function ()
 	// Interview
 	Route::get('begin_interview/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_interview'])->name('begin_interview');
 	Route::get('begin_survey/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_survey'])->name('begin_survey');
+	Route::get('coding/interview/{id}', [InterviewController::class, 'coding'])->name('coding');
+
 
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
 

@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('phone_4')->nullable();
             $table->string('gender');
             $table->date('dob')->nullable();
-            $table->string('national_id')->nullable();
             $table->string('occupation')->nullable();
             $table->string('region')->nullable();
             $table->string('county')->nullable();
@@ -34,10 +33,10 @@ return new class extends Migration
             $table->string('ward')->nullable();
             $table->string('sampling_point')->nullable();
             $table->string('setting')->nullable();
-            // $table->string('district')->nullable();
-            // $table->string('division')->nullable();
-            // $table->string('location')->nullable();
-            // $table->string('sub_location')->nullable();
+            $table->string('district')->nullable();
+            $table->string('division')->nullable();
+            $table->string('location')->nullable();
+            $table->string('sub_location')->nullable();
             $table->string('exact_age')->nullable();
             $table->string('education_level')->nullable();
             $table->string('marital_status')->nullable();

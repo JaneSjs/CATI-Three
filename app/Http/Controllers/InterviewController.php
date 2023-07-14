@@ -82,6 +82,12 @@ class InterviewController extends Controller
         $data['interview'] = $interview;
         //dd($data);
 
+        if ($interview->result) {
+            $data['result'] = $interview->result;
+            //dd($data);
+        }
+        //dd($data);
+
         return view('interviews.show', $data);
     }
 
@@ -110,7 +116,7 @@ class InterviewController extends Controller
     }
 
     /**
-     * Begin Interview i.e search for respondent to interview
+     * Begin Interview i.e search for a respondent to be interviewed
      * during the survey
      */
     public function begin_interview($project_id, $survey_id, $interview_id)
@@ -196,5 +202,26 @@ class InterviewController extends Controller
 
         return view('interviews.begin', $data);
 
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function coding($id)
+    {
+        $interview = Interview::find($id);
+
+        if ($interview) {
+            $data['interview'] = $interview;
+
+            if ($interview->result != null) {
+                $data['result'] = $interview->result;
+                //dd($data);
+            }
+        } else {
+            return to_route('projects.index')->with('error', 'That Interview Was Not Found');
+        }
+
+        return view('interviews.coding', $data);
     }
 }

@@ -119,7 +119,7 @@
         </li>
         @endcan
         
-        @canany('admin','ceo','head','manager','coodinator','supervisor')
+        @canany(['admin','ceo','head','manager','coodinator'])
         <li class="nav-title">
           Data Protection Module
         </li>

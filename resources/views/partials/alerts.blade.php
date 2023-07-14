@@ -35,9 +35,9 @@
   </div>
 @elseif (session('error'))
   <div class="alert alert-danger d-flex align-items-center" role="alert">
-    <i class="fas fa-circle-check fa-lg me-2" style="color: #074411;"></i>
+    <i class="fas fa-circle-exclamation fa-lg me-2" style="color: #074411;"></i>
     <div>
-      {{ session('danger') }}
+      {{ session('error') }}
     </div>
   </div>
 @endif

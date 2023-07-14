@@ -32,11 +32,12 @@ class Respondent extends Model
     }
 
     /**
-     * Respondent can have many interviews
+     * Respondent belongs to an Interview
+     *
      */
-    public function interviews(): HasMany
+    public function interview(): BelongsTo
     {
-        return $this->hasMany(Interview::class);
+        return $this->belongsTo(Interview::class);
     }
 
     /**
