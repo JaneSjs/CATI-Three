@@ -42,6 +42,9 @@ use Carbon\Carbon;
           @endif
 
         </tbody>
+        <tfoot>
+          {{ $interviews->links() }}
+        </tfoot>
       </table>
     </div>
   </div>

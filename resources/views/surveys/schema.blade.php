@@ -9,7 +9,7 @@
   <!-- End Survey Model-->
 
 
-  <!-- For Survey Results-->
+  <!-- For Saving Survey Results-->
   <p id="result_url" style="display: none;">
     {{ route('api.results.store') }}
   </p>

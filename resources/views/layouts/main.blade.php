@@ -32,7 +32,8 @@
     <!-- End SurveyJs Resources -->
 
 
-    @if(request()->is('results/*'))
+    
+    @if(false)
       @include('layouts.analytics-resources')
     @endif
 
@@ -52,6 +53,7 @@
     @include('layouts.sidebar')
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
       @include('layouts.header')
+      
       <noscript>
         <div class=" alert alert-warning mt-2 text-center">
           <div class="row">

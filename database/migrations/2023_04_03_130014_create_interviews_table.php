@@ -40,10 +40,19 @@ return new class extends Migration
             $table->string('ext_no')->nullable();
             $table->string('phone_called')->nullable();
             $table->string('audio_recording')->nullable();
-            
-            $table->boolean('qcd')->nullable();
+
+            $table->foreignId('qcd_by')
+                  ->nullable()
+                  ->references('id')
+                  ->on('users')
+                  ->constrained();
+
             $table->boolean('survey_complete')->nullable();
-            $table->boolean('approved')->nullable();
+
+            $table->string('status')
+                  ->comment('Whether Interview is Approved of Cancelled')
+                  ->nullable();
+
             $table->dateTimeTz('start_time')->nullable();
             $table->dateTimeTz('end_time')->nullable();
             $table->text('feedback')->nullable();

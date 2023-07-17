@@ -73,5 +73,11 @@ class RoleSeeder extends Seeder
             'description' => 'Survey Respondent'
         ]);
 
+        // Coding.
+        DB::table('roles')->insert([
+            'name' => 'Coding',
+            'description' => 'Coding'
+        ]);
+
     }
 }

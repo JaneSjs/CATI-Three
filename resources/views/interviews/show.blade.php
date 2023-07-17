@@ -88,8 +88,44 @@
             </li>
           </ul>
     </div>
-    
+    <div class="card-body">
+      @canany(['coding'])
+        @include('interviews/coding')
+      @endcan
 
+      @canany(['qc'])
+        @include('interviews/survey_results')
+      @endcan
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col">
+          <form method="post" action="{{ route('interviews.update', $interview->id) }}">
+            @csrf
+            @method('PATCH')
+            <input type="hidden" name="status" value="Approved">
+
+            <button type="submit" class="btn btn-outline-success floar-start">
+              Approve This Interview
+              <i class="fas fa-check"></i>
+            </button>
+          </form>
+        </div>
+        <div class="col">
+          <form method="post" action="{{ route('interviews.update', $interview->id) }}">
+            @csrf
+            @method('PATCH')
+            <input type="hidden" name="status" value="Cancelled">
+
+            <button type="submit" class="btn btn-outline-danger float-end">
+              Cancel This Interview
+              <i class="fas fa-times"></i>
+            </button>
+          </form>
+        </div>
+      </div>  
+      
+    </div>
    
   </div>
 </div>
@@ -100,18 +136,12 @@
   <p id="interview_id">{{ $interview->id  }}</p>
   <p id="result_url">{{ route('api.results.show', $interview->id)  }}</p>
 </div>
-
-<div class="container">
-  <div id="survey-results"></div>
-</div>
-
-<div class="container">
-
-  @include('interviews/coding')
+  
+  
 
 </div>
 
 
-<script type="text/javascript" src="{{ asset('assets/survey_js/result.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('assets/survey_js/survey_results.js') }}" defer></script>
 
 @endsection

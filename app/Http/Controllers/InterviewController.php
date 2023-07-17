@@ -104,7 +104,16 @@ class InterviewController extends Controller
      */
     public function update(UpdateInterviewRequest $request, Interview $interview)
     {
-        //
+        $status = $interview->update([
+            'qcd_by' => auth()->id(),
+            'status' => $request->input('status')
+        ]);
+
+        if ($status) {
+            return back(201)->with('success', 'Your QC has been Recorded Successfully');
+        } else {
+            return back()->with('danger', 'Something went wrong. Your QC has not been Recorded Successfully.');
+        }
     }
 
     /**
