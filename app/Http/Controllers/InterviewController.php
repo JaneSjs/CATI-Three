@@ -44,7 +44,8 @@ class InterviewController extends Controller
         $begin_survey = route('begin_survey', [
             'project_id' => $request->input('project_id'),
             'survey_id' => $request->input('survey_id'),
-            'interview_id' => 0
+            'interview_id' => 0,
+            'respondent_id' => $request->input('respondent_id'),
         ]);
         
         $interview = Interview::create([
@@ -64,7 +65,8 @@ class InterviewController extends Controller
             $begin_survey = route('begin_survey', [
                 'project_id' => $request->input('project_id'),
                 'survey_id' => $request->input('survey_id'),
-                'interview_id' => $interview->id
+                'interview_id' => $interview->id,
+                'respondent_id' => $request->input('respondent_id'),
             ]);
 
             return redirect($begin_survey, 201);
@@ -130,7 +132,6 @@ class InterviewController extends Controller
      */
     public function begin_interview($project_id, $survey_id, $interview_id)
     {
-        //$data['project'] = Project::where('id', $id)->first();
         $data['project'] = Project::find($project_id);
 
         $data['survey']  = Schema::find($survey_id);
@@ -148,17 +149,18 @@ class InterviewController extends Controller
     /**
      * Begin Survey i.e display survey questionnaire
      */
-    public function begin_survey($project_id, $survey_id, $interview_id)
+    public function begin_survey($project_id, $survey_id, $interview_id, $respondent_id)
     {
         $data['project'] = Project::find($project_id);
         $data['survey'] = Schema::find($survey_id);
         $data['interview'] = Interview::find($interview_id);
+        $data['respondent_id'] = $respondent_id;
         //dd($data['survey']);
 
-        if ($data['project'] && $data['survey'] && $data['interview']) {
+        if ($data['project'] && $data['survey'] && $data['interview'] && $data['respondent_id']) {
             return view('surveys.show', $data);
         } else {
-            return to_route('projects.index')->with('warning', 'Project, Survey and Interview have not been found');
+            return to_route('projects.index')->with('warning', 'Project, Survey, Interview and Respondent have not been found');
         }
     }
 
@@ -167,7 +169,7 @@ class InterviewController extends Controller
      */
     public function search_respondent(Request $request)
     {
-        $interview_period = 0;
+        //$interview_period = 0;
         $data['respondent'] = null;
 
         
@@ -192,6 +194,8 @@ class InterviewController extends Controller
 
                     if ($difference_in_days > 60) {
                         $data['respondent'] = $respondent;
+                    } else {
+                        session()->flash('info', 'Respondent found but not available for interviewing at the moment.');
                     }
                 }
             } else {

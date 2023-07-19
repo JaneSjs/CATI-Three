@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreResultRequest;
+use App\Models\Respondent;
 use App\Models\Result;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,6 +31,7 @@ class ResultApiController extends Controller
         $user_id      = (int) $request->input('user_id');
         $schema_id    = (int) $request->input('survey_id');
         $interview_id = (int) $request->input('interview_id');
+        $respondent_id      = (int) $request->input('respondent_id');
         $latitude     = (int) $request->input('latitude');
         $longitude    = (int) $request->input('longitude');
         $altitude     = (int) $request->input('altitude');
@@ -58,7 +61,10 @@ class ResultApiController extends Controller
         ]);
 
         if ($result) {
-            // You can do something here
+            // Update Respondent 'interview_status' and 'interview_date_time' columns here
+
+            $this->updateRespondentInterviewStatus($respondent_id);
+
            return response()->json($result, 201);
         } else {
             // You can send email and/or sms notification
@@ -73,12 +79,14 @@ class ResultApiController extends Controller
     {
         //dd($id);
         $data['result'] = Result::where('interview_id', $id)
-        ->get('content');
+        ->get('content')
+        ->pluck('content')
+        ->first();
 
         //dd($data);
-        return $data;
+        //return $data;
 
-        //return response()->json($data, 200);
+        return response()->json($data, 200);
     }
 
     /**
@@ -110,5 +118,16 @@ class ResultApiController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function updateRespondentInterviewStatus($id)
+    {
+        $respondent = Respondent::find($id);
+        //dd($respondent);
+        $respondent->update([
+            'id' => $id,
+            'interview_date_time' => Carbon::now(),
+            'interview_status' => 'Interviewed'
+        ]);
     }
 }

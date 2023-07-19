@@ -44,8 +44,8 @@ return new class extends Migration
             $table->string('ethnic_group')->nullable();
             $table->string('employment_status')->nullable();
             $table->string('age_group')->nullable();
+            $table->string('interview_status')->nullable();
             $table->dateTime('interview_date_time')->nullable();
-            $table->dateTime('interview_status')->nullable();
             $table->string('last_downloaded_date')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at');

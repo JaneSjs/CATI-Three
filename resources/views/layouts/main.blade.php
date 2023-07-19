@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>
-      Cati 3.0
+      TIFA Surveys
     </title>
     
     <meta name="theme-color" content="#ffffff">
@@ -33,7 +33,7 @@
 
 
     
-    @if(false)
+    @if(true)
       @include('layouts.analytics-resources')
     @endif
 

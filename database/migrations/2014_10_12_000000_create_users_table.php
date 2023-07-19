@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('ext_no')->nullable();
             $table->string('email')->unique();
             $table->string('national_id')->unique();
-            $table->string('phone_1');
+            $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('phone_3')->nullable();
             $table->string('phone_4')->nullable();
-            $table->string('gender');
+            $table->string('gender')->nullable();
             $table->date('dob')->nullable();
             $table->string('occupation')->nullable();
             $table->string('region')->nullable();

@@ -3,11 +3,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   const survey_id  = document.getElementById("survey_id").textContent;
   const user_id    = document.getElementById("user_id").textContent;
   const interview_id = document.getElementById("interview_id").textContent;
+  const respondent_id = document.getElementById("respondent_id").textContent;
 
   console.log('survey url:', survey_url);
   console.log('survey id:',survey_id);
   console.log('user id:',user_id);
   console.log('interview id:',interview_id);
+  console.log('respondent id:',respondent_id);
 
   let survey; // Declare the survey variable outside fetchSurvey()
   let geolocationData;
@@ -66,6 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         user_id: user_id,
         survey_id: survey_id,
         interview_id : interview_id,
+        respondent_id : respondent_id,
         latitude: geolocationData.latitude,
         longitude: geolocationData.longitude, 
         altitude: geolocationData.altitude,

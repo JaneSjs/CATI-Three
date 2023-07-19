@@ -53,8 +53,8 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
             'Lsm'           => $row['Lsm'] ?? $row['lsm'],
             'ethnic_group'  => $row['ethnic_group'],
             'employment_status' => $row['employment_status'],
-            'interview_date_time'     => null,
             'interview_status'     => null,
+            'interview_date_time'     => null,
             'last_downloaded_date'     => null
         ]);
     }

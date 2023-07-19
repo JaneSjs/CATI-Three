@@ -19,6 +19,26 @@
             <form method="post" action="{{ route('login') }}" class="needs-validation">
             	@csrf
 
+              <!-- First Name input -->
+              <div class="form-outline mb-4">
+                <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="First Name" value="{{ old('first_name') }}"/>
+                @error('first_name')
+                  <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                      {{ $message }}
+                  </div>
+                @enderror
+              </div>
+
+              <!-- Last Name input -->
+              <div class="form-outline mb-4">
+                <input type="text" name="last_name" class="form-control form-control-lg @error('last_name') is-invalid @enderror" placeholder="Last Name" value="{{ old('last_name') }}"/>
+                @error('last_name')
+                  <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                      {{ $message }}
+                  </div>
+                @enderror
+              </div>
+
               <!-- Email input -->
               <div class="form-outline mb-4">
                 <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Your email address" value="{{ old('email') }}"/>

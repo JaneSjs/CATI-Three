@@ -11,7 +11,7 @@
 <!-- Third-party visualization libraries -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <!-- Uncomment the following line if you use the Text, Multiple Text, or Comment question types in your surveys -->
-<!-- <script src="https://unpkg.com/wordcloud/src/wordcloud2.js"></script> -->
+<script src="https://unpkg.com/wordcloud/src/wordcloud2.js"></script>
 
 <!-- SurveyJS Dashboard resources-->
 <link href="https://unpkg.com/survey-analytics/survey.analytics.min.css" rel="stylesheet">

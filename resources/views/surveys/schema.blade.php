@@ -19,6 +19,9 @@
   <p id="interview_id" style="display: none;">
     {{ $interview->id ?? 1}}
   </p>
+  <p id="respondent_id" style="display: none;">
+    {{ $respondent_id ?? 1}}
+  </p>
   <p id="schema_id" style="display: none;">
     {{ route('api.results.store') }}
   </p>

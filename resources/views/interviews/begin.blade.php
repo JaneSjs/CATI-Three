@@ -11,10 +11,6 @@
         <div class="col">
           @if($project)
             <h2 class="text-primary">
-              {{ $interview_id }}
-            </h2>
-            <hr>
-            <h2 class="text-primary">
               {{ $project->name }}
             </h2>
             <hr>
@@ -64,6 +60,7 @@
 
               </div>
 
+              @if($respondent)
               <div class="row mb-3">
                 <div class="col">
                   <button type="submit" class="btn btn-success">
@@ -71,14 +68,13 @@
                   </button>
                 </div>
                 <div class="col">
-                  @if($respondent)
-                  <a href="javascript:void(0)" onclick='launchZoiper()' class="btn btn-outline-info" title="Call Respondent">
+                  <a href="javascript:void(0)" onclick='launchZoiper()' class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
                     <i class="fas fa-phone fa-bounce"></i>
                     {{ auth()->user()->ext_no }}
                   </a>
-                  @endif
                 </div>
               </div>
+              @endif
             </form>
 
         </div>
@@ -90,7 +86,7 @@
             <input type="hidden" name="interview_id" value="{{ $interview_id }}">
 
             <div class="input-group">
-              <input type="search" name="query" class="form-control form-control" placeholder="Search for respondents..." value="{{ request()->get('query') }}">
+              <input type="search" name="query" class="form-control" placeholder="Search for respondents..." value="{{ request()->get('query') }}">
               <div class="input-group-append">
                 <button type="submit" class="btn btn-primary">
                   <i class="fa fa-search"></i>

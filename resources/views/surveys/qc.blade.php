@@ -39,6 +39,10 @@ use Carbon\Carbon;
               </td>
             </tr>
             @endforeach
+          @else
+           <tr>
+             No Interview to QC
+           </tr>
           @endif
 
         </tbody>

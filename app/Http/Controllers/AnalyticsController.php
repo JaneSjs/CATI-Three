@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAnalyticsRequest;
 use App\Http\Requests\UpdateAnalyticsRequest;
 use App\Models\Analytics;
+use App\Models\Result;
 
 class AnalyticsController extends Controller
 {
@@ -35,9 +36,11 @@ class AnalyticsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Analytics $analytics)
+    public function show($id)
     {
-        //
+        $data['result'] = Result::where('schema_id', $id)->first();
+
+        return view('analytics.show', $data);
     }
 
     /**
