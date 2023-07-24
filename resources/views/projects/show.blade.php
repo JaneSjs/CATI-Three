@@ -182,7 +182,7 @@
       </div>
 
       <div class="row">
-        @canany(['admin','head','ceo','manager','client'])
+        @canany(['admin','head','ceo','manager'])
         <div class="col-4">
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
@@ -244,19 +244,19 @@
                       {{ $survey->survey_name }}
                     @endcan
                   </td>
-                  @canany('agent')
+                  @canany(['agent'])
                   <td>
                     <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
                       Begin Interview
                     </a>
                   </td>
                   @endcan
-                  @canany(['head','manager','scripter'])
+                  @canany(['admin','head','manager','scripter'])
                   <td>
                     {{ $survey->stage }}
                   </td>
+                  @endcan
                   <td>
-                    
 
                     <!-- Survey Edit Modal -->
                     <div class="modal fade" id="edit-survey-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="stageLabel" aria-hidden="true">
@@ -317,8 +317,9 @@
                     </div>
                     <!-- End Survey Edit Modal -->
                   
-                    @canany(['admin','ceo','head','manager','scripter'])
+                    
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
+                      @canany(['admin','ceo','head','manager','scripter'])
                       <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
                         Script
                       </a>
@@ -334,16 +335,20 @@
                       <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
                         Results
                       </button>
+                      @endcan
 
+                      @canany(['admin','ceo','head','manager','coodinator','scripter','client'])
                       <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
                         Analytics
                       </a>
+                      @endcan
 
+                      @canany(['admin','ceo','head','manager','coodinator','scripter','coding'])
                       <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="View Analytics" rel="noopener" target="_blank">
                         Coding
                       </a>
+                      @endcan
                     </div>
-                    @endcan
 
                     <!-- Survey Results Modal -->
 
@@ -403,7 +408,7 @@
 
                     <!-- End Survey Results Modal -->
                   </td>
-                  @endcan
+                  
                 </tr>
                 @endforeach
               </tbody>

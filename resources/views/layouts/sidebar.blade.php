@@ -83,7 +83,7 @@
         </li>
         @endcan
 
-        @canany(['manager','scripter'])
+        @canany(['manager','scripter','client'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('projects.index') }}">
             <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 

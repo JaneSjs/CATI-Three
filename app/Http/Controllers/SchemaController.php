@@ -66,7 +66,7 @@ class SchemaController extends Controller
 
         $data['interviews'] = $survey->interviews()
                                      ->where('status', NULL)
-                                     ->orderBy('id', 'desc')
+                                     ->orderBy('id', 'asc')
                                      ->paginate(10);
 
         //dd($data['interviews']);

@@ -17,7 +17,8 @@
     
     <meta name="theme-color" content="#ffffff">
 
-     <!-- SurveyJs Resources -->
+    
+    <!-- SurveyJs Resources -->
     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/knockout-latest.js') }}"></script>
 
     <!-- Default V2 theme -->
@@ -30,10 +31,11 @@
     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/survey-knockout-ui.min.js') }}"></script>
     
     <!-- End SurveyJs Resources -->
+    
 
 
     
-    @if(true)
+    @if(request()->has('analytics'))
       @include('layouts.analytics-resources')
     @endif
 

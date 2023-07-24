@@ -47,22 +47,25 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             console.log('Results:', surveyResults);
 
-            const resultData = surveyResults.result[0].content;
-            const parsedData = JSON.parse(resultData);
+            if (Array.isArray(surveyResults.result) && surveyResults.result.length > 0) {
+              const resultData = surveyResults.result[0].content;
+              const parsedData = JSON.parse(resultData);
+              // Rest of the code to render the survey results
+              console.log('Parsed Results:', parsedData);
 
-            console.log('Parsed Results:', parsedData);
+              // Render the survey results
+              
+              survey.data = parsedData;
 
-            // Render the survey results
+              // Make Answers ReadOnly
+              survey.getAllQuestions().forEach(question => {
+                question.readOnly = true;
+              });
+            } else {
+              throw new Error('Empty or invalid survey results');
+            }
+
             
-            survey.data = parsedData;
-
-            // Make Answers ReadOnly
-            survey.getAllQuestions().forEach(question => {
-              question.readOnly = true;
-            });
-
-            // Remove The Complete button that appears at the end of the survey
-            survey.show = false;
 
           } else {
             throw new Error('Error fetching survey results');

@@ -31,6 +31,7 @@ class ResultApiController extends Controller
         $user_id      = (int) $request->input('user_id');
         $schema_id    = (int) $request->input('survey_id');
         $interview_id = (int) $request->input('interview_id');
+        $project_id      = (int) $request->input('project_id');
         $respondent_id      = (int) $request->input('respondent_id');
         $latitude     = (int) $request->input('latitude');
         $longitude    = (int) $request->input('longitude');
@@ -63,7 +64,7 @@ class ResultApiController extends Controller
         if ($result) {
             // Update Respondent 'interview_status' and 'interview_date_time' columns here
 
-            $this->updateRespondentInterviewStatus($respondent_id);
+            $this->updateRespondentInterviewStatus($respondent_id, $project_id);
 
            return response()->json($result, 201);
         } else {
@@ -80,7 +81,6 @@ class ResultApiController extends Controller
         //dd($id);
         $data['result'] = Result::where('interview_id', $id)
         ->get('content')
-        ->pluck('content')
         ->first();
 
         //dd($data);
@@ -120,14 +120,15 @@ class ResultApiController extends Controller
         //
     }
 
-    public function updateRespondentInterviewStatus($id)
+    public function updateRespondentInterviewStatus($respondent_id, $project_id)
     {
-        $respondent = Respondent::find($id);
+        $respondent = Respondent::find($respondent_id);
         //dd($respondent);
         $respondent->update([
-            'id' => $id,
+            'id' => $respondent_id,
+            'project_id' => $project_id,
             'interview_date_time' => Carbon::now(),
-            'interview_status' => 'Interviewed'
+            'interview_status' => 'Interview Completed'
         ]);
     }
 }

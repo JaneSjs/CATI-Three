@@ -186,20 +186,28 @@ class InterviewController extends Controller
                 }
                 else
                 {
-                    $last_interview_date = Carbon::parse($respondent->interview_date_time);
+                    if ($respondent->interview_status == 'Interview Completed')
+                    {
+                        $last_interview_date = Carbon::parse($respondent->interview_date_time);
 
-                    $current_date = Carbon::now();
+                        $current_date = Carbon::now();
 
-                    $difference_in_days = $current_date->diffInDays($last_interview_date);
+                        $difference_in_days = $current_date->diffInDays($last_interview_date);
 
-                    if ($difference_in_days > 60) {
-                        $data['respondent'] = $respondent;
-                    } else {
-                        session()->flash('info', 'Respondent found but not available for interviewing at the moment.');
+                        if ($difference_in_days > 60) {
+                            $data['respondent'] = $respondent;
+                        } else {
+                            session()->flash('info', 'Respondent found but is not available for interviewing at the moment.');
+                        }
                     }
+                    else
+                    {
+                        $data['respondent'] = $respondent;
+                    }
+                    
                 }
             } else {
-                return redirect()->back()->with('info', 'Search index is empty or respondent based on your search term was not found.');
+                return redirect()->back()->with('info', 'Search index is empty or database is exhausted.');
             }
             
             

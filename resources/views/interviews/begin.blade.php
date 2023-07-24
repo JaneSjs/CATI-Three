@@ -10,20 +10,20 @@
       <div class="row">
         <div class="col">
           @if($project)
-            <h2 class="text-primary">
+            <h3 class="text-primary">
               {{ $project->name }}
-            </h2>
+            </h3>
             <hr>
-            <h4 class="text-warning">
+            <h5 class="text-warning">
               {{ $survey->survey_name }}
-            </h4>
+            </h5>
           @else
             <div class="alert alert-danger d-flex align-items-center" role="alert">
               <i class="fas fa-circle-exclamation fa-lg me-2" style="color: #074411;"></i>
               <div>
                 Something is wrong. 
                 <a href="{{ route('projects.index') }}">
-                  Go back to Your assigned Projects Page
+                  Go back To Projects
                 </a>
               </div>
             </div>
@@ -88,7 +88,7 @@
             <div class="input-group">
               <input type="search" name="query" class="form-control" placeholder="Search for respondents..." value="{{ request()->get('query') }}">
               <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" title="Search">
                   <i class="fa fa-search"></i>
                 </button>
               </div>
@@ -96,41 +96,51 @@
           </form>
 
           @if($respondent)
-            <!-- <h5>Respondent's Details</h5> -->
-            <ul class="list-group mt-3">
-              <li class="list-group-item">
-                <strong>
-                  {{ $respondent->name }}
-                </strong> | {{ $respondent->gender }}
-              </li>
-              @canany(['admin'])
-                <li class="list-group-item">
-                  {{ $respondent->phone_1 }}
-                </li>
-              @endcan
-              
-              <li class="list-group-item">
-                {{ $respondent->age ?? 'Age is Undefined'}}
-              </li>
-              <li class="list-group-item">
-                {{ $respondent->gender ?? 'Gender is Undefined' }}
-              </li>
-              <li class="list-group-item">
-                {{ $respondent->region }} | {{ $respondent->county }}
-              </li>
-              <li class="list-group-item">
-                {{ $respondent->county }}
-              </li>
-              <li class="list-group-item">
-                {{ $respondent->sub_county }}
-              </li>
-              <li class="list-group-item">
-                {{ $respondent->ward }}
-              </li>
-              <li class="list-group-item">
-                {{ $respondent->setting }}
-              </li>
-            </ul>
+            <div class="row mt-3">
+              <div class="col">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>
+                      {{ $respondent->name }}
+                    </strong> | {{ $respondent->gender }}
+                  </li>
+                  @canany(['admin'])
+                    <li class="list-group-item">
+                      {{ $respondent->phone_1 }}
+                    </li>
+                  @endcan
+                  
+                  <li class="list-group-item">
+                    {{ $respondent->age ?? 'Age is Undefined'}}
+                  </li>
+                  <li class="list-group-item">
+                    {{ $respondent->gender ?? 'Gender is Undefined' }}
+                  </li>
+                  <li class="list-group-item">
+                    {{ $respondent->region }} | {{ $respondent->county }}
+                  </li>
+                  <li class="list-group-item">
+                    {{ $respondent->county }}
+                  </li>
+                  <li class="list-group-item">
+                    {{ $respondent->sub_county }}
+                  </li>
+                  <li class="list-group-item">
+                    {{ $respondent->ward }}
+                  </li>
+                  <li class="list-group-item">
+                    {{ $respondent->setting }}
+                  </li>
+                </ul>
+              </div>
+              <div class="col">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger btn-sm">
+                    Reject This Respondent
+                  </button>
+                </div>
+              </div>
+            </div>
           @else
             <p>No respondent found.</p>
           @endif

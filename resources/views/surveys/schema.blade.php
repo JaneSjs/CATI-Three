@@ -19,6 +19,9 @@
   <p id="interview_id" style="display: none;">
     {{ $interview->id ?? 1}}
   </p>
+  <p id="project_id" style="display: ;">
+    {{ $interview->project_id ?? 0}}
+  </p>
   <p id="respondent_id" style="display: none;">
     {{ $respondent_id ?? 1}}
   </p>
@@ -28,6 +31,11 @@
   <!-- Survey Results-->
 
   <survey params="survey: model"></survey>
+  <div class="text-center mt-o">
+    <a href="{{ route('projects.show', $project->id) }}" class="btn btn-secondary">
+      Begin Another Interview
+    </a>
+  </div>
 
 </div>
 
