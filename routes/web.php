@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\QuotaController;
 use App\Http\Controllers\RespondentController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RoleController;
@@ -75,8 +76,9 @@ Route::middleware(['auth'])->group(function ()
     Route::resource('interviews', InterviewController::class);
     Route::resource('projects', ProjectController::class);
     Route::resource('respondents', RespondentController::class);
+    Route::resource('results', ResultController::class);
 	Route::resource('surveys', SchemaController::class);
-	Route::resource('results', ResultController::class);
+	Route::resource('quotas', QuotaController::class);
 
 });
 

@@ -48,7 +48,9 @@ return new class extends Migration
             $table->string('ethnic_group')->nullable();
             $table->string('employment_status')->nullable();
             $table->string('age_group')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

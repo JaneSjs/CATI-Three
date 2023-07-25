@@ -75,109 +75,12 @@
               </button>
             @endcan
           </div>
-
           <!-- Assign Members Modal -->
-          <div class="modal fade" id="assignMembers" data-coreui-backdrop="static" tabindex="-1" aria-labelledby="surveyLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-              <div class="modal-content">
-              <form method="post" action="{{ route('projects.update', $project->id) }}">
-                  @csrf
-                  @method('PATCH')
-                <div class="modal-header">
-                  <h5 class="modal-title" id="surveyLabel">
-                    Assign Member To {{ $project->name }}
-                  </h5>
-                  <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <input type="hidden" name="project_id" value="{{ $project->id }}">
-                  <div class="mb-3">
-                    <label for="name" class="form-label">
-                      Update Project Name
-                    </label>
-                    <input type="text" class="form-control" name="name" id="name" aria-describedby="nameDescription" value="{{  $project->name ?? old('name') }}">
-                    @error('name')
-                    <p class="text-danger">
-                      {{ $message }}
-                    </p>
-                    @else
-                    <div id="nameDescription" class="form-text">
-                      Name of the Project
-                    </div>
-                    @endif
-                  </div>
-                  <input type="hidden" name="project_id" value="{{ $project->id }}">
-
-                  <!-- Members Input -->
-                  <div class="col mt-3 mb-4">
-                    @foreach($users as $user)
-                      <div class="form-check form-check-inline">
-                        <input type="checkbox" name="users[]" class="form-check-input @error('users') is-invalid @enderror" id="{{ $user->first_name }}" value="{{ $user->id }}">
-                        <label class="form-check-label" for="{{ $user->first_name }}">
-                          {{ $user->first_name . ' ' . $user->last_name }}
-                        </label>
-
-                        @error('users')
-                          <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                            {{ $message }}
-                          </div>
-                        @enderror
-                      </div>
-                    @endforeach
-                  </div>
-                  <!-- End Members Input -->  
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">
-                    Update
-                  </button>
-                </div>
-              </form>
-              </div>
-            </div>
-          </div>
+          @include('projects.partials.assign_members')
           <!-- End Assign Members Modal -->
 
           <!-- Create Survey Modal -->
-          <div class="modal fade" id="createSurvey" data-coreui-backdrop="static" tabindex="-1" aria-labelledby="surveyLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-              <form method="post" action="{{ route('surveys.store') }}">
-                    @csrf
-                <div class="modal-header">
-                  <h5 class="modal-title" id="surveyLabel">
-                    Create A New Survey For This Project
-                  </h5>
-                  <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <input type="hidden" name="project_id" value="{{ $project->id }}">
-                  <div class="mb-3">
-                    <label for="survey_name" class="form-label">
-                      Survey Name
-                    </label>
-                    <input type="text" class="form-control" name="survey_name" id="survey_name" aria-describedby="nameDescription" value="{{ old('survey_name') }}">
-                    @error('survey_name')
-                    <p class="text-danger">
-                      {{ $message }}
-                    </p>
-                    @else
-                    <div id="nameDescription" class="form-text">
-                      Name of the Survey
-                    </div>
-                    @endif
-                  </div>
-                  <input type="hidden" name="project_id" value="{{ $project->id }}">
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">
-                    Create
-                  </button>
-                </div>
-              </form>
-              </div>
-            </div>
-          </div>
+          @include('projects.partials.create_survey')
           <!-- End Create Survey Modal -->
         </div>
       </div>
@@ -224,6 +127,9 @@
                     <th>
                       Stage
                     </th>
+                  @endcan
+
+                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
                     <th>
                       Actions
                     </th>
@@ -233,9 +139,11 @@
               <tbody>
                 @foreach($surveys as $survey)
                 <tr>
+
                   <td>
                     {{ $survey->id }}
                   </td>
+
                   @canany(['qc'])
                   <td>
                       <a href="{{ route('surveys.show', $survey->id) }}">
@@ -247,34 +155,41 @@
                     {{ $survey->survey_name }}
                   </td>
                   @endcan
-                  @canany(['agent'])
-                  <td>
-                    <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
-                      Begin Interview
-                    </a>
-                  </td>
-                  @endcan
+                  
                   @canany(['admin','head','manager','coordinator','scripter'])
                   <td>
                     {{ $survey->stage }}
                   </td>
                   @endcan
+
                   <td>
                     
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-                      @canany(['admin','ceo','head','manager','scripter'])
+                      @canany(['agent'])
+                        <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
+                          Begin Interview
+                        </a>
+                      @endcan
+
+                      @canany(['admin','scripter'])
                       <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
                         Script
                       </a>
+                      @endcan
 
+                      @canany(['admin','manager'])
                       <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#edit-survey-{{ $survey->id }}" title="Edit Survey Name or Change Survey Stage">
                         <i class="fas fa-pen"></i>
                       </button>
+                      @endcan
                       
+                      @canany(['admin','manager','scripter'])
                       <a href="" class="btn btn-outline-primary" title="View Tool">
                         Tool
                       </a>
+                      @endcan
 
+                      @canany(['admin','coordinator'])
                       <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
                         Results
                       </button>
@@ -297,62 +212,7 @@
                     </div>
 
                     <!-- Survey Edit Modal -->
-                    <div class="modal fade" id="edit-survey-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="stageLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="stageLabel">
-                             Edit {{ $survey->survey_name }}
-                            </h5>
-                            <button type="button" class="btn btn-outline-info btn-sm float-end" data-coreui-dismiss="modal">
-                              x
-                            </button>
-                          </div>
-                          <div class="modal-body"> 
-                            <form action="{{ route('surveys.update', $survey->id) }}" method="post">
-                              @csrf
-                              @method('PATCH')
-
-                              <div class="mb-3">
-                                <label for="survey_name" class="form-label">
-                                  Edit Survey Name
-                                </label>
-                                <input type="text" name="survey_name" class="form-control" id="survey_name" value="{{ $survey->survey_name }}">
-                              </div>
-
-                              <div class="mb-3">
-                                <label for="stage" class="form-label">
-                                  Change Stage
-                                </label>
-                                <select name="stage" class="form-select" aria-label="Default select example">
-                                <option value="Draft" selected>
-                                  Draft
-                                </option>
-                                <option value="Test">
-                                  Test
-                                </option>
-                                <option value="Production">
-                                  Production
-                                </option>
-                                <option value="Closed">
-                                  Closed
-                                </option>
-                              </select>
-                              </div>
-
-                              <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">
-                                  Update
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                          <div class="modal-footer">
-                            
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      @include('projects.partials.edit_survey')
                     <!-- End Survey Edit Modal -->
 
                     <!-- Survey Results Modal -->
