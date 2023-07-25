@@ -31,7 +31,7 @@ class ResultApiController extends Controller
         $user_id      = (int) $request->input('user_id');
         $schema_id    = (int) $request->input('survey_id');
         $interview_id = (int) $request->input('interview_id');
-        $project_id      = (int) $request->input('project_id');
+        $project_id   = (int) $request->input('project_id');
         $respondent_id      = (int) $request->input('respondent_id');
         $latitude     = (int) $request->input('latitude');
         $longitude    = (int) $request->input('longitude');
@@ -41,7 +41,7 @@ class ResultApiController extends Controller
         $heading   = (int) $request->input('heading');
         $speed     = (int) $request->input('speed');
         $timestamp = (int) $request->input('timestamp');
-        //dd($user_id);
+        //dd($project_id);
 
         $result = Result::create([
             'user_id'     => $user_id,

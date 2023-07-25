@@ -47,6 +47,7 @@
                   <td>
                     <?php
                       use Illuminate\Support\Carbon;
+
                       $start_date = Carbon::parse($project->start_date);
                       $end_date = Carbon::parse($project->end_date);
 
@@ -219,7 +220,7 @@
                 <tr>
                   <th>#</th>
                   <th>Survey</th>
-                  @canany(['admin','ceo','head','manager','scripter'])
+                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
                     <th>
                       Stage
                     </th>
@@ -235,15 +236,17 @@
                   <td>
                     {{ $survey->id }}
                   </td>
+                  @canany(['qc'])
                   <td>
-                    @canany(['qc'])
                       <a href="{{ route('surveys.show', $survey->id) }}">
                         {{ $survey->survey_name }}
                       </a>
-                    @else
-                      {{ $survey->survey_name }}
-                    @endcan
                   </td>
+                  @else
+                  <td>
+                    {{ $survey->survey_name }}
+                  </td>
+                  @endcan
                   @canany(['agent'])
                   <td>
                     <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
@@ -251,12 +254,47 @@
                     </a>
                   </td>
                   @endcan
-                  @canany(['admin','head','manager','scripter'])
+                  @canany(['admin','head','manager','coordinator','scripter'])
                   <td>
                     {{ $survey->stage }}
                   </td>
                   @endcan
                   <td>
+                    
+                    <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
+                      @canany(['admin','ceo','head','manager','scripter'])
+                      <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
+                        Script
+                      </a>
+
+                      <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#edit-survey-{{ $survey->id }}" title="Edit Survey Name or Change Survey Stage">
+                        <i class="fas fa-pen"></i>
+                      </button>
+                      
+                      <a href="" class="btn btn-outline-primary" title="View Tool">
+                        Tool
+                      </a>
+
+                      <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
+                        Results
+                      </button>
+                      @endcan
+
+                      @canany(['admin','ceo','head','manager','coordinator','client'])
+                      <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-dark" title="Manage Quotas" rel="noopener">
+                        Manage Quotas
+                      </a>
+                      <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
+                        Analytics
+                      </a>
+                      @endcan
+
+                      @canany(['admin','ceo','head','manager','coding'])
+                      <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="View Analytics" rel="noopener" target="_blank">
+                        Coding
+                      </a>
+                      @endcan
+                    </div>
 
                     <!-- Survey Edit Modal -->
                     <div class="modal fade" id="edit-survey-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="stageLabel" aria-hidden="true">
@@ -316,39 +354,6 @@
                       </div>
                     </div>
                     <!-- End Survey Edit Modal -->
-                  
-                    
-                    <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-                      @canany(['admin','ceo','head','manager','scripter'])
-                      <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
-                        Script
-                      </a>
-
-                      <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#edit-survey-{{ $survey->id }}" title="Edit Survey Name or Change Survey Stage">
-                        <i class="fas fa-pen"></i>
-                      </button>
-                      
-                      <a href="" class="btn btn-outline-primary" title="View Tool">
-                        Tool
-                      </a>
-
-                      <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
-                        Results
-                      </button>
-                      @endcan
-
-                      @canany(['admin','ceo','head','manager','coodinator','scripter','client'])
-                      <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
-                        Analytics
-                      </a>
-                      @endcan
-
-                      @canany(['admin','ceo','head','manager','coodinator','scripter','coding'])
-                      <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="View Analytics" rel="noopener" target="_blank">
-                        Coding
-                      </a>
-                      @endcan
-                    </div>
 
                     <!-- Survey Results Modal -->
 

@@ -20,7 +20,7 @@
     {{ $interview->id ?? 1}}
   </p>
   <p id="project_id" style="display: ;">
-    {{ $interview->project_id ?? 0}}
+    {{ $interview->project_id ?? '' }}
   </p>
   <p id="respondent_id" style="display: none;">
     {{ $respondent_id ?? 1}}

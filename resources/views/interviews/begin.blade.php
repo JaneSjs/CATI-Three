@@ -142,7 +142,7 @@
               </div>
             </div>
           @else
-            <p>No respondent found.</p>
+            <p class="mt-3 text-primary pl-5">No respondent found.</p>
           @endif
         </div>
       </div>

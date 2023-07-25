@@ -83,20 +83,11 @@
         </li>
         @endcan
 
-        @canany(['manager','scripter','client'])
+        @canany(['manager','scripter','coordinator','supervisor','agent','qc','client'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('projects.index') }}">
             <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
             My Projects
-          </a>
-        </li>
-        @endcan
-
-        @canany(['supervisor','agent','qc'])
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('projects.index') }}">
-            <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
-            My Assigned Projects
           </a>
         </li>
         @endcan
@@ -110,7 +101,7 @@
         </li>
         @endcan
 
-        @canany(['admin','head','coodinator','supervisor'])
+        @canany(['admin','head','coordinator','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" target="_blank">
             <i class="fa-solid fa-chart-simple fa-fade text-danger nav-icon" style="color: #fff;"></i> 
@@ -119,7 +110,7 @@
         </li>
         @endcan
         
-        @canany(['admin','ceo','head','manager','coodinator'])
+        @canany(['admin','ceo','head','manager','coordinator'])
         <li class="nav-title">
           Data Protection Module
         </li>
