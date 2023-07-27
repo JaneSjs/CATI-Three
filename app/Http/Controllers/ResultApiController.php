@@ -32,7 +32,7 @@ class ResultApiController extends Controller
         $schema_id    = (int) $request->input('survey_id');
         $interview_id = (int) $request->input('interview_id');
         $project_id   = (int) $request->input('project_id');
-        $respondent_id      = (int) $request->input('respondent_id');
+        $respondent_id     = (int) $request->input('respondent_id');
         $latitude     = (int) $request->input('latitude');
         $longitude    = (int) $request->input('longitude');
         $altitude     = (int) $request->input('altitude');

@@ -149,18 +149,37 @@ class InterviewController extends Controller
     /**
      * Begin Survey i.e display survey questionnaire
      */
-    public function begin_survey($project_id, $survey_id, $interview_id, $respondent_id)
+    public function begin_survey(Request $request, $project_id, $survey_id, $interview_id, $respondent_id)
     {
-        $data['project'] = Project::find($project_id);
-        $data['survey'] = Schema::find($survey_id);
-        $data['interview'] = Interview::find($interview_id);
-        $data['respondent_id'] = $respondent_id;
-        //dd($data['survey']);
+        /**
+         * Lock the Respondent so that they can't be searchable
+         * while they are being interviewed
+         */
 
-        if ($data['project'] && $data['survey'] && $data['interview'] && $data['respondent_id']) {
-            return view('surveys.show', $data);
-        } else {
-            return to_route('projects.index')->with('warning', 'Project, Survey, Interview and Respondent have not been found');
+        $respondent = Respondent::find($respondent_id);
+
+        if ($respondent) {
+            $status = 'Locked';
+
+            $respondent->update([
+                'id' => $respondent_id,
+                'project_id' => $project_id,
+                'interview_date_time' => Carbon::now(),
+                'interview_status' => $status
+            ]);
+
+            $data['project'] = Project::find($project_id);
+            $data['survey'] = Schema::find($survey_id);
+            $data['interview'] = Interview::find($interview_id);
+            $data['respondent_id'] = $respondent_id;
+
+            //dd($data['survey']);
+
+            if ($data['project'] && $data['survey'] && $data['interview'] && $data['respondent_id']) {
+                return view('surveys.show', $data);
+            } else {
+                return to_route('projects.index')->with('warning', 'Project, Survey, Interview, and Respondent have not been found');
+            }
         }
     }
 
@@ -180,6 +199,10 @@ class InterviewController extends Controller
                                             ->first();
 
             if ($respondent != null) {
+                /**
+                 * Check the Quotas set
+                 */
+                
                 if ($respondent->interview_date_time == null)
                 {
                     $data['respondent'] = $respondent;
@@ -197,14 +220,16 @@ class InterviewController extends Controller
                         if ($difference_in_days > 60) {
                             $data['respondent'] = $respondent;
                         } else {
-                            session()->flash('info', 'Respondent found but is not available for interviewing at the moment.');
+                            session()->flash('info', 'Found Respondent(s) have Interview Fatigue. 😩');
                         }
                     }
-                    else
+
+                    if ($respondent->interview_status == 'Locked')
                     {
-                        $data['respondent'] = $respondent;
+                        session()->flash('info', 'That Respondent is Locked to another Interview. 🤙🏿');
                     }
-                    
+
+                    $data['respondent'] = $respondent;
                 }
             } else {
                 return redirect()->back()->with('info', 'Search index is empty or database is exhausted.');

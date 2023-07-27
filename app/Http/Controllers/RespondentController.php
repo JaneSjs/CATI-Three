@@ -6,6 +6,7 @@ use App\Http\Requests\StoreRespondentRequest;
 use App\Http\Requests\UpdateRespondentRequest;
 use App\Imports\RespondentsImport;
 use App\Models\Respondent;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -59,9 +60,22 @@ class RespondentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRespondentRequest $request, Respondent $respondent)
+    public function update(UpdateRespondentRequest $request, $respondent_id, $project_id, $status)
     {
-        //
+        $respondent = Respondent::find($respondent_id);
+        //dd($respondent);
+
+        if ($respondent) {
+            $respondent->update([
+                'project_id' => $project_id,
+                'interview_date_time' => Carbon::now(),
+                'interview_status' => $status
+            ]);
+
+            return response()->json(['status' => $respondent->name . "'s interview status captured Successfully"], 200);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Respondent not found'], 404);
     }
 
     /**
