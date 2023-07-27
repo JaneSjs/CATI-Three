@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('quotas', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('schema_id')
-                  ->references('id')
-                  ->on('schemas')
-                  ->constrained()
-                  ->cascadeOnDelete();
-
             $table->foreignId('project_id')
                   ->references('id')
                   ->on('projects')
+                  ->constrained()
+                  ->cascadeOnDelete();
+
+            $table->foreignId('schema_id')
+                  ->references('id')
+                  ->on('schemas')
                   ->constrained()
                   ->cascadeOnDelete();
 

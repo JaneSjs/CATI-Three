@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('r_id')->nullable();
             $table->bigInteger('project_id')->nullable();
+            $table->bigInteger('schema_id')->nullable();
             $table->string('name');
             $table->string('phone_1')->unique();
             $table->string('phone_2')->nullable();

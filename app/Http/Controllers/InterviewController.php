@@ -151,14 +151,15 @@ class InterviewController extends Controller
      */
     public function begin_survey(Request $request, $project_id, $survey_id, $interview_id, $respondent_id)
     {
-        /**
-         * Lock the Respondent so that they can't be searchable
-         * while they are being interviewed
-         */
+        
 
         $respondent = Respondent::find($respondent_id);
 
         if ($respondent) {
+            /**
+             * Lock the Respondent so that they can't be searchable
+             * while they are being interviewed
+             */
             $status = 'Locked';
 
             $respondent->update([
@@ -184,6 +185,40 @@ class InterviewController extends Controller
     }
 
     /**
+     * Check if the quotas are met.
+     */
+    private function areQuotasMet($respondent, $quotaCriteria)
+    {
+        // Initialize an array to store counts for each attribute
+        $counts = [];
+
+        foreach ($quotaCriteria as $attribute => $criteria)
+        {
+            if (isset($respondent->$attribute) && isset($criteria[$respondent->{$attribute}]))
+            {
+                // Fetch the count of respondents with the same attribute value
+                $countAttribute = Respondent::where($attribute, $respondent->{$attribute})->count();
+
+                $counts[$attribute] = $countAttribute;
+            }
+
+            // Check each attribute's count against the quota criteria
+            foreach ($quotaCriteria as $attribute => $criteria)
+            {
+                if (isset($counts[$attribute]) && $counts[$attribute] >= $criteria[$respondent->{$attribute}])
+                {
+                    // Quota has been met for this attribute
+                    return true;
+                }
+            }
+        }
+        
+        // Quota is not met
+        return false;
+    }
+
+
+    /**
      * Search for a respondent
      */
     public function search_respondent(Request $request)
@@ -200,8 +235,35 @@ class InterviewController extends Controller
 
             if ($respondent != null) {
                 /**
-                 * Check the Quotas set
+                 * Check the Quotas Met
                  */
+
+                $quotaCriteria = [
+                    'occupation' => [
+                        'Doctor' => 10,
+                        'Teacher' => 15,
+                        'Engineer' => 5,
+                        // Add more occupations and target counts here
+                    ],
+                    'age' => [
+                        // Define age groups and target counts here
+                    ],
+                    'region' => [
+                        // Define regions and target counts here
+                        'EASTERN' => 100
+                    ],
+                    'gender' => [
+                        // Define genders and target counts here
+                    ],
+                    'religion' => [
+                        // Define religions and target counts here
+                    ],
+                    // Add more attributes as needed
+                ];
+
+                if ($this->areQuotasMet($respondent, $quotaCriteria)) {
+                    session()->flash('warning', 'Quota Met');
+                }
                 
                 if ($respondent->interview_date_time == null)
                 {

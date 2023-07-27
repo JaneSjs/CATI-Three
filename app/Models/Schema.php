@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Schema extends Model
@@ -43,6 +44,24 @@ class Schema extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * A survey has Quota
+     */
+    public function quota(): HasOne
+    {
+        return $this->hasOne(Quota::class);
+    }
+
+    /**
+     * Processed Respondents 
+     * 
+     * This Project has many respondents.
+     */
+    public function respondents(): HasMany
+    {
+        return $this->hasMany(Respondent::class);
     }
 
     /**

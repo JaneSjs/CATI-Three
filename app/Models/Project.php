@@ -50,7 +50,6 @@ class Project extends Model
 
     /**
      * Processed Respondents 
-     * (i.e a client's specific respondents)
      * 
      * This Project has many respondents.
      */

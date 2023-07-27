@@ -35,6 +35,14 @@ class Respondent extends Model
     }
 
     /**
+     * Respondent belongs to a schema
+     */
+    public function schema(): BelongsTo
+    {
+        return $this->belongsTo(Schema::class);
+    }
+
+    /**
      * Respondent belongs to an Interview
      *
      */
