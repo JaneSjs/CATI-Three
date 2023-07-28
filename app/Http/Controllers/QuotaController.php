@@ -13,7 +13,7 @@ class QuotaController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -50,9 +50,12 @@ class QuotaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Quota $quota)
+    public function show($schema_id)
     {
-        //
+        $data['quotas'] = Quota::where('schema_id', $schema_id)
+                                ->paginate(10);
+
+        return view('quotas.show', $data);
     }
 
     /**

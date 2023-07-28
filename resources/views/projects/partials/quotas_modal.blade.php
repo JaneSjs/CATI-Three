@@ -3,7 +3,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">
-          {{ $survey->survey_name }} Quotas
+          Set Quota Criteria for 
+          <span class="text-primary">
+            {{ $survey->survey_name }}
+          </span>
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>

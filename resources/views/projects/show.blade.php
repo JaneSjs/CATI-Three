@@ -196,9 +196,13 @@
                       @endcan
 
                       @canany(['admin','ceo','head','manager','coordinator','client'])
-                      <button type="button" class="btn btn-outline-dark" data-coreui-toggle="modal" data-coreui-target="#quotas-{{ $survey->id }}" title="Manage Quotas">
-                        Manage Quotas
+                      <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#quotas-{{ $survey->id }}" title="Set Quota">
+                        Set Quota
                       </button>
+                      <a href="{{ route('quotas.show', $survey->id) }}" class="btn btn-outline-dark" title="View Quota Criteria">
+                        Quota Criteria
+                      </a>
+
                       <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
                         Analytics
                       </a>
