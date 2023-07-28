@@ -97,7 +97,7 @@
 
           @if($respondent)
             <div class="row mt-3">
-              <div class="col">
+              <div class="col-9">
                 <ul class="list-group">
                   <li class="list-group-item">
                     <strong>
@@ -133,10 +133,10 @@
                   </li>
                 </ul>
               </div>
-              <div class="col">
+              <div class="col-3">
                 <div class="btn-group">
                   <button type="button" class="btn btn-danger btn-sm">
-                    Reject This Respondent
+                    Reset Search
                   </button>
                 </div>
               </div>

@@ -15,7 +15,7 @@ class Quota extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['occupation','region','county','sub_county','district','division','location','sub_location','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group',
+    protected $fillable = ['project_id','schema_id','attribute','value','target_count',
     ];
 
     /**

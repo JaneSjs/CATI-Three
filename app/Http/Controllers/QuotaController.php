@@ -29,7 +29,22 @@ class QuotaController extends Controller
      */
     public function store(StoreQuotaRequest $request)
     {
-        //
+        $quota_criteria = $request->input('quota_criteria');
+
+        foreach ($quota_criteria as $attribute => $criteria) {
+            foreach ($criteria as $value => $target_count) {
+                //dd($criteria);
+                Quota::create([
+                    'project_id' => $request->project_id,
+                    'schema_id' => $request->schema_id,
+                    'attribute' => $attribute,
+                    'value' => $value,
+                    'target_count' => $target_count,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Quota Criteria for that Survey has been Set Successfully');
     }
 
     /**

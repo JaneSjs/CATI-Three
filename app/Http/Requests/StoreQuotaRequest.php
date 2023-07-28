@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreQuotaRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreQuotaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,17 @@ class StoreQuotaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'schema_id' => Rule::unique('quotas')->where(function($query) {
+                return $query->where('schema_id', $this->input('schema_id'));
+            })
+        ];
+    }
+
+    // Custom Error Messages
+    public function messages()
+    {
+        return [
+            'schema_id.unique' => 'Quota Criteria For That Survey Had Already Been Set.',
         ];
     }
 }
