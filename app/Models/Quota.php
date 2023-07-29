@@ -21,8 +21,25 @@ class Quota extends Model
     /**
      * Quota belongs to a Schema
      */
-    public function schema($value=''): BelongsTo
+    public function schema(): BelongsTo
     {
         return $this->belongsTo(Schema::class);
+    }
+
+    /**
+     * Get Quota Criteria for a specific Survey
+     * @param int $schema_id
+     */
+    public static function survey_quota_criteria($schema_id): array
+    {
+        $quota_criteria = [];
+
+        $quotas = self::where('schema_id', $schema_id)->get();
+
+        foreach ($quotas as $quota) {
+            $quota_criteria[$quota->attribute][$quota->value] = $quota->target_count;
+        }
+
+        return $quota_criteria;
     }
 }
