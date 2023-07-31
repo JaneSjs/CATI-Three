@@ -32,7 +32,7 @@
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Name</th>
-              <th scope="col"></th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -46,7 +46,43 @@
                   {{ $project->name }}
                 </a>
               </td>
-              
+              <td>
+                <div class="btn-group btn-xs" role="group" aria-label="Project Actions">
+                  <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-outline-info">
+                    <i class="fa-solid fa-pen"></i>
+                  </a>
+                  <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#delete_project-{{ $project->id }}" title="Delete {{ $project->name }}">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+
+                <!-- Delete Project Modal -->
+                <div class="modal fade" id="delete_project-{{ $project->id }}" tabindex="-1" data-coreui-backdrop="static">
+                  <div class="modal-dialog modal-sm bg-danger">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          Delete {{ $project->name }}
+                        </h5>
+                        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <form action="{{ route('projects.destroy', $project->id) }}" method="post">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-outline-danger">
+                            Delete
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Delete Modal -->
+              </td>
             </tr>
             @endforeach
           </tbody>

@@ -138,7 +138,25 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $data['users'] = User::all();
+        $data['project'] = $project;
+
+        $data['supervisors'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'Supervisor');
+                            })->get();
+
+        $data['scriptors'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'Scripter');
+                            })->get();
+
+        $data['qcs'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'QC');
+                            })->get();
 
         return view('projects.edit', $data);
     }
@@ -172,6 +190,11 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        if ($project) {
+            $project->delete();
+            return redirect()->back()->with('success', 'Project Deleted Successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Project wasn\'t found, thus wasn\'t deleted');
     }
 }

@@ -166,6 +166,7 @@ class InterviewController extends Controller
             $respondent->update([
                 'id' => $respondent_id,
                 'project_id' => $project_id,
+                'schema_id' => $survey_id,
                 'interview_date_time' => Carbon::now(),
                 'interview_status' => $status
             ]);
@@ -188,34 +189,40 @@ class InterviewController extends Controller
     /**
      * Check if the quotas are met.
      */
-    private function areQuotasMet($project_id, $respondent, $quotaCriteria)
+    private function areQuotasMet($schema_id, $respondent, $quotaCriteria)
     {
-        // Fetch the count of respondents with the same attribute value
+        // Initialize an array to store the attributes that have met their quotas
+        $metAttributes = [];
+
+        // Fetch the target count of attributes whose quota has been set.
         foreach ($quotaCriteria as $attribute => $criteria)
         {
             if (isset($criteria[$respondent->{$attribute}]))
             {
                     
-                $countAttribute = Respondent::where('status', 'Interview Completed')
-                                                ->where('project_id', $project_id)
+                $InterviewedRespondents = Respondent::where('status', 'Interview Completed')
+                                                ->where('schema_id', $schema_id)
                                                 ->where($attribute, $respondent->{$attribute})
                                                 ->count();
 
-                // Check if the count has reached the target count for this attribute.
-                if ($countAttribute >= $criteria[$respondent->{$attribute}]) {
+                /**
+                 *Check if the count of interviewed respondents 
+                 * has reached the target count for this attribute
+                 *  as set on the quota criteria.
+                 */
+                if ($InterviewedRespondents >= $criteria[$respondent->{$attribute}]) {
                     // Quota met for this attribute
-                    //session()->flash('warning', $countAttribute . 'Quota Met');
-                    return false;
+                    $metAttributes[$attribute] = $InterviewedRespondents;
                 }
             } elseif (!isset($respondent->$attribute)) {
-                // Quota not set
-                return true;
+                // Quota Criterion not set
+                $metAttributes[$attribute] = null;
             }
 
         }
         
-        // All attributes have not met their quotas
-        return true;
+        // Return the array of attributes that have met quotas
+        return $metAttributes;
     }
 
 
@@ -229,66 +236,76 @@ class InterviewController extends Controller
         $project_id = $request->input('project_id');
         $survey_id = $request->input('survey_id');
 
-        
+        $query = $request->get('query');
 
-        if ($query = $request->get('query'))
-        {
+        /**
+        *  If Quota Criteria has been set, 
+        * check if the Quota has been Met
+        */
+        $quotaCriteria = Quota::survey_quota_criteria($survey_id);
+        //dd($quotaCriteria);
+
+        if (!empty($quotaCriteria)) {
+            // Pull a Respondent Based on the Quota Criteria
+            $respondent = Respondent::where(function ($query) {
+                $query->where('interview_status', '!=', 'Interview Completed')
+                      ->orWhere(function ($query) {
+                            $query->where('interview_status', 'Interview Completed')
+                                  ->where(function ($query) {
+                                      $query->whereDate('interview_date_time', '<=', Carbon::now()->subDays(60));
+                                  });
+                      });
+            })
+            ->search($query)
+            ->first();
+
+        // If some quota criteria have been met, pull respondents with unmet quota attributes 
+        $metAttributes = $this->areQuotasMet($survey_id, $respondent, $quotaCriteria);
+
+        if (!empty($metAttributes)) {
+            foreach ($metAttributes as $attribute => $InterviewedRespondents) {
+                if ($InterviewedRespondents !== null) {
+                    session()->flash('warning', ucfirst($attribute) . 'Quota has been met' . $InterviewedRespondents . ' ' . ucfirst($attribute) . 's already interviewed');
+                }
+            }
+
+            $data['respondent'] = null;
+        } else {
+            // If there are no met attributes, then the respondent is eligible for an interview
+            $data['respondent'] = $respondent;
+        }
+                
+
+
+
+            // If some quota criteria have been met, pull respondents with unmet quota attributes 
+            $metAttributes = $this->areQuotasMet($survey_id, $respondent, $quotaCriteria);
+
+            if (!empty($metAttributes)) {
+                foreach ($metAttributes as $attribute => $InterviewedRespondents) {
+                    if ($InterviewedRespondents !== null) {
+                        session()->flash('warning', ucfirst($attribute) . 'Quota has been met' . $InterviewedRespondents . ' ' . ucfirst($attribute) . 's already interviewed');
+                    }
+                }
+
+                $data['respondent'] = null;
+            } else {
+                // If there are no met attributes, then the respondent is eligible for an interview
+                $data['respondent'] = $respondent;
+            }
+                    
+        } else {
+            // No quota criteria set, so any respondent is eligible for an interview
             $respondent = Respondent::search($query)
                                             ->first();
 
             if ($respondent != null) {
-                /**
-                 *  If Quota Criteria has been set, Check if the Quota has been Met
-                 */
-                $quotaCriteria = Quota::survey_quota_criteria($survey_id);
-                //dd($quotaCriteria);
-
-                if ($quotaCriteria != []) {
-                    if ($this->areQuotasMet($project_id, $respondent, $quotaCriteria)) {
-                            session()->flash('warning', 'Quota Met For this respondent.');
-                            $data['respondent'] = $respondent;
-                        } else {
-                            if ($respondent->interview_date_time == null)
-                            {
-                                $data['respondent'] = $respondent;
-                            }
-                            else
-                            {
-                                if ($respondent->interview_status == 'Interview Completed')
-                                {
-                                    $last_interview_date = Carbon::parse($respondent->interview_date_time);
-
-                                    $current_date = Carbon::now();
-
-                                    $difference_in_days = $current_date->diffInDays($last_interview_date);
-
-                                    if ($difference_in_days > 60) {
-                                        $data['respondent'] = $respondent;
-                                    } else {
-                                        session()->flash('info', 'Found Respondent(s) have Interview Fatigue. 😩');
-                                    }
-                                }
-
-                                if ($respondent->interview_status == 'Locked')
-                                {
-                                    session()->flash('info', 'That Respondent is Locked to another Interview. 🤙🏿');
-                                    $data['respondent'] = null;
-                                }
-
-                                $data['respondent'] = $respondent;
-                            }
-                        }
-                } else {
-                    $data['respondent'] = $respondent;
-                }
+                $data['respondent'] = $respondent;
+            } elseif ($data['respondent'] == null) {
                 
-            } else {
-                return redirect()->back()->with('info', 'Search index is empty or database is exhausted.');
+                return redirect()->back()->with('info', 'Search index is empty or respondents database is exhausted.');
             }
-            
-            
-
-        }
+        } 
 
         $data['project'] = Project::find($project_id);
 

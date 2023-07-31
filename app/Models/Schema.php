@@ -47,7 +47,7 @@ class Schema extends Model
     }
 
     /**
-     * A survey has Quota
+     * A survey has one Quota Criteria
      */
     public function quota(): HasOne
     {

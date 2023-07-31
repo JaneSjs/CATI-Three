@@ -196,21 +196,21 @@
                       @endcan
 
                       @canany(['admin','ceo','head','manager','coordinator','client'])
-                      <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#quotas-{{ $survey->id }}" title="Set Quota">
-                        Set Quota
+                      <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#quotas-{{ $survey->id }}" title="Set Quota Criteria">
+                        Set Quotas
                       </button>
-                      <a href="{{ route('quotas.show', $survey->id) }}" class="btn btn-outline-dark" title="View Quota Criteria">
-                        Quota Criteria
+                      <a href="{{ route('monitor_quotas', $survey->id) }}" class="btn btn-outline-dark" title="View Quota Criteria">
+                        <i class="fa-solid fa-gauge fa-spin fa-spin-reverse"></i>
                       </a>
 
                       <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
-                        Analytics
+                        <i class="fa-solid fa-chart-simple"></i>
                       </a>
                       @endcan
 
                       @canany(['admin','ceo','head','manager','coding'])
-                      <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="View Analytics" rel="noopener" target="_blank">
-                        Coding
+                      <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="Coding ">
+                        <i class="fa-solid fa-arrow-up-a-z fa-bounce"></i>
                       </a>
                       @endcan
                     </div>

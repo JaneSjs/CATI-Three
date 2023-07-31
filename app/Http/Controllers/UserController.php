@@ -25,10 +25,10 @@ class UserController extends Controller
             $data['users'] = User::paginate(10);
         } else {
             $role = Role::where('name', 'Agent')
-                           ->find();
-            dd($role);
+                           ->find(auth()->id());
+            //dd($role);
 
-            $data['users'] = $role->users()->paginate(10);
+            $data['users'] = [];
         }
 
         return view('users.index', $data);

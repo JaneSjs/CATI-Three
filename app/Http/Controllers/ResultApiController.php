@@ -80,8 +80,8 @@ class ResultApiController extends Controller
     {
         //dd($id);
         $data['result'] = Result::where('interview_id', $id)
-        ->get('content')
-        ->first();
+        ->get('content');
+        //->first();
 
         //dd($data);
         //return $data;

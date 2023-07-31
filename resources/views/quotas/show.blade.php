@@ -36,30 +36,24 @@
                 <table class="table table-bordered table-sm">
                   <thead>
                     <tr>
-                      <th>Gender</th>
-                      <th>Target</th>
-                      <th>Achieved</th>
-                      <th>Difference</th>
+                      @foreach($quotas as $criteria => $attribute)
+                        <th>
+                          {{ $attribute->attribute }}
+                        </th>
+                        <th>
+                          Target Count {{ $attribute->value }}
+                        </th>
+                        <th>
+                          {{ $attribute->target_count }}
+                        </th>
+                      @endforeach
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Male</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Female</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Total Count</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>
+                        Total Count {{ $interviewed_respondents }}
+                      </td>
                     </tr>
                   </tbody>
                 </table>

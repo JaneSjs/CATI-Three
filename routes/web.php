@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function ()
 
 
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
+	Route::get('monitor_quotas/survey/{id}', [QuotaController::class, 'show'])->name('monitor_quotas');
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('interviews', InterviewController::class);

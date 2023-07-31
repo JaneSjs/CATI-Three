@@ -19,6 +19,14 @@ class Quota extends Model
     ];
 
     /**
+     * Quota belongs to a Project
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    /**
      * Quota belongs to a Schema
      */
     public function schema(): BelongsTo

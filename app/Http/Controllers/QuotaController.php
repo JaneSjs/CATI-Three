@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuotaRequest;
 use App\Http\Requests\UpdateQuotaRequest;
 use App\Models\Quota;
+use App\Models\Respondent;
 
 class QuotaController extends Controller
 {
@@ -54,6 +55,9 @@ class QuotaController extends Controller
     {
         $data['quotas'] = Quota::where('schema_id', $schema_id)
                                 ->paginate(10);
+
+        $data['interviewed_respondents'] = Respondent::where('schema_id', $schema_id)->count();
+        //dd($data);
 
         return view('quotas.show', $data);
     }
