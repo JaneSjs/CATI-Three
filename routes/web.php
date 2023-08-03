@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InterviewController;
+use App\Http\Controllers\PabxController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuotaController;
@@ -49,7 +50,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 });
 
 
-// Project Management Routes
+// Project  Routes
 Route::middleware(['auth'])->group(function ()
 {
 	Route::middleware('scripter')->get('survey_creator', [ProjectController::class, 'creator']);
@@ -72,6 +73,7 @@ Route::middleware(['auth'])->group(function ()
 
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
 	Route::get('monitor_quotas/survey/{id}', [QuotaController::class, 'show'])->name('monitor_quotas');
+	Route::post('call', [PabxController::class, 'call'])->name('call');
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('interviews', InterviewController::class);

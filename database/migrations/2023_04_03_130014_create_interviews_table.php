@@ -30,11 +30,8 @@ return new class extends Migration
                   ->on('schemas')
                   ->constrained();
 
-            $table->foreignId('respondent_id')
-                  ->nullable()
-                  ->references('id')
-                  ->on('respondents')
-                  ->constrained();
+            $table->unsignedBigInteger('respondent_id')
+                  ->nullable();
 
             $table->string('respondent_name')->nullable();
             $table->string('ext_no')->nullable();

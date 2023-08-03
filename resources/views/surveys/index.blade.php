@@ -44,9 +44,9 @@
                 {{ $survey->id }}
               </th>
               <td>
-                <a href="{{ route('surveys.show', $survey->id) }}">
-                  {{ $survey->survey_name }}
-                </a>
+                  <strong class="text-primary">
+                    {{ $survey->survey_name }}
+                  </strong>
               </td>
               <td>
                 {{ $survey->stage }}

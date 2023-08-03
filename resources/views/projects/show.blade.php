@@ -195,16 +195,16 @@
                       </button>
                       @endcan
 
-                      @canany(['admin','ceo','head','manager','coordinator','client'])
+                      @canany(['admin','ceo','head','manager','coordinator'])
                       <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#quotas-{{ $survey->id }}" title="Set Quota Criteria">
                         Set Quotas
                       </button>
                       <a href="{{ route('monitor_quotas', $survey->id) }}" class="btn btn-outline-dark" title="View Quota Criteria">
-                        <i class="fa-solid fa-gauge fa-spin fa-spin-reverse"></i>
+                        Monitor Quotas
                       </a>
 
                       <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
-                        <i class="fa-solid fa-chart-simple"></i>
+                        Analytics
                       </a>
                       @endcan
 

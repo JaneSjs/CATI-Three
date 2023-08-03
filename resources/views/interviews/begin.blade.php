@@ -61,20 +61,18 @@
               </div>
 
               @if($respondent)
-              <div class="row mb-3">
-                <div class="col">
-                  <button type="submit" class="btn btn-success">
-                    Begin Survey
-                  </button>
-                </div>
-                <div class="col">
-                  <a href="javascript:void(0)" onclick='launchZoiper()' class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
-                    <i class="fas fa-phone fa-bounce"></i>
-                    {{ auth()->user()->ext_no }}
-                  </a>
-                </div>
-              </div>
+                <button type="submit" class="btn btn-success">
+                  Begin Survey
+                </button>
               @endif
+            </form>
+
+            <form action="{{ route('call') }}" method="post">
+              @csrf
+              <button type="submit" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
+                <i class="fas fa-phone fa-bounce"></i>
+                {{ auth()->user()->ext_no }}
+              </button>
             </form>
 
         </div>
@@ -86,7 +84,7 @@
             <input type="hidden" name="interview_id" value="{{ $interview_id }}">
 
             <div class="input-group">
-              <input type="search" name="query" class="form-control" placeholder="Search for respondents..." value="{{ request()->get('query') }}">
+              <input type="search" name="query" class="form-control" placeholder="Search for a respondent..." value="{{ request()->get('query') }}">
               <div class="input-group-append">
                 <button type="submit" class="btn btn-primary" title="Search">
                   <i class="fa fa-search"></i>
@@ -135,14 +133,16 @@
               </div>
               <div class="col-3">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-danger btn-sm">
+                  <button type="reset" class="btn btn-danger btn-sm">
                     Reset Search
                   </button>
                 </div>
               </div>
             </div>
           @else
-            <p class="mt-3 text-primary pl-5">No respondent found.</p>
+            <p class="mt-3 text-primary pl-5">
+              Search for a respondent.
+            </p>
           @endif
         </div>
       </div>
