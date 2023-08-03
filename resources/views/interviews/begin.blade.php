@@ -38,8 +38,9 @@
     <div class="card-body">
 
       <div class="row">
+        
         <div class="col">
-
+            @if($respondent)
             <form method="post" action="{{ route('interviews.store') }}">
               @csrf
               <div class="d-none">
@@ -60,22 +61,26 @@
 
               </div>
 
-              @if($respondent)
+              
                 <button type="submit" class="btn btn-success">
                   Begin Survey
                 </button>
-              @endif
+              
             </form>
 
             <form action="{{ route('call') }}" method="post">
               @csrf
+              <input type="hidden" name="exten" value="IAX2/{{ auth()->user()->ext_no }}">
+              <input type="hidden" name="respondent_number" value="890{{ $respondent->phone_1 }}">
               <button type="submit" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
                 <i class="fas fa-phone fa-bounce"></i>
                 {{ auth()->user()->ext_no }}
               </button>
             </form>
+            @endif
 
         </div>
+        
         <div class="col">
 
           <form action="{{ url('search_respondent') }}" method="GET">

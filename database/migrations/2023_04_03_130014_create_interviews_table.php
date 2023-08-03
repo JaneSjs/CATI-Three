@@ -47,7 +47,7 @@ return new class extends Migration
             $table->boolean('survey_complete')->nullable();
 
             $table->string('status')
-                  ->comment('Whether Interview is Approved of Cancelled')
+                  ->comment('Whether Interview is Approved or Cancelled')
                   ->nullable();
 
             $table->dateTimeTz('start_time')->nullable();
