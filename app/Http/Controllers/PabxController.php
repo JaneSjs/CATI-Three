@@ -86,7 +86,7 @@ class PabxController extends Controller
         $number = strtolower($request->input('respondent_number'));
         $strCallerId = $number;
 
-        #specify the amount of time you want to try calling the specified channel before hangin up
+        #specify the amount of time you want to try calling the specified channel before hanging up
         $strWaitTime = "30";
 
         #specify the priority you wish to place on making this call
@@ -97,12 +97,12 @@ class PabxController extends Controller
         $valExt = '/^(SIP|IAX2|ZAP)\/\d+$/';
 
         if (!preg_match($valNumber, $number)) {
-            print "The number is incorrect, should match '$valNumber' pattern\n";
-            exit();
+            
+            return response("The number is incorrect, it should match " . $valNumber . " pattern\n", 400);
+            
         }
         if (!preg_match($valExt, $strChannel)) {
-            print "The extension is incorrect, should match '$valExt' pattern\n";
-            exit;
+            return response("The extension is incorrect, should match " . $valExt . " pattern\n", 400);
         }
 
         $errno=0 ;
@@ -110,8 +110,7 @@ class PabxController extends Controller
         $oSocket = fsockopen ($strHost, 5038, $errno, $errstr, 20);
 
         if (!$oSocket) {
-            echo "$errstr ($errno)<br>\n";
-            exit();
+            return response($errstr, $errno);
         }
 
         fputs($oSocket, "Action: login\r\n");
@@ -129,6 +128,6 @@ class PabxController extends Controller
         sleep(2);
         fclose($oSocket);
 
-        echo "Extension $strChannel should be calling $number." ;   
+        return response("Extension $strChannel should be calling $number.", 200);
     }
 }

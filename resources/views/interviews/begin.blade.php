@@ -61,22 +61,28 @@
 
               </div>
 
-              
-                <button type="submit" class="btn btn-success">
-                  Begin Survey
-                </button>
+              <button type="submit" class="btn btn-success">
+                Begin Survey
+              </button>
               
             </form>
 
-            <form action="{{ route('call') }}" method="post">
-              @csrf
-              <input type="hidden" name="exten" value="IAX2/{{ auth()->user()->ext_no }}">
-              <input type="hidden" name="respondent_number" value="890{{ $respondent->phone_1 }}">
-              <button type="submit" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
-                <i class="fas fa-phone fa-bounce"></i>
-                {{ auth()->user()->ext_no }}
-              </button>
-            </form>
+            <p id="call_route" class="d-none">
+              {{ route('call') }}
+            </p>
+            <p id="exten" class="d-none">
+              IAX2/{{ auth()->user()->ext_no }}
+            </p>
+            <p id="respondent_number" class="d-none">
+              890{{ $respondent->phone_1 }}
+            </p>
+
+            
+            <button type="button" onclick="call()" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
+              <i class="fas fa-phone fa-bounce"></i>
+              {{ auth()->user()->ext_no }}
+            </button>
+
             @endif
 
         </div>
@@ -173,42 +179,67 @@
   {{ auth()->user()->ext_no ?? '' }}
 </p>
 
-<script>
+<script defer>
 
-  let phone_1 = document.getElementById('phone_1').innerHTML;
-  let ext_no = document.getElementById('ext_no').innerHTML;
+  let respondent_number = document.getElementById('respondent_number').innerHTML;
+  let exten   = document.getElementById('exten').innerHTML;
+  let call_route = document.getElementById('call_route').innerHTML;
+  const csrf  = document.querySelector('meta[name="csrf-token"]').content;
+    
+  async function call() {
+    try {
+      
+      data = {
+        exten: exten,
+        respondent_number: respondent_number,
+      };
 
-  console.log(phone_1);
-  console.log(ext_no);
+      // Create new Record
+      const options = {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-TOKEN": csrf,
+        },
+        credentials: "same-origin",
+      };
 
-  function launchZoiper() {
-  let phone_1 = document.getElementById('phone_1').innerHTML;
-  let ext_no = document.getElementById('ext_no').innerHTML;
+      console.log(data);
 
-    let zoiperURI = `zoiper:call?number=890${encodeURIComponent(phone_1)}&extension=IAX2/${encodeURIComponent(ext_no)}`;
-    let request = new XMLHttpRequest();
+      const response = await fetch(call_route, options);
+      if (response.ok) {
 
-    request.open('GET', `/calls.php?exten=IAX2/${encodeURIComponent(ext_no)}&number=890${encodeURIComponent(phone_1)}`, true);
+        const serverFeedback = await response.json();
+        console.log(serverFeedback);
 
-    request.onload = function() {
-      if (request.status >= 200 && request.status < 400) {
-        console.log(request.responseText);
-        window.open(zoiperURI);
-        //toastr["success"]("Call Initiated Successfully, you should receive a call on your Zoiper Extension");
+        // Toastify Notifications
+          Toastify({
+            text: "Answer The Soft Phone",
+            duration: 9000,
+            destination: "https://cati.tifaresearch.com/projects",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "linear-gradient(to right, #ff0000, #ff4d4d)",
+            },
+            onClick: function(){} // Callback after click
+          }).showToast();
+        // End Toastify Notifications
+          
       } else {
-        console.error(request.status);
+        throw new Error('Server Error. Check Server Logs');
       }
-    };
+    } catch (error) {
+      console.log('Calling Error: ', error);
 
-    request.onerror = function() {
-      console.error("Request failed");
-    };
-
-    request.send();
-}
-
-
-
+      
+    }
+  }
 </script>
 
 

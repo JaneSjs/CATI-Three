@@ -1,14 +1,14 @@
 ## Survey Management System
 
-This application is intended to make research surveys efficient and seamless.
+This software is intended to make research projects efficient, accurate and seamless.
 
 ## Project Management
 
-Get alerts notifications on useful project instances
+Get alert notifications on important project instances
 
 ## Scripting
 
-Script with ease using many available tools
+Script with ease using available tools
 
 ### Analytics
 
