@@ -2,6 +2,26 @@
     
 @section('content')
 
+<style type="text/css">
+  .marquee {
+    overflow: hidden;
+  }
+
+  .marquee-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+</style>
 
 <div class="body flex-grow-1 px-3">
   <div class="card">
@@ -9,7 +29,7 @@
       <div class="row">
         <div class="col">
           <h3>
-            Quota Criteria for Survey Name
+            {{ $survey->name }}
           </h3>
         </div>
         <div class="col">
@@ -30,124 +50,48 @@
         
         <div class="col">
           <div class="card">
+            <div class="card-header">
+              <h3>
+                (#{{ $survey->id }}) {{ $survey->survey_name }} Quota Criteria
+              </h3>
+            </div>
             <div class="card-body">
-              <h5 class="card-title">Gender</h5>
-              <div class="table-responsive">
-                <table class="table table-bordered table-sm">
-                  <thead>
-                    <tr>
-                      @foreach($quotas as $criteria => $attribute)
-                        <th>
-                          {{ $attribute->attribute }}
-                        </th>
-                        <th>
-                          Target Count {{ $attribute->value }}
-                        </th>
-                        <th>
+              
+              <ul class="list-group">
+                <div class="marquee mb-3 bg-info p-3  text-center text-light rounded">
+                    <h3 class="marquee-content">
+                      {{ $interviewed_respondents }} Interviwed Respondents
+                    </h3>
+                </div>
+
+                @foreach($quota as $criteria => $attribute)
+                  <li class="list-group-item">
+                    <h4>{{ $attribute->attribute }}</h4>
+                    <hr>
+                    Target Count {{ $attribute->value }}
+                    <span class="badge badge-lg bg-primary rounded-pill">
                           {{ $attribute->target_count }}
-                        </th>
-                      @endforeach
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        Total Count {{ $interviewed_respondents }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </span>
+                  </li>
+                @endforeach
+                </ul>
+                  
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Age Group</h5>
-              <div class="table-responsive">
-                <table class="table table-bordered table-sm">
-                  <thead>
-                    <tr>
-                      <th>Gender</th>
-                      <th>Target</th>
-                      <th>Achieved</th>
-                      <th>Difference</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Male</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Female</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Total Count</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">County</h5>
-              <div class="table-responsive">
-                <table class="table table-bordered table-sm">
-                  <thead>
-                    <tr>
-                      <th>Gender</th>
-                      <th>Target</th>
-                      <th>Achieved</th>
-                      <th>Difference</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Male</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Female</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>Total Count</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-
+    </div>
+    <div class="card-footer">
+      <form action="{{ route('remove_quota', $survey->id) }}" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-outline-danger btn-sm">
+          Remove Quota
+        </button>
+      </form>
     </div>
   </div>
 </div>

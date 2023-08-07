@@ -13,6 +13,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
+use App\Models\Quota;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +75,8 @@ Route::middleware(['auth'])->group(function ()
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
 	Route::get('monitor_quotas/survey/{id}', [QuotaController::class, 'show'])->name('monitor_quotas');
 	Route::post('call', [PabxController::class, 'call'])->name('call');
+
+	Route::delete('remove_quota/{schema_id}', [QuotaController::class, 'remove_quota'])->name('remove_quota');
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('interviews', InterviewController::class);

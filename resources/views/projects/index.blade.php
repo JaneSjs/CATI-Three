@@ -32,7 +32,9 @@
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Name</th>
-              <th scope="col">Actions</th>
+              @canany(['admin','ceo','head','manager'])
+                <th scope="col">Actions</th>
+              @endcan
             </tr>
           </thead>
           <tbody>
@@ -46,6 +48,7 @@
                   {{ $project->name }}
                 </a>
               </td>
+              @canany(['admin','ceo','head','manager'])
               <td>
                 <div class="btn-group btn-xs" role="group" aria-label="Project Actions">
                   <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-outline-info">
@@ -83,6 +86,7 @@
                 </div>
                 <!-- Delete Modal -->
               </td>
+              @endcan
             </tr>
             @endforeach
           </tbody>

@@ -75,7 +75,7 @@
     </div>
     @endcan
 
-    @canany(['admin','qc'])
+    @canany(['admin','qc','agent'])
     <!-- /.row-->
     <div class="card mb-4">
       <div class="card-header">
@@ -95,7 +95,6 @@
                   <th scope="col">Interview Date</th>
                   <th scope="col">Phone Called</th>
                   <th scope="col">Interview Status</th>
-                  <th scope="col">Agent Name</th>
                   @canany(['admin','coordinator'])
                     <th scope="col">QC Name</th>
                   @endcan
@@ -105,13 +104,14 @@
                 @foreach($interviews as $interview)
                 <tr>
                   <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
+                  <td>{{ $interview->id }}</td>
+                  <td>{{ $interview->user->first_name }}</td>
+                  <td>{{ $interview->respondent->name }}</td>
+                  <td>{{ $interview->start_time }}</td>
+                  <td>{{ $interview->phone_called }}</td>
+                  @canany(['admin','coordinator'])
+                  <td></td>
+                  @endcan
                 </tr>
                 @endforeach
               </tbody>

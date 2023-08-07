@@ -6,6 +6,7 @@ use App\Http\Requests\StoreQuotaRequest;
 use App\Http\Requests\UpdateQuotaRequest;
 use App\Models\Quota;
 use App\Models\Respondent;
+use App\Models\Schema;
 
 class QuotaController extends Controller
 {
@@ -53,8 +54,9 @@ class QuotaController extends Controller
      */
     public function show($schema_id)
     {
-        $data['quotas'] = Quota::where('schema_id', $schema_id)
-                                ->paginate(10);
+        $data['survey'] = Schema::find($schema_id);
+        $data['quota'] = Quota::where('schema_id', $schema_id)
+                                ->get();
 
         $data['interviewed_respondents'] = Respondent::where('schema_id', $schema_id)->count();
         //dd($data);
@@ -81,8 +83,37 @@ class QuotaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Quota $quota)
+    public function destroy($schema_id)
     {
-        //
+        //dd($schema_id);
+        $criteria = Quota::where('schema_id', $schema_id)->get();
+
+        if ($criteria->count() > 0) {
+            foreach ($criteria as $criterion) {
+                $criterion->delete();
+            }
+
+            return to_route('surveys.show', $schema_id)->with('success', 'Quota criteria removed successfully');
+        }
+
+        return redirect()->route('surveys.show', $schema_id)->with('error', 'No quota criteria found');
+
+    }
+
+    public function remove_quota($schema_id)
+    {
+        //dd($schema_id);
+        $criteria = Quota::where('schema_id', $schema_id)->get();
+
+        if ($criteria->count() > 0) {
+            foreach ($criteria as $criterion) {
+                $criterion->delete();
+            }
+
+            return to_route('surveys.show', $schema_id)->with('success', 'Quota criteria removed successfully');
+        }
+
+        return redirect()->route('surveys.show', $schema_id)->with('error', 'No quota criteria found');
+
     }
 }

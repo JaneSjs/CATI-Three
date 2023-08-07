@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,10 +27,21 @@ class Respondent extends Model
     protected $fillable = ['r_id','project_id','name','phone_1','phone_2','phone_3','phone_4','national_id','email','occupation','region','county','sub_county','district','division','location','sub_location','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group','interview_status','interview_date_time'
     ];
 
-    // public function shouldBeSearchable()
-    // {
-    //     return $this->interview_date_time > 60;
-    // }
+
+    /**
+     * Respondents with interview fatigue shouldn't be searcheable 
+     * i.e respondents with interview date greater than 60 days ago.
+     */
+    public function shouldBeSearchable()
+    {
+        if (!$this->interview_date_time) {
+            return true;
+        }elseif ($this->interview_date_time <= Carbon::now()->subDays(60)) {
+            return true;
+        }
+
+        //return  ;
+    }
 
     /**
      * Respondent belongs to a project

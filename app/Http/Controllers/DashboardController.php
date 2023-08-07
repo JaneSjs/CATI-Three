@@ -24,7 +24,7 @@ class DashboardController extends Controller
         $data['projects'] = Project::all();
         $data['surveys'] = Schema::all();
         $data['interviews'] = $user->interviews;
-        //dd($data);
+        //dd($data['interviews']);
         
         $roleName = 'Supervisor';
 

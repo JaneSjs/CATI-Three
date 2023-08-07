@@ -11,7 +11,7 @@
           <h2>
             {{ $project->name }}
           </h2>
-          @can('coordinator', 'admin', 'manager', 'client')
+          @canany(['admin','manager','coordinator','client'])
             <button type="button" class="btn btn-success btn-sm" data-coreui-container="" data-coreui-toggle="popover" data-coreui-placement="top" data-coreui-content="Data {{ $project->database }}">
               {{ $project->database }}
             </button>
