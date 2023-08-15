@@ -11,6 +11,7 @@ use App\Models\Respondent;
 use App\Models\Schema;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Meilisearch\Client;
 
 class InterviewController extends Controller
 {
@@ -187,40 +188,57 @@ class InterviewController extends Controller
     }
 
     /**
-     * Check if the quotas are met.
+     * Prepare Search Logic Based On Quota Met Attributes.
      */
-    private function areQuotasMet($schema_id, $quotaCriteria)
+    private function metAttributes($schema_id)
     {
-        // Initialize an array to store the attributes that have met their quotas
+        /**
+         *  Fetch Quota Criteria for this survey.
+         */
+        $quotaCriteria = Quota::where('schema_id', $schema_id)->first();
+
+        /**
+         *  Fetch Interviewed Respondents on this survey.
+         */
+        $interviewedRespondents = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('gender, COUNT(*) as count')->groupBy('gender')->get();
+
+        // Store attributes that have met their quota
         $metAttributes = [];
+        //dd($quotaCriteria);
 
-        // Fetch the target count of attributes whose quota has been set.
-        foreach ($quotaCriteria as $attribute => $criteria)
+        foreach ($interviewedRespondents as $genderData)
         {
-            if (isset($criteria))
-            {      
-                $InterviewedRespondents = Respondent::where('schema_id', $schema_id)
-                ->where('interview_status', 'Interview Completed')
-                ->count();
+            //dd($genderData);
+            $gender = strtolower($genderData->gender);
+            $count  = $genderData->count;
+            //dd($gender);
 
-                /**
-                 *Check if the count of interviewed respondents 
-                 * has reached the target interviews set on the quota criteria.
-                 */
-                if ($InterviewedRespondents >= $criteria) {
-                    // Quota met for this attribute
-                    $metAttributes[$attribute] = $InterviewedRespondents;
-                }
-            } elseif (!isset($$attribute)) {
-                // Quota Criterion not set
-                $metAttributes[$attribute] = null;
+            // Check if the gender count meets the set target
+            if ($gender == 'male' && $count >= $quotaCriteria['male_target'])
+            {
+                //Send An Email Notification.
+                //dd("Male condition met");
+                // Exclude Male Respondents
+                $metAttributes[] = ['field'=>'gender', 'operator' => '!=', 'value'=>'male'];
+            }elseif ($gender == 'female' && $count >= $quotaCriteria['female_target']) {
+                //Send An Email Notification.
+                //dd("Female condition met");
+                // Exclude Female Respondents
+                $metAttributes[] = ['field'=>'gender', 'operator' => '!=', 'value'=>'female'];
+            } else {
+                // Start With Male Respondents
+                $metAttributes[] = ['field'=>'gender', 'operator' => '==', 'value'=>'male'];
             }
-
         }
+
+        //dd($metAttributes);
+
+        
         
         // Return the array of attributes that have met quotas
         return $metAttributes;
     }
+
 
     /**
      * Search for a respondent
@@ -230,10 +248,44 @@ class InterviewController extends Controller
         $data['respondent'] = null;
         $project_id = $request->input('project_id');
         $survey_id = $request->input('survey_id');
+        $query = $request->input('query');
 
-        $query = $request->get('query');
+        $findRespondent = Respondent::search($query);
 
-        $respondent = Respondent::search($query)->first();
+        //$findRespondent->eligible();
+        //dd($findRespondent);
+
+        
+
+        //$metAttributes = $this->metAttributes($survey_id);
+        // Trigger Email Alerts For Quota Met.
+        $this->metAttributes($survey_id);
+        //dd($metAttributes);
+
+        // foreach ($metAttributes as $attribute)
+        // {
+        //     $findRespondent->where($attribute['field'], $attribute['operator'], $attribute['value']);
+        // }
+
+        // Bare minimum conditions for any respondent
+        // $findRespondent->where(function ($query)
+        // {
+        //     $query->where(function ($query)
+        //     {
+        //         // Six months.
+        //         $query->whereNull('interview_date_time')
+        //         ->orWhere('interview_date_time', '<=', Carbon::now()->subMonths(6));
+        //     })->orWhere('interview_status', '!=', 'Locked');
+        // });
+
+        //dd($findRespondent);
+        //dd(Carbon::now()->subMonths(6));
+
+        //dd($findRespondent->toSql());
+
+        $respondent = $findRespondent->first();
+
+        //dd($respondent);
 
         $data['respondent'] = $respondent;
 

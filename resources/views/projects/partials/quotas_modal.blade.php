@@ -20,28 +20,28 @@
           <div class="row">
             <div class="col">
               <div class="mb-3">
-                <label for="male" class="form-label">
-                  Target Interviews
+                <label for="total_target" class="form-label">
+                  Total Targeted Interviews
                 </label>
-                <input id="male" type="number" name="quota_criteria[interview][target]" class="form-control" placeholder=" Target Interviews">
+                <input id="total_target" type="number" name="total_target" class="form-control" placeholder="Total Targeted Interviews">
               </div>
             </div>
             <div class="col">
               <div class="mb-3">
                 <label for="male" class="form-label">
-                  Males Target Count
+                  Male Target Count
                 </label>
-                <input id="male" type="number" name="quota_criteria[gender][male]" class="form-control" placeholder="Male Target Count">
+                <input id="male" type="number" name="male_target" class="form-control" placeholder="Male Target Count">
               </div>
 
               <div class="mb-3">
                 <label for="female" class="form-label">
-                  Females Target Count
+                  Female Target Count
                 </label>
-                <input id="female" type="number" name="quota_criteria[gender][female]" class="form-control" placeholder="Female Target Count">
+                <input id="female" type="number" name="female_target" class="form-control" placeholder="Female Target Count">
               </div>
               
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">
                   18-24 Target Count
                 </label>
@@ -52,7 +52,7 @@
                   25-29 Target Count
                 </label>
                 <input type="number" name="quota_criteria[age_group][25-29]" class="form-control" placeholder="25-29 Target Count">
-              </div>                
+              </div>  -->               
             </div>
             
             <div class="col">

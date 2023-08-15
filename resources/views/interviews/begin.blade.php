@@ -74,7 +74,7 @@
               IAX2/{{ auth()->user()->ext_no }}
             </p>
             <p id="respondent_number" class="d-none">
-              890{{ $respondent->phone_1 }}
+              890{{ $respondent->phone_1 ?? 0 }}
             </p>
 
             
@@ -97,7 +97,7 @@
             <div class="input-group">
               <input type="search" name="query" class="form-control" placeholder="Search for a respondent..." value="{{ request()->get('query') }}">
               <div class="input-group-append">
-                <button type="submit" class="btn btn-primary" title="Search">
+                <button type="submit" class="btn btn-primary text-light" title="Search">
                   <i class="fa fa-search"></i>
                 </button>
               </div>
@@ -110,12 +110,15 @@
                 <ul class="list-group">
                   <li class="list-group-item">
                     <strong>
-                      {{ $respondent->name }}
-                    </strong> | {{ $respondent->gender }}
+                      {{ $respondent->name ?? 'Database is Probably Empty' }}
+                    </strong> | {{ $respondent->gender ?? '' }}
                   </li>
                   @canany(['admin'])
                     <li class="list-group-item">
                       {{ $respondent->phone_1 }}
+                    </li>
+                    <li class="list-group-item">
+                      {{ $respondent->interview_date_time }}
                     </li>
                   @endcan
                   
@@ -126,19 +129,19 @@
                     {{ $respondent->gender ?? 'Gender is Undefined' }}
                   </li>
                   <li class="list-group-item">
-                    {{ $respondent->region }} | {{ $respondent->county }}
+                    {{ $respondent->region ?? '' }}
                   </li>
                   <li class="list-group-item">
-                    {{ $respondent->county }}
+                    {{ $respondent->county ?? '' }}
                   </li>
                   <li class="list-group-item">
-                    {{ $respondent->sub_county }}
+                    {{ $respondent->sub_county ?? '' }}
                   </li>
                   <li class="list-group-item">
-                    {{ $respondent->ward }}
+                    {{ $respondent->ward ?? '' }}
                   </li>
                   <li class="list-group-item">
-                    {{ $respondent->setting }}
+                    {{ $respondent->setting ?? '' }}
                   </li>
                 </ul>
               </div>

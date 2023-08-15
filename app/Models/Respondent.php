@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+//use App\Models\Scopes\RespondentScope;
 use Carbon\Carbon;
+//use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,30 +19,67 @@ use Laravel\Scout\Searchable;
  */
 class Respondent extends Model
 {
-    use HasFactory, Searchable, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
      /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $fillable = ['r_id','project_id','name','phone_1','phone_2','phone_3','phone_4','national_id','email','occupation','region','county','sub_county','district','division','location','sub_location','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group','interview_status','interview_date_time'
+    protected $fillable = ['r_id','project_id','schema_id','name','phone_1','phone_2','phone_3','phone_4','national_id','email','occupation','region','county','sub_county','district','division','location','sub_location','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group','interview_status','interview_date_time'
     ];
 
-
-    /**
-     * Respondents with interview fatigue shouldn't be searcheable 
-     * i.e respondents with interview date greater than 60 days ago.
-     */
-    public function shouldBeSearchable()
+    public function toSearchableArray(): array
     {
-        if (!$this->interview_date_time) {
-            return true;
-        }elseif ($this->interview_date_time <= Carbon::now()->subDays(60)) {
+        return [
+            //'id'   => (int) $this->id,
+            //'r_id' => (int) $this->r_id,
+            //'project_id' => (int) $this->project_id,
+            //'schema_id'  => (int) $this->schema_id,
+            'name'                => $this->name,
+            'email'               => $this->email,
+            'occupation'          => $this->occupation,
+            'region'              => $this->region,
+            'county'              => $this->county,
+            'sub_county'          => $this->sub_county,
+            'constituency'        => $this->constituency,
+            'ward'                => $this->ward,
+            'setting'             => $this->setting,
+            'gender'              => $this->gender,
+            'exact_age'           => (int) $this->exact_age,
+            'education_level'     => $this->education_level,
+            'marital_status'      => $this->marital_status,
+            'religion'            => $this->religion,
+            'income'              => $this->income,
+            'Lsm'                 => $this->Lsm,
+            'ethnic_group'        => $this->ethnic_group,
+            'employment_status'   => $this->employment_status,
+            'age_group'           => $this->age_group,
+            'interview_status'    => $this->interview_status,
+            'interview_date_time' => $this->interview_date_time,
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        if ($this->interview_date_time === NULL)
+        {
             return true;
         }
 
-        //return  ;
+        // Respondent is currently being interviewed by someone else.
+        if ($this->interview_status == 'Locked')
+        {
+            return false;
+        }
+
+        if ($this->interview_status != 'Locked')
+        {
+            $sixMonthsAgo = Carbon::now()->subMonths(6);
+            $lastInterviewDate = Carbon::parse($this->interview_date_time);
+
+            return $lastInterviewDate->lte($sixMonthsAgo);
+        }
     }
 
     /**

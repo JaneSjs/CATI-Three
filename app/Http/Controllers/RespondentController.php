@@ -60,7 +60,7 @@ class RespondentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRespondentRequest $request, $respondent_id, $project_id, $status)
+    public function update(UpdateRespondentRequest $request, $respondent_id, $project_id, $schema_id, $status)
     {
         $respondent = Respondent::find($respondent_id);
         //dd($respondent);
@@ -68,6 +68,7 @@ class RespondentController extends Controller
         if ($respondent) {
             $respondent->update([
                 'project_id' => $project_id,
+                'schema_id' => $schema_id,
                 'interview_date_time' => Carbon::now(),
                 'interview_status' => $status
             ]);

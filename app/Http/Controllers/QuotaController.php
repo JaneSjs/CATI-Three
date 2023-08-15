@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuotaRequest;
 use App\Http\Requests\UpdateQuotaRequest;
+use App\Models\Interview;
 use App\Models\Quota;
 use App\Models\Respondent;
 use App\Models\Schema;
@@ -31,22 +32,15 @@ class QuotaController extends Controller
      */
     public function store(StoreQuotaRequest $request)
     {
-        $quota_criteria = $request->input('quota_criteria');
+        Quota::create([
+            'project_id' => $request->input('project_id'),
+            'schema_id' => $request->input('schema_id'),
+            'total_target' => $request->input('total_target'),
+            'male_target' => $request->input('male_target'),
+            'female_target' => $request->input('female_target'),
+        ]);
 
-        foreach ($quota_criteria as $attribute => $criteria) {
-            foreach ($criteria as $value => $target_count) {
-                //dd($criteria);
-                Quota::create([
-                    'project_id' => $request->project_id,
-                    'schema_id' => $request->schema_id,
-                    'attribute' => $attribute,
-                    'value' => $value,
-                    'target_count' => $target_count,
-                ]);
-            }
-        }
-
-        return redirect()->back()->with('success', 'Quota Criteria for that Survey has been Set Successfully');
+        return redirect()->back()->with('success', 'Quota Criteria for the Survey has been Set Successfully');
     }
 
     /**
@@ -56,9 +50,26 @@ class QuotaController extends Controller
     {
         $data['survey'] = Schema::find($schema_id);
         $data['quota'] = Quota::where('schema_id', $schema_id)
-                                ->get();
+                                ->first();
+        $data['interviews'] = Interview::where('schema_id', $schema_id)->get();
+        $data['total_interviews'] = Interview::where('schema_id', $schema_id)->count();
+        $data['approved_interviews'] = Interview::where('schema_id', $schema_id)->where('status', 'Approved')->count();
+        $data['cancelleded_interviews'] = Interview::where('schema_id', $schema_id)->where('status', 'Cancelled')->count();
 
         $data['interviewed_respondents'] = Respondent::where('schema_id', $schema_id)->count();
+        // GROUP BY
+        $data['interviewed_respondents_by_gender'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('gender, COUNT(*) as count')->groupBy('gender')->get();
+
+        $data['interviewed_respondents_by_county'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('county, COUNT(*) as count')->groupBy('county')->get();
+
+        $data['interviewed_respondents_by_sub_county'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('sub_county, COUNT(*) as count')->groupBy('sub_county')->get();
+
+        $data['interviewed_respondents_by_ward'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('ward, COUNT(*) as count')->groupBy('ward')->get();
+
+        $data['interviewed_respondents_by_setting'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('setting, COUNT(*) as count')->groupBy('setting')->get();
+
+        $data['interviewed_respondents_by_religion'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('religion, COUNT(*) as count')->groupBy('religion')->get();
+
         //dd($data);
 
         return view('quotas.show', $data);

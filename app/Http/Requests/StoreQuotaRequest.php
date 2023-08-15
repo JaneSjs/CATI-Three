@@ -23,9 +23,9 @@ class StoreQuotaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'schema_id' => Rule::unique('quotas')->where(function($query) {
-                return $query->where('schema_id', $this->input('schema_id'));
-            })
+            'project_id' => 'required',
+            'schema_id' => 'required|unique:quotas,schema_id',
+            'total_target' => 'required',
         ];
     }
 
@@ -33,7 +33,7 @@ class StoreQuotaRequest extends FormRequest
     public function messages()
     {
         return [
-            'schema_id.unique' => 'Quota Criteria For That Survey Had Already Been Set.',
+            'schema_id.unique' => 'Quota Criteria For That Survey Already Exists. You can try to Update it instead.',
         ];
     }
 }

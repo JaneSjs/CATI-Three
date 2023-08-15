@@ -25,7 +25,7 @@
 
           @include('partials/alerts')
 
-          @canany(['admin','head'])
+          @canany(['admin','head','manager','coordinator'])
           <a href="{{ url('respondents/import') }}" class="btn btn-outline-success">
             Import respondents
           </a>

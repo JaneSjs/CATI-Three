@@ -26,9 +26,14 @@ return new class extends Migration
                   ->constrained()
                   ->cascadeOnDelete();
 
-            $table->string('attribute')->nullable();
-            $table->string('value')->nullable();
-            $table->unsignedInteger('target_count');
+            $table->string('total_target')->nullable();
+            $table->unsignedInteger('total_achieved')->nullable();
+
+            $table->string('male_target')->nullable();
+            $table->unsignedInteger('male_achieved')->nullable();
+
+            $table->string('female_target')->nullable();
+            $table->unsignedInteger('female_achieved')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
