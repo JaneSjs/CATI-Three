@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
+use App\Mail\QuotaMet;
+use App\Models\Email;
 use App\Models\Interview;
 use App\Models\Project;
 use App\Models\Quota;
 use App\Models\Respondent;
 use App\Models\Schema;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Meilisearch\Client;
 
 class InterviewController extends Controller
@@ -202,6 +206,9 @@ class InterviewController extends Controller
          */
         $interviewedRespondents = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('gender, COUNT(*) as count')->groupBy('gender')->get();
 
+        $survey = Schema::find($schema_id);
+        //dd($survey['survey_name']);
+
         // Store attributes that have met their quota
         $metAttributes = [];
         //dd($quotaCriteria);
@@ -216,11 +223,19 @@ class InterviewController extends Controller
             // Check if the gender count meets the set target
             if ($gender == 'male' && $count >= $quotaCriteria['male_target'])
             {
-                //Send An Email Notification.
                 //dd("Male condition met");
                 // Exclude Male Respondents
                 $metAttributes[] = ['field'=>'gender', 'operator' => '!=', 'value'=>'male'];
-            }elseif ($gender == 'female' && $count >= $quotaCriteria['female_target']) {
+
+                //Send An Email Notification Only Once.
+                // if ($this->quotaEmailSent === FALSE)
+                // {
+                //     //dd($this->quotaEmailSent);
+                //     $this->sendEmail($metAttributes, $survey);
+                // }
+            }
+            elseif ($gender == 'female' && $count >= $quotaCriteria['female_target'])
+            {
                 //Send An Email Notification.
                 //dd("Female condition met");
                 // Exclude Female Respondents
@@ -232,11 +247,39 @@ class InterviewController extends Controller
         }
 
         //dd($metAttributes);
-
-        
         
         // Return the array of attributes that have met quotas
         return $metAttributes;
+    }
+
+    /**
+     * Send Quota Met Email Alert Notifications.
+     */
+    function sendEmail($metAttributes, $survey)
+    {
+        $schema = Schema::find($survey['id']);
+        $survey_id = $schema['id'];
+        //Send email to project coordinator
+        $recepients = $schema->users()->whereHas('roles', function ($query)
+        {
+            $query->whereIn('name', ['Manager','Coordinator']);
+        })->get();
+        //dd($recepients);
+
+        foreach ($recepients as $recepient)
+        {
+            if ($recepient->hasAnyRoles(['Coordinator'])) {
+                $toAddresses[] = $recepient->email;
+            }
+        }
+
+        $email = Email::create([
+            'schema_id' => $survey_id,
+            'to' => $toAddresses[0],
+        ]);
+
+        return Mail::to($toAddresses)
+                    ->send(new QuotaMet($metAttributes, $survey));
     }
 
 

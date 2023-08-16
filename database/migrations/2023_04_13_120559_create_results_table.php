@@ -36,8 +36,8 @@ return new class extends Migration
             $table->ipAddress('ip_address')->nullable();
             $table->macAddress('mac_address')->nullable();
             $table->string('user_agent')->nullable();
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
             $table->string('altitude')->nullable();
             $table->string('altitude_accuracy')->nullable();
             $table->string('position_accuracy')->nullable();

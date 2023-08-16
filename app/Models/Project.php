@@ -66,4 +66,12 @@ class Project extends Model
     {
         return $this->hasMany(Respondent::class);
     }
+
+    /**
+     * This Project can have many emails
+     */
+    public function emails(): HasMany
+    {
+        return $this->hasMany(Email::class);
+    }
 }

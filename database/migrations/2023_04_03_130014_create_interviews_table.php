@@ -32,6 +32,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('respondent_id')
                   ->nullable();
+            $table->foreign('respondent_id')->references('id')->on('respondents');
 
             $table->string('respondent_name')->nullable();
             $table->string('ext_no')->nullable();

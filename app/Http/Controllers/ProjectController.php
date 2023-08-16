@@ -41,6 +41,12 @@ class ProjectController extends Controller
                                 $query->where('name', 'Supervisor');
                             })->get();
 
+        $data['coordinators'] = User::with('roles')
+                            ->whereHas('roles', function (Builder $query)
+                            {
+                                $query->where('name', 'Coordinator');
+                            })->get();
+
         $data['scriptors'] = User::with('roles')
                             ->whereHas('roles', function (Builder $query)
                             {
