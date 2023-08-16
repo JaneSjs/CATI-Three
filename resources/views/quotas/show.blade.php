@@ -106,20 +106,20 @@
                       <thead>
                         <tr>
                           <th>
-                            Male Target
+                            Religion Target
                           </th>
                           <th>
-                            Female Target
+                             Targets
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target }}
+                            {{ $quota->male_target ?? '' }}
                           </td>
                           <td>
-                            {{ $quota->female_target }}
+                            {{ $quota->female_target ?? '' }}
                           </td>
                         </tr>
                       </tbody>
@@ -171,10 +171,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target }}
+                            
                           </td>
                           <td>
-                            {{ $quota->female_target }}
+                            
                           </td>
                         </tr>
                       </tbody>
@@ -226,10 +226,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target }}
+                            
                           </td>
                           <td>
-                            {{ $quota->female_target }}
+                            
                           </td>
                         </tr>
                       </tbody>
@@ -281,10 +281,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target }}
+                            
                           </td>
                           <td>
-                            {{ $quota->female_target }}
+                            
                           </td>
                         </tr>
                       </tbody>
@@ -336,10 +336,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target }}
+                            
                           </td>
                           <td>
-                            {{ $quota->female_target }}
+                            
                           </td>
                         </tr>
                       </tbody>
@@ -391,10 +391,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target }}
+                            
                           </td>
                           <td>
-                            {{ $quota->female_target }}
+                            
                           </td>
                         </tr>
                       </tbody>

@@ -75,16 +75,13 @@ class UserController extends Controller
             $user->roles()->sync($request->roles);
 
             // Send Password Reset Link
-            //$reset_link = Password::sendResetLink($request->only(['email']));
+            //Password::sendResetLink($request->only(['email']));
             
             if (true) {
-                return redirect(route('users.index'))->with('success', ' User is now registered. Ask them to check their email.');
+                return redirect(route('users.create'))->with('success', "User is now registered. (buzz-word) is their default password - without brackets.");
             } else {
-                return redirect('users/create')->with('error', ' User has been registered. But the system has not been able to Successfully email them their login instructions. They can meanwhile use <strong>buzz-word</strong> as their temporary password');
+                return redirect('users/create')->with('error', " User has been registered. But the system has not been able to Successfully email them their login instructions. They can meanwhile use 'buzz-word' as their temporary password");
             }
-            
-            
-            
             
         } else {
             return redirect(route('users.create'))->with('error', ' User registration has failed.');
@@ -237,6 +234,7 @@ class UserController extends Controller
                            ->first();
         //dd($role);
 
+        // Return agents who belong the desired project.
         $data['users'] = $role->users()->paginate(10);
 
         return view('users.agents', $data);
