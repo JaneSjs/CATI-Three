@@ -89,29 +89,51 @@ class SchemaController extends Controller
     /**
      * Update the Survey Schemas in storage.
      */
-    public function update(Request $request)
+    public function update(UpdateSchemaRequest $request, $schema_id)
     {
+        $schema = Schema::find($schema_id);
+        //dd($schema);
 
-        $survey = Schema::find($request->id);
-        
-        if ($survey) {
-            $survey->user_id = auth()->user()->id;
-            $survey->project_id = $request->input('project_id');
-            $survey->stage = $request->input('stage');
-            $survey->updated_by = auth()->user()->first_name . ' ' . auth()->user()->last_name;
-            $survey->save();
-
-            //dd($survey);
-
-            return response()->json([
-                'message' => 'Survey Schema Updated Successfully'
+        if ($schema)
+        {
+            $schema->update([
+                'survey_name' => $request->input('survey_name'),
+                'stage' => $request->input('stage'),
             ]);
+
+            return redirect()->back()->with('success', 'Survey Updated Successfully.');
         } else {
-            return response()->json([
-                'message' => 'Survey Schema was not found'
-            ]);
+            return redirect()->back()->with('error', 'Survey not found.');
         }
+        
     }
+
+    /**
+     * Update the Survey Schemas in storage.
+     */
+    // public function update(Request $request)
+    // {
+
+    //     $survey = Schema::find($request->id);
+        
+    //     if ($survey) {
+    //         $survey->user_id = auth()->user()->id;
+    //         $survey->project_id = $request->input('project_id');
+    //         $survey->stage = $request->input('stage');
+    //         $survey->updated_by = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+    //         $survey->save();
+
+    //         //dd($survey);
+
+    //         return response()->json([
+    //             'message' => 'Survey Schema Updated Successfully'
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Survey Schema was not found'
+    //         ]);
+    //     }
+    // }
 
     /**
      * Remove the specified resource from storage.

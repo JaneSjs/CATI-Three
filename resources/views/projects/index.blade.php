@@ -70,7 +70,9 @@
                         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <p>Modal body text goes here.</p>
+                        <p>
+                          You are about to perform a sensitive operation. Are you sure about this ?
+                        </p>
                       </div>
                       <div class="modal-footer">
                         <form action="{{ route('projects.destroy', $project->id) }}" method="post">

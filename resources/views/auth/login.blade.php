@@ -28,16 +28,18 @@
                 	</div>
               	@enderror
               </div>
+              <!-- End Email input -->
 
               <!-- Password input -->
               <div class="form-outline mb-3">
                 <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="Password" />
                 @error('password')
                 	<div class="invalid-feedback bg-light rounded text-center" role="alert">
-                      {{ $message }}
+                    {{ $message }}
                   </div>
               	@enderror
               </div>
+              <!-- End Password input -->
 
               <div class="d-flex justify-content-between align-items-center">
                 <!-- Checkbox -->

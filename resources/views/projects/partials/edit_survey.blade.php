@@ -23,9 +23,9 @@
 
           <div class="mb-3">
             <label for="stage" class="form-label">
-              Change Stage
+              Staging
             </label>
-            <select name="stage" class="form-select" aria-label="Default select example">
+            <select name="stage" class="form-select" aria-label="Change Survey Stage">
               <option value="Draft" selected>
                 Draft
               </option>
