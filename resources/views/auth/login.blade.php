@@ -31,7 +31,7 @@
 
               <!-- Password input -->
               <div class="form-outline mb-3">
-                <input type="password" name="password" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Password" />
+                <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="Password" />
                 @error('password')
                 	<div class="invalid-feedback bg-light rounded text-center" role="alert">
                       {{ $message }}

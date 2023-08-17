@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function ()
 });
 
 // User Routes
-Route::middleware(['auth'])->group(function ()
+Route::middleware(['auth','verified'])->group(function ()
 {
 	Route::resource('profile', ProfileController::class);
 	Route::resource('users', UserController::class);
@@ -52,7 +52,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 
 
 // Project  Routes
-Route::middleware(['auth'])->group(function ()
+Route::middleware(['auth','verified'])->group(function ()
 {
 	Route::middleware('scripter')->get('survey_creator', [ProjectController::class, 'creator']);
 
@@ -89,4 +89,4 @@ Route::middleware(['auth'])->group(function ()
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
-Route::middleware('auth')->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth','verified'])->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
