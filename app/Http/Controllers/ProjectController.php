@@ -92,7 +92,7 @@ class ProjectController extends Controller
         if ($project) {
             $project->users()->sync($project_members);
 
-            // Send Email Notification
+            // Send Relevant members an email alert so they can prepare for the project.
            return redirect(route('projects.index'))->with('success', 'Project Has Been Created Successfully');
         } else {
             // Send Email Notification

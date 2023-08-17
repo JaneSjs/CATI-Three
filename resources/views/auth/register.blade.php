@@ -16,27 +16,32 @@
               </h3>
               @include('partials.alerts')
           	</div>
-            <form method="post" action="{{ route('login') }}" class="needs-validation">
+            <form method="post" action="{{ route('register') }}" class="needs-validation">
             	@csrf
 
-              <!-- First Name input -->
-              <div class="form-outline mb-4">
-                <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="First Name" value="{{ old('first_name') }}"/>
-                @error('first_name')
-                  <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                      {{ $message }}
+              <div class="row">
+                <!-- First Name input -->
+                <div class="col">
+                  <div class="form-outline mb-4">
+                    <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="First Name" value="{{ old('first_name') }}"/>
+                    @error('first_name')
+                      <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                          {{ $message }}
+                      </div>
+                    @enderror
                   </div>
-                @enderror
-              </div>
-
-              <!-- Last Name input -->
-              <div class="form-outline mb-4">
-                <input type="text" name="last_name" class="form-control form-control-lg @error('last_name') is-invalid @enderror" placeholder="Last Name" value="{{ old('last_name') }}"/>
-                @error('last_name')
-                  <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                      {{ $message }}
+                </div>
+                <!-- Last Name input -->
+                <div class="col">
+                  <div class="form-outline mb-4">
+                    <input type="text" name="last_name" class="form-control form-control-lg @error('last_name') is-invalid @enderror" placeholder="Last Name" value="{{ old('last_name') }}"/>
+                    @error('last_name')
+                      <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                          {{ $message }}
+                      </div>
+                    @enderror
                   </div>
-                @enderror
+                </div>
               </div>
 
               <!-- Email input -->
@@ -49,36 +54,40 @@
               	@enderror
               </div>
 
-              <!-- Password input -->
-              <div class="form-outline mb-3">
-                <input type="password" name="password" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Password" />
-                @error('password')
-                	<div class="invalid-feedback bg-light rounded text-center" role="alert">
-                      {{ $message }}
+              <div class="row">
+                <!-- Password input -->
+                <div class="col">
+                  <div class="form-outline mb-3">
+                    <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="Password" />
+                    @error('password')
+                      <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                          {{ $message }}
+                      </div>
+                    @enderror
                   </div>
-              	@enderror
-              </div>
-
-              <div class="d-flex justify-content-between align-items-center">
-                <!-- Checkbox -->
-                <div class="form-check mb-0">
-                  <input class="form-check-input me-2" type="checkbox" name="remember" value="true" id="remember_me" />
-                  <label class="form-check-label" for="remember_me">
-                    Remember me
-                  </label>
                 </div>
-                <a href="#!" class="text-body">Forgot password?</a>
+                <!-- Confirm Password input -->
+                <div class="col">
+                  <div class="form-outline mb-3">
+                    <input type="password" name="password_confirmation" class="form-control form-control-lg @error('password_confirmation') is-invalid @enderror" placeholder="Verify Password" />
+                    @error('password')
+                      <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                          {{ $message }}
+                      </div>
+                    @enderror
+                  </div>
+                </div>
               </div>
 
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-primary btn-lg"
                   style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                  Login
+                  Register
               	</button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">
-                  Don't have an account?
-                  <a href="{{ route('register') }}" class="link-primary">
-                    Sign Up
+                  Already Registered ? 
+                  <a href="{{ route('login') }}" class="link-primary">
+                    Login
                   </a>
                 </p>
               </div>
