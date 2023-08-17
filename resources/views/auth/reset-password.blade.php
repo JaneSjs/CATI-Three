@@ -18,7 +18,9 @@
           	</div>
             <form method="post" action="{{ route('password.update') }}" class="needs-validation">
             	@csrf
-              <input type="hidden" name="token" value="{{ $request->token }}">
+
+              <input type="hidden" name="token" value="{{ request()->route('token') }}">
+
               <!-- Email input -->
               <div class="form-outline mb-4">
                 <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror"  value="{{ $request->email }}"/>
@@ -31,7 +33,7 @@
 
               <!-- Password input -->
               <div class="form-outline mb-3">
-                <input type="password" name="password" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="New Password" />
+                <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="New Password" />
                 @error('password')
                 	<div class="invalid-feedback bg-light rounded text-center" role="alert">
                       {{ $message }}
@@ -41,7 +43,7 @@
 
               <!-- Password Confirmation input -->
               <div class="form-outline mb-3">
-                <input type="password" name="password_confirmation" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="Confirm Password" />
+                <input type="password" name="password_confirmation" class="form-control form-control-lg @error('password_confirmation') is-invalid @enderror" placeholder="Confirm Password" />
                 @error('password_confirmation')
                   <div class="invalid-feedback bg-light rounded text-center" role="alert">
                       {{ $message }}
@@ -52,7 +54,7 @@
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-primary btn-lg"
                   style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                  Reset
+                  Save New Password
               	</button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">
                   Having Trouble ?

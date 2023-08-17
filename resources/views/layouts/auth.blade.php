@@ -17,5 +17,20 @@
     @yield('content')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+    <!-- Fontawesome Kit -->
+    <!-- Check internet availability before trying to load fontawesome kit -->
+    <script>
+      if(navigator.onLine) {
+        var script = document.createElement('script');
+        script.src = 'https://kit.fontawesome.com/63b4fcb6d3.js';
+        script.crossOrigin = 'anonymous';
+
+        document.body.appendChild(script);
+        console.log("Internet Connection is available. Font Awesome kit loaded.");
+      } else {
+        console.log("No Internet Connection Available");
+      }
+    </script>
   </body>
 </html>
