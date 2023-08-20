@@ -237,7 +237,7 @@
       } else {
         // Toastify Notifications
           Toastify({
-            text: "Answer The Soft Phone",
+            text: "Check Your Internet Connection",
             duration: 9000,
             destination: "https://cati.tifaresearch.com/projects",
             newWindow: true,
@@ -251,7 +251,7 @@
             onClick: function(){} // Callback after click
           }).showToast();
         // End Toastify Notifications
-          
+
         throw new Error('Server Error. Check Server Logs');
       }
     } catch (error) {

@@ -45,6 +45,7 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
             'sampling_point' => $row['sampling_point'],
             'setting'       => $row['setting'],
             'gender'        => $row['gender'],
+            'dob'        => $row['dob'],
             'exact_age'     => $row['exact_age'],
             'education_level' => $row['education_level'],
             'marital_status' => $row['marital_status'],

@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('sampling_point')->nullable();
             $table->string('setting')->nullable();
             $table->string('gender')->nullable();
+            $table->date('dob')->nullable();
             $table->string('exact_age')->nullable();
             $table->string('education_level')->nullable();
             $table->string('marital_status')->nullable();
