@@ -35,7 +35,7 @@
 
 
     
-    @if(request()->has('analytics'))
+    @if(request()->segment(1) === 'analytics')
       @include('layouts.analytics-resources')
     @endif
 

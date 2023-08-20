@@ -112,13 +112,16 @@ class InterviewController extends Controller
      */
     public function update(UpdateInterviewRequest $request, Interview $interview)
     {
+        $survey_id = $request->input('survey_id');
+        //dd($request->input('survey_id'));
+
         $status = $interview->update([
             'qcd_by' => auth()->id(),
             'status' => $request->input('status')
         ]);
 
         if ($status) {
-            return back(201)->with('success', 'Your QC has been Recorded Successfully');
+            return to_route('surveys.show', $survey_id)->with('success', 'Your QC has been Recorded Successfully');
         } else {
             return back()->with('danger', 'Something went wrong. Your QC has not been Recorded Successfully.');
         }
@@ -177,7 +180,7 @@ class InterviewController extends Controller
             ]);
 
             $data['project'] = Project::find($project_id);
-            $data['survey'] = Schema::find($survey_id);
+            $data['survey']  = Schema::find($survey_id);
             $data['interview'] = Interview::find($interview_id);
             $data['respondent_id'] = $respondent_id;
 
@@ -201,10 +204,18 @@ class InterviewController extends Controller
          */
         $quotaCriteria = Quota::where('schema_id', $schema_id)->first();
 
+        if (!$quotaCriteria) {
+            return [];
+        }
+
         /**
          *  Fetch Interviewed Respondents on this survey.
          */
         $interviewedRespondents = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('gender, COUNT(*) as count')->groupBy('gender')->get();
+
+        if (!$interviewedRespondents) {
+            return [];
+        }
 
         $survey = Schema::find($schema_id);
         //dd($survey['survey_name']);

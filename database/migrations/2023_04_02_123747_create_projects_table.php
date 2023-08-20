@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('database')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->string('updated_by');
+            $table->string('deleted_by');
             $table->timestamps();
             $table->softDeletes();
         });

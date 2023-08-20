@@ -36,7 +36,8 @@ class SchemaApiController extends Controller
         $data['survey']  = Schema::select('content')
                             ->findOrFail($id);
 
-        return $data;
+        //return $data;
+        return response()->json($data, 200);
     }
 
     /**

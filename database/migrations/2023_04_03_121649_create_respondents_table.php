@@ -48,6 +48,8 @@ return new class extends Migration
             $table->string('interview_status')->nullable();
             $table->dateTime('interview_date_time')->nullable();
             $table->string('last_downloaded_date')->nullable();
+            $table->string('updated_by');
+            $table->string('deleted_by');
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at');
         });

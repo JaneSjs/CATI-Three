@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           model: survey
         });
 
+        // Save Survey When User Clicks the "Next" button
+        survey.onValueChanged.add(surveyNextPage);
         // Add the onComplete event handler
         survey.onComplete.add(surveyComplete);
 
@@ -63,7 +65,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   console.log('Result Url: ',result_url);
   console.log('CSRF Token: ', csrf);
 
-  async function saveSurveyResults(result_url, json) {
+  async function saveSurveyResults(result_url, json, page = null, httpMethod = "POST")
+  {
     try {
       
       data = {
@@ -83,9 +86,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         content: json,
       };
 
+      if (page !== null)
+      {
+        data.page = page;
+      }
+
       // Create new Record
       const options = {
-        method: "POST",
+        method: httpMethod,
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
@@ -173,14 +181,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
+  function surveyNextPage(sender, options)
+  {
+    let nextPage;
+    let httpMethod;
 
-  function surveyComplete(sender) {
+    // Check if the current page is the last page
+    if (survey.isLastPage)
+    {
+      const currentPage = sender.currentPage;
+      nextPage = currentPage + 1;
+
+      httpMethod = currentPage === 0 ? "POST" : "PATCH";
+    }
+
+    // Check if the user has navigated to the next page
+    if (options.value !== undefined && options.value !== null)
+    {
+      // Save survey results for the current page
+      saveSurveyResults(result_url, survey.data, nextPage, httpMethod);
+    }
+  }
+
+  function surveyComplete(sender)
+  {
     console.log('Survey complete:', sender);
     const surveyData = sender.data;
+    const currentPage = sender.currentPage;
 
     console.log('Survey Data:', surveyData);
 
-    saveSurveyResults(result_url, surveyData);
+    // Determine HTTP method based on the page
+    const httpMethod = currentPage === 0 ? "POST" : "PATCH";
+
+    if (sender.isCompleted)
+    {
+      saveSurveyResults(result_url, surveyData);
+    } else if (currentPage === survey.visiblePageCount - 1)
+    {
+      // Save survey results when the user navigates to the last page
+      saveSurveyResults(result_url, surveyData, currentPage +1);
+    }
   }
 
 });

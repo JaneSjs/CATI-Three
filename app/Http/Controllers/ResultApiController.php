@@ -26,7 +26,7 @@ class ResultApiController extends Controller
      */
     public function store(StoreResultRequest $request)
     {
-        //dd(auth()->user()->id());
+        dd(auth()->user()->id());
         $content      = json_encode($request->content);
         $user_id      = (int) $request->input('user_id');
         $schema_id    = (int) $request->input('survey_id');
@@ -94,6 +94,7 @@ class ResultApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        dd('Patch');
         $survey_result = Result::find($id);
 
         $content = $request->input('content');

@@ -39,6 +39,7 @@ class AnalyticsController extends Controller
     public function show($id)
     {
         $data['result'] = Result::where('schema_id', $id)->first();
+        //dd($data);
 
         return view('analytics.show', $data);
     }

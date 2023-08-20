@@ -62,8 +62,9 @@
         </div>
       </div>
     </div>
+
     <!-- Survey Schema -->
-    @canany(['admin', 'agent', 'respondent',])
+    @canany(['admin', 'agent', 'respondent'])
       @include('surveys.schema')
     @endcan
     <!-- End Survey Schema -->
@@ -71,6 +72,7 @@
     @canany(['admin', 'qc'])
       @include('surveys.qc')
     @endcan
+    
   </div>
 </div>
 

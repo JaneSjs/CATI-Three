@@ -104,6 +104,7 @@
             @csrf
             @method('PATCH')
             <input type="hidden" name="status" value="Approved">
+            <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
 
             <button type="submit" class="btn btn-outline-success floar-start">
               Approve This Interview
@@ -116,6 +117,7 @@
             @csrf
             @method('PATCH')
             <input type="hidden" name="status" value="Cancelled">
+            <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
 
             <button type="submit" class="btn btn-outline-danger float-end">
               Cancel This Interview

@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->cascadeOnDelete();
+            $table->foreignId('respondent_id')
+                  ->references('id')
+                  ->on('users')
+                  ->cascadeOnDelete();
+            $table->mediumText('content');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
