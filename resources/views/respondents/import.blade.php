@@ -10,7 +10,12 @@
         <div class="col">
           Bulk Import Respondents
         </div>
-        
+        <div class="col">
+          <a href="{{ asset('Templates/Respondents-Import-Template.xlsx') }}" class="btn btn-outline-warning" download>
+            Download Template
+            <i class="fas fa-download"></i>
+          </a>
+        </div>
         <div class="col text-end">
           @include('partials/alerts')
           @include('partials/errors')
