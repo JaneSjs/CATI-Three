@@ -49,8 +49,8 @@ return new class extends Migration
             $table->string('interview_status')->nullable();
             $table->dateTime('interview_date_time')->nullable();
             $table->string('last_downloaded_date')->nullable();
-            $table->string('updated_by');
-            $table->string('deleted_by');
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at');
         });

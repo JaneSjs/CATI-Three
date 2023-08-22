@@ -116,10 +116,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target ?? '' }}
+                            
                           </td>
                           <td>
-                            {{ $quota->female_target ?? '' }}
+                            
                           </td>
                         </tr>
                       </tbody>
@@ -171,10 +171,10 @@
                       <tbody>
                         <tr>
                           <td>
-                            
+                            {{ $quota->male_target ?? '' }}
                           </td>
                           <td>
-                            
+                            {{ $quota->female_target ?? '' }}
                           </td>
                         </tr>
                       </tbody>

@@ -17,10 +17,11 @@ return new class extends Migration
                   ->references('id')
                   ->on('users')
                   ->cascadeOnDelete();
-            $table->foreignId('respondent_id')
-                  ->references('id')
-                  ->on('users')
-                  ->cascadeOnDelete();
+                  
+            $table->unsignedBigInteger('respondent_id')
+                  ->nullable();
+            $table->foreign('respondent_id')->references('id')->on('respondents');
+
             $table->mediumText('content');
             $table->timestamps();
             $table->softDeletes();
