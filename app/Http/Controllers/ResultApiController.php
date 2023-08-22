@@ -26,7 +26,7 @@ class ResultApiController extends Controller
      */
     public function store(StoreResultRequest $request)
     {
-        dd(auth()->user()->id());
+        //dd(auth()->user()->id);
         $content      = json_encode($request->content);
         $user_id      = (int) $request->input('user_id');
         $schema_id    = (int) $request->input('survey_id');
@@ -66,10 +66,15 @@ class ResultApiController extends Controller
 
             $this->updateRespondentInterviewStatus($respondent_id, $project_id);
 
-           return response()->json($result, 201);
+           return response()->json([
+            'id' => $result->id,
+            'message' => 'Result stored successfully'
+           ], 201);
         } else {
             // You can send email and/or sms notification
-           return response()->json($result, 500);
+           return response()->json([
+            'message' => 'Failed to store results.'
+           ], 500);
         }
     }
 

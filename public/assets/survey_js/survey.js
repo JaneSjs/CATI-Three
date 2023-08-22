@@ -38,8 +38,25 @@ document.addEventListener("DOMContentLoaded", async function () {
           model: survey
         });
 
-        // Save Survey When User Clicks the "Next" button
-        survey.onValueChanged.add(surveyNextPage);
+        /**
+         * Save Survey When User Clicks the "Next" button
+         * Still Work in Progress
+         */
+
+        // survey.onCurrentPageChanged.add(function (sender, options)
+        // {
+        //   if (sender.currentPage.isStartPage || sender.currentPage.isFirstPage)
+        //   {
+        //     console.log("Its Start page");
+        //     surveyStartPage(sender);
+        //   }
+        //   else
+        //   {
+        //     console.log("Its Other pages");
+        //     surveyNextPages(sender);
+        //   }
+        // });
+
         // Add the onComplete event handler
         survey.onComplete.add(surveyComplete);
 
@@ -59,15 +76,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   /**
    * Collecting Survey Results
    */
-  const result_url = document.getElementById("result_url").innerHTML;
+  const post_result_url = document.getElementById("post_result_url").innerHTML;
+  const patch_result_url = document.getElementById("patch_result_url").innerHTML;
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
+  let resultId;
 
-  console.log('Result Url: ',result_url);
+  console.log('POST Result Url: ',post_result_url);
+  console.log('PATCH Result Url: ',patch_result_url);
   console.log('CSRF Token: ', csrf);
 
-  async function saveSurveyResults(result_url, json, page = null, httpMethod = "POST")
+  async function saveSurveyResults(url, json, page = null, httpMethod = "POST")
   {
     try {
+
+      console.log("Result Url Used: ", url);
       
       data = {
         user_id: user_id,
@@ -75,16 +97,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         interview_id : interview_id,
         project_id : project_id,
         respondent_id : respondent_id,
-        latitude: geolocationData.latitude,
-        longitude: geolocationData.longitude, 
-        altitude: geolocationData.altitude,
-        altitude_accuracy: geolocationData.altitudeAccuracy,
-        position_accuracy: geolocationData.accuracy,
-        heading: geolocationData.heading,
-        speed: geolocationData.speed,
-        timestamp: geolocationData.timestamp,
         content: json,
       };
+
+      if (geolocationData)
+      {
+        data.latitude  = geolocationData.latitude;
+        data.longitude = geolocationData.longitude; 
+        data.altitude  = geolocationData.altitude;
+        data.altitude_accuracy = geolocationData.altitudeAccuracy;
+        data.position_accuracy = geolocationData.accuracy;
+        data.heading = geolocationData.heading;
+        data.speed   = geolocationData.speed;
+        data.timestamp = geolocationData.timestamp;
+      }
 
       if (page !== null)
       {
@@ -103,10 +129,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         credentials: "same-origin",
       };
 
-      console.log(data);
 
-      const response = await fetch(result_url, options);
+      const response = await fetch(url, options);
       if (response.ok) {
+        const surveyResult = await response.json();
+        resultId = surveyResult.id;
 
         // Toastify Notifications
         Toastify({
@@ -125,10 +152,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }).showToast();
         // End Toastify Notifications
 
-        console.log('Results Submitted Successfully');
-
-        const surveyResult = await response.json();
-        console.log(surveyResult);
+        console.log('Results Submitted Successfully', surveyResult);
       } else {
         throw new Error('Server Error. Check Server Logs');
       }
@@ -137,7 +161,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       // Toastify Notifications
         Toastify({
-          text: "Results Not Submitted Successfully because your browser has not allowed Geolocation access to this application. Geolocation access is required in order for the Survey Results to be submitted successfully.",
+          text: "Something Went Wrong Results Not Submitted Successfully",
           duration: 9000,
           destination: "https://cati.tifaresearch.com/projects",
           newWindow: true,
@@ -160,6 +184,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           position => {
+            console.log("Position Data:", position);
             resolve({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -172,6 +197,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
           },
           error => {
+            console.log("Geolocation Error:", error);
             reject(error);
           }
         );
@@ -181,47 +207,50 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  function surveyNextPage(sender, options)
+  function surveyStartPage(sender)
   {
-    let nextPage;
-    let httpMethod;
+    let nextPage = sender.currentPage.visibleIndex + 1;
+    let httpMethod = "POST";
 
-    // Check if the current page is the last page
-    if (survey.isLastPage)
+    let url = post_result_url;
+
+    saveSurveyResults(url, survey.data, nextPage, httpMethod);
+  }
+
+  function surveyNextPages(sender)
+  {
+    let nextPage = sender.currentPage.visibleIndex + 1;
+    let httpMethod = "PATCH";
+
+    if (!resultId)
     {
-      const currentPage = sender.currentPage;
-      nextPage = currentPage + 1;
-
-      httpMethod = currentPage === 0 ? "POST" : "PATCH";
+      console.error("resultId is not available");
     }
 
-    // Check if the user has navigated to the next page
-    if (options.value !== undefined && options.value !== null)
-    {
-      // Save survey results for the current page
-      saveSurveyResults(result_url, survey.data, nextPage, httpMethod);
-    }
+    let url = patch_result_url + "/" + resultId;
+
+    saveSurveyResults(url, survey.data, nextPage, httpMethod);
   }
 
   function surveyComplete(sender)
   {
     console.log('Survey complete:', sender);
     const surveyData = sender.data;
-    const currentPage = sender.currentPage;
+    //const currentPage = sender.currentPage;
 
-    console.log('Survey Data:', surveyData);
+    // console.log('Survey Data:', surveyData);
+    // if (!resultId)
+    // {
+    //   console.error("resultId is not available");
+    // } 
 
-    // Determine HTTP method based on the page
-    const httpMethod = currentPage === 0 ? "POST" : "PATCH";
+    // httpMethod = "PATCH";
+    // let url = patch_result_url + "/" + resultId;
 
-    if (sender.isCompleted)
-    {
-      saveSurveyResults(result_url, surveyData);
-    } else if (currentPage === survey.visiblePageCount - 1)
-    {
-      // Save survey results when the user navigates to the last page
-      saveSurveyResults(result_url, surveyData, currentPage +1);
-    }
+    httpMethod = "POST";
+    let url = post_result_url;
+
+    saveSurveyResults(url, surveyData, null, httpMethod);
   }
 
 });

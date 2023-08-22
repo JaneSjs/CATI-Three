@@ -56,7 +56,7 @@
             </div>
             
             <div class="col">
-              
+              something
             </div>
           </div>
           <div class="bg-warning text-end">

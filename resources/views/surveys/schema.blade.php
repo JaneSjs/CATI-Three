@@ -9,17 +9,22 @@
   <!-- End Survey Model-->
 
 
-  <!-- For Saving Survey Results-->
-  <p id="result_url" style="display: none;">
+  <!-- For Posting Survey Results-->
+  <p id="post_result_url" style="display: none;">
     {{ route('api.results.store') }}
   </p>
+  <!-- For Patching Survey Results-->
+  <p id="patch_result_url" style="display: none;">
+    {{ url('api/results') }}
+  </p>
+
   <p id="user_id" style="display: none;">
     {{ auth()->user()->id }}
   </p>
   <p id="interview_id" style="display: none;">
     {{ $interview->id ?? 1}}
   </p>
-  <p id="project_id" style="display: ;">
+  <p id="project_id" style="display: none;">
     {{ $interview->project_id ?? '' }}
   </p>
   <p id="respondent_id" style="display: none;">

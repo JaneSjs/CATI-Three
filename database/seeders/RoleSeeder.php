@@ -55,7 +55,7 @@ class RoleSeeder extends Seeder
             'description' => 'Data Collection Agent'
         ]);
 
-        // Quality Control
+        // Quality Control Agent
         DB::table('roles')->insert([
             'name' => 'QC',
             'description' => 'Quality Control Agent'
