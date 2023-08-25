@@ -160,7 +160,7 @@ class InterviewController extends Controller
      */
     public function begin_survey(Request $request, $project_id, $survey_id, $interview_id, $respondent_id)
     {
-        session()->flash('info', ' Kindly allow Geolocation Access On Your Browser in Order For The Survey Results To Be Submitted Successfully. Wait for the Results Submitted Successfully Notification which confirms that your interview has been captured Successfully before leaving the page. ');
+        // session()->flash('info', ' Kindly allow Geolocation Access On Your Browser in Order For The Survey Results To Be Submitted Successfully. Wait for the Results Submitted Successfully Notification which confirms that your interview has been captured Successfully before leaving the page. ');
 
         $respondent = Respondent::find($respondent_id);
 

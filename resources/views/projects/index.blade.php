@@ -2,7 +2,6 @@
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
@@ -14,7 +13,7 @@
           @include('partials.alerts')
         </div>
         <div class="col text-end">
-          @canany(['admin','manager'])
+          @canany(['admin','head','manager'])
           <a href="{{ route('projects.create') }}" class="btn btn-outline-success">
             Create Project
           </a>

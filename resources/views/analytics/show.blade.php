@@ -4,15 +4,15 @@
 
 <div class="container">
 	<p id="result_url" style="display: none;">
-        {{ route("api.results.show", $result->id) }}
+        {{ route("api.results.show", $result->id ?? '') }}
     </p>
 
     <p id="survey_url" style="display: none;">
-        {{ route("api.surveys.show", $result->schema_id) }}
+        {{ route("api.surveys.show", $result->schema_id ?? '') }}
     </p>
 
     <p id="survey_id" style="display: none;">
-        {{ $result->schema_id }}
+        {{ $result->schema_id ?? '' }}
     </p>
 
     <div id="surveyVizPanel"></div>

@@ -17,6 +17,7 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if (Gate::allows('admin') || auth()->user()->id == 1) {
+            //dump("Unpaid");
             return $next($request);
         }
 
