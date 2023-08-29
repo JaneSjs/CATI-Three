@@ -117,12 +117,19 @@ class RespondentController extends Controller
     /**
      * Update Respondent Interview Status
      */
-    public function updateRespondentInterviewStatus($respondent_id, $survey_id, $project_id, $interview_id)
+    public function updateRespondentInterviewStatus(Request $request)
     {
+        //dd($request);
+        $respondent_id = $request->input('respondent_id');
+        $project_id = $request->input('project_id');
+        $survey_id = $request->input('survey_id');
+        $interview_id = $request->input('interview_id');
+
         $respondent = Respondent::find($respondent_id);
         //dd($respondent);
         $interview = Interview::find($interview_id);
         $survey = Schema::find($survey_id);
+        //dd($request->input('iframe_url'));
 
         $respondent->update([
             'id' => $respondent_id,
@@ -136,9 +143,9 @@ class RespondentController extends Controller
             'id' => $interview_id,
             'end_time' => Carbon::now(),
             'interview_completed' => 'Yes',
-            'survey_url' => $survey->iframe_url . '/' . $respondent->phone_1
+            'survey_url' => $request->input('iframe_url')
         ]);
 
-        return to_route('projects.show', ['project' => $project_id]);
+        return to_route('projects.show', ['project' => $project_id])->with('success', 'Interview Recorded Successfully');
     }
 }

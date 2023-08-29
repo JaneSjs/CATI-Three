@@ -174,8 +174,6 @@ class InterviewController extends Controller
      */
     public function begin_survey(Request $request, $project_id, $survey_id, $interview_id, $respondent_id)
     {
-        // session()->flash('info', ' Kindly allow Geolocation Access On Your Browser in Order For The Survey Results To Be Submitted Successfully. Wait for the Results Submitted Successfully Notification which confirms that your interview has been captured Successfully before leaving the page. ');
-
         $respondent = Respondent::find($respondent_id);
 
         if ($respondent) {
@@ -194,11 +192,14 @@ class InterviewController extends Controller
             ]);
 
             $data['project'] = Project::find($project_id);
-            $data['survey']  = Schema::find($survey_id);
+            //$data['survey']  = Schema::find($survey_id);
+            $survey = $data['survey'] = Schema::find($survey_id);
             $data['interview'] = Interview::find($interview_id);
+            $respondent = $data['respondent'] = Respondent::find($respondent_id);
             $data['respondent_id'] = $respondent_id;
+            $data['iframe_url'] = $survey->iframe_url . $respondent->phone_1;
 
-            //dd($data['survey']);
+            //dd($data['iframe_url']);
 
             if ($data['project'] && $data['survey'] && $data['interview'] && $data['respondent_id']) {
                 return view('surveys.show', $data);

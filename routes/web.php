@@ -71,7 +71,9 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('begin_survey/project/{project_id}/survey/{survey_id}/interview/{interview_id}/respondent/{respondent_id}', [InterviewController::class, 'begin_survey'])->name('begin_survey');
 	Route::get('coding/interview/{id}', [InterviewController::class, 'coding'])->name('coding');
 
-	Route::get('update_interview_status/respondent/{respondent_id}/survey/{survey_id}/project/{project_id}/interview/{interview_id}', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
+	// Route::get('update_interview_status/respondent/{respondent_id}/survey/{survey_id}/project/{project_id}/interview/{interview_id}/survey_url/{url}', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
+	Route::patch('update_interview_status', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
+
 	// Export Interviews
 	Route::get('interviews_xlsx_export/{id}', [InterviewController::class, 'xlsx_export']);
 
