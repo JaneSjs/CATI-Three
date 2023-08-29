@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InterviewsExport;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
 use App\Mail\QuotaMet;
@@ -15,6 +16,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 use Meilisearch\Client;
 
 class InterviewController extends Controller
@@ -133,6 +136,17 @@ class InterviewController extends Controller
     public function destroy(Interview $interview)
     {
         //
+    }
+
+    /**
+     * XLSX Interviews Export
+     */
+    public function xlsx_export(int $schema_id)
+    {
+        $survey_name = Schema::where('id', $schema_id)->first();
+        //dd($survey_name->survey_name);
+
+        return Excel::download(new InterviewsExport($schema_id), 'TIFA - ' . $survey_name->survey_name . ' Interviews.xlsx', ExcelExcel::XLSX);
     }
 
     /**

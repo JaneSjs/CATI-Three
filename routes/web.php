@@ -14,6 +14,7 @@ use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use App\Models\Quota;
+use App\Models\Respondent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,10 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('begin_interview/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_interview'])->name('begin_interview');
 	Route::get('begin_survey/project/{project_id}/survey/{survey_id}/interview/{interview_id}/respondent/{respondent_id}', [InterviewController::class, 'begin_survey'])->name('begin_survey');
 	Route::get('coding/interview/{id}', [InterviewController::class, 'coding'])->name('coding');
+
+	Route::get('update_interview_status/respondent/{respondent_id}/survey/{survey_id}/project/{project_id}/interview/{interview_id}', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
+	// Export Interviews
+	Route::get('interviews_xlsx_export/{id}', [InterviewController::class, 'xlsx_export']);
 
 
 

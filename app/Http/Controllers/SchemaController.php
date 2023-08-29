@@ -98,6 +98,7 @@ class SchemaController extends Controller
         {
             $schema->update([
                 'survey_name' => $request->input('survey_name'),
+                'iframe_url'  => $request->input('iframe_url'),
                 'stage' => $request->input('stage'),
                 'updated_by' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
             ]);

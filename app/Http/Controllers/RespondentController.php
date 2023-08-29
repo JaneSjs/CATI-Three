@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRespondentRequest;
 use App\Http\Requests\UpdateRespondentRequest;
 use App\Imports\RespondentsImport;
+use App\Models\Interview;
 use App\Models\Respondent;
+use App\Models\Schema;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -110,5 +112,33 @@ class RespondentController extends Controller
 
         return redirect()->back()->with('success', 'All Respondents Imported Successfully');
         
+    }
+
+    /**
+     * Update Respondent Interview Status
+     */
+    public function updateRespondentInterviewStatus($respondent_id, $survey_id, $project_id, $interview_id)
+    {
+        $respondent = Respondent::find($respondent_id);
+        //dd($respondent);
+        $interview = Interview::find($interview_id);
+        $survey = Schema::find($survey_id);
+
+        $respondent->update([
+            'id' => $respondent_id,
+            'project_id' => $project_id,
+            'schema_id' => $survey_id,
+            'interview_date_time' => Carbon::now(),
+            'interview_status' => 'Interview Completed'
+        ]);
+
+        $interview->update([
+            'id' => $interview_id,
+            'end_time' => Carbon::now(),
+            'interview_completed' => 'Yes',
+            'survey_url' => $survey->iframe_url . '/' . $respondent->phone_1
+        ]);
+
+        return to_route('projects.show', ['project' => $project_id]);
     }
 }

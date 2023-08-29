@@ -26,6 +26,7 @@ class Schema extends Model
         'content',
         'version',
         'stage',
+        'iframe_url',
         'updated_by',
         'deleted_by',
     ];

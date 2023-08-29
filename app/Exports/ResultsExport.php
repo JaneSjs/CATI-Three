@@ -27,7 +27,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
         return Result::query()
             ->join('interviews', 'results.interview_id', '=', 'interviews.id')
             ->join('users', 'results.user_id', '=', 'users.id')
-            ->select('results.*', 'interviews.respondent_name', 'interviews.phone_called', 'interviews.status', 'users.first_name', 'users.last_name')
+            ->select('results.*', 'interviews.*', 'users.first_name', 'users.last_name')
             ->where('results.schema_id', $this->schema_id);
     }
 
@@ -40,13 +40,22 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
         $rowData = [
             $result->first_name . ' ' . $result->last_name,
             $result->respondent_name,
+            $result->respondent_id,
+            $result->phone_called,
+            $result->ext_no,
+            $result->interview_completed,
             $result->status,
             $result->schema_id,
             $result->interview_id,
-            Date::dateTimeFromTimestamp($result->created_at),
+            $result->start_time ? Date::dateTimeFromTimestamp($result->start_time) : null,
+            $result->end_time ? Date::dateTimeFromTimestamp($result->end_time) : null,
+            $result->survey_url,
+            $result->feedback,
         ];
 
         $rowData = array_merge($rowData, $values);
+
+        //dd($result);
 
         return $rowData;
     }
@@ -59,12 +68,19 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $content = json_decode($firstRow->content, true);
 
             $fixedHeadings = [
-                'Agent',
-                'Respondent',
+                'Agent (Interviewer)',
+                'Respondent Name',
+                'Respondent Id',
+                'Phone Called',
+                'Callers Extension',
+                'Interview Completed',
                 'Interview Status',
                 'Survey Id',
                 'Interview Id',
-                'Date and Time Results Was Submitted',
+                'Start Time',
+                'End Time',
+                'Survey Url',
+                'Feedback'
             ];   
 
             $allHeadings = array_merge($fixedHeadings, array_keys($content));
@@ -74,13 +90,19 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
          // If no data is available, return default headings
         return [
-            'Agent',
-            'Respondent',
+            'Agent (Interviewer)',
+            'Respondent Name',
+            'Respondent Id',
+            'Phone Called',
+            'Callers Extension',
+            'Interview Completed',
             'Interview Status',
             'Survey Id',
             'Interview Id',
-            'Date and Time Results Was Submitted',
-            'Survey Questions',
+            'Start Time',
+            'End Time',
+            'Survey Url',
+            'Feedback'
         ];
 
     }
@@ -88,7 +110,9 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function columnFormats(): array
     {
         return [
-            'F' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            13 => NumberFormat::FORMAT_DATE_DATETIME,
+            14 => NumberFormat::FORMAT_DATE_DATETIME,
+            17 => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 }

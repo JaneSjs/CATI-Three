@@ -172,9 +172,9 @@
                       @endcan
 
                       @canany(['admin','scripter'])
-                      <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
-                        Script
-                      </a>
+                        <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank">
+                          Script
+                        </a>
                       @endcan
 
                       @canany(['admin','manager'])
@@ -214,6 +214,10 @@
                       </a>
                       @endcan
                     </div>
+
+                    <!--  Script Modal -->
+                      @include('projects.partials.script_modal')
+                    <!--  Script Modal -->
 
                     <!-- Survey Edit Modal -->
                       @include('projects.partials.edit_survey')

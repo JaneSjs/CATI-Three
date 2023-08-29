@@ -42,12 +42,16 @@
         </div>
         <div class="col text-end">
           @include('partials.alerts')
+
+          @if($survey->iframe_url == null)
           <button type="button" class="btn btn-primary text-light text-end">
             Version 
             <span class="badge text-bg-secondary">
               {{ $survey->version ?? 0 }}
             </span>
           </button>
+          @endif
+          
           <hr>
           @canany(['admin'])
             <div class="alert alert-info">
@@ -62,12 +66,20 @@
         </div>
       </div>
     </div>
-
-    <!-- Survey Schema -->
-    @canany(['admin', 'agent', 'respondent'])
-      @include('surveys.schema')
-    @endcan
-    <!-- End Survey Schema -->
+    
+    @if($survey->iframe_url)
+      <!-- Iframe -->
+        @canany(['admin', 'agent', 'respondent'])
+          @include('surveys.iframe')
+        @endcan
+      <!-- End Iframe -->
+    @else
+      <!-- Survey Schema -->
+      @canany(['admin', 'agent', 'respondent'])
+        @include('surveys.schema')
+      @endcan
+      <!-- End Survey Schema -->
+    @endif
 
     @canany(['admin', 'qc'])
       @include('surveys.qc')

@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="stageLabel">
-         Edit {{ $survey->survey_name }}
+         Edit {{ $survey->survey_name }} Survey Details
         </h5>
         <button type="button" class="btn btn-outline-info btn-sm float-end" data-coreui-dismiss="modal">
           x
@@ -19,6 +19,13 @@
               Edit Survey Name
             </label>
             <input type="text" name="survey_name" class="form-control" id="survey_name" value="{{ $survey->survey_name }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="iframe_url" class="form-label">
+              Iframe Url
+            </label>
+            <input type="text" name="iframe_url" class="form-control" id="iframe_url" value="{{ $survey->iframe_url }}">
           </div>
 
           <div class="mb-3">

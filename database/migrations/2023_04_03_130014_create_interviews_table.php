@@ -45,7 +45,8 @@ return new class extends Migration
                   ->on('users')
                   ->constrained();
 
-            $table->boolean('survey_complete')->nullable();
+            $table->string('interview_completed')->nullable();
+            $table->string('survey_url')->nullable();
 
             $table->string('status')
                   ->comment('Whether Interview is Approved or Cancelled')

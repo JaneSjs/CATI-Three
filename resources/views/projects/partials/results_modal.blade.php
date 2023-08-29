@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">
-          Available Data Formats For Download
+          {{ $survey->survey_name }} Results
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -13,7 +13,7 @@
             <thead>
               <tr>
                 <th scope="col">
-                  Survey Results 
+                   
                 </th>
               </tr>
             </thead>
@@ -27,7 +27,11 @@
                     </a>
                     <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
                       <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
-                      Excel Sheets
+                      Survey Results XLSX
+                    </a>
+                    <a href="{{ url('interviews_xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
+                      <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
+                      Interviews XLSX
                     </a>
                     <a href="{{ url('pdf_export', $survey->id) }}" class="btn btn-outline-dark" title="Portable Document Format">
                       <i class="fas fa-file-pdf" style="color: #ef2929;"></i>

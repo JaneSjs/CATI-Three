@@ -24,6 +24,7 @@ return new class extends Migration
             $table->json('content')->nullable();
             $table->string('version')->nullable();
             $table->string('stage')->nullable();
+            $table->string('iframe_url')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->timestamps();
