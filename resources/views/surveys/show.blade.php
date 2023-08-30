@@ -36,12 +36,17 @@
           </div>
           @endcan
 
-          <div class="btn-group float-end" role="group" aria-label="Project Actions">
+          <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
             @can(['agent'])
-            <button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#feedback">
-              Feedback
+            <button type="button" class="btn btn-info btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_feedback">
+              Interview Feedback
               <i class="fa-regular fa-comment-dots"></i>
             </button>
+            <button type="button" class="btn btn-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
+              Respondent Feedback
+              <i class="fa-regular fa-comment-dots"></i>
+            </button>
+            @include('interviews/feedback_modal')
             @endcan
           </div>
         </div>
@@ -135,11 +140,11 @@
 
 @can(['agent'])
 <!-- Feedback Modal -->
-<div class="modal fade" id="feedback" tabindex="-1" aria-labelledby="feedback" aria-hidden="true">
+<div class="modal fade" id="interview_feedback" tabindex="-1" aria-labelledby="interview_feedback" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="feedback">
+        <h5 class="modal-title" id="interview_feedback">
           Interview Feedback
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>

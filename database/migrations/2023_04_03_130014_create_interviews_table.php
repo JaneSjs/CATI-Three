@@ -55,6 +55,7 @@ return new class extends Migration
             $table->dateTimeTz('start_time')->nullable();
             $table->dateTimeTz('end_time')->nullable();
             $table->text('feedback')->nullable();
+            $table->text('qc_feedback')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -47,6 +47,7 @@ return new class extends Migration
             $table->string('employment_status')->nullable();
             $table->string('age_group')->nullable();
             $table->string('interview_status')->nullable();
+            $table->text('feedback')->nullable();
             $table->dateTime('interview_date_time')->nullable();
             $table->string('last_downloaded_date')->nullable();
             $table->string('updated_by')->nullable();

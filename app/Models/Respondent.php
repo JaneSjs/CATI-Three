@@ -26,7 +26,7 @@ class Respondent extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['r_id','project_id','schema_id','name','phone_1','phone_2','phone_3','phone_4','national_id','email','occupation','region','county','sub_county','district','division','location','sub_location','constituency','ward','sampling_point','setting','gender','dob','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group','interview_status','interview_date_time'
+    protected $fillable = ['r_id','project_id','schema_id','name','phone_1','phone_2','phone_3','phone_4','national_id','email','occupation','region','county','sub_county','district','division','location','sub_location','constituency','ward','sampling_point','setting','gender','dob','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group','interview_status','feedback','interview_date_time'
     ];
 
     public function toSearchableArray(): array

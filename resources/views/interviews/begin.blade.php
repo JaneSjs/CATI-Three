@@ -30,6 +30,17 @@
           @endif
         </div>
         <div class="col text-end">
+          @if($respondent)
+            <div class="btn-group float-end" role="group" aria-label="Project Actions">
+              @can(['agent'])
+              <button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
+                Respondent Feedback
+                <i class="fa-regular fa-comment-dots"></i>
+              </button>
+              @endcan
+            </div>
+            @include('interviews/feedback_modal')
+          @endif
           @include('partials.alerts')
         </div>
     </div>

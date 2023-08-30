@@ -115,7 +115,7 @@ class RespondentController extends Controller
     }
 
     /**
-     * Update Respondent Interview Status
+     * Update Respondent and their Interview Status
      */
     public function updateRespondentInterviewStatus(Request $request)
     {
@@ -147,5 +147,30 @@ class RespondentController extends Controller
         ]);
 
         return to_route('projects.show', ['project' => $project_id])->with('success', 'Interview Recorded Successfully');
+    }
+
+    /**
+     * Capture Respondent Feedback
+     */
+    function respondent_feedback(Request $request)
+    {
+        $respondent_id = $request->input('respondent_id');
+
+        $respondent = Respondent::find($respondent_id);
+
+        $feedback = $respondent->update([
+            'feedback' => $request->input('feedback')
+        ]);
+
+        //dd($feedback);
+
+        if ($feedback)
+        {
+            return to_route('projects.index',[],201)->with('success', 'Thanks for the feedback');
+        }
+        else
+        {
+            return back(201)->with('error', 'Oops! The feedback hasn\'t been captured');
+        }
     }
 }
