@@ -76,6 +76,8 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	// Export Interviews
 	Route::get('interviews_xlsx_export/{id}', [InterviewController::class, 'xlsx_export']);
+	// Interview Feedback
+	Route::patch('interview_feedback', [InterviewController::class, 'interview_feedback'])->name('interview_feedback');
 
 
 

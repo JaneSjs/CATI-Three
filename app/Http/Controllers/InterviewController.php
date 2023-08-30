@@ -139,6 +139,31 @@ class InterviewController extends Controller
     }
 
     /**
+     * Capture Interview Feedback
+     */
+    function interview_feedback(Request $request)
+    {
+        $interview_id = $request->input('interview_id');
+
+        $interview = Interview::find($interview_id);
+
+        $feedback = $interview->update([
+            'feedback' => $request->input('feedback')
+        ]);
+
+        //dd($feedback);
+
+        if ($feedback)
+        {
+            return back(201)->with('success', 'Thanks for the feedback');
+        }
+        else
+        {
+            return back(201)->with('error', 'Oops! You feedback hasn\'t been captured');
+        }
+    }
+
+    /**
      * XLSX Interviews Export
      */
     public function xlsx_export(int $schema_id)

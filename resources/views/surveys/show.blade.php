@@ -37,7 +37,11 @@
           @endcan
 
           <div class="btn-group float-end" role="group" aria-label="Project Actions">
-                
+              <button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#feedback">
+                Feedback
+                <i class="fa-regular fa-comment-dots"></i>
+              </button>
+
           </div>
         </div>
         <div class="col text-end">
@@ -127,5 +131,39 @@
 </div>
 
 <!-- End Survey Results Modal -->
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedback" tabindex="-1" aria-labelledby="feedback" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedback">
+          Interview Feedback
+        </h5>
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ route('interview_feedback') }}" method="post">
+        @csrf
+        @method('PATCH')
+        <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="feedback_input" class="form-label">
+                
+            </label>
+            <textarea class="form-control" name="feedback" id="feedback_input" rows="7"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">
+            Submit feedback
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Feedback Modal -->
+
 
 @endsection
