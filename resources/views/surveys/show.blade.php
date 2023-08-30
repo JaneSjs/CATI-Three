@@ -37,11 +37,12 @@
           @endcan
 
           <div class="btn-group float-end" role="group" aria-label="Project Actions">
-              <button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#feedback">
-                Feedback
-                <i class="fa-regular fa-comment-dots"></i>
-              </button>
-
+            @can(['agent'])
+            <button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#feedback">
+              Feedback
+              <i class="fa-regular fa-comment-dots"></i>
+            </button>
+            @endcan
           </div>
         </div>
         <div class="col text-end">
@@ -132,6 +133,7 @@
 
 <!-- End Survey Results Modal -->
 
+@can(['agent'])
 <!-- Feedback Modal -->
 <div class="modal fade" id="feedback" tabindex="-1" aria-labelledby="feedback" aria-hidden="true">
   <div class="modal-dialog">
@@ -164,6 +166,7 @@
   </div>
 </div>
 <!-- Feedback Modal -->
+@endcan
 
 
 @endsection

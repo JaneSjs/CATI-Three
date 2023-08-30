@@ -45,10 +45,10 @@ return new class extends Migration
                   ->on('users')
                   ->constrained();
 
-            $table->string('interview_completed')->nullable();
+            $table->string('interview_status')->nullable();
             $table->string('survey_url')->nullable();
 
-            $table->string('status')
+            $table->string('quality_control')
                   ->comment('Whether Interview is Approved or Cancelled')
                   ->nullable();
 

@@ -25,7 +25,9 @@ use Carbon\Carbon;
               <td>
                 {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
               </td>
-              <td>{{ $interview->respondent->name ?? $interview->respondent_name }}</td>
+              <td>
+                {{ $interview->respondent->name ?? $interview->respondent_name }}
+              </td>
               <td>
                 <?php
                   $interview_date = Carbon::parse($interview->created_at)

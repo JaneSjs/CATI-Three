@@ -71,23 +71,14 @@
         </li>
         @endcan
         <li class="nav-title">
-          Projects
+          Research
         </li>
 
-        @canany(['admin','head','ceo'])
+        @canany(['admin','head','ceo','manager','scripter','coordinator','supervisor','agent','qc','client'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('projects.index') }}">
             <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
-            All Projects
-          </a>
-        </li>
-        @endcan
-
-        @canany(['manager','scripter','coordinator','supervisor','agent','qc','client'])
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('projects.index') }}">
-            <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
-            My Projects
+            Projects
           </a>
         </li>
         @endcan

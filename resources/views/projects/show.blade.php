@@ -122,7 +122,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Survey</th>
+                  <th>Surveys</th>
                   @canany(['admin','ceo','head','manager','coordinator','scripter'])
                     <th>
                       Stage

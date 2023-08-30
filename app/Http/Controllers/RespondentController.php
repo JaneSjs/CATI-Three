@@ -136,13 +136,13 @@ class RespondentController extends Controller
             'project_id' => $project_id,
             'schema_id' => $survey_id,
             'interview_date_time' => Carbon::now(),
-            'interview_status' => 'Interview Completed'
+            'interview_status' => $request->input('interview_status'),
         ]);
 
         $interview->update([
             'id' => $interview_id,
             'end_time' => Carbon::now(),
-            'interview_completed' => 'Yes',
+            'interview_status' => $request->input('interview_status'),
             'survey_url' => $request->input('iframe_url')
         ]);
 

@@ -29,9 +29,9 @@ class InterviewsExport implements FromCollection, WithHeadings
             'Phone Called',
             'Audio Recording',
             'QC Id',
-            'Interview Completed',
+            'Interview Status',
             'Survey Url',
-            'Status',
+            'Quality Control',
             'Start Time',
             'End Time',
             'Feedback'

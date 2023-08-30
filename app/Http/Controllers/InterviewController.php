@@ -118,12 +118,12 @@ class InterviewController extends Controller
         $survey_id = $request->input('survey_id');
         //dd($request->input('survey_id'));
 
-        $status = $interview->update([
+        $quality_control = $interview->update([
             'qcd_by' => auth()->id(),
-            'status' => $request->input('status')
+            'quality_control' => $request->input('quality_control')
         ]);
 
-        if ($status) {
+        if ($quality_control) {
             return to_route('surveys.show', $survey_id)->with('success', 'Your QC has been Recorded Successfully');
         } else {
             return back()->with('danger', 'Something went wrong. Your QC has not been Recorded Successfully.');
