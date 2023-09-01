@@ -31,6 +31,12 @@ return new class extends Migration
                   ->on('interviews')
                   ->constrained();
 
+            $table->foreignId('interview_schedule_id')
+                  ->nullable()
+                  ->references('id')
+                  ->on('interview_schedules')
+                  ->constrained();
+
             $table->json('content');
             
             $table->ipAddress('ip_address')->nullable();

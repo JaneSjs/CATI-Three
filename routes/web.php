@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InterviewController;
+use App\Http\Controllers\InterviewScheduleController;
 use App\Http\Controllers\PabxController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -91,6 +92,7 @@ Route::middleware(['auth','verified'])->group(function ()
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('interviews', InterviewController::class);
+    Route::resource('interview_schedules', InterviewScheduleController::class);
     Route::resource('projects', ProjectController::class);
     Route::resource('respondents', RespondentController::class);
     Route::resource('results', ResultController::class);

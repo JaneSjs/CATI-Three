@@ -113,6 +113,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * User can have scheduled interviews
+     */
+    public function scheduled_interviews(): HasMany
+    {
+        return $this->hasMany(InterviewSchedule::class, 'interview_schedule_id');
+    }
+
+    /**
      * Get all users with the role of supervisor
      */
     public function supervisors()

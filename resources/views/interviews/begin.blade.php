@@ -39,7 +39,16 @@
               </button>
               @endcan
             </div>
-            @include('interviews/feedback_modal')
+            @include('interviews/modals')
+          @else
+            <div class="btn-group float-end" role="group" aria-label="Project Actions">
+              @can(['agent'])
+              <a href="{{ route('interview_schedules.index') }}" class="btn btn-warning">
+                <i class="fa-solid fa-file-pen"></i>
+                Scheduled Interviews
+              </a>
+              @endcan
+            </div>
           @endif
           @include('partials.alerts')
         </div>
