@@ -47,9 +47,9 @@
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
-                  <th scope="col">Phone 1</th>
-                  <th scope="col">Phone 2</th>
-                  <th scope="col">Ward</th>
+                  <th scope="col">Interview Status</th>
+                  <th scope="col">Feedback</th>
+                  <th scope="col">Interview DateTime</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -63,13 +63,13 @@
                     </a>
                   </th>
                   <td>
-                    {{ $respondent->phone_1 }}
+                    {{ $respondent->interview_status ?? '-' }}
                   </td>
                   <td>
-                    {{ $respondent->phone_2 }}
+                    {{ $respondent->feedback ?? '-' }}
                   </td>
                   <td>
-                    {{ $respondent->ward }}
+                    {{ $respondent->interview_date_time }}
                   </td>
                   <td>
                     <div class="btn-group">
