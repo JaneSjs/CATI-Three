@@ -64,39 +64,47 @@
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{ $total_interviews }}%">
-              {{ $total_interviews }} Interviews So Far
-            </div>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:50%">
-              Target Interviews
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{ $approved_interviews }}%">
-              Approved Interviews
-            </div>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:{{ $cancelleded_interviews }}%">
-              Cancelled Interviews
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        
-        <div class="col">
           <div class="card">
             <div class="card-header">
               <h3>
-                (#{{ $survey->id }}) {{ $survey->survey_name }} Quota Criteria
+                (#{{ $survey->id }}) {{ $survey->survey_name }} Operations Dashboard
               </h3>
             </div>
             <div class="card-body">
               <h5 class="text-primary text-center">
+                <i class="fa-solid fa-users fa-xl" style="color: #0011ff;"></i>
                 {{ $interviewed_respondents }} Interviewed Respondents
               </h5>
+
+              <div class="table-responsive">
+                <table class="table table-dark">
+                  <thead>
+                    <tr>
+                      <td class="table-info">
+                        <h5 class="text-info">
+                          Total Interviews
+                        </h5>
+                        <i class="fa-solid fa-list-check fa-2xl" style="color: #62a0ea;">  {{ $total_interviews }}</i>
+                      </td>
+                      <td class="table-success">
+                        <h5 class="text-success">
+                          Approved Interviews
+                        </h5>
+                        <i class="fa-solid fa-thumbs-up fa-2xl" style="color: #2ff00c;">  {{ $approved_interviews }}</i>
+                      </td>
+                      <td class="table-danger">
+                        <h5 class="text-danger">
+                          Cancelled Interviews
+                        </h5>
+                        <i class="fa-solid fa-thumbs-down fa-flip-horizontal fa-2xl" style="color: #fc0000;">  {{ $cancelleded_interviews }}</i>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+                </table>
+              </div>
 
               <div class="row">
                 <div class="col">
@@ -106,7 +114,7 @@
                       <thead>
                         <tr>
                           <th>
-                            Religion Target
+                            Religion
                           </th>
                           <th>
                              Targets
@@ -116,7 +124,31 @@
                       <tbody>
                         <tr>
                           <td>
+                            Catholic
+                          </td>
+                          <td>
                             
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Mainstream Protestant (Anglican, Presbyterian, AIC, etc.)
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Muslim
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            SDA
                           </td>
                           <td>
                             
@@ -136,7 +168,7 @@
                             Religion
                           </th>
                           <th>
-                            Count
+                            Achieved
                           </th>
                         </tr>
                       </thead>
@@ -161,20 +193,28 @@
                       <thead>
                         <tr>
                           <th>
-                            Male Target
+                            Gender
                           </th>
                           <th>
-                            Female Target
+                            Targets
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>
-                            {{ $quota->male_target ?? '' }}
+                            Female
                           </td>
                           <td>
-                            {{ $quota->female_target ?? '' }}
+                            {{ $quota['female_target'] ?? 'Not Set' }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Male
+                          </td>
+                          <td>
+                            {{ $quota['male_target'] ?? 'Not Set' }}
                           </td>
                         </tr>
                       </tbody>
@@ -191,7 +231,7 @@
                             Gender
                           </th>
                           <th>
-                            Count
+                            Achieved
                           </th>
                         </tr>
                       </thead>
@@ -216,17 +256,81 @@
                       <thead>
                         <tr>
                           <th>
-                            Male Target
+                            County
                           </th>
                           <th>
-                            Female Target
+                            Targets
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>
+                            EMBU
+                          </td>
+                          <td>
                             
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KILIFI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            NAIROBI CITY
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            NYAMIRA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            TURKANA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            EMBU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            EMBU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            EMBU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            EMBU
                           </td>
                           <td>
                             
@@ -381,17 +485,25 @@
                       <thead>
                         <tr>
                           <th>
-                            Male Target
+                            Setting
                           </th>
                           <th>
-                            Female Target
+                            Targets
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>
+                            Rural
+                          </td>
+                          <td>
                             
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Urban
                           </td>
                           <td>
                             
@@ -411,7 +523,7 @@
                             Setting
                           </th>
                           <th>
-                            Count
+                            Achieved
                           </th>
                         </tr>
                       </thead>

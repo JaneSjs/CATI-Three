@@ -51,6 +51,7 @@ class QuotaController extends Controller
         $data['survey'] = Schema::find($schema_id);
         $data['quota'] = Quota::where('schema_id', $schema_id)
                                 ->first();
+        //dd($data['quota']);
         $data['interviews'] = Interview::where('schema_id', $schema_id)->get();
         $data['total_interviews'] = Interview::where('schema_id', $schema_id)->count();
         $data['approved_interviews'] = Interview::where('schema_id', $schema_id)->where('quality_control', 'Approved')->count();
