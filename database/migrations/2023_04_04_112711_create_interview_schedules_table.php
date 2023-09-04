@@ -30,6 +30,11 @@ return new class extends Migration
                   ->on('schemas')
                   ->constrained();
 
+            $table->foreignId('interview_id')
+                  ->references('id')
+                  ->on('interviews')
+                  ->constrained();
+
             $table->dateTime('interview_datetime');
             $table->string('interview_url');
 

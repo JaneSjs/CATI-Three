@@ -47,6 +47,7 @@ return new class extends Migration
 
             $table->string('interview_status')->nullable();
             $table->string('survey_url')->nullable();
+            $table->string('survey_version')->nullable();
 
             $table->string('quality_control')
                   ->comment('Whether Interview is Approved or Cancelled')
