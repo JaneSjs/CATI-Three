@@ -96,7 +96,7 @@
                         <h5 class="text-danger">
                           Cancelled Interviews
                         </h5>
-                        <i class="fa-solid fa-thumbs-down fa-flip-horizontal fa-2xl" style="color: #fc0000;">  {{ $cancelleded_interviews }}</i>
+                        <i class="fa-solid fa-thumbs-down fa-2xl" style="color: #fc0000;">  {{ $cancelleded_interviews }}</i>
                       </td>
                     </tr>
                   </thead>

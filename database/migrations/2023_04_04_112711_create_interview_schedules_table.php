@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -39,6 +40,7 @@ return new class extends Migration
             $table->string('interview_url');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

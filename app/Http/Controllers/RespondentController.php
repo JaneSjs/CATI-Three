@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRespondentRequest;
 use App\Http\Requests\UpdateRespondentRequest;
 use App\Imports\RespondentsImport;
+use App\Jobs\ImportRespondents;
 use App\Models\Interview;
 use App\Models\Respondent;
 use App\Models\Schema;
@@ -104,14 +105,22 @@ class RespondentController extends Controller
         ]);
 
         $path = $request->file('bulk_respondents')->store('imports');
-        
+
         Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
         {
             $reader->ignoreEmpty();
         });
-
-        return redirect()->back()->with('success', 'All Respondents Imported Successfully');
         
+        //$this->respondents_import_job($path);
+
+        return redirect()->back()->with('info', 'Respondents Are Being Imported In The Background');
+        
+    }
+
+    public function respondents_import_job($path)
+    {
+        //dd($path);
+        ImportRespondents::dispatch($path);
     }
 
     /**

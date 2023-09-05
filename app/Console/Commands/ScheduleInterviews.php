@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ScheduleInterview;
 use App\Models\InterviewSchedule;
 use Illuminate\Console\Command;
+use Illuminate\Console\Scheduling\Schedule;
 
 class ScheduleInterviews extends Command
 {
@@ -39,6 +41,6 @@ class ScheduleInterviews extends Command
     {
         $dateTime = $schedule->interview_datetime;
 
-        
+        Schedule::job(new ScheduleInterview($schedule))->at($dateTime);
     }
 }
