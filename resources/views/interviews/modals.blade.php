@@ -47,6 +47,7 @@
         <input type="hidden" name="respondent_id" value="{{ $respondent->id }}">
         <input type="hidden" name="project_id" value="{{ $project->id }}">
         <input type="hidden" name="schema_id" value="{{ $survey->id }}">
+        <input type="hidden" name="interview_id" value="{{ $interview->id ?? '' }}">
         <input type="text" name="interview_url" value="{{ url()->current() }}" class="form-control">
         <div class="modal-body">
           <div class="mt-1">

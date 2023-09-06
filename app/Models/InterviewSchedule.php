@@ -20,6 +20,7 @@ class InterviewSchedule extends Model
         'user_id',
         'project_id',
         'schema_id',
+        'interview_id',
         'interview_datetime',
         'interview_url'
     ];

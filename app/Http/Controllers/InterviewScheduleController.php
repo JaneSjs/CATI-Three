@@ -35,12 +35,13 @@ class InterviewScheduleController extends Controller
     {
         $project_id = $request->input('project_id');
         $schema_id = $request->input('schema_id');
-        $interview_id = 1;
+        $interview_id = $request->input('interview_id');
 
         $schedule = [
             'user_id' => auth()->user()->id,
             'project_id' => $project_id,
             'schema_id' => $schema_id,
+            'interview_id' => $interview_id,
             'interview_datetime' => Carbon::parse($request->input('interview_datetime')),
             'interview_url' => $request->input('interview_url')
         ];
