@@ -50,6 +50,101 @@
               Respondent Feedback
               <i class="fa-regular fa-comment-dots"></i>
             </button>
+
+            <p id="call_route" class="d-none">
+              {{ route('call') }}
+            </p>
+            <p id="exten" class="d-none">
+              IAX2/{{ auth()->user()->ext_no }}
+            </p>
+            <p id="respondent_number" class="d-none">
+              890{{ $respondent->phone_1 ?? 0 }}
+            </p>
+
+            <button type="button" onclick="call()" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
+              <i class="fas fa-phone fa-bounce"></i>
+              {{ auth()->user()->ext_no }}
+            </button>
+
+            <script defer>
+
+              let respondent_number = document.getElementById('respondent_number').innerHTML;
+              let exten   = document.getElementById('exten').innerHTML;
+              let call_route = document.getElementById('call_route').innerHTML;
+              const csrf  = document.querySelector('meta[name="csrf-token"]').content;
+                
+              async function call() {
+                try {
+                  
+                  data = {
+                    exten: exten,
+                    respondent_number: respondent_number,
+                  };
+
+                  // Create new Record
+                  const options = {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                      "Content-Type": "application/json; charset=UTF-8",
+                      "X-Requested-With": "XMLHttpRequest",
+                      "X-CSRF-TOKEN": csrf,
+                    },
+                    credentials: "same-origin",
+                  };
+
+                  console.log(data);
+
+                  const response = await fetch(call_route, options);
+                  if (response.ok) {
+
+                    const serverFeedback = await response.json();
+                    console.log(serverFeedback);
+
+                    // Toastify Notifications
+                      Toastify({
+                        text: "Answer The Soft Phone",
+                        duration: 9000,
+                        destination: "https://cati.tifaresearch.com/projects",
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                          background: "linear-gradient(to right, #ff0000, #ff4d4d)",
+                        },
+                        onClick: function(){} // Callback after click
+                      }).showToast();
+                    // End Toastify Notifications
+                      
+                  } else {
+                    // Toastify Notifications
+                      Toastify({
+                        text: "Check Your Internet Connection",
+                        duration: 9000,
+                        destination: "https://cati.tifaresearch.com/projects",
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                          background: "linear-gradient(to right, #ff0000, #ff4d4d)",
+                        },
+                        onClick: function(){} // Callback after click
+                      }).showToast();
+                    // End Toastify Notifications
+
+                    throw new Error('Server Error. Check Server Logs');
+                  }
+                } catch (error) {
+                  console.log('Calling Error: ', error);
+
+                  
+                }
+              }
+            </script>
             @include('interviews/modals')
             @endcan
           </div>
@@ -176,6 +271,5 @@
 </div>
 <!-- Feedback Modal -->
 @endcan
-
 
 @endsection
