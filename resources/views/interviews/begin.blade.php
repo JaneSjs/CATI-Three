@@ -146,6 +146,9 @@
                     {{ $respondent->age ?? 'Age is Undefined'}}
                   </li>
                   <li class="list-group-item">
+                    {{ $respondent->phone_1 ?? 'Number not Found'}}
+                  </li>
+                  <li class="list-group-item">
                     {{ $respondent->gender ?? 'Gender is Undefined' }}
                   </li>
                   <li class="list-group-item">
