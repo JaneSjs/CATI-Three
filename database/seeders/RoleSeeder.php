@@ -51,8 +51,8 @@ class RoleSeeder extends Seeder
 
         // Data Collection Agent (Interviewer)
         DB::table('roles')->insert([
-            'name' => 'Agent/Interviewer',
-            'description' => 'Data Collection Agent'
+            'name' => 'Agent',
+            'description' => 'Data Collection Agent or Interviewer'
         ]);
 
         // Quality Control Agent

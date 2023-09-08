@@ -344,7 +344,7 @@ class InterviewController extends Controller
         $survey_id = $request->input('survey_id');
         $query = $request->input('query');
 
-        $findRespondent = Respondent::search($query);
+        $respondents = Respondent::search($query)->get();
 
         //$findRespondent->eligible();
         //dd($findRespondent);
@@ -377,11 +377,22 @@ class InterviewController extends Controller
 
         //dd($findRespondent->toSql());
 
-        $respondent = $findRespondent->first();
+        //$respondent = $respondents->first();
+        if ($respondents->isNotEmpty())
+        {
+            $randomIndex = rand(0, $respondents->count() - 1);
+
+            $randomRespondent = $respondents[$randomIndex];
+        }
+        else
+        {
+            $randomRespondent = null;
+        }
 
         //dd($respondent);
 
-        $data['respondent'] = $respondent;
+        //$data['respondent'] = $respondent;
+        $data['respondent'] = $randomRespondent;
 
         $data['project'] = Project::find($project_id);
 

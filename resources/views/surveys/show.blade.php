@@ -8,14 +8,14 @@
 
       <div class="row">
         <div class="col">
-          <h5 class="float-start">
-            {{ $survey->survey_name }}
+          <p class="float-start">
+            <strong>{{ $survey->survey_name }}.</strong> You are interviewing {{ $respondent->name ?? ''}}
             @can('admin')
              @if($survey->updated_by)
               was last scripted by : <span>{{ $survey->updated_by }}</span>
              @endif
             @endcan
-          </h5>
+          </p>
           @canany(['admin','ceo','head','manager','scripter'])
           <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
             <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
@@ -194,6 +194,45 @@
       @include('surveys.qc')
     @endcan
     
+
+    <div class="card-footer">
+  <div class="row">
+    <div class="col">
+      <form action="{{ route('update_interview_status') }}" method="post">
+        @csrf
+        @method('PATCH')
+        <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
+        <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+        <input type="hidden" name="project_id" value="{{ $project->id }}">
+        <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+        <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
+        <input type="hidden" name="interview_status" value="Interview Terminated">
+
+        <button type="submit" class="btn btn-danger">
+          Terminate Interview
+          <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+        </button>
+      </form>
+    </div>
+    <div class="col text-end">
+      <form action="{{ route('update_interview_status') }}" method="post">
+        @csrf
+        @method('PATCH')
+        <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
+        <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+        <input type="hidden" name="project_id" value="{{ $project->id }}">
+        <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+        <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
+        <input type="hidden" name="interview_status" value="Interview Completed">
+
+        <button type="submit" class="btn btn-success">
+          Complete Interview
+          <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
   </div>
 </div>
 

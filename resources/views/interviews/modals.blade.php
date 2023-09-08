@@ -7,23 +7,25 @@
         <h5 class="modal-title" id="respondent_feedback">
           Respondent Feedback
         </h5>
+
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="{{ route('respondent_feedback') }}" method="post">
         @csrf
         @method('PATCH')
         <input type="hidden" name="respondent_id" value="{{ $respondent->id }}">
+        <input type="hidden" name="project_id" value="{{ $project->id }}">
         <div class="modal-body">
           <div class="mb-3">
-            <label for="feedback_input" class="form-label">
-                
+            <label for="feedback_input" class="form-label text-primary">
+              What did {{ $respondent->name ?? 'he/she'}} say ?
             </label>
             <textarea class="form-control" name="feedback" id="feedback_input" rows="7"></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">
-            Submit feedback
+          <button type="submit" class="btn btn-primary btn-block">
+            Submit Feedback And Terminate This Interview.
           </button>
         </div>
       </form>

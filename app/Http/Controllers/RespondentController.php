@@ -138,7 +138,16 @@ class RespondentController extends Controller
         //dd($respondent);
         $interview = Interview::find($interview_id);
         $survey = Schema::find($survey_id);
+        $interview_status = $request->input('interview_status');
         //dd($request->input('iframe_url'));
+
+        if ($interview_status == 'Interview Completed') {
+            $status = 'success';
+        } elseif ($interview_status == 'Interview Terminated') {
+            
+        } {
+            $status = 'danger';
+        }
 
         $respondent->update([
             'id' => $respondent_id,
@@ -155,7 +164,7 @@ class RespondentController extends Controller
             'survey_url' => $request->input('iframe_url')
         ]);
 
-        return to_route('projects.show', ['project' => $project_id])->with('success', 'Interview Recorded Successfully');
+        return to_route('projects.show', ['project' => $project_id])->with($status, $interview_status);
     }
 
     /**
@@ -164,18 +173,20 @@ class RespondentController extends Controller
     function respondent_feedback(Request $request)
     {
         $respondent_id = $request->input('respondent_id');
+        $project_id = $request->input('project_id');
 
         $respondent = Respondent::find($respondent_id);
 
         $feedback = $respondent->update([
-            'feedback' => $request->input('feedback')
+            'feedback' => $request->input('feedback'),
+            'interview_status' => 'Unlocked On Feedback',
         ]);
 
         //dd($feedback);
 
         if ($feedback)
         {
-            return to_route('projects.index',[],201)->with('success', 'Thanks for the feedback');
+            return to_route('projects.show',[$project_id],201)->with('success', 'Thanks for Capturing The Respondent feedback');
         }
         else
         {

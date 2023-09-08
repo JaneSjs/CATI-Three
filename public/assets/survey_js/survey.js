@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         /**
          * Save Survey When User Clicks the "Next" button
-         * Still Work in Progress
+         * This feature is Still Work in Progress
          */
 
         // survey.onCurrentPageChanged.add(function (sender, options)
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         Toastify({
           text: "Results Recorded Successfully",
           duration: 8000,
-          destination: "https://github.com/apvarun/toastify-js",
+          destination: "https://cati.tifaresearch.com/projects",
           newWindow: true,
           close: true,
           gravity: "top", // `top` or `bottom`
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       // Toastify Notifications
         Toastify({
-          text: "Something Went Wrong Results Not Submitted Successfully",
+          text: "Something Went Wrong. Results Not Submitted Successfully",
           duration: 9000,
           destination: "https://cati.tifaresearch.com/projects",
           newWindow: true,
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
         );
       } else {
-        reject(new Error('Geolocation is not supported by this browser.'));
+        reject(new Error('Geolocation is not supported or enabled on this browser.'));
       }
     });
   }
