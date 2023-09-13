@@ -12,6 +12,7 @@ use App\Models\Schema;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 
@@ -105,6 +106,10 @@ class RespondentController extends Controller
         ]);
 
         $path = $request->file('bulk_respondents')->store('imports');
+        //dd($path);
+
+        // Clear any previous import errors
+        Session::forget('respondents_import_errors');
 
         Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
         {
@@ -112,6 +117,14 @@ class RespondentController extends Controller
         });
         
         //$this->respondents_import_job($path);
+
+        // Check if there were any import errors
+        $importErrors = Session::get('respondents_import_errors', []);
+
+        if (!empty($importErrors))
+        {
+            return redirect()->back()->withErrors($importErrors)->withInput()->with('warning', 'Respondents Import Failed. Please Check The Errors Below:');    
+        }
 
         return redirect()->back()->with('info', 'Respondents Are Being Imported In The Background');
         

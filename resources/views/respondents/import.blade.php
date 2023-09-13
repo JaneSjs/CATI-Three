@@ -18,9 +18,10 @@
         </div>
         <div class="col text-end">
           @include('partials/alerts')
-          @include('partials/errors')
+          
         </div>
       </div>
+      @include('partials/errors')
     </div>
     <div class="card-body">
 

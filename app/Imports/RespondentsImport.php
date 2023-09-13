@@ -3,6 +3,8 @@
 namespace App\Imports;
 
 use App\Models\Respondent;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
@@ -22,6 +24,8 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     */
     public function model(array $row)
     {
+        Log::info("Importing respondent: {$row['name']}");
+
         return new Respondent([
             'r_id'          => $row['r_id'],
             'project_id'    => $row['project_id'],
@@ -70,6 +74,12 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
 
     public function onFailure(Failure ...$failures)
     {
-           
+           foreach ($failures as $failure)
+           {
+                Log::error("Failed to import row {$failure->row()}: {$failure->errors()[0]}");
+                $error = "Failed to import row {$failure->row()}: {$failure->errors()[0]}";
+
+                Session::push('respondents_import_errors', $error);
+           }
     }
 }

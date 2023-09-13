@@ -3,7 +3,7 @@
         <img src="{{ asset('assets/images/company-logo.png') }}" class="sidebar-brand-full" width="90" height="46" alt="TIFA Logo">
       </div>
       <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-        @can('admin')
+        @canany(['admin'])
         <li class="nav-group">
           <a class="nav-link nav-group-toggle" href="#">
              System Admin
@@ -37,7 +37,7 @@
             Dashboard
           </a>
         </li>
-        @canany(['admin','head','ceo'])
+        @canany(['admin','ceo'])
         <li class="nav-title">User Management</li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('roles.index') }}">
@@ -55,7 +55,7 @@
         </li>
         @endcan
 
-        @canany(['admin'])
+        @canany(['admin','ceo','head'])
         <li class="nav-item">
           <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
@@ -83,7 +83,7 @@
         </li>
         @endcan
 
-        @canany(['admin','supervisor'])
+        @canany(['admin','manager','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="{{ url('agents') }}">
             <i class="fa-solid fa-user-tag nav-icon" style="color: #fff;"></i> 
@@ -92,7 +92,7 @@
         </li>
         @endcan
 
-        @canany(['admin','head','coordinator','supervisor'])
+        @canany(['admin','head','manager','coordinator','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" target="_blank">
             <i class="fa-solid fa-chart-simple fa-fade text-danger nav-icon" style="color: #fff;"></i> 

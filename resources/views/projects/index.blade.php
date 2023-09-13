@@ -53,9 +53,11 @@
                   <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-outline-info">
                     <i class="fa-solid fa-pen"></i>
                   </a>
+                  @canany(['admin','ceo','head'])
                   <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#delete_project-{{ $project->id }}" title="Delete {{ $project->name }}">
                     <i class="fa-solid fa-trash"></i>
                   </button>
+                  @endcan
                 </div>
 
                 <!-- Delete Project Modal -->
