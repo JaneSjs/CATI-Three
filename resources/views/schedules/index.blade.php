@@ -24,6 +24,7 @@
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Interviews</th>
+              <th scope="col"></th>
               @canany(['admin'])
                 <th scope="col">Actions</th>
               @endcan
@@ -39,6 +40,11 @@
                   <a href="{{ $scheduled_interview['interview_url'] }}" class="btn btn-outline-info" target="_blank">
                     {{ $scheduled_interview['interview_datetime'] }}
                   </a>
+                </td>
+                <td>
+                  <button class="btn btn-outline-primary">
+                    Assign To Someone Else
+                  </button>
                 </td>
               </tr>
             @endforeach
