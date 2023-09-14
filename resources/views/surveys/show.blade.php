@@ -103,7 +103,7 @@
 
                     // Toastify Notifications
                       Toastify({
-                        text: "Answer The Soft Phone",
+                        text: "Answer The Call",
                         duration: 9000,
                         destination: "https://cati.tifaresearch.com/projects",
                         newWindow: true,
@@ -119,9 +119,12 @@
                     // End Toastify Notifications
                       
                   } else {
+                    
+                    const errorMessage = await response.text();
+
                     // Toastify Notifications
                       Toastify({
-                        text: "Check Your Internet Connection",
+                        text: errorMessage,
                         duration: 9000,
                         destination: "https://cati.tifaresearch.com/projects",
                         newWindow: true,
@@ -139,9 +142,8 @@
                     throw new Error('Server Error. Check Server Logs');
                   }
                 } catch (error) {
-                  console.log('Calling Error: ', error);
 
-                  
+                  console.log('Calling Error: ', error);
                 }
               }
             </script>

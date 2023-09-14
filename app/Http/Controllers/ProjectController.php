@@ -19,9 +19,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('admin') || auth()->user()->id == 1){
+        if (Gate::allows(['admin','ceo','head','manager']) || auth()->user()->id == 1)
+        {
             $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
         } else {
+            //dd('Here');
             $user = User::find(auth()->user()->id);
 
             $data['projects'] = $user->projects()->orderBy('id', 'DESC')->paginate(10);
