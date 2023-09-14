@@ -157,8 +157,6 @@ class RespondentController extends Controller
         if ($interview_status == 'Interview Completed') {
             $status = 'success';
         } elseif ($interview_status == 'Interview Terminated') {
-            
-        } {
             $status = 'danger';
         }
 
