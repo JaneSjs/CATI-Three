@@ -228,14 +228,21 @@ class UserController extends Controller
         return redirect()->back()->with('success', "Activation Link Sent to $request->email. Ask them to check their inbox");
     }
 
+    /**
+     * Return users who have the role of agent
+     * or those who have no roles yet.
+     */
     public function agents()
     {
-        $role = Role::where('name', 'Agent')
-                           ->first();
-        //dd($role);
+        $rolesToFilter = ['Agent', '', null];
 
-        // Return agents who belong the desired project.
-        $data['users'] = $role->users()->paginate(10);
+        $data['users'] = User::where(function ($query) use ($rolesToFilter)
+        {
+            $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
+            {
+                $subQuery->whereIn('name', $rolesToFilter);
+            })->orWhereDoesntHave('roles');
+        })->paginate(10);
 
         return view('users.agents', $data);
     }
