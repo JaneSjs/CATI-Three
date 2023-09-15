@@ -33,7 +33,7 @@
           <div class="col mt-3 mb-4">
             @foreach($users as $user)
               <div class="form-check form-check-inline">
-                <input type="checkbox" name="users[]" class="form-check-input @error('users') is-invalid @enderror" id="{{ $user->first_name }}" value="{{ $user->id }}">
+                <input type="checkbox" name="users[]" class="form-check-input @error('users') is-invalid @enderror" id="{{ $user->first_name }}" value="{{ $user->id }}" @if($members->contains('id', $user->id)) checked @endif>
                 <label class="form-check-label" for="{{ $user->first_name }}">
                   {{ $user->first_name . ' ' . $user->last_name }}
                 </label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Role;
 use App\Models\Schema;
 use App\Models\User;
 use Carbon\Carbon;
@@ -108,7 +109,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $data['users'] = User::all();
+        $data['users'] = User::whereHas('roles', function ($query)
+        {
+            $query->whereIn('name', ['Agent','Client']);
+        })->get();
+        //dd($data['users']);
 
         $data['project'] = $project;
         $data['members'] = $project->users()->get();
