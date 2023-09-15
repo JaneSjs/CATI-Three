@@ -35,7 +35,7 @@ class QuotaController extends Controller
         Quota::create([
             'project_id' => $request->input('project_id'),
             'schema_id' => $request->input('schema_id'),
-            'total_target' => $request->input('total_target'),
+            'sample_size' => $request->input('sample_size'),
             'male_target' => $request->input('male_target'),
             'female_target' => $request->input('female_target'),
         ]);

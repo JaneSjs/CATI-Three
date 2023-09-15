@@ -2,27 +2,6 @@
     
 @section('content')
 
-<style type="text/css">
-  .marquee {
-    overflow: hidden;
-  }
-
-  .marquee-content {
-    display: inline-block;
-    white-space: nowrap;
-    animation: marquee 20s linear infinite;
-  }
-
-  @keyframes marquee {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(-100%);
-    }
-  }
-</style>
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
 
@@ -71,10 +50,31 @@
               </h3>
             </div>
             <div class="card-body">
-              <h5 class="text-primary text-center">
-                <i class="fa-solid fa-users fa-xl" style="color: #0011ff;"></i>
-                {{ $interviewed_respondents }} Interviewed Respondents
-              </h5>
+              <div class="table-responsive">
+                <table class="table table-dark table-bordered border-light table-sm">
+                  <caption>
+                    Interviews Status
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th>
+                        Sample Size
+                      </th>
+                      <th>
+                        {{ $quota['sample_size'] ?? 'Not Set' }}
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>
+                        Interviewed Respondents
+                      </th>
+                      <th>
+                        {{ $interviewed_respondents }}
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
 
               <div class="table-responsive">
                 <table class="table table-dark">

@@ -20,10 +20,10 @@
           <div class="row">
             <div class="col">
               <div class="mb-3">
-                <label for="total_target" class="form-label">
-                  Total Targeted Interviews
+                <label for="sample_size" class="form-label">
+                  Sample Size
                 </label>
-                <input id="total_target" type="number" name="total_target" class="form-control" placeholder="Total Targeted Interviews">
+                <input id="sample_size" type="number" name="sample_size" class="form-control" placeholder="Sample Size">
               </div>
             </div>
             <div class="col">

@@ -26,7 +26,7 @@ return new class extends Migration
                   ->constrained()
                   ->cascadeOnDelete();
 
-            $table->integer('total_target')->nullable();
+            $table->integer('sample_size')->nullable();
             $table->integer('male_target')->nullable();
             $table->integer('female_target')->nullable();
             //Regions

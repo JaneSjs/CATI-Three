@@ -15,7 +15,7 @@ class Quota extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['project_id','schema_id','total_target','total_achieved','male_target','male_achieved','female_target','female_achieved'
+    protected $fillable = ['project_id','schema_id','sample_size','male_target','female_target'
     ];
 
     /**

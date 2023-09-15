@@ -25,7 +25,7 @@ class StoreQuotaRequest extends FormRequest
         return [
             'project_id' => 'required',
             'schema_id' => 'required|unique:quotas,schema_id',
-            'total_target' => 'required',
+            'sample_size' => 'required',
         ];
     }
 
