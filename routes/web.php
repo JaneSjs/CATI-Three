@@ -85,7 +85,7 @@ Route::middleware(['auth','verified'])->group(function ()
 
 
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
-	Route::get('monitor_survey/survey/{id}', [QuotaController::class, 'show'])->name('monitor_survey');
+	Route::get('operations/survey/{id}', [QuotaController::class, 'show'])->name('operations');
 	Route::post('call', [PabxController::class, 'call'])->name('call');
 
 	Route::delete('remove_quota/{schema_id}', [QuotaController::class, 'remove_quota'])->name('remove_quota');

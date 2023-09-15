@@ -199,8 +199,8 @@
                       <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#quotas-{{ $survey->id }}" title="Set Quota Criteria">
                         Set Quotas
                       </button>
-                      <a href="{{ route('monitor_survey', $survey->id) }}" class="btn btn-outline-dark" title="Monitor Survey Progress">
-                        Monitor Survey
+                      <a href="{{ route('operations', $survey->id) }}" class="btn btn-outline-dark" title="Monitor Survey Progress">
+                        Operations
                       </a>
 
                       <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
