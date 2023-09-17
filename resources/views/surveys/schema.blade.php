@@ -36,11 +36,8 @@
   <!-- Survey Results-->
 
   <survey params="survey: model"></survey>
-  <div class="text-center mt-o">
-    <a href="{{ route('projects.show', $project->id) }}" class="btn btn-secondary">
-      Begin Another Interview
-    </a>
-  </div>
+
+  
 
 </div>
 
