@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="Research Projects & Surveys Management System | CATI System">
+    <meta name="description" content="Research Projects & Surveys Management System | CATI System | CAWI System">
     <meta name="author" content="Kenneth Kipchumba">
     <meta name="author" content="Kipchumba.Kenneth@ymail.com">
 
@@ -17,26 +17,10 @@
     
     <meta name="theme-color" content="#ffffff">
 
-    
-    <!-- SurveyJs Resources -->
-    <script type="text/javascript" src="{{ asset('assets/survey_js/resources/knockout-latest.js') }}"></script>
-
-    <!-- Default V2 theme -->
-    <link href="{{ asset('assets/survey_js/resources/defaultV2.min.css') }}" type="text/css" rel="stylesheet">
-
-    <!-- Modern theme -->
-    <!-- <link href="https://unpkg.com/survey-knockout/modern.min.css" type="text/css" rel="stylesheet"> -->
-
-    <script type="text/javascript" src="{{ asset('assets/survey_js/resources/survey.core.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/survey_js/resources/survey-knockout-ui.min.js') }}"></script>
-    
-    <!-- End SurveyJs Resources -->
-    
-
-
-    
     @if(request()->segment(1) === 'analytics')
-      @include('layouts.analytics-resources')
+      @include('layouts.old-analytics-resources')
+    @else
+      @include('layouts.survey-js')
     @endif
 
     <!-- Vendors styles-->

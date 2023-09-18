@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-9">
           <h6>
-            {{ $interview->survey->survey_name  }}
+            {{ $interview->project->name . ' (' . $interview->survey->survey_name . ')'  }}
           </h6>
           <hr>
           <p class="float-start text-primary">
@@ -41,6 +41,8 @@
           
         </div>
       </div>
+      <div class="row">
+        <div class="col">
           <ul class="list-group list-group-horizontal">
             <li class="list-group-item list-group-item-primary">
               <div class="fw-bold">
@@ -87,6 +89,14 @@
               {{ $interview->respondent->setting }}
             </li>
           </ul>
+        </div>
+        <div class="col">
+          <audio controls>
+            <source src="{{ asset('assets/audios/sample-audio.wav') }}" type="audio/wav">
+            Your browser is not able to play audio recordings.
+          </audio>
+        </div>
+      </div> 
     </div>
     <div class="card-body">
       @canany(['coding'])
@@ -95,7 +105,7 @@
 
       @canany(['qc'])
 
-        @if($interview->survey_url)
+        @if(!$interview->survey_url === null)
           <!-- Iframe -->
             @canany(['admin', 'agent', 'respondent'])
               <?php $encoded_iframe_url = urlencode($iframe_url) ?>

@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const [surveySchemaResponse, surveyResultsResponse] = responses;
 
-        const surveySchema = await surveySchemaResponse;
-        const surveyResults = await surveyResultsResponse;
+        const surveySchema = await surveySchemaResponse.json();
+        const surveyResults = await surveyResultsResponse.json();
 
         return [surveySchemaResponse, surveyResultsResponse];
       })

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAnalyticsRequest;
 use App\Http\Requests\UpdateAnalyticsRequest;
 use App\Models\Analytics;
 use App\Models\Result;
+use App\Models\Schema;
 
 class AnalyticsController extends Controller
 {
@@ -39,9 +40,11 @@ class AnalyticsController extends Controller
     public function show($id)
     {
         $data['result'] = Result::where('schema_id', $id)->first();
+        $data['survey'] = Schema::where('id', $id)->first();
         //dd($data);
 
         return view('analytics.show', $data);
+        //return view('analytics.old', $data);
     }
 
     /**
