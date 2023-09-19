@@ -41,6 +41,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::resource('profile', ProfileController::class);
 	Route::resource('users', UserController::class);
 	Route::get('agents', [UserController::class, 'agents']);
+	Route::get('clients', [UserController::class, 'clients']);
 });
 
 // Admin Routes

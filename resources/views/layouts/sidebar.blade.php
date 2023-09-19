@@ -86,13 +86,22 @@
         @canany(['admin','manager','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="{{ url('agents') }}">
-            <i class="fa-solid fa-user-tag nav-icon" style="color: #fff;"></i> 
+            <i class="fa-solid fa-headphones fa-beat nav-icon" style="color: #e5a50a;"></i> 
             Agents
           </a>
         </li>
         @endcan
 
-        @canany(['admin','head','manager','coordinator','supervisor'])
+        @canany(['admin','head','manager',])
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('clients') }}">
+            <i class="fa-solid fa-face-smile fa-shake nav-icon" style="color: #e5a50a;"></i>
+            Clients
+          </a>
+        </li>
+        @endcan
+
+        @canany(['admin','ceo','head','manager','coordinator','supervisor'])
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" target="_blank">
             <i class="fa-solid fa-chart-simple fa-fade text-danger nav-icon" style="color: #fff;"></i> 

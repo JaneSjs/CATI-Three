@@ -246,4 +246,23 @@ class UserController extends Controller
 
         return view('users.agents', $data);
     }
+
+    /**
+     * Return users who have the role of agent
+     * or those who have no roles yet.
+     */
+    public function clients()
+    {
+        $rolesToFilter = ['Client', '', null];
+
+        $data['users'] = User::where(function ($query) use ($rolesToFilter)
+        {
+            $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
+            {
+                $subQuery->whereIn('name', $rolesToFilter);
+            })->orWhereDoesntHave('roles');
+        })->paginate(10);
+
+        return view('users.clients', $data);
+    }
 }
