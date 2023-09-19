@@ -29,16 +29,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Dashboard Routes
+// Auth Routes
 Route::middleware(['auth'])->group(function ()
 {
 	Route::get('admin', [DashboardController::class, 'index']);
+	Route::resource('profile', ProfileController::class);
 });
 
-// User Routes
+// Verified Routes
 Route::middleware(['auth','verified'])->group(function ()
 {
-	Route::resource('profile', ProfileController::class);
 	Route::resource('users', UserController::class);
 	Route::get('agents', [UserController::class, 'agents']);
 	Route::get('clients', [UserController::class, 'clients']);
