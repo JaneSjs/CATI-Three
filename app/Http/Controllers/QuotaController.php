@@ -58,6 +58,10 @@ class QuotaController extends Controller
         $data['cancelleded_interviews'] = Interview::where('schema_id', $schema_id)->where('quality_control', 'Cancelled')->count();
 
         $data['interviewed_respondents'] = Respondent::where('schema_id', $schema_id)->count();
+        $data['respondents_with_complete_interviews'] = Respondent::where('schema_id', $schema_id)
+                        ->where('interview_status', 'Interview Completed')
+                        ->count();
+        
         // GROUP BY
         $data['interviewed_respondents_by_gender'] = Respondent::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->selectRaw('gender, COUNT(*) as count')->groupBy('gender')->get();
 

@@ -72,6 +72,14 @@
                         {{ $interviewed_respondents }}
                       </th>
                     </tr>
+                    <tr>
+                      <th>
+                        Respondents With Complete Interviews
+                      </th>
+                      <th>
+                        {{ $respondents_with_complete_interviews }}
+                      </th>
+                    </tr>
                   </thead>
                 </table>
               </div>
@@ -124,7 +132,23 @@
                       <tbody>
                         <tr>
                           <td>
+                            Atheist
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             Catholic
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Evangelical
                           </td>
                           <td>
                             
@@ -148,7 +172,31 @@
                         </tr>
                         <tr>
                           <td>
+                            None
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Other Christian
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             SDA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Traditional Religious Beliefs
                           </td>
                           <td>
                             
@@ -266,7 +314,103 @@
                       <tbody>
                         <tr>
                           <td>
+                            BARINGO
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            BOMET
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            BUNGOMA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            BUSIA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            ELGEIYO MARAKWET
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             EMBU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            GARISSA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            HOMA BAY
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            ISIOLO
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KAJIADO
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KAKAMEGA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KERICHO
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KIAMBU
                           </td>
                           <td>
                             
@@ -282,7 +426,151 @@
                         </tr>
                         <tr>
                           <td>
+                            KIRINYAGA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KISII
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KISUMU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KITUI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            KWALE
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            LAIKIPIA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            LAMU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MACHAKOS
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MAKUENI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MANDERA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MARSABIT
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MERU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MIGORI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MOMBASA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            MURANG'A
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             NAIROBI CITY
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            NAKURU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            NANDI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            NAROK
                           </td>
                           <td>
                             
@@ -298,6 +586,70 @@
                         </tr>
                         <tr>
                           <td>
+                            NYANDARUA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            NYERI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            SAMBURU
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            SIAYA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            TAITA TAVETA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            TANA RIVER
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            THARAKA NITHI
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            TRANS NZOIA
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             TURKANA
                           </td>
                           <td>
@@ -306,7 +658,7 @@
                         </tr>
                         <tr>
                           <td>
-                            EMBU
+                            UASINGISHU
                           </td>
                           <td>
                             
@@ -314,7 +666,7 @@
                         </tr>
                         <tr>
                           <td>
-                            EMBU
+                            VIHIGA
                           </td>
                           <td>
                             
@@ -322,7 +674,7 @@
                         </tr>
                         <tr>
                           <td>
-                            EMBU
+                            WAJIR
                           </td>
                           <td>
                             
@@ -330,7 +682,7 @@
                         </tr>
                         <tr>
                           <td>
-                            EMBU
+                            WEST POKOT
                           </td>
                           <td>
                             
@@ -350,7 +702,7 @@
                             County
                           </th>
                           <th>
-                            Count
+                            Achieved
                           </th>
                         </tr>
                       </thead>
