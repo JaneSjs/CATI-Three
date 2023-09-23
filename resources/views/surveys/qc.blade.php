@@ -13,7 +13,7 @@ use Carbon\Carbon;
           <tr>
             <th>Interviewer</th>
             <th>Respondent</th>
-            <th></th>
+            <th>Phone Called</th>
             <th></th>
           </tr>
         </thead>
@@ -27,6 +27,9 @@ use Carbon\Carbon;
               </td>
               <td>
                 {{ $interview->respondent->name ?? $interview->respondent_name }}
+              </td>
+              <td>
+                {{ $interview->respondent->phone_1 ?? '' }}
               </td>
               <td>
                 <?php
