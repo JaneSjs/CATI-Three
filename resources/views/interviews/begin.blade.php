@@ -125,53 +125,49 @@
           </form>
 
           @if($respondent)
-            <div class="row mt-3">
-              <div class="col-9">
-                <ul class="list-group">
+            <div class="mt-2">
+
+              <span class="bg-warning border border-info mx-auto">
+                {{ $respondent->feedback ?? '' }}
+              </span>
+
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <strong>
+                    {{ $respondent->name ?? 'Database is Probably Empty' }}
+                  </strong> | {{ $respondent->gender ?? '' }}
+                </li>
+                @canany(['admin'])
                   <li class="list-group-item">
-                    <strong>
-                      {{ $respondent->name ?? 'Database is Probably Empty' }}
-                    </strong> | {{ $respondent->gender ?? '' }}
+                    {{ $respondent->phone_1 }}
                   </li>
-                  @canany(['admin'])
-                    <li class="list-group-item">
-                      {{ $respondent->phone_1 }}
-                    </li>
-                    <li class="list-group-item">
-                      {{ $respondent->interview_date_time }}
-                    </li>
-                  @endcan
+                  <li class="list-group-item">
+                    {{ $respondent->interview_date_time }}
+                  </li>
+                @endcan
                   
-                  <li class="list-group-item">
-                    {{ $respondent->age ?? 'Age is Undefined'}}
-                  </li>
-                  <li class="list-group-item">
-                    {{ $respondent->gender ?? 'Gender is Undefined' }}
-                  </li>
-                  <li class="list-group-item">
-                    {{ $respondent->region ?? '' }}
-                  </li>
-                  <li class="list-group-item">
-                    {{ $respondent->county ?? '' }}
-                  </li>
-                  <li class="list-group-item">
-                    {{ $respondent->sub_county ?? '' }}
-                  </li>
-                  <li class="list-group-item">
-                    {{ $respondent->ward ?? '' }}
-                  </li>
-                  <li class="list-group-item">
-                    {{ $respondent->setting ?? '' }}
-                  </li>
-                </ul>
-              </div>
-              <div class="col-3">
-                <div class="btn-group">
-                  <button type="reset" class="btn btn-danger btn-sm">
-                    Reset Search
-                  </button>
-                </div>
-              </div>
+                <li class="list-group-item">
+                  {{ $respondent->age ?? 'Age is Undefined'}}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->gender ?? 'Gender is Undefined' }}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->region ?? '' }}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->county ?? '' }}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->sub_county ?? '' }}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->ward ?? '' }}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->setting ?? '' }}
+                </li>
+              </ul>
             </div>
           @else
             <p class="mt-3 text-primary pl-5">

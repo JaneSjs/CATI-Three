@@ -213,7 +213,7 @@
                       <thead>
                         <tr>
                           <th>
-                            Religion
+                            Religions
                           </th>
                           <th>
                             Achieved
@@ -562,7 +562,7 @@
                         </tr>
                         <tr>
                           <td>
-                            NANDI
+                            
                           </td>
                           <td>
                             
@@ -699,7 +699,7 @@
                       <thead>
                         <tr>
                           <th>
-                            County
+                            Counties
                           </th>
                           <th>
                             Achieved
@@ -727,10 +727,10 @@
                       <thead>
                         <tr>
                           <th>
-                            Male Target
+                            Sub Counties
                           </th>
                           <th>
-                            Female Target
+                            Targets
                           </th>
                         </tr>
                       </thead>
@@ -757,7 +757,7 @@
                             Sub County
                           </th>
                           <th>
-                            Count
+                            Achieved
                           </th>
                         </tr>
                       </thead>
@@ -782,10 +782,10 @@
                       <thead>
                         <tr>
                           <th>
-                            Male Target
+                            Wards
                           </th>
                           <th>
-                            Female Target
+                            Targets
                           </th>
                         </tr>
                       </thead>
@@ -809,10 +809,10 @@
                       <thead>
                         <tr>
                           <th>
-                            Ward
+                            Wards
                           </th>
                           <th>
-                            Count
+                            Achieved
                           </th>
                         </tr>
                       </thead>
@@ -837,7 +837,7 @@
                       <thead>
                         <tr>
                           <th>
-                            Setting
+                            Settings
                           </th>
                           <th>
                             Targets
@@ -872,7 +872,7 @@
                       <thead>
                         <tr>
                           <th>
-                            Setting
+                            Settings
                           </th>
                           <th>
                             Achieved
