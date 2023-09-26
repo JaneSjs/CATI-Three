@@ -156,15 +156,17 @@ class RespondentController extends Controller
 
         if ($interview_status == 'Interview Completed') {
             $status = 'success';
+            $interview_date_time = Carbon::now();
         } elseif ($interview_status == 'Interview Terminated') {
             $status = 'danger';
+            $interview_date_time = null;
         }
 
         $respondent->update([
             'id' => $respondent_id,
             'project_id' => $project_id,
             'schema_id' => $survey_id,
-            'interview_date_time' => Carbon::now(),
+            'interview_date_time' => $interview_date_time,
             'interview_status' => $request->input('interview_status'),
         ]);
 
