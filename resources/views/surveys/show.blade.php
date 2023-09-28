@@ -221,21 +221,10 @@
           </form>
         </div>
         <div class="col text-end">
-          <form action="{{ route('update_interview_status') }}" method="post">
-            @csrf
-            @method('PATCH')
-            <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
-            <input type="hidden" name="survey_id" value="{{ $survey->id }}">
-            <input type="hidden" name="project_id" value="{{ $project->id }}">
-            <input type="hidden" name="interview_id" value="{{ $interview->id }}">
-            <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
-            <input type="hidden" name="interview_status" value="Interview Completed">
-
-            <button type="submit" class="btn btn-success">
-              Complete Interview
-              <i class="fa-solid fa-check" style="color: #ffffff;"></i>
-            </button>
-          </form>
+          <button type="button" class="btn btn-success" data-coreui-toggle="modal" data-coreui-target="#complete_interview">
+            Complete Interview
+            <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+          </button>
         </div>
       </div>
       @endcan
@@ -316,6 +305,40 @@
   </div>
 </div>
 <!-- Feedback Modal -->
+@endcan
+
+@can(['agent'])
+<!-- Complete Interview Modal -->
+<div class="modal fade" id="complete_interview" tabindex="-1" aria-labelledby="complete_interview" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="complete_interview">
+          Are you Sure ?
+        </h5>
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <form action="{{ route('update_interview_status') }}" method="post">
+          @csrf
+          @method('PATCH')
+          <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
+          <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+          <input type="hidden" name="project_id" value="{{ $project->id }}">
+          <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+          <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
+          <input type="hidden" name="interview_status" value="Interview Completed">
+
+          <button type="submit" class="btn btn-outline-success">
+            Complete Interview
+            <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Complete Interview Modal -->
 @endcan
 
 @endsection
