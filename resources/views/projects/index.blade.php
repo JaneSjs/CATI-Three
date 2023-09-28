@@ -1,3 +1,8 @@
+<?php
+use Carbon\Carbon;
+
+?>
+
 @extends('layouts.main')
     
 @section('content')
@@ -30,7 +35,10 @@
           <thead class="table-warning">
             <tr>
               <th scope="col">Id</th>
+              <th scope="col">Data Protection</th>
               <th scope="col">Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
               @canany(['admin','ceo','head','manager'])
                 <th scope="col">Actions</th>
               @endcan
@@ -43,9 +51,22 @@
                 {{ $project->id }}
               </th>
               <td>
+                {{ $project->database }}
+              </td>
+              <td>
                 <a href="{{ route('projects.show', $project->id) }}">
                   {{ $project->name }}
                 </a>
+              </td>
+              <?php
+                  $start_date = Carbon::parse($project->start_date);
+                  $end_date = Carbon::parse($project->end_date);
+                ?>
+              <td>
+                {{ $start_date->diffForHumans() }}
+              </td>
+              <td>
+                {{ $end_date->diffForHumans() }}
               </td>
               @canany(['admin','ceo','head','manager'])
               <td>

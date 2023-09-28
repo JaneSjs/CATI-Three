@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDashboardRequest;
 use App\Http\Requests\UpdateDashboardRequest;
 use App\Models\Dashboard;
+use App\Models\Interview;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\Schema;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
 {
@@ -23,7 +25,13 @@ class DashboardController extends Controller
         $data['users'] = User::all();
         $data['projects'] = Project::all();
         $data['surveys'] = Schema::all();
-        $data['interviews'] = $user->interviews;
+
+        if (Gate::allows('admin') || auth()->user()->id == 1)
+        {
+            $data['interviews'] = Interview::orderBy('id', 'DESC')->paginate(10);
+            //dd('Admin');
+        } 
+        $data['interviews'] = User::find(auth()->user()->id)->interviews()->paginate(10);
         //dd($data['interviews']);
         
         $roleName = 'Supervisor';

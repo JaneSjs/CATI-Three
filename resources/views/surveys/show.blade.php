@@ -316,24 +316,32 @@
         <h5 class="modal-title" id="complete_interview">
           Are you Sure ?
         </h5>
-        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+        
       </div>
       <div class="modal-footer">
-        <form action="{{ route('update_interview_status') }}" method="post">
-          @csrf
-          @method('PATCH')
-          <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
-          <input type="hidden" name="survey_id" value="{{ $survey->id }}">
-          <input type="hidden" name="project_id" value="{{ $project->id }}">
-          <input type="hidden" name="interview_id" value="{{ $interview->id }}">
-          <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
-          <input type="hidden" name="interview_status" value="Interview Completed">
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn btn-outline-danger float-start" data-coreui-dismiss="modal" aria-label="Close">
+              No
+            </button>
+          </div>
+          <div class="col">
+            <form action="{{ route('update_interview_status') }}" method="post">
+              @csrf
+              @method('PATCH')
+              <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
+              <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+              <input type="hidden" name="project_id" value="{{ $project->id }}">
+              <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+              <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
+              <input type="hidden" name="interview_status" value="Interview Completed">
 
-          <button type="submit" class="btn btn-outline-success">
-            Complete Interview
-            <i class="fa-solid fa-check" style="color: #ffffff;"></i>
-          </button>
-        </form>
+              <button type="submit" class="btn btn-outline-success">
+                Yes
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
