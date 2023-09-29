@@ -111,20 +111,20 @@
                   </td>
                   @endcan
                   <td>
-                    {{ $interview->respondent->name }}
+                    {{ $interview->respondent->name ?? '' }}
                     <hr>
                     Phone Called - 890 {{ $interview->phone_called }}
                   @canany(['admin','ceo','head','manager'])
                     <hr>
-                    Id - {{ $interview->respondent->id }}
+                    Id - {{ $interview->respondent->id ?? '' }}
                     <hr>
-                    R_ID - {{ $interview->respondent->r_id }}
+                    R_ID - {{ $interview->respondent->r_id ?? '' }}
                   @endcan
                   </td>
                   <td>
                     <dl>
                       <dt>
-                        {{ $interview->interview_status }}
+                        {{ $interview->interview_status ?? '' }}
                         @if($interview->quality_control)
                           <span class="badge bg-info">
                             {{ $interview->quality_control }}
@@ -132,9 +132,9 @@
                         @endif
                       </dt>
                       <dd>
-                        Start Time: ({{ $interview->start_time }})
+                        Start Time: ({{ $interview->start_time ?? '' }})
                         @if($interview->end_time)
-                        | End Time: ({{ $interview->end_time }})
+                        | End Time: ({{ $interview->end_time ?? '' }})
                         @endif
                       </dd>
                       <dt>
