@@ -35,11 +35,13 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Id</th>
+              @canany(['admin','ceo','head','manager'])
               <th scope="col">Data Protection</th>
+              @endcan
               <th scope="col">Name</th>
+              @canany(['admin','ceo','head','manager'])
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
-              @canany(['admin','ceo','head','manager'])
                 <th scope="col">Actions</th>
               @endcan
             </tr>
@@ -50,14 +52,17 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $project->id }}
               </th>
+              @canany(['admin','ceo','head','manager'])
               <td>
                 {{ $project->database }}
               </td>
+              @endcan
               <td>
                 <a href="{{ route('projects.show', $project->id) }}">
                   {{ $project->name }}
                 </a>
               </td>
+              @canany(['admin','ceo','head','manager'])
               <?php
                   $start_date = Carbon::parse($project->start_date);
                   $end_date = Carbon::parse($project->end_date);
@@ -68,7 +73,6 @@ use Carbon\Carbon;
               <td>
                 {{ $end_date->diffForHumans() }}
               </td>
-              @canany(['admin','ceo','head','manager'])
               <td>
                 <div class="btn-group btn-xs" role="group" aria-label="Project Actions">
                   <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-outline-info">
