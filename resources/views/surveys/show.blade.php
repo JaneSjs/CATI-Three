@@ -8,10 +8,10 @@
 
       <div class="row">
         <div class="col">
-          <p class="float-start">
+          <p class="float-start" title="Respondent's Name is Pseudonymised For Data Protection">
             <strong>{{ $survey->survey_name }}.</strong>
             @can(['agent'])
-             You are interviewing {{ $respondent->name ?? ''}}
+             You are interviewing {{ '###### ' . $respondent->id ?? ''}}
             @endcan
             @can('admin')
              @if($survey->updated_by)

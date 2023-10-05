@@ -31,14 +31,7 @@
         </div>
         <div class="col text-end">
           @if($respondent)
-            <div class="btn-group float-end" role="group" aria-label="Project Actions">
-              @can(['agent'])
-              <button type="button" class="btn btn-primary" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
-                Respondent Feedback
-                <i class="fa-regular fa-comment-dots"></i>
-              </button>
-              @endcan
-            </div>
+            
             @include('interviews/modals')
           @else
             <div class="btn-group float-end" role="group" aria-label="Project Actions">
@@ -132,10 +125,10 @@
               </span>
 
               <ul class="list-group">
-                <li class="list-group-item">
+                <li class="list-group-item" title="Respondent's Name is Pseudonymised For Data Protection">
                   <strong>
-                    {{ $respondent->name ?? 'Database is Probably Empty' }}
-                  </strong> | {{ $respondent->gender ?? '' }}
+                    {{ '###### ' . $respondent->id ?? 'Database is Probably Empty' }}
+                  </strong>
                 </li>
                 @canany(['admin'])
                   <li class="list-group-item">

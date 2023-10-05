@@ -30,7 +30,8 @@ class DashboardController extends Controller
         {
             $data['interviews'] = Interview::orderBy('id', 'DESC')->paginate(10);
             //dd('Admin');
-        } 
+        }
+        
         $data['interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('interview_status', '!=', null)
@@ -43,7 +44,7 @@ class DashboardController extends Controller
         $data['todays_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('interview_status', '!=', null)
-                                    ->where('start_time', '=', date('Y-m-d'))
+                                    ->whereDate('start_time', '=', date('Y-m-d'))
                                     ->get();                                   
         //dd($data['total_interviews']);
         

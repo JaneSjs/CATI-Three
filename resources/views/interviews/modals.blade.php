@@ -18,7 +18,7 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="feedback_input" class="form-label text-primary">
-              What did {{ $respondent->name ?? 'he/she'}} say ?
+              Enter Feedback
             </label>
             <textarea class="form-control" name="feedback" id="feedback_input" rows="7"></textarea>
           </div>
