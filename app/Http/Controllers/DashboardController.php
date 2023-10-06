@@ -39,6 +39,7 @@ class DashboardController extends Controller
                                     ->paginate(10);
         $data['total_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
+                                    //->where('project_id', )
                                     ->where('interview_status', '!=', null)
                                     ->get();
         $data['todays_interviews'] = User::find(auth()->user()->id)

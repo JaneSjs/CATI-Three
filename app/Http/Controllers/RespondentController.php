@@ -193,6 +193,7 @@ class RespondentController extends Controller
         $feedback = $respondent->update([
             'feedback' => $request->input('feedback'),
             'interview_status' => 'Unlocked On Feedback',
+            'interview_date_time' => null
         ]);
 
         //dd($feedback);

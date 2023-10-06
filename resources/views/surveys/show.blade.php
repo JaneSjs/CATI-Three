@@ -11,7 +11,7 @@
           <p class="float-start" title="Respondent's Name is Pseudonymised For Data Protection">
             <strong>{{ $survey->survey_name }}.</strong>
             @can(['agent'])
-             You are interviewing {{ '###### ' . $respondent->id ?? ''}}
+             You are interviewing {{ '######' . $respondent->id ?? ''}}
             @endcan
             @can('admin')
              @if($survey->updated_by)
@@ -195,7 +195,7 @@
       <!-- End Survey Schema -->
     @endif
 
-    @canany(['admin', 'qc'])
+    @canany(['qc'])
       @include('surveys.qc')
     @endcan
     
@@ -273,7 +273,7 @@
 <!-- End Survey Results Modal -->
 
 @can(['agent'])
-<!-- Feedback Modal -->
+<!-- Interview Feedback Modal -->
 <div class="modal fade" id="interview_feedback" tabindex="-1" aria-labelledby="interview_feedback" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -304,7 +304,7 @@
     </div>
   </div>
 </div>
-<!-- Feedback Modal -->
+<!-- End Interview Feedback Modal -->
 @endcan
 
 @can(['agent'])

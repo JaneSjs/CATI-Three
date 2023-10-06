@@ -127,7 +127,7 @@
               <ul class="list-group">
                 <li class="list-group-item" title="Respondent's Name is Pseudonymised For Data Protection">
                   <strong>
-                    {{ '###### ' . $respondent->id ?? 'Database is Probably Empty' }}
+                    {{ '######' . $respondent->id ?? 'Database is Probably Empty' }}
                   </strong>
                 </li>
                 @canany(['admin'])
