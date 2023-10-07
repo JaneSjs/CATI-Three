@@ -37,16 +37,18 @@ class DashboardController extends Controller
                                     ->where('interview_status', '!=', null)
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
+
         $data['total_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     //->where('project_id', )
                                     ->where('interview_status', '!=', null)
                                     ->get();
+
         $data['todays_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('interview_status', '!=', null)
                                     ->whereDate('start_time', '=', date('Y-m-d'))
-                                    ->get();                                   
+                                    ->get();                                 
         //dd($data['total_interviews']);
         
         $roleName = 'Supervisor';

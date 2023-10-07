@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateRespondentRequest;
 use App\Imports\RespondentsImport;
 use App\Jobs\ImportRespondents;
 use App\Models\Interview;
+use App\Models\Project;
 use App\Models\Respondent;
 use App\Models\Schema;
 use Carbon\Carbon;
@@ -23,8 +24,15 @@ class RespondentController extends Controller
      */
     public function index()
     {
-        $data['respondents'] = Respondent::paginate(10);
-        $data['total_respondents'] = count(Respondent::all());
+        $project = Project::find(2);
+
+        $data['respondents'] = Respondent::orderBy('id', 'desc')->paginate(10);
+
+        $data['total_respondents'] = count($project->respondents()->get());
+        $data['respondents_with_complete_interviews'] = count($project->respondents()->where('interview_status', 'Interview Completed')->get());
+        $data['respondents_with_feedback'] = count($project->respondents()->whereNotNull('feedback')->get());
+        $data['respondents_with_terminated_interviews'] = count($project->respondents()->where('interview_status', 'Interview Terminated')->get());
+        $data['locked_respondents'] = count($project->respondents()->where('interview_status', 'Locked')->get());
 
         return view('respondents.index', $data);
     }

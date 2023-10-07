@@ -346,7 +346,6 @@ class InterviewController extends Controller
         $query = $request->input('query');
 
         $respondents = Respondent::search($query)
-                                //->where('project_id', $project_id)
                                 ->get();
 
         //$findRespondent->eligible();
@@ -409,172 +408,78 @@ class InterviewController extends Controller
 
 
     /**
+     * Find a respondent based on Quotas Set
+     */
+    /**
      * Search for a respondent
      */
-    // public function search_respondent(Request $request)
-    // {
-    //     $current_date = Carbon::now();
-    //     // Default value
-    //     $difference_in_days = 59;
+    function find_respondent(Request $request)
+    {
+        $data['respondent'] = null;
+        $project_id = $request->input('project_id');
+        $survey_id = $request->input('survey_id');
+        $query = $request->input('query');
 
-    //     $data['respondent'] = null;
-    //     $project_id = $request->input('project_id');
-    //     $survey_id = $request->input('survey_id');
+        $respondents = Respondent::search($query)
+                                ->get();
 
-    //     $query = $request->get('query');
-
-    //     /**
-    //     *  Fetch Quota Criteria
-    //     */
-    //     $quotaCriteria = Quota::survey_quota_criteria($survey_id);
-    //     //dd($quotaCriteria);
+        //$findRespondent->eligible();
+        //dd($findRespondent);
 
         
 
-    //     if ($difference_in_days > 60)
-    //     {
-    //         //dd('Here');
-    //         session()->flash('info', 'Found Respondent(s) have Interview Fatigue. 😩');
-    //         $data['respondent'] = null;
-    //     }
-    //     else
-    //     {
-    //         //dd('Here');
-    //         if (!empty($quotaCriteria))
-    //         {
-    //             //dd($quotaCriteria);
-    //             /**
-    //              * Pull a Respondent Based on the Quota Constraints i.e 
-    //              * if some quota criteria have been met, only pull eligible 
-    //              * respondents with unmet quota attributes 
-    //             */ 
-    //             $metAttributes = $this->areQuotasMet($survey_id, $quotaCriteria);
+        $metAttributes = $this->metAttributes($survey_id);
+        // Trigger Email Alerts For Quota Met.
+        $this->metAttributes($survey_id);
+        //dd($metAttributes);
 
-    //             if (!empty($metAttributes))
-    //             {
-    //                 dd($metAttributes);
-    //                 foreach ($metAttributes as $attribute => $InterviewedRespondents)
-    //                 {
-    //                     if ($InterviewedRespondents !== null)
-    //                     {
-    //                         // Fetch respondents with unmet quota attributes
-    //                         $respondent = Respondent::search($query)->first();
+        foreach ($metAttributes as $attribute)
+        {
+            $respondents->where($attribute['field'], $attribute['operator'], $attribute['value']);
+        }
 
-    //                         $last_interview_date = Carbon::parse($respondent->interview_date_time);
+        // Bare minimum conditions for any respondent
+        $respondents->where(function ($query)
+        {
+            $query->where(function ($query)
+            {
+                // Six months.
+                $query->whereNull('interview_date_time')
+                ->orWhere('interview_date_time', '<=', Carbon::now()->subMonths(6));
+            })->orWhere('interview_status', '!=', 'Locked');
+        });
 
-    //                         $difference_in_days = $current_date->diffInDays($last_interview_date);
+        //dd($respondents);
+        //dd(Carbon::now()->subMonths(6));
 
-    //                         if ($difference_in_days > 60)
-    //                         {
-    //                             if ($respondent->interview_status == 'Locked')
-    //                             {
-    //                                 session()->flash('info', 'That Respondent is Currently Locked to another Interview. 🤙🏿');
-    //                             }
+        //dd($respondents->toSql());
 
-    //                             $data['respondent'] = $respondent;
-    //                         }
-    //                         else
-    //                         {
-    //                             session()->flash('info', 'Found Respondent(s) have Interview Fatigue. 😩');
-    //                         }
+        if ($respondents->isNotEmpty())
+        {
+            $randomIndex = rand(0, $respondents->count() - 1);
 
-    //                         session()->flash('warning', ucfirst($attribute) . 'Quota has been met' . $InterviewedRespondents . ' ' . ucfirst($attribute) . 's already interviewed');
-    //                     }
-    //                 }
+            $randomRespondent = $respondents[$randomIndex];
+        }
+        else
+        {
+            session()->flash('warning', 'No respondent found');
+            $randomRespondent = null;
+        }
 
-    //                 $data['respondent'] = null;
-    //             }
-    //             else
-    //             {
-    //                 //dd('No Quota Met for any set attributes');
-    //                 // If there are no met attributes, fetch an eligible respondent for an interview. 
-    //                 $respondent = Respondent::search($query)->first();
+        //dd($respondent);
 
-    //                 if ($respondent && $respondent->interview_date_time)
-    //                 {
-    //                    $last_interview_date = Carbon::parse($respondent->interview_date_time);
+        //$data['respondent'] = $respondent;
+        $data['respondent'] = $randomRespondent;
 
-    //                     $difference_in_days = $current_date->diffInDays($last_interview_date);
-    //                 }
-    //                 else
-    //                 {
-    //                     $difference_in_days = 61;
-    //                 }
+        $data['project'] = Project::find($project_id);
 
-                    
+        $data['survey'] = Schema::find($survey_id);
+        $data['interview_id'] = $request->input('interview_id');
 
-    //                 if ($difference_in_days > 60)
-    //                 {
-    //                     //dd('here');
-    //                     if ($respondent && $respondent->interview_status == 'Locked')
-    //                     {
-    //                         session()->flash('info', 'That Respondent is Currently Locked to another Interview. 🤙🏿');
-    //                     }
+        //dd($data);
 
-    //                     // There is a problem here. Check it out
-    //                     $data['respondent'] = $respondent;
-    //                     //dd($respondent);
-    //                 }
-    //                 else
-    //                 {
-    //                     session()->flash('info', 'Found Respondent(s) have Interview Fatigue. 😩');
-    //                 }
-
-    //                 $data['respondent'] = $respondent;
-    //             }
-                        
-    //         }
-    //         else
-    //         {
-    //             /**
-    //              *  Quota criteria not set, fetch any respondent and determine 
-    //              *  for their eligibility to participate in an interview
-    //              *  for an interview.
-    //              * 
-    //              *  Eligible respondents don't have interview fatigue i.e
-    //              *  interview period is not less than 60 days.
-    //              */
-    //             $respondent = Respondent::search($query)
-    //                                             ->first();
-
-    //             if ($respondent != null)
-    //             {
-
-    //                 $last_interview_date = Carbon::parse($respondent->interview_date_time);
-
-    //                 $difference_in_days = $current_date->diffInDays($last_interview_date);
-
-    //                 if ($difference_in_days > 60)
-    //                 {
-    //                     if ($respondent->interview_status == 'Locked')
-    //                     {
-    //                         session()->flash('info', 'That Respondent is Currently Locked to another Interview. 🤙🏿');
-    //                     }
-
-    //                     $data['respondent'] = $respondent;
-    //                 }
-    //                 else
-    //                 {
-    //                     session()->flash('info', 'Found Respondent(s) have Interview Fatigue. 😩');
-    //                 }
-
-    //             }
-                    
-    //             return redirect()->back()->with('info', 'Search index is empty or respondents database is exhausted.');
-    //         }
-    //     }
-        
-
-    //     $data['project'] = Project::find($project_id);
-
-    //     $data['survey'] = Schema::find($request->input('survey_id'));
-    //     $data['interview_id'] = $request->input('interview_id');
-
-    //     //dd($data);
-
-    //     return view('interviews.begin', $data);
-
-    // }
+        return view('interviews.begin', $data);
+    }
 
     /**
      * Display the specified resource.

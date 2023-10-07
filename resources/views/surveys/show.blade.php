@@ -64,7 +64,7 @@
               890{{ $respondent->phone_1 ?? 0 }}
             </p>
 
-            <button type="button" onclick="call()" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
+            <button type="button" onclick="call()" class="btn btn-outline-info">
               <i class="fas fa-phone fa-bounce"></i>
               {{ auth()->user()->ext_no }}
             </button>

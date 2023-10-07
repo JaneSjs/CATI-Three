@@ -102,20 +102,40 @@
         
         <div class="col">
 
-          <form action="{{ url('search_respondent') }}" method="GET">
-            <input type="hidden" name="project_id" value="{{ $project->id }}">
-            <input type="hidden" name="survey_id" value="{{ $survey->id }}">
-            <input type="hidden" name="interview_id" value="{{ $interview_id }}">
+          <div class="row">
+            <div class="col">
+              <form action="{{ url('search_respondent') }}" method="GET">
+                <input type="hidden" name="project_id" value="{{ $project->id }}">
+                <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+                <input type="hidden" name="interview_id" value="{{ $interview_id }}">
 
-            <div class="input-group">
-              <input type="search" name="query" class="form-control" placeholder="Search for a respondent..." value="{{ request()->get('query') }}">
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-primary text-light" title="Search">
-                  <i class="fa fa-search"></i>
-                </button>
-              </div>
+                <div class="input-group">
+                  <input type="search" name="query" class="form-control" placeholder="Search for a respondent..." value="{{ request()->get('query') }}">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary text-light" title="Search">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+            <div class="col">
+              <form action="{{ url('find_respondent') }}" method="GET">
+                <input type="hidden" name="project_id" value="{{ $project->id }}">
+                <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+                <input type="hidden" name="interview_id" value="{{ $interview_id }}">
+
+                <div class="input-group">
+                  <input type="hidden" name="query" class="form-control" placeholder="Find respondent" value="{{ request()->get('query') }}">
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-success text-light" title="Find Respondent">
+                      Find Respondent
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
 
           @if($respondent)
             <div class="mt-2">

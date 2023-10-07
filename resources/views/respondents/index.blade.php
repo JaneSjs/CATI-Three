@@ -28,6 +28,7 @@
           @canany(['admin','head','manager','coordinator'])
           <a href="{{ url('respondents/import') }}" class="btn btn-outline-success">
             Import respondents
+            <i class="fas fa-upload"></i>
           </a>
           @endcan
         </div>
@@ -108,9 +109,62 @@
         </div>
         @canany(['admin','ceo','head'])
         <div class="col-3 bg-secondary">
-          <strong>
-            {{ $total_respondents }} Respondents
-          </strong>
+          <ul class="list-group mt-5">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Respondents</div>
+                Total For This Project
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                {{ $total_respondents }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Respondents</div>
+                Available for Interviewing
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                {{ $total_respondents }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Respondents</div>
+                With Feedback
+              </div>
+              <span class="badge bg-warning rounded-pill">
+                {{ $respondents_with_feedback }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Respondents</div>
+                With Complete Interviews
+              </div>
+              <span class="badge bg-success rounded-pill">
+                {{ $respondents_with_complete_interviews }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Respondents</div>
+                With Terminated Interviews
+              </div>
+              <span class="badge bg-danger rounded-pill">
+                {{ $respondents_with_terminated_interviews }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Locked</div>
+                 - Engaged to an Ongoing or Scheduled interview
+              </div>
+              <span class="badge bg-info rounded-pill">
+                {{ $locked_respondents }}
+              </span>
+            </li>
+          </ul>
         </div>
         @endcan
       </div>

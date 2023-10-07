@@ -24,7 +24,7 @@
             </strong> 
             Interview with 
             <strong>
-              {{ $interview->respondent->name . ' ' . $interview_date->diffForHumans() }}
+              {{ $interview->respondent->name ?? 'Respondent removed from the System' . ' ' . $interview_date->diffForHumans() }}
             </strong>. 
           </p>
           @canany(['admin','ceo','head','manager','scripter'])
@@ -48,7 +48,7 @@
               <div class="fw-bold">
                 Gender
               </div>
-              {{ $interview->respondent->gender }}
+              {{ $interview->respondent->gender ?? '' }}
             </li>
             <li class="list-group-item">
               <div class="fw-bold">
@@ -80,13 +80,13 @@
               <div class="fw-bold">
                 Region
               </div>
-              {{ $interview->respondent->region . ' - ' . $interview->respondent->county . ' - ' . $interview->respondent->sub_county . ' - ' . $interview->respondent->ward }}
+              {{ $interview->respondent->region ?? '' . ' - ' . $interview->respondent->county ?? '' . ' - ' . $interview->respondent->sub_county ?? '' . ' - ' . $interview->respondent->ward ?? '' }}
             </li>
             <li class="list-group-item list-group-item-primary">
               <div class="fw-bold">
                 Setting
               </div>
-              {{ $interview->respondent->setting }}
+              {{ $interview->respondent->setting ?? '' }}
             </li>
           </ul>
         </div>
