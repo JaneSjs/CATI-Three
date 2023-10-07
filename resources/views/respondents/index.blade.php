@@ -107,7 +107,7 @@
             </table>
           </div>
         </div>
-        @canany(['admin','ceo','head'])
+        @canany(['admin','ceo','head','manager','coordinator'])
         <div class="col-3 bg-secondary">
           <ul class="list-group mt-5">
             <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -125,7 +125,7 @@
                 Available for Interviewing
               </div>
               <span class="badge bg-primary rounded-pill">
-                {{ $total_respondents }}
+                {{ $respondents_available_for_interviewing }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">

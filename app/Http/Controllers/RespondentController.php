@@ -34,6 +34,12 @@ class RespondentController extends Controller
         $data['respondents_with_terminated_interviews'] = count($project->respondents()->where('interview_status', 'Interview Terminated')->get());
         $data['locked_respondents'] = count($project->respondents()->where('interview_status', 'Locked')->get());
 
+        $respondents_available_for_interviewing = $project->respondents()
+                                                        ->where('interview_status', '!=', 'Locked')
+                                                        ->whereNull('interview_date_time')
+                                                        ->get();
+        $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
+
         return view('respondents.index', $data);
     }
 
