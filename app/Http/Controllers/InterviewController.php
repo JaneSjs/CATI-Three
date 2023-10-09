@@ -15,6 +15,7 @@ use App\Models\Schema;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelExcel;
@@ -168,10 +169,29 @@ class InterviewController extends Controller
      */
     public function xlsx_export(int $schema_id)
     {
-        $survey_name = Schema::where('id', $schema_id)->first();
-        //dd($survey_name->survey_name);
+        try {
+            // Disable foreign key checks
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        return Excel::download(new InterviewsExport($schema_id), 'TIFA - ' . $survey_name->survey_name . ' Interviews.xlsx', ExcelExcel::XLSX);
+            $survey_name = Schema::where('id', $schema_id)->first();
+            //dd($survey_name->survey_name);
+
+            if (!$survey_name) {
+               return back(404)->with('error', 'Survey Not Found'); 
+            }
+
+            $response = Excel::download(new InterviewsExport($schema_id), 'TIFA - ' . $survey_name->survey_name . ' Interviews.xlsx', ExcelExcel::XLSX);
+
+            return $response;
+            
+        } catch (\Exception $e) {
+            return back(500)->with('error', $e->getMessage());
+        } finally {
+            // Re-enable foreign key checks
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        }
+
+        
     }
 
     /**

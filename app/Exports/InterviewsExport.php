@@ -4,16 +4,80 @@ namespace App\Exports;
 
 use App\Models\Interview;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class InterviewsExport implements FromCollection, WithHeadings
+class InterviewsExport implements FromQuery, WithHeadings
 {
+    protected $schemaId;
+
+    function __construct(int $schemaId)
+    {
+        $this->schemaId = $schemaId;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
+    // public function collection()
+    // {
+    //     //return Interview::all();
+
+    //     return Interview::query()
+    //             ->where('schema_id', $this->schemaId)
+    //             ->get()
+    //             ->map(function($interview) {
+    //             return [
+    //                 $interview->id,
+    //                 $interview->user_id,
+    //                 $interview->project_id,
+    //                 $interview->schema_id,
+    //                 $interview->respondent_id,
+    //                 $interview->respondent_name,
+    //                 $interview->ext_no,
+    //                 $interview->phone_called,
+    //                 $interview->audio_recording,
+    //                 $interview->qcd_by,
+    //                 $interview->interview_status,
+    //                 $interview->survey_url,
+    //                 $interview->survey_version,
+    //                 $interview->quality_control,
+    //                 $interview->start_time,
+    //                 $interview->end_time,
+    //                 $interview->feedback,
+    //             ];
+    //     });
+    // }
+
+    public function query()
     {
-        return Interview::all();
+        return Interview::query()
+                ->where('schema_id', $this->schemaId);
+    }
+
+    function map($interviews)
+    {
+        foreach ($interviews as $interview) {
+            return [
+                $interview->id,
+                $interview->user_id,
+                $interview->project_id,
+                $interview->schema_id,
+                $interview->respondent_id,
+                $interview->respondent_name,
+                $interview->ext_no,
+                $interview->phone_called,
+                $interview->audio_recording,
+                $interview->qcd_by,
+                $interview->interview_status,
+                $interview->survey_url,
+                $interview->survey_version,
+                $interview->quality_control,
+                $interview->start_time,
+                $interview->end_time,
+                $interview->feedback,
+            ];
+        }
     }
 
     public function headings(): array
@@ -31,6 +95,7 @@ class InterviewsExport implements FromCollection, WithHeadings
             'QC Id',
             'Interview Status',
             'Survey Url',
+            'Survey Version',
             'Quality Control',
             'Start Time',
             'End Time',

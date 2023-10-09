@@ -51,11 +51,17 @@ class DashboardController extends Controller
                                     ->get();                                 
         //dd($data['total_interviews']);
         
-        $roleName = 'Supervisor';
+        $supervisor = 'Supervisor';
+        $agent = 'Agent';
 
-        $data['supervisors'] = User::whereHas('roles', function ($query) use ($roleName)
+        $data['supervisors'] = User::whereHas('roles', function ($query) use ($supervisor)
         {
-            $query->where('name', $roleName);
+            $query->where('name', $supervisor);
+        })->get();
+
+        $data['agents'] = User::whereHas('roles', function ($query) use ($agent)
+        {
+            $query->where('name', $agent);
         })->get();
 
         //dd($data['supervisors']);
