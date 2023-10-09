@@ -19,11 +19,13 @@ return new class extends Migration
                   ->on('projects')
                   ->constrained()
                   ->cascadeOnDelete();
+            $table->index('project_id');
 
             $table->foreignId('user_id')
                   ->references('id')
                   ->on('users')
                   ->cascadeOnDelete();
+            $table->index('user_id');
 
             $table->timestamps();
         });

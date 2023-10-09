@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('interviews', function (Blueprint $table) {
             $table->id();
+            $table->index('id');
 
             $table->foreignId('user_id')
                   ->references('id')

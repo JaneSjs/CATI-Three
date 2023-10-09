@@ -54,6 +54,29 @@ return new class extends Migration
             $table->string('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at');
+
+            $table->index('phone_1');
+            $table->index('phone_2');
+            $table->index('phone_3');
+            $table->index('phone_4');
+            $table->index('national_id');
+            $table->index('occupation');
+            $table->index('region');
+            $table->index('county');
+            $table->index('constituency');
+            $table->index('ward');
+            $table->index('setting');
+            $table->index('gender');
+            $table->index('dob');
+            $table->index('exact_age');
+            $table->index('education_level');
+            $table->index('marital_status');
+            $table->index('religion');
+            $table->index('income');
+            $table->index('Lsm');
+            $table->index('ethnic_group');
+            $table->index('employment_status');
+            $table->index('age_group');
         });
     }
 

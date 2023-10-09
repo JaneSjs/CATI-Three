@@ -17,9 +17,13 @@ return new class extends Migration
             $table->foreignId('role_id')
                   ->constrained()
                   ->onDelete('cascade');
+            $table->index('role_id');
+
             $table->foreignId('user_id')
                   ->constrained()
                   ->onDelete('cascade');
+            $table->index('user_id');
+            
             $table->timestamps();
             $table->softDeletes();
         });

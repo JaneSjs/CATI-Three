@@ -18,11 +18,14 @@ return new class extends Migration
                 ->references('id')
                 ->on('schemas')
                 ->cascadeOnDelete();
+            $table->index('schema_id');
 
             $table->foreignId('user_id')
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
+            $table->index('user_id');
+            
             $table->timestamps();
         });
     }

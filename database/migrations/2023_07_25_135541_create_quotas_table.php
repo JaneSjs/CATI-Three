@@ -19,12 +19,14 @@ return new class extends Migration
                   ->on('projects')
                   ->constrained()
                   ->cascadeOnDelete();
+            $table->index('project_id');
 
             $table->foreignId('schema_id')
                   ->references('id')
                   ->on('schemas')
                   ->constrained()
                   ->cascadeOnDelete();
+            $table->index('schema_id');
 
             $table->integer('sample_size')->nullable();
             $table->integer('male_target')->nullable();

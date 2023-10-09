@@ -16,43 +16,11 @@ class InterviewsExport implements FromQuery, WithHeadings
         $this->schemaId = $schemaId;
     }
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    // public function collection()
-    // {
-    //     //return Interview::all();
-
-    //     return Interview::query()
-    //             ->where('schema_id', $this->schemaId)
-    //             ->get()
-    //             ->map(function($interview) {
-    //             return [
-    //                 $interview->id,
-    //                 $interview->user_id,
-    //                 $interview->project_id,
-    //                 $interview->schema_id,
-    //                 $interview->respondent_id,
-    //                 $interview->respondent_name,
-    //                 $interview->ext_no,
-    //                 $interview->phone_called,
-    //                 $interview->audio_recording,
-    //                 $interview->qcd_by,
-    //                 $interview->interview_status,
-    //                 $interview->survey_url,
-    //                 $interview->survey_version,
-    //                 $interview->quality_control,
-    //                 $interview->start_time,
-    //                 $interview->end_time,
-    //                 $interview->feedback,
-    //             ];
-    //     });
-    // }
-
     public function query()
     {
         return Interview::query()
-                ->where('schema_id', $this->schemaId);
+                ->where('schema_id', $this->schemaId)
+                ->orderBy('id');
     }
 
     function map($interviews)

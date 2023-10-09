@@ -128,12 +128,12 @@
           <div class="card-body pb-0 d-flex justify-content-between align-items-start">
             <div>
               <div class="fs-4 fw-semibold">
-                {{ $supervisors->count() }} 
+                {{ $agents->count() }} 
                 <span class="fs-6 fw-normal">
                   <i class="fas fa-user-lock fa-xl"></i>
                 </span>
               </div>
-              <div>Supervisors</div>
+              <div>Interviewers</div>
             </div>
           </div>
         </div>

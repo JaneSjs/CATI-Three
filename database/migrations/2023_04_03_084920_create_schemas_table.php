@@ -19,6 +19,7 @@ return new class extends Migration
                   ->on('projects')
                   ->constrained()
                   ->cascadeOnDelete();
+            $table->index('project_id');
 
             $table->string('survey_name');
             $table->json('content')->nullable();

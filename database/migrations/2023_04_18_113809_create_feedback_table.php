@@ -23,10 +23,12 @@ return new class extends Migration
                   ->references('id')
                   ->on('interviews')
                   ->cascadeOnDelete();
+            $table->index('interview_id');
                   
             $table->unsignedBigInteger('respondent_id')
                   ->nullable();
             $table->foreign('respondent_id')->references('id')->on('respondents');
+            $table->index('respondent_id');
 
             $table->text('interviewer_feedback')->nullable();
             $table->text('respondent_feedback')->nullable();
@@ -34,6 +36,10 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('user_id');
+            $table->index('interview_id');
+            $table->index('respondent_id');
         });
     }
 

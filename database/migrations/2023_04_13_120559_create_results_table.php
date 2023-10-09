@@ -18,18 +18,21 @@ return new class extends Migration
                   ->references('id')
                   ->on('users')
                   ->cascadeOnDelete();
+            $table->index('user_id');
 
             $table->foreignId('schema_id')
                   ->references('id')
                   ->on('schemas')
                   ->constrained()
                   ->cascadeOnDelete();
+            $table->index('schema_id');
 
             $table->foreignId('interview_id')
                   ->nullable()
                   ->references('id')
                   ->on('interviews')
                   ->constrained();
+            $table->index('interview_id');
 
             $table->foreignId('interview_schedule_id')
                   ->nullable()
