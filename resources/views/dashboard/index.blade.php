@@ -140,8 +140,14 @@
       </div>
     </div>
     @endcan
+    
+    @canany(['admin','ceo','head','manager','coodinator','supervisor','qc'])
+      @include('dashboard/includes/all_interviews')
+    @endcan
 
-    @include('dashboard/includes/agents')
+    @canany(['admin','agent'])
+      @include('dashboard/includes/user_interviews')
+    @endcan
   </div>
 </div>
 

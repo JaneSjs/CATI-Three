@@ -32,19 +32,31 @@ class DashboardController extends Controller
             //dd('Admin');
         }
         
-        $data['interviews'] = User::find(auth()->user()->id)
+        $data['interviews'] = Interview::orderBy('id', 'DESC')
+                                    ->paginate(10);
+
+        $data['total_interviews'] = Interview::
+                                    //->where('project_id', )
+                                    where('interview_status', '!=', null)
+                                    ->get();
+
+        $data['todays_interviews'] = Interview::where('interview_status', '!=', null)
+                                    ->whereDate('start_time', '=', date('Y-m-d'))
+                                    ->get();
+
+        $data['user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('interview_status', '!=', null)
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
 
-        $data['total_interviews'] = User::find(auth()->user()->id)
+        $data['total_user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     //->where('project_id', )
                                     ->where('interview_status', '!=', null)
                                     ->get();
 
-        $data['todays_interviews'] = User::find(auth()->user()->id)
+        $data['todays_user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('interview_status', '!=', null)
                                     ->whereDate('start_time', '=', date('Y-m-d'))

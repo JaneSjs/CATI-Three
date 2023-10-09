@@ -13,7 +13,7 @@
               <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                 <div>
                   <div class="fs-4 fw-semibold">
-                    {{ $total_interviews->count() }} 
+                    {{ $total_user_interviews->count() }} 
                     <span class="fs-6 fw-normal">
                       <i class="fas fa-headphones fa-beat fa-xl"></i>
                     </span>
@@ -28,7 +28,7 @@
               <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                 <div>
                   <div class="fs-4 fw-semibold">
-                    {{ $todays_interviews->count() }} 
+                    {{ $todays_user_interviews->count() }} 
                     <span class="fs-6 fw-normal">
                       <i class="fas fa-calendar fa-xl"></i>
                     </span>
@@ -55,7 +55,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($interviews as $interview)
+                @foreach($user_interviews as $interview)
                 <tr>
                   <th scope="row">
                     {{ $interview->id }}
@@ -116,7 +116,7 @@
                 @endforeach
               </tbody>
               <tfoot>
-                {{ $interviews->links() }}
+                {{ $user_interviews->links() }}
               </tfoot>
             </table>
           </div>
