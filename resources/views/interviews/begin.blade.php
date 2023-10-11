@@ -175,6 +175,12 @@
                   {{ $respondent->sub_county ?? '' }}
                 </li>
                 <li class="list-group-item">
+                  {{ $respondent->constituency ?? '' }}
+                </li>
+                <li class="list-group-item">
+                  {{ $respondent->ethnic_group ?? '' }}
+                </li>
+                <li class="list-group-item">
                   {{ $respondent->ward ?? '' }}
                 </li>
                 <li class="list-group-item">

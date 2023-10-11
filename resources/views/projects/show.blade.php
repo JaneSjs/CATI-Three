@@ -26,7 +26,7 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-9">
+        <div class="col-8">
           <div class="table-responsive">
             <table class="table table-sm caption-top">
               <thead class="table-success">
@@ -59,7 +59,7 @@
             </table>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
             @canany(['admin','head','manager','coordinator','scripter','supervisor'])
               <!-- Trigger Members Assignment Modal -->
@@ -69,6 +69,9 @@
             @endcan
 
             @canany(['admin','head','manager','coordinator','scripter'])
+              <a href="" class="btn btn-outline-primary btn-sm">
+                Project Respondents
+              </a>
               <!-- Trigger Survey Modal -->
               <button type="button" class="btn btn-outline-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                 Create Survey
@@ -172,7 +175,7 @@
                       @endcan
 
                       @canany(['admin','scripter'])
-                        <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank">
+                        <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-dark" target="_blank">
                           Script
                         </a>
                       @endcan
