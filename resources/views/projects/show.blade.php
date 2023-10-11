@@ -61,6 +61,16 @@
         </div>
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
+          @canany(['admin','head','manager','coordinator','scripter'])
+            <a href="{{ route('respondents.show', $project->id) }}" class="btn btn-outline-info btn-sm">
+              Project Respondents
+            </a>
+            <a href="" class="btn btn-outline-primary btn-sm">
+              Project Interviewers
+            </a>
+          @endcan
+          </div>
+          <div class="btn-group mt-2" role="group" aria-label="Create Survey and Assign Members to Projects Button">
             @canany(['admin','head','manager','coordinator','scripter','supervisor'])
               <!-- Trigger Members Assignment Modal -->
               <button type="button" class="btn btn-outline-success btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignMembers">
@@ -69,9 +79,6 @@
             @endcan
 
             @canany(['admin','head','manager','coordinator','scripter'])
-              <a href="" class="btn btn-outline-primary btn-sm">
-                Project Respondents
-              </a>
               <!-- Trigger Survey Modal -->
               <button type="button" class="btn btn-outline-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                 Create Survey

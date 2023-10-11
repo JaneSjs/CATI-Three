@@ -6,7 +6,7 @@
         @method('PATCH')
         <div class="modal-header">
           <h5 class="modal-title" id="surveyLabel">
-            Assign Member To {{ $project->name }}
+            Assign Member(s) To {{ $project->name }}
           </h5>
           <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
         </div>

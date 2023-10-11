@@ -20,24 +20,36 @@ use Maatwebsite\Excel\Validators\ValidationException;
 class RespondentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * List all respondents on the the system with their statistics.
      */
     public function index()
     {
-        $project = Project::find(2);
+        //$project = Project::find(2);
 
         $data['respondents'] = Respondent::orderBy('id', 'desc')->paginate(10);
 
-        $data['total_respondents'] = count($project->respondents()->get());
-        $data['respondents_with_complete_interviews'] = count($project->respondents()->where('interview_status', 'Interview Completed')->get());
-        $data['respondents_with_feedback'] = count($project->respondents()->whereNotNull('feedback')->get());
-        $data['respondents_with_terminated_interviews'] = count($project->respondents()->where('interview_status', 'Interview Terminated')->get());
-        $data['locked_respondents'] = count($project->respondents()->where('interview_status', 'Locked')->get());
+        $total_respondents = Respondent::all();
+        $data['total_respondents'] = count($total_respondents);
 
-        $respondents_available_for_interviewing = $project->respondents()
-                                                        ->where('interview_status', '!=', 'Locked')
-                                                        ->whereNull('interview_date_time')
-                                                        ->get();
+        $respondents_with_complete_interviews = Respondent::where('interview_status', 'Interview Completed')->get();
+        $data['respondents_with_complete_interviews'] = count($respondents_with_complete_interviews);
+
+        $male_respondents = Respondent::where('gender', 'male')->get();
+        $data['male_respondents'] = count($male_respondents);
+
+        $female_respondents = Respondent::where('gender', 'female')->get();
+        $data['female_respondents'] = count($female_respondents);
+
+        $respondents_with_feedback = Respondent::whereNotNull('feedback')->get();
+        $data['respondents_with_feedback'] = count($respondents_with_feedback);
+
+        $respondents_with_terminated_interviews = Respondent::where('interview_status', 'Interview Terminated')->get();
+        $data['respondents_with_terminated_interviews'] = count($respondents_with_terminated_interviews);
+
+        $locked_respondents = Respondent::where('interview_status', 'Locked')->get();
+        $data['locked_respondents'] = count($locked_respondents);
+
+        $respondents_available_for_interviewing = Respondent::where('interview_status', '!=', 'Locked')->whereNull('interview_date_time')->get();
         $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
 
         return view('respondents.index', $data);
@@ -60,11 +72,41 @@ class RespondentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * List all respondents on the the system 
+     * that belong to a project with their statistics.
      */
-    public function show(Respondent $respondent)
+    public function show($project_id)
     {
-        //
+        $project = Project::find($project_id);
+
+        $data['respondents'] = Respondent::where('project_id', $project_id)->orderBy('id', 'desc')->paginate(10);
+
+        $data['total_respondents'] = count($project->respondents()->get());
+
+        $male_respondents = $project->respondents()
+                                    ->where('gender', 'male')
+                                    //->orWhere('gender', 'm')
+                                    ->get();
+        $data['male_respondents'] = count($male_respondents);
+
+        $female_respondents = $project->respondents()
+                                    ->where('gender', 'female')
+                                    //->orWhere('gender', 'f')
+                                    ->get();
+        $data['female_respondents'] = count($female_respondents);
+
+        $data['respondents_with_complete_interviews'] = count($project->respondents()->where('interview_status', 'Interview Completed')->get());
+        $data['respondents_with_feedback'] = count($project->respondents()->whereNotNull('feedback')->get());
+        $data['respondents_with_terminated_interviews'] = count($project->respondents()->where('interview_status', 'Interview Terminated')->get());
+        $data['locked_respondents'] = count($project->respondents()->where('interview_status', 'Locked')->get());
+
+        $respondents_available_for_interviewing = $project->respondents()
+                                                        ->where('interview_status', '!=', 'Locked')
+                                                        ->whereNull('interview_date_time')
+                                                        ->get();
+        $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
+
+        return view('respondents.show', $data);
     }
 
     /**
