@@ -6,6 +6,7 @@ use App\Exports\ResultsExport;
 use App\Exports\ResultsjsonExport;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
+use App\Jobs\ExportResults;
 use App\Models\Interview;
 use App\Models\Respondent;
 use App\Models\Result;
@@ -87,10 +88,9 @@ class ResultController extends Controller
      */
     public function xlsx_export(int $schema_id)
     {
-        $survey_name = Schema::where('id', $schema_id)->first();
-        //dd($survey_name->survey_name);
+        ExportResults::dispatch($schema_id);
 
-        return Excel::download(new ResultsExport($schema_id), 'TIFA - ' . $survey_name->survey_name . ' Results.xlsx', ExcelExcel::XLSX);
+        return back()->with('info', 'Results Export Started in the Background');
     }
 
     /**

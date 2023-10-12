@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Result;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
 //use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -12,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnFormatting
+class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnFormatting, ShouldQueue
 {
     use Exportable;
     private $schema_id;
@@ -35,8 +36,6 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
     {
         $content = json_decode($result->content, true);
 
-        $values = array_values($content);
-
         $rowData = [
             $result->first_name . ' ' . $result->last_name,
             $result->respondent_name,
@@ -53,44 +52,15 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $result->feedback,
         ];
 
-        $rowData = array_merge($rowData, $values);
-
-        //dd($result);
-
-        return $rowData;
+        return array_merge($rowData, array_values($content));
     }
 
     public function headings(): array
     {
         $firstRow = Result::where('schema_id', $this->schema_id)->first();
 
-        if ($firstRow) {
-            $content = json_decode($firstRow->content, true);
-
-            $fixedHeadings = [
-                'Agent (Interviewer)',
-                'Respondent Name',
-                'Respondent Id',
-                'Phone Called',
-                'Callers Extension',
-                'Interview Completed',
-                'Interview Status',
-                'Survey Id',
-                'Interview Id',
-                'Start Time',
-                'End Time',
-                'Survey Url',
-                'Feedback'
-            ];   
-
-            $allHeadings = array_merge($fixedHeadings, array_keys($content));
-
-            return $allHeadings;
-        }
-
-         // If no data is available, return default headings
-        return [
-            'Agent (Interviewer)',
+        $defaultHeadings = [
+            'Interviewer',
             'Respondent Name',
             'Respondent Id',
             'Phone Called',
@@ -104,6 +74,16 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             'Survey Url',
             'Feedback'
         ];
+
+        if ($firstRow) {
+            $content = json_decode($firstRow->content, true); 
+
+            $allHeadings = array_merge($defaultHeadings, array_keys($content));
+
+            return $allHeadings;
+        }
+
+        return $defaultHeadings;
 
     }
 
