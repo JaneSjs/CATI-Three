@@ -52,7 +52,7 @@
 
       <div class="row">
         
-        <div class="col">
+        <div class="col-3">
             @if($respondent)
             <form method="post" action="{{ route('interviews.store') }}">
               @csrf
@@ -74,7 +74,7 @@
 
               </div>
 
-              <button type="submit" class="btn btn-success">
+              <button type="submit" class="btn btn-success btn-sm">
                 Begin Survey
               </button>
               
@@ -100,7 +100,7 @@
 
         </div>
         
-        <div class="col">
+        <div class="col-9">
 
           <div class="row">
             <div class="col">
@@ -128,7 +128,7 @@
                 <div class="input-group">
                   <input type="hidden" name="query" class="form-control" placeholder="Find respondent" value="{{ request()->get('query') }}">
                   <div class="input-group-append">
-                    <button type="submit" class="btn btn-success text-light" title="Find Respondent">
+                    <button type="submit" class="btn btn-success btn-sm text-light" title="Beta Release">
                       Find Respondent
                     </button>
                   </div>

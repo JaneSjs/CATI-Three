@@ -86,9 +86,9 @@
 
     @canany(['admin','manager','supervisor','coordinator'])
     <li class="nav-item">
-      <a class="nav-link" href="{{ url('agents') }}">
+      <a class="nav-link" href="{{ url('interviewers') }}">
         <i class="fa-solid fa-headphones fa-beat nav-icon" style="color: #e5a50a;"></i> 
-        Agents
+        Interviewers
       </a>
     </li>
     @endcan

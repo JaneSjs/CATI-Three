@@ -256,11 +256,23 @@ class RespondentController extends Controller
 
         if ($feedback)
         {
-            return to_route('projects.show',[$project_id],201)->with('success', 'Thanks for Capturing The Respondent feedback');
+            return to_route('projects.show',[$project_id],201)->with('success', 'Thanks For The Respondent feedback');
         }
         else
         {
             return back(201)->with('error', 'Oops! The feedback hasn\'t been captured');
         }
+    }
+
+    /**
+     * Search for respondents
+     */
+    function search_respondents(Request $request)
+    {
+        $query = $request->input('query');
+
+        $data['respondents'] = Respondent::search($query)->paginate(10);
+
+        return view('respondents.search', $data);
     }
 }

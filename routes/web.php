@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function ()
 Route::middleware(['auth','verified'])->group(function ()
 {
 	Route::resource('users', UserController::class);
-	Route::get('agents', [UserController::class, 'agents']);
+	Route::get('interviewers', [UserController::class, 'interviewers']);
 	Route::get('clients', [UserController::class, 'clients']);
 });
 
@@ -86,6 +86,7 @@ Route::middleware(['auth','verified'])->group(function ()
 
 
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
+	Route::get('search_respondents', [RespondentController::class, 'search_respondents']);
 	Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
 	
 	Route::get('operations/survey/{id}', [QuotaController::class, 'show'])->name('operations');

@@ -1,6 +1,6 @@
 @can(['agent'])
 <!-- Feedback Modal -->
-<div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" aria-hidden="true">
+<div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary btn-block">
+          <button type="submit" class="btn btn-danger btn-block">
             Submit Feedback And Terminate This Interview.
           </button>
         </div>

@@ -49,10 +49,7 @@
               Interview Feedback
               <i class="fa-regular fa-comment-dots"></i>
             </button>
-            <button type="button" class="btn btn-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
-              Respondent Feedback
-              <i class="fa-regular fa-comment-dots"></i>
-            </button>
+            
 
             <p id="call_route" class="d-none">
               {{ route('call') }}
@@ -203,22 +200,11 @@
     <div class="card-footer">
       @can(['agent'])
       <div class="row">
-        <div class="col">
-          <form action="{{ route('update_interview_status') }}" method="post">
-            @csrf
-            @method('PATCH')
-            <input type="hidden" name="respondent_id" value="{{ $respondent_id }}">
-            <input type="hidden" name="survey_id" value="{{ $survey->id }}">
-            <input type="hidden" name="project_id" value="{{ $project->id }}">
-            <input type="hidden" name="interview_id" value="{{ $interview->id }}">
-            <input type="hidden" name="iframe_url" value="{{ $iframe_url  }}">
-            <input type="hidden" name="interview_status" value="Interview Terminated">
-
-            <button type="submit" class="btn btn-danger">
+        <div class="col text-start">
+          <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
               Terminate Interview
               <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
             </button>
-          </form>
         </div>
         <div class="col text-end">
           <button type="button" class="btn btn-success" data-coreui-toggle="modal" data-coreui-target="#complete_interview">

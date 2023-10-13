@@ -232,7 +232,7 @@ class UserController extends Controller
      * Return users who have the role of agent
      * or those who have no roles yet.
      */
-    public function agents()
+    public function interviewers()
     {
         $rolesToFilter = ['Agent', '', null];
 
@@ -248,7 +248,7 @@ class UserController extends Controller
     }
 
     /**
-     * Return users who have the role of agent
+     * Return users who have the role of client
      * or those who have no roles yet.
      */
     public function clients()

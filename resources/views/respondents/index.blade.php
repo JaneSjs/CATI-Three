@@ -1,3 +1,8 @@
+<?php
+use Carbon\Carbon;
+
+?>
+
 @extends('layouts.main')
     
 @section('content')
@@ -9,11 +14,11 @@
       <div class="row">
         <div class="col">
           <h5>
-            All Respondents
+            Project Respondents
           </h5>
         </div>
         <div class="col">
-          <form action="#!" method="GET">
+          <form action="{{ url('search_respondents') }}" method="GET">
             <div class="input-group">
               <input type="search" name="query" class="form-control" placeholder="Search for respondents..." aria-label="Search for respondents..." aria-describedby="search_respondents" value="">
               <button type="submit" class="btn btn-outline-info" id="search_respondents">
@@ -44,7 +49,7 @@
             <table class="table caption-top">
               @canany(['admin','ceo','head'])
               <caption>
-               All System respondents
+               Respondents that belong to this project
               </caption>
               @endcan
               <thead class="table-success">
@@ -80,13 +85,21 @@
                     {{ $respondent->feedback ?? '-' }}
                   </td>
                   <td>
-                    {{ $respondent->interview_date_time }}
+                    <?php
+                      $interview_date_time = Carbon::parse($respondent->interview_date_time)
+                    ?>
+                    @if($respondent->interview_date_time)
+                    {{ $interview_date_time->diffForHumans() ?? ''}}
+                    @endif
                   </td>
                   <td>
                     <div class="btn-group">
+                      @canany(['admin'])
                       <a href="{{ route('respondents.edit', $respondent->id) }}" class="btn btn-sm btn-outline-info" title="Update respondent Details">
                         <i class="fas fa-pen"></i>
                       </a>
+                      @endcan
+
                       @can('supervisor')
                       <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $respondent->last_name }}">
                         <i class="fas fa-respondent-tie"></i>
@@ -97,7 +110,7 @@
                       <form action="{{ route('respondents.destroy', $respondent->id) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $respondent->name }}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $respondent->last_name }}">
                           <i class="fas fa-trash-alt"></i>
                         </button>
                       </form>
@@ -114,12 +127,12 @@
           </div>
         </div>
         @canany(['admin','ceo','head','manager','coordinator'])
-        <div class="col-3 bg-secondary">
+        <div class="col-3 bg-dark">
           <ul class="list-group mt-5">
-            <li class="list-group-item d-flex justify-content-between align-items-start" title="All Respondents in the System">
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">
-                  Total
+                  Total Respondents
                 </div>
               </div>
               <span class="badge bg-primary rounded-pill">
@@ -132,7 +145,7 @@
                   Male 
                 </div>
               </div>
-              <span class="badge bg-primary rounded-pill">
+              <span class="badge bg-dark rounded-pill">
                 {{ $male_respondents }}
               </span>
             </li>
@@ -142,7 +155,7 @@
                   Female 
                 </div>
               </div>
-              <span class="badge bg-primary rounded-pill">
+              <span class="badge bg-dark rounded-pill">
                 {{ $female_respondents }}
               </span>
             </li>
