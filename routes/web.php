@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function ()
 Route::middleware(['auth','verified'])->group(function ()
 {
 	Route::resource('users', UserController::class);
-	Route::get('interviewers', [UserController::class, 'interviewers']);
+	Route::get('interviewers/{id}', [UserController::class, 'interviewers'])->name('interviewers');
 	Route::get('clients', [UserController::class, 'clients']);
 });
 

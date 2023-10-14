@@ -88,9 +88,11 @@ class ResultController extends Controller
      */
     public function xlsx_export(int $schema_id)
     {
-        ExportResults::dispatch($schema_id);
+        $excel = app(ExcelExcel::class);
 
-        return back()->with('info', 'Results Export Started in the Background');
+        ExportResults::dispatch($schema_id, $excel);
+
+        return back()->with('info', 'Results Export Will be sent to your Email as soon as the server finishes processing it.');
     }
 
     /**

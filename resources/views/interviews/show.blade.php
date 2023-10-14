@@ -109,7 +109,7 @@
 
         @if(!$interview->survey_url === null)
           <!-- Iframe -->
-            @canany(['admin', 'agent', 'respondent'])
+            @canany(['admin', 'interviewer', 'respondent'])
               <?php $encoded_iframe_url = urlencode($iframe_url) ?>
               <iframe src="{{ $interview->survey_url }}" style="height:700px;width:100%;" title="Survey Loading Within The Iframe"></iframe>
             @endcan

@@ -10,7 +10,7 @@
         <div class="col">
           <p class="float-start" title="Respondent's Name is Pseudonymised For Data Protection">
             <strong>{{ $survey->survey_name }}.</strong>
-            @can(['agent'])
+            @can(['interviewer'])
              You are interviewing {{ '######' . $respondent->id ?? ''}}
             @endcan
             @can('admin')
@@ -40,7 +40,7 @@
           @endcan
 
           <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
-            @can(['agent'])
+            @can(['interviewer'])
             <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
@@ -180,13 +180,13 @@
     
     @if($survey->iframe_url)
       <!-- Iframe -->
-        @canany(['admin', 'agent', 'respondent'])
+        @canany(['admin', 'interviewer', 'respondent'])
           @include('surveys.iframe')
         @endcan
       <!-- End Iframe -->
     @else
       <!-- Survey Schema -->
-      @canany(['admin', 'agent', 'respondent'])
+      @canany(['admin', 'interviewer', 'respondent'])
         @include('surveys.schema')
       @endcan
       <!-- End Survey Schema -->
@@ -198,7 +198,7 @@
     
 
     <div class="card-footer">
-      @can(['agent'])
+      @can(['interviewer'])
       <div class="row">
         <div class="col text-start">
           <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
@@ -258,7 +258,7 @@
 
 <!-- End Survey Results Modal -->
 
-@can(['agent'])
+@can(['interviewer'])
 <!-- Interview Feedback Modal -->
 <div class="modal fade" id="interview_feedback" tabindex="-1" aria-labelledby="interview_feedback" aria-hidden="true">
   <div class="modal-dialog">
@@ -293,7 +293,7 @@
 <!-- End Interview Feedback Modal -->
 @endcan
 
-@can(['agent'])
+@can(['interviewer'])
 <!-- Complete Interview Modal -->
 <div class="modal fade" id="complete_interview" tabindex="-1" aria-labelledby="complete_interview" aria-hidden="true">
   <div class="modal-dialog">

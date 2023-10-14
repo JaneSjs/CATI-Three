@@ -29,7 +29,7 @@ class ExportResults implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(Excel $excel): void
     {
         $survey = Schema::where('id', $this->schema_id)->first();
 
@@ -39,10 +39,12 @@ class ExportResults implements ShouldQueue
 
         $export = new ResultsExport($this->schema_id);
 
-        $fileName = 'TIFA - ' . date('Y-m-d') . $survey->survey_name . ' Results.xlsx';
+        $filePath = 'TIFA - ' . date('Y-m-d') . $survey->survey_name . ' Results.xlsx';
 
-        Excel::download($export, $fileName, Excel::XLSX);
+        $export->queue($filePath, 'public');
 
-        Excel::
+        //$exportPath = $excel->store($export, $fileName, 'public', Excel::XLSX);
+
+        //Excel::
     }
 }

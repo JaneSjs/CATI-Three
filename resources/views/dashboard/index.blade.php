@@ -128,7 +128,7 @@
           <div class="card-body pb-0 d-flex justify-content-between align-items-start">
             <div>
               <div class="fs-4 fw-semibold">
-                {{ $agents->count() }} 
+                {{ $interviewers->count() }} 
                 <span class="fs-6 fw-normal">
                   <i class="fas fa-user-lock fa-xl"></i>
                 </span>
@@ -145,7 +145,7 @@
       @include('dashboard/includes/all_interviews')
     @endcan
 
-    @canany(['admin','agent'])
+    @canany(['admin','interviewer'])
       @include('dashboard/includes/user_interviews')
     @endcan
   </div>

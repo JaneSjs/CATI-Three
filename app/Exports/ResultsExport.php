@@ -95,4 +95,10 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             17 => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
+
+    public function queue(?string $filePath = null, ?string $disk = null, ?string $writerType = null, $diskOptions = [])
+    {
+        return $this->store($filePath, $disk);
+        
+    }
 }

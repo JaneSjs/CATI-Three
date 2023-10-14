@@ -8,7 +8,7 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          Agents
+          Interviewers
         </div>
         <div class="col">
           @include('partials/alerts')
@@ -16,7 +16,7 @@
         <div class="col text-end">
           <div class="btn-group btn-group-sm" role="group" aria-label="Supervisor Actions">
             <a href="{{ route('users.create') }}" class="btn btn-outline-success">
-              Add Agent
+              Add Interviewer
             </a>
             <button type="button" class="btn btn-outline-primary">
               Print Attendance List
@@ -28,7 +28,7 @@
     <div class="card-body">
       <div class="row">
 
-        <div class="col-9">
+        <div class="col-10">
           <div class="table-responsive">
             <table class="table caption-top table-striped table-bordered">
               @canany(['admin','ceo','head'])
@@ -80,13 +80,13 @@
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
                         <i class="fas fa-pen"></i>
                       </a>
-                      @can('supervisor')
+                      @canany(['coordinator','supervisor'])
                       <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $user->last_name }}">
                         <i class="fas fa-user-tie"></i>
                       </button>
                       @endcan
 
-                      @can('supervisor')
+                      @canany(['admin'])
                       <form action="{{ route('users.destroy', $user->id) }}" method="post">
                         @csrf
                         @method('DELETE')
@@ -107,8 +107,8 @@
           </div>
         </div>
         @canany(['admin','ceo','head','supervisor'])
-          <div class="col-3 bg-secondary">
-           {{ count($users) }} Agents
+          <div class="col-2 bg-secondary">
+           {{ count($users) }} Interviewers
           </div>
         @endcan
       </div>

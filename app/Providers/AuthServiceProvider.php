@@ -27,10 +27,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAnyRoles(['admin']);
         });
 
-        // Check if user is agent
-        Gate::define('agent', function ($user)
+        // Check if user is interviewer
+        Gate::define('interviewer', function ($user)
         {
-            return $user->hasAnyRoles(['agent']);
+            return $user->hasAnyRoles(['interviewer']);
         });
 
         // Check if user is ceo

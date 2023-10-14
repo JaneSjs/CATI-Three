@@ -75,7 +75,7 @@
       Research
     </li>
 
-    @canany(['admin','head','ceo','manager','scripter','coordinator','supervisor','agent','qc','client'])
+    @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client'])
     <li class="nav-item">
       <a class="nav-link" href="{{ route('projects.index') }}">
         <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
@@ -84,16 +84,7 @@
     </li>
     @endcan
 
-    @canany(['admin','manager','supervisor','coordinator'])
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url('interviewers') }}">
-        <i class="fa-solid fa-headphones fa-beat nav-icon" style="color: #e5a50a;"></i> 
-        Interviewers
-      </a>
-    </li>
-    @endcan
-
-    @canany(['admin','head','manager',])
+    @canany(['admin','ceo','head','manager'])
     <li class="nav-item">
       <a class="nav-link" href="{{ url('clients') }}">
         <i class="fa-solid fa-face-smile fa-shake nav-icon" style="color: #e5a50a;"></i>

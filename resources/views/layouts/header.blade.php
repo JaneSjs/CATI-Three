@@ -14,35 +14,40 @@
         </a>
       </li>
       @endcan
-      <li class="nav-item bg-warning" title="Go To Previous Page">
-        <a class="nav-link" href="{{ url()->previous() }}">
-          &laquo;
-          Back
-        </a>
-      </li>
+      @if(request()->segment(1) !== 'begin_survey')
+        <li class="nav-item bg-warning" title="Go To Previous Page">
+          <a class="nav-link" href="{{ url()->previous() }}">
+            &laquo;
+            Back
+          </a>
+        </li>
+      @endif
     </ul>
         
     <ul class="header-nav ms-auto">
       <i class="fa-solid fa-bars-progress nav-icon" style="color: #fff;"></i> 
     </ul>
-    <ul class="header-nav ms-3">
-      <li class="nav-item dropdown">
-        <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-          <div class="avatar avatar-md"><img class="avatar-img" src="{{ asset('assets/images/male-avatar.png') }}" alt="user@email.com"></div>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end pt-0">
-          <div class="dropdown-header bg-light py-2">
-            <div class="fw-semibold">
-              {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }} ({{ auth()->user()->id }})
+    @if(request()->segment(1) !== 'begin_survey')
+      <ul class="header-nav ms-3">
+        <li class="nav-item dropdown">
+          <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <div class="avatar avatar-md">
+              <img class="avatar-img" src="{{ asset('assets/images/male-avatar.png') }}" alt="{{ auth()->user()->email }}">
             </div>
-          </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end pt-0">
+            <div class="dropdown-header bg-light py-2">
+              <div class="fw-semibold">
+                {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }} ({{ auth()->user()->id }})
+              </div>
+            </div>
 
-          <a class="dropdown-item" href="#" disabled>
-            <i class="fas fa-bell" ></i>
-            Notices
-            <span class="badge badge-sm bg-success ms-2">
-             42
-            </span>
+            <a class="dropdown-item" href="#" disabled>
+              <i class="fas fa-bell" ></i>
+              Notices
+              <span class="badge badge-sm bg-success ms-2">
+               42
+              </span>
             </a>
             <a class="dropdown-item" href="{{ route('projects.index') }}">
               <i class="fas fa-bars-progress" ></i>
@@ -69,10 +74,10 @@
               </div>
             </form>
 
-                  
-        </div>
-      </li>
-    </ul>
+          </div>
+        </li>
+      </ul>
+    @endif
   </div>
         
 </header>

@@ -1,4 +1,4 @@
-@canany(['admin','agent'])
+
     <!-- /.row-->
     <div class="card mb-4">
       <div class="card-header">
@@ -126,4 +126,4 @@
       </div>
     </div>
     <!-- /.card.mb-4-->
-    @endcan
+    

@@ -62,11 +62,11 @@
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
           @canany(['admin','head','manager','coordinator','scripter'])
-            <a href="{{ route('respondents.show', $project->id) }}" class="btn btn-outline-info btn-sm">
-              Project Respondents
+            <a href="{{ route('respondents.show', $project->id) }}" class="btn btn-outline-info btn-sm" title="Project Respondents">
+              Respondents
             </a>
-            <a href="" class="btn btn-outline-primary btn-sm">
-              Project Interviewers
+            <a href="{{ route('interviewers', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Interviewers">
+              Interviewers
             </a>
           @endcan
           </div>
@@ -168,14 +168,16 @@
                   
                   @canany(['admin','head','manager','coordinator','scripter'])
                   <td>
-                    {{ $survey->stage }}
+                    <span class="badge bg-dark">
+                      {{ $survey->stage }}
+                    </span>
                   </td>
                   @endcan
 
                   <td>
                     
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-                      @canany(['agent'])
+                      @canany(['interviewer'])
                         <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
                           Begin Interview
                         </a>
@@ -193,13 +195,13 @@
                       </button>
                       @endcan
                       
-                      @canany(['admin','manager','scripter'])
+                      @canany(['admin','ceo','head','manager','scripter'])
                       <a href="" class="btn btn-outline-primary" title="View Tool">
                         Tool
                       </a>
                       @endcan
 
-                      @canany(['admin','coordinator'])
+                      @canany(['admin','ceo','head','manager','coordinator'])
                       <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
                         Results
                       </button>

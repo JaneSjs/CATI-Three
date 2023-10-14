@@ -35,7 +35,7 @@
             @include('interviews/modals')
           @else
             <div class="btn-group float-end" role="group" aria-label="Project Actions">
-              @can(['agent'])
+              @can(['interviewer'])
               <a href="{{ route('interview_schedules.index') }}" class="btn btn-warning">
                 <i class="fa-solid fa-file-pen"></i>
                 Scheduled Interviews
@@ -163,24 +163,15 @@
                   {{ $respondent->age ?? 'Age is Undefined'}}
                 </li>
                 <li class="list-group-item">
-                  {{ $respondent->gender ?? 'Gender is Undefined' }}
+                  {{ $respondent->ethnic_group . ', ' . $respondent->gender ?? 'Gender is Undefined' }}
                 </li>
                 <li class="list-group-item">
                   {{ $respondent->region ?? '' }}
                 </li>
                 <li class="list-group-item">
-                  {{ $respondent->county ?? '' }}
-                </li>
-                <li class="list-group-item">
-                  {{ $respondent->sub_county ?? '' }}
-                </li>
-                <li class="list-group-item">
-                  {{ $respondent->constituency ?? '' }}
-                </li>
-                <li class="list-group-item">
-                  {{ $respondent->ethnic_group ?? '' }}
-                </li>
-                <li class="list-group-item">
+                  {{ $respondent->county . ',' ?? '' }}
+                  {{ $respondent->sub_county . ',' ?? '' }}
+                  {{ $respondent->constituency . ',' ?? '' }}
                   {{ $respondent->ward ?? '' }}
                 </li>
                 <li class="list-group-item">

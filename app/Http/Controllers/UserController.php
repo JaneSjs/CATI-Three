@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -229,14 +230,20 @@ class UserController extends Controller
     }
 
     /**
-     * Return users who have the role of agent
+     * Return users who have the role of Interviewer
      * or those who have no roles yet.
      */
-    public function interviewers()
+    public function interviewers($id)
     {
-        $rolesToFilter = ['Agent', '', null];
+        $project = Project::find($id);
 
-        $data['users'] = User::where(function ($query) use ($rolesToFilter)
+        $users = $project->users();
+
+        //dd($users);
+
+        $rolesToFilter = ['Interviewer', '', null];
+
+        $data['users'] = $users->where(function ($query) use ($rolesToFilter)
         {
             $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
             {
@@ -244,7 +251,7 @@ class UserController extends Controller
             })->orWhereDoesntHave('roles');
         })->paginate(10);
 
-        return view('users.agents', $data);
+        return view('users.interviewers', $data);
     }
 
     /**

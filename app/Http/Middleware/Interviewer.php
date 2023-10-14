@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
-class Agent
+class Interviewer
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Agent
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Gate::allows('agent')) {
+        if (Gate::allows('interviewer')) {
             return $next($request);
         }
 

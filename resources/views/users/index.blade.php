@@ -35,7 +35,7 @@
                 <tr>
                   <th scope="col">Name</th>
                   @can('admin')
-                    <th scope="col">Role</th>
+                    <th scope="col">Role(s)</th>
                   @endcan
                   <!-- <th scope="col">Email</th> -->
                   <th>Actions</th>
@@ -53,7 +53,9 @@
                   @can('admin')
                     <td class="bg-warning">
                       @foreach($user->roles as $role)
-                          {{ $role->name }}
+                          <span class="badge bg-secondary text-dark">
+                            {{ $role->name }}
+                          </span>
                       @endforeach
                     </td>
                   @endcan

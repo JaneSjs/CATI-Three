@@ -1,4 +1,4 @@
-@can(['agent'])
+@can(['interviewer'])
 <!-- Feedback Modal -->
 <div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">
@@ -18,9 +18,9 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="feedback_input" class="form-label text-primary">
-              Enter Feedback
+              Enter Reason for terminating the interview.
             </label>
-            <textarea class="form-control" name="feedback" id="feedback_input" rows="7"></textarea>
+            <textarea class="form-control" name="feedback" id="feedback_input" rows="7" required></textarea>
           </div>
         </div>
         <div class="modal-footer">
