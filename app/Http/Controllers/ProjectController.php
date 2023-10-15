@@ -128,7 +128,7 @@ class ProjectController extends Controller
     {
         $data['users'] = User::whereHas('roles', function ($query)
         {
-            $query->whereIn('name', ['Agent','Client', 'QC']);
+            $query->whereIn('name', ['Interviewer','Client', 'QC']);
         })->get();
         //dd($data['users']);
 

@@ -14,7 +14,7 @@ use Carbon\Carbon;
       <div class="row">
         <div class="col">
           <h5>
-            Project Respondents
+            All Respondents
           </h5>
         </div>
         <div class="col">
@@ -49,7 +49,7 @@ use Carbon\Carbon;
             <table class="table caption-top">
               @canany(['admin','ceo','head'])
               <caption>
-               Respondents that belong to this project
+               All Respondents
               </caption>
               @endcan
               <thead class="table-success">
@@ -106,7 +106,7 @@ use Carbon\Carbon;
                       </button>
                       @endcan
 
-                      @canany(['admin','coordinator'])
+                      @canany(['admin','head','manager','coordinator'])
                       <form action="{{ route('respondents.destroy', $respondent->id) }}" method="post">
                         @csrf
                         @method('DELETE')

@@ -25,7 +25,7 @@ class UserController extends Controller
         if (Gate::allows('admin') || auth()->user()->id == 1){
             $data['users'] = User::paginate(10);
         } else {
-            $role = Role::where('name', 'Agent')
+            $role = Role::where('name', 'Interviewer')
                            ->find(auth()->id());
             //dd($role);
 
@@ -44,7 +44,7 @@ class UserController extends Controller
             $data['roles'] = Role::all();
         } else {
 
-            $data['roles'] = Role::where('name', 'Agent')
+            $data['roles'] = Role::where('name', 'Interviewer')
                                 ->orderBy('name')
                                 ->get();
         }
@@ -111,7 +111,7 @@ class UserController extends Controller
             $data['roles'] = Role::all();
         } else {
 
-            $data['roles'] = Role::where('name', 'Agent')
+            $data['roles'] = Role::where('name', 'Interviewer')
                                 ->orderBy('name')
                                 ->get();
         }

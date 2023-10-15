@@ -34,8 +34,12 @@ use Carbon\Carbon;
           @include('partials/alerts')
 
           @canany(['admin','head','manager','coordinator'])
-          <a href="{{ url('respondents/import') }}" class="btn btn-outline-success">
-            Import respondents
+          <button class="btn btn-outline-info btn-sm" title="Export respondents">
+            <i class="fas fa-download"></i>
+            Export
+          </button>
+          <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm" title="Import respondents">
+            Import 
             <i class="fas fa-upload"></i>
           </a>
           @endcan
