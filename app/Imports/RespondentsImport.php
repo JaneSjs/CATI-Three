@@ -68,7 +68,6 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     {
         return [
             '*.phone_1' => ['unique:respondents,phone_1'],
-            '*.national_id' => ['unique:respondents,national_id'],
         ];
     }
 

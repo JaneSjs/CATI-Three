@@ -49,9 +49,9 @@ use Carbon\Carbon;
     <div class="card-body">
       <div class="row">
 
-        <div class="col-9">
+        <div class="col-8">
           <div class="table-responsive">
-            <table class="table caption-top">
+            <table class="table table-sm caption-top">
               @canany(['admin','ceo','head'])
               <caption>
                Respondents that belong to this project
@@ -129,12 +129,32 @@ use Carbon\Carbon;
           </div>
         </div>
         @canany(['admin','ceo','head','manager','coordinator'])
-        <div class="col-3 bg-dark">
+        <div class="col-4 bg-dark">
           <ul class="list-group mt-5">
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">
                   Total Respondents
+                </div>
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                {{ $total_respondents }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                  Imported Today
+                </div>
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                {{ $total_respondents }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                  Imported Yesterday
                 </div>
               </div>
               <span class="badge bg-primary rounded-pill">
