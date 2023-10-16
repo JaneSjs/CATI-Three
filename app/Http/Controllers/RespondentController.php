@@ -30,6 +30,8 @@ class RespondentController extends Controller
 
         $total_respondents = Respondent::all();
         $data['total_respondents'] = count($total_respondents);
+        $data['imported_today'] = Respondent::whereDate('created_at', Carbon::today())->count();
+        $data['imported_yesterday'] = Respondent::whereDate('created_at', Carbon::yesterday())->count();
 
         $respondents_with_complete_interviews = Respondent::where('interview_status', 'Interview Completed')->get();
         $data['respondents_with_complete_interviews'] = count($respondents_with_complete_interviews);
@@ -82,6 +84,9 @@ class RespondentController extends Controller
         $data['respondents'] = Respondent::where('project_id', $project_id)->orderBy('id', 'desc')->paginate(10);
 
         $data['total_respondents'] = count($project->respondents()->get());
+
+        $data['imported_today'] = Respondent::where('project_id', $project_id)->whereDate('created_at', Carbon::today())->count();
+        $data['imported_yesterday'] = Respondent::where('project_id', $project_id)->whereDate('created_at', Carbon::yesterday())->count();
 
         $male_respondents = $project->respondents()
                                     ->where('gender', 'male')

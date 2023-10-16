@@ -139,6 +139,26 @@ use Carbon\Carbon;
                 {{ $total_respondents }}
               </span>
             </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                  Imported Today
+                </div>
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                {{ $imported_today }}
+              </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                  Imported Yesterday
+                </div>
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                {{ $imported_yesterday }}
+              </span>
+            </li>
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Male Respondents in the System">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">

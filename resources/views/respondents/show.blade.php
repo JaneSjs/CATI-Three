@@ -148,7 +148,7 @@ use Carbon\Carbon;
                 </div>
               </div>
               <span class="badge bg-primary rounded-pill">
-                {{ $total_respondents }}
+                {{ $imported_today }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
@@ -158,7 +158,7 @@ use Carbon\Carbon;
                 </div>
               </div>
               <span class="badge bg-primary rounded-pill">
-                {{ $total_respondents }}
+                {{ $imported_yesterday }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Male Respondents in the System">
