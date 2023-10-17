@@ -18,6 +18,7 @@ return new class extends Migration
                   ->references('id')
                   ->on('users')
                   ->cascadeOnDelete();
+            $table->index('user_id');
 
             $table->foreignId('interview_id')
                   ->references('id')
@@ -36,10 +37,6 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index('user_id');
-            $table->index('interview_id');
-            $table->index('respondent_id');
         });
     }
 

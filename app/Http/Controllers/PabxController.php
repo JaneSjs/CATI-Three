@@ -130,4 +130,9 @@ class PabxController extends Controller
 
         return response("Extension $strChannel should be calling $number.", 200);
     }
+
+    function call_freeSwitch(Request $request)
+    {
+        
+    }
 }
