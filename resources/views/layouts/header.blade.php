@@ -40,6 +40,9 @@
               <div class="fw-semibold">
                 {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }} ({{ auth()->user()->id }})
               </div>
+              <p class="d-none" id="username">
+                {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
+              </p>
             </div>
 
             <a class="dropdown-item" href="#" disabled>

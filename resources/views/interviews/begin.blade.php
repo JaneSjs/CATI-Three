@@ -2,6 +2,9 @@
     
 @section('content')
 
+<script type="text/javascript" src="{{ asset('assets/web_rtc/jssip-3.4.2.min.js') }}"></script>
+
+<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>
 
 <div class="body flex-grow-1 px-3">
   
@@ -86,15 +89,30 @@
             <p id="exten" class="d-none">
               IAX2/{{ auth()->user()->ext_no }}
             </p>
-            <p id="respondent_number" class="d-none">
+            <!-- <p id="respondent_number" class="d-none">
               890{{ $respondent->phone_1 ?? 0 }}
+            </p> -->
+            <p id="respondent_number" class="d-none">
+              {{ $respondent->phone_1 ?? 0 }}
+            </p>
+            <p id="extension_number" class="d-none">
+              {{ auth()->user()->ext_no }}
             </p>
 
             
-            <!--<button type="button" onclick="call()" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
+            <button type="button" onclick="call()" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
               <i class="fas fa-phone fa-bounce"></i>
               {{ auth()->user()->ext_no }}
-            </button>-->
+            </button>
+
+            <div class="btn-group btn-group-sm" role="group" aria-label="WebRTC">
+              <button id="callButton" type="button" class="btn btn-primary">
+                Call
+              </button>
+              <button id="hungupButton" type="button" class="btn btn-danger">
+                Hung Up
+              </button>
+            </div>
 
             @endif
 

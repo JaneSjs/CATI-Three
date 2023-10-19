@@ -26,8 +26,8 @@ Download collected data in your desired document format like pdf, excel, word e.
 Data security and protection is taken very seriously. This software is built with data safety and data protection concerns in mind.
 
 ## Credits
-   1. Laravel PHP Framework
-   2. Bootsrap CoreUI Admin Dashboard
-   3. SurveyJs Library
+   1. Laravel PHP Framework - https://laravel.com/
+   2. Bootsrap CoreUI Admin Template Dashboard - https://coreui.io/
+   3. SurveyJs Library - https://surveyjs.io/
    4. Docker Container
 
