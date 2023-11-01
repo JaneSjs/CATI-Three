@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 		document.getElementById('hungupButton').addEventListener('click', function () {
 			if (session) {
 				session.terminate();
+				console.log('Hunged Up');
 				session = null;
 			}
 

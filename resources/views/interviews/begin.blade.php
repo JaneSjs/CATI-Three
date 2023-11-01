@@ -105,14 +105,16 @@
               {{ auth()->user()->ext_no }}
             </button>
 
-            <div class="btn-group btn-group-sm" role="group" aria-label="WebRTC">
-              <button id="callButton" type="button" class="btn btn-primary">
-                Call
-              </button>
-              <button id="hungupButton" type="button" class="btn btn-danger">
-                Hung Up
-              </button>
-            </div>
+            @canany(['admin'])
+              <div class="btn-group btn-group-sm" role="group" aria-label="WebRTC">
+                <button id="callButton" type="button" class="btn btn-primary">
+                  Call
+                </button>
+                <button id="hungupButton" type="button" class="btn btn-danger">
+                  Hung Up
+                </button>
+              </div>
+            @endcan
 
             @endif
 

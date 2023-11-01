@@ -218,7 +218,9 @@ use Carbon\Carbon;
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Locked</div>
-                 - Engaged to an Ongoing or Scheduled interview
+                 - Engaged to an Ongoing interview <br>
+                 - Scheduled  for an interview <br>
+                 - Has completed an Interview  within the Past 6 months
               </div>
               <span class="badge bg-info rounded-pill">
                 {{ $locked_respondents }}
