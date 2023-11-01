@@ -4,7 +4,7 @@
 
 <script type="text/javascript" src="{{ asset('assets/web_rtc/jssip-3.4.2.min.js') }}"></script>
 
-<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>
+<!--<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>-->
 
 <div class="body flex-grow-1 px-3">
   
@@ -89,12 +89,12 @@
             <p id="exten" class="d-none">
               IAX2/{{ auth()->user()->ext_no }}
             </p>
-            <!-- <p id="respondent_number" class="d-none">
-              890{{ $respondent->phone_1 ?? 0 }}
-            </p> -->
             <p id="respondent_number" class="d-none">
-              {{ $respondent->phone_1 ?? 0 }}
+              890{{ $respondent->phone_1 ?? 0 }}
             </p>
+            <!-- <p id="respondent_number" class="d-none">
+              {{ $respondent->phone_1 ?? 0 }}
+            </p> -->
             <p id="extension_number" class="d-none">
               {{ auth()->user()->ext_no }}
             </p>
