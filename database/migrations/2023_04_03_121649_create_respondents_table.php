@@ -55,6 +55,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at');
 
+            $table->index('name');
             $table->index('phone_1');
             $table->index('phone_2');
             $table->index('phone_3');

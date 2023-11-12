@@ -40,6 +40,9 @@ use Carbon\Carbon;
               @endcan
               <th scope="col">Name</th>
               @canany(['admin','ceo','head','manager'])
+              <th scope="col" title="Data Protection Impact Assessment">
+                DPIA
+              </th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
                 <th scope="col">Actions</th>
@@ -54,15 +57,23 @@ use Carbon\Carbon;
               </th>
               @canany(['admin','ceo','head','manager'])
               <td>
-                {{ $project->database }}
+                {{ $project->database ?? 'Undefined' }}
               </td>
               @endcan
               <td>
                 <a href="{{ route('projects.show', $project->id) }}">
                   {{ $project->name }}
+                  @canany(['admin','ceo','head','manager'])
+                  <span class="bg-info text-light p-2 m-2">
+                    {{ $project->type }}
+                  </span>
+                  @endcan
                 </a>
               </td>
               @canany(['admin','ceo','head','manager'])
+              <td>
+                {{ $project->dpia ?? 'Not Approved' }}
+              </td>
               <?php
                   $start_date = Carbon::parse($project->start_date);
                   $end_date = Carbon::parse($project->end_date);

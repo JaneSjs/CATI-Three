@@ -73,10 +73,10 @@ class RoleSeeder extends Seeder
             'description' => 'Survey Respondent'
         ]);
 
-        // Coding.
+        // DPO.
         DB::table('roles')->insert([
-            'name' => 'Coding',
-            'description' => 'Coding'
+            'name' => 'DPO',
+            'description' => 'Data Protection Officer'
         ]);
 
     }

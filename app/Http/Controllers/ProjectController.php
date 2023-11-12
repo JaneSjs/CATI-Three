@@ -91,6 +91,7 @@ class ProjectController extends Controller
     {
         $project = Project::create([
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
             'database' => $request->input('database'),
             'start_date' => Carbon::parse($request->date('start_date')),
             'end_date' => Carbon::parse($request->date('end_date')),
@@ -202,6 +203,8 @@ class ProjectController extends Controller
             
             $project->update([
                 'name' => $request->input('name'),
+                'type' => $request->input('type'),
+                'database' => $request->input('database'),
             ]);
 
             $project->users()->sync($request->users);

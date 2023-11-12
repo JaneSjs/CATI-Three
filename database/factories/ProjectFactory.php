@@ -18,7 +18,9 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'type' => $this->faker->name,
             'database' => $this->faker->name,
+            'dpia' => 'Approved',
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date
         ];
