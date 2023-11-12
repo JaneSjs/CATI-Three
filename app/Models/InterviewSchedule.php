@@ -22,7 +22,8 @@ class InterviewSchedule extends Model
         'schema_id',
         'interview_id',
         'interview_datetime',
-        'interview_url'
+        'interview_url',
+        'interview_status'
     ];
 
     /**

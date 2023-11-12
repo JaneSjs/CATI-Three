@@ -80,7 +80,7 @@
 
             @canany(['admin','head','manager','coordinator','scripter'])
               <!-- Trigger Survey Modal -->
-              <button type="button" class="btn btn-outline-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
+              <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                 Create Survey
               </button>
             @endcan
