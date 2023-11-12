@@ -38,7 +38,11 @@ return new class extends Migration
 
             $table->dateTime('interview_datetime');
             $table->string('interview_url');
+            $table->string('interview_status')->nullable();
 
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

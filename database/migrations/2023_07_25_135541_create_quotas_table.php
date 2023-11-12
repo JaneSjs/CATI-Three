@@ -89,6 +89,9 @@ return new class extends Migration
             $table->integer('wajir_target')->nullable();
             $table->integer('west_pokot_target')->nullable();
 
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });

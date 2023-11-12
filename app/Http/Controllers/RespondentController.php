@@ -207,6 +207,7 @@ class RespondentController extends Controller
         $project_id = $request->input('project_id');
         $survey_id = $request->input('survey_id');
         $interview_id = $request->input('interview_id');
+        $survey_url = $request->input('iframe_url');
 
         $respondent = Respondent::find($respondent_id);
         //dd($respondent);
@@ -235,7 +236,7 @@ class RespondentController extends Controller
             'id' => $interview_id,
             'end_time' => Carbon::now(),
             'interview_status' => $interview_status,
-            'survey_url' => $request->input('iframe_url')
+            'survey_url' => $survey_url
         ]);
 
         return to_route('projects.show', ['project' => $project_id])->with($status, $interview_status);

@@ -31,6 +31,9 @@ return new class extends Migration
             $table->dateTimeTz('sent_at')->nullable();
             $table->text('delivery_status')->nullable();
 
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

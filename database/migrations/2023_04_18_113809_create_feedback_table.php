@@ -35,6 +35,9 @@ return new class extends Migration
             $table->text('respondent_feedback')->nullable();
             $table->text('qc_feedback')->nullable();
 
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

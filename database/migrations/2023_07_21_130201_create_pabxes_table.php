@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('pabxes', function (Blueprint $table) {
             $table->id();
+
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            
             $table->timestamps();
         });
     }

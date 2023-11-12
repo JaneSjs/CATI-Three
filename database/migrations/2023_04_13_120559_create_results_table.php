@@ -54,6 +54,9 @@ return new class extends Migration
             $table->string('speed')->nullable();
             $table->bigInteger('timestamp')->nullable();
 
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });

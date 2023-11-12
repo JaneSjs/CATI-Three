@@ -24,6 +24,10 @@ return new class extends Migration
             $table->string('faulty_keyboards');
             $table->string('working_internet_ports');
             $table->string('faulty_internet_ports');
+
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            
             $table->timestamps();
         });
     }

@@ -43,7 +43,8 @@ class InterviewScheduleController extends Controller
             'schema_id' => $schema_id,
             'interview_id' => $interview_id,
             'interview_datetime' => Carbon::parse($request->input('interview_datetime')),
-            'interview_url' => $request->input('interview_url')
+            'interview_url' => $request->input('interview_url'),
+            'interview_status' => 'Pending'
         ];
 
         //dd($schedule);
@@ -75,7 +76,20 @@ class InterviewScheduleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $schema = InterviewSchedule::find($schema_id);
+        //dd($schema);
+
+        if ($schema)
+        {
+            $schema->update([
+                'interview_status' => $request->input('interview_status'),
+                'updated_by' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+            ]);
+
+            return redirect()->back()->with('success', 'Survey Updated Successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Survey not found.');
+        }
     }
 
     /**
