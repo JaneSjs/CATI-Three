@@ -36,7 +36,8 @@ class InterviewsExport implements FromQuery, WithHeadings
                 $interview->ext_no,
                 $interview->phone_called,
                 $interview->audio_recording,
-                $interview->qcd_by,
+                $interview->qc_id,
+                $interview->qc_name,
                 $interview->interview_status,
                 $interview->survey_url,
                 $interview->survey_version,
@@ -52,7 +53,7 @@ class InterviewsExport implements FromQuery, WithHeadings
     {
         return [
             'Interview ID',
-            '(Agent) Interviewer ID',
+            'Interviewer ID',
             'Project ID',
             'Survey ID',
             'Respondent ID',
@@ -61,6 +62,7 @@ class InterviewsExport implements FromQuery, WithHeadings
             'Phone Called',
             'Audio Recording',
             'QC Id',
+            'QC Name',
             'Interview Status',
             'Survey Url',
             'Survey Version',

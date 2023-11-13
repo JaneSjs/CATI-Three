@@ -81,6 +81,8 @@ class RespondentController extends Controller
     {
         $project = Project::find($project_id);
 
+        $data['project_name'] = $project->name;
+
         $data['respondents'] = Respondent::where('project_id', $project_id)->orderBy('id', 'desc')->paginate(10);
 
         $data['total_respondents'] = count($project->respondents()->get());
@@ -184,7 +186,7 @@ class RespondentController extends Controller
 
         if (!empty($importErrors))
         {
-            return redirect()->back()->withErrors($importErrors)->withInput()->with('warning', 'Respondents Import Failed. Please Check The Errors Below:');    
+            return redirect()->back()->withErrors($importErrors)->withInput()->with('warning', 'Respondents Imported Partially. Please Check The Errors Below: ');    
         }
 
         return redirect()->back()->with('info', 'Respondents Are Being Imported In The Background');

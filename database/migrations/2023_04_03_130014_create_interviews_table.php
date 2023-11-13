@@ -40,12 +40,13 @@ return new class extends Migration
             $table->string('phone_called')->nullable();
             $table->string('audio_recording')->nullable();
 
-            $table->foreignId('qcd_by')
+            $table->foreignId('qc_id')
                   ->nullable()
                   ->references('id')
                   ->on('users')
                   ->constrained();
-
+            
+            $table->string('qc_name')->nullable();
             $table->string('interview_status')->nullable();
             $table->string('survey_url')->nullable();
             $table->string('survey_version')->nullable();

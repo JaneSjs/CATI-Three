@@ -14,7 +14,7 @@ use Carbon\Carbon;
       <div class="row">
         <div class="col">
           <h5>
-            Project Respondents
+            {{ $project_name }} Respondents
           </h5>
         </div>
         <div class="col">

@@ -34,6 +34,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- End Toastify CSS (For Notifications) -->
     
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('favicon.jpeg') }}"/>
+    <!-- End Favicon -->
+
   </head>
   <body>
     @include('layouts.sidebar')

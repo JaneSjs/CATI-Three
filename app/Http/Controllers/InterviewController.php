@@ -44,25 +44,29 @@ class InterviewController extends Controller
      */
     public function store(StoreInterviewRequest $request)
     {
+        $projectId = $request->input('project_id');
+        $surveyId = $request->input('survey_id');
+        $respondentId = $request->input('respondent_id');
+
         //dd($request->input('respondent_id'));
         $begin_interview = route('begin_interview', [
-            'project_id' => $request->input('project_id'),
-            'survey_id' => $request->input('survey_id'),
+            'project_id' => $projectId,
+            'survey_id' => $surveyId,
             'interview_id' => 0
         ]);
 
         $begin_survey = route('begin_survey', [
-            'project_id' => $request->input('project_id'),
-            'survey_id' => $request->input('survey_id'),
+            'project_id' => $projectId,
+            'survey_id' => $surveyId,
             'interview_id' => 0,
-            'respondent_id' => $request->input('respondent_id'),
+            'respondent_id' => $respondentId,
         ]);
         
         $interview = Interview::create([
             'user_id' => auth()->id(),
-            'project_id' => $request->input('project_id'),
-            'schema_id' => $request->input('survey_id'),
-            'respondent_id' => $request->input('respondent_id'),
+            'project_id' => $projectId,
+            'schema_id' => $surveyId,
+            'respondent_id' => $respondentId,
             'respondent_name' => $request->input('respondent_name'),
             'ext_no' => $request->input('ext_no'),
             'phone_called' => $request->input('phone_called'),
@@ -73,10 +77,10 @@ class InterviewController extends Controller
         
         if ($interview) {
             $begin_survey = route('begin_survey', [
-                'project_id' => $request->input('project_id'),
-                'survey_id' => $request->input('survey_id'),
+                'project_id' => $projectId,
+                'survey_id' => $surveyId,
                 'interview_id' => $interview->id,
-                'respondent_id' => $request->input('respondent_id'),
+                'respondent_id' => $respondentId,
             ]);
 
             return redirect($begin_survey, 201);
@@ -120,7 +124,8 @@ class InterviewController extends Controller
         //dd($request->input('survey_id'));
 
         $quality_control = $interview->update([
-            'qcd_by' => auth()->id(),
+            'qc_id' => auth()->id(),
+            'qc_name' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
             'quality_control' => $request->input('quality_control')
         ]);
 

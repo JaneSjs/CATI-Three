@@ -201,7 +201,7 @@
       @can(['interviewer'])
       <div class="row">
         <div class="col text-start">
-          <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
+          <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
               Terminate Interview
               <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
             </button>

@@ -1,5 +1,42 @@
 @can(['interviewer'])
-<!-- Feedback Modal -->
+<!-- Interview Termination Feedback Modal -->
+<div class="modal fade" id="interview_termination_feedback" tabindex="-1" aria-labelledby="interview_termination_feedback" data-coreui-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="interview_termination_feedback">
+          Respondent Feedback
+        </h5>
+
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ route('respondent_feedback') }}" method="post">
+        @csrf
+        @method('PATCH')
+        <input type="hidden" name="respondent_id" value="{{ $respondent->id }}">
+        <input type="hidden" name="project_id" value="{{ $project->id }}">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="feedback_input" class="form-label text-primary">
+              Enter Reason for terminating the interview.
+            </label>
+            <textarea class="form-control" name="feedback" id="feedback_input" rows="7" required>
+              {{ $respondent->feedback ?? '' }}
+            </textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-block">
+            Submit Feedback And Terminate This Interview.
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End Interview Termination Feedback Modal -->
+
+<!-- Respondent Feedback Modal -->
 <div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -18,21 +55,23 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="feedback_input" class="form-label text-primary">
-              Enter Reason for terminating the interview.
+              Enter Feedback.
             </label>
-            <textarea class="form-control" name="feedback" id="feedback_input" rows="7" required></textarea>
+            <textarea class="form-control" name="feedback" id="feedback_input" rows="7" required>
+              {{ $respondent->feedback ?? '' }}
+            </textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-danger btn-block">
-            Submit Feedback And Terminate This Interview.
+          <button type="submit" class="btn btn-success btn-block">
+            Submit Feedback
           </button>
         </div>
       </form>
     </div>
   </div>
 </div>
-<!-- End Feedback Modal -->
+<!-- End Respondent Feedback Modal -->
 
 <!-- Schedule Interview Modal -->
 <div class="modal fade" id="interview_schedule" tabindex="-1" aria-labelledby="interview_schedule" aria-hidden="true">

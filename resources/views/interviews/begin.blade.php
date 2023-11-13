@@ -34,7 +34,10 @@
         </div>
         <div class="col text-end">
           @if($respondent)
-            
+            <button type="button" class="btn btn-info" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
+                Respondent Feedback
+                <i class="fa-solid fa-comment" style="color: #ffffff;"></i>
+              </button>
             @include('interviews/modals')
           @else
             <div class="btn-group float-end" role="group" aria-label="Project Actions">
@@ -283,7 +286,7 @@
       } else {
         // Toastify Notifications
           Toastify({
-            text: "Check Your Internet Connection",
+            text: "Server Issues",
             duration: 9000,
             destination: "https://cati.tifaresearch.com/projects",
             newWindow: true,
