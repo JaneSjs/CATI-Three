@@ -372,6 +372,7 @@ class InterviewController extends Controller
         $query = $request->input('query');
 
         $respondents = Respondent::search($query)
+                                //->where('project_id', $project_id)
                                 ->get();
 
         //$findRespondent->eligible();

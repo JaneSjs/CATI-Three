@@ -35,7 +35,7 @@ class Respondent extends Model
             //'id'   => (int) $this->id,
             //'r_id' => (int) $this->r_id,
             'project_id' => (int) $this->project_id,
-            //'schema_id'  => (int) $this->schema_id,
+            'schema_id'  => (int) $this->schema_id,
             'name'                => $this->name,
             'email'               => $this->email,
             'occupation'          => $this->occupation,
@@ -80,6 +80,13 @@ class Respondent extends Model
 
             return $lastInterviewDate->lte($sixMonthsAgo);
         }
+    }
+
+    public function scoutMetadata()
+    {
+        return [
+            'filterableAttributes' => ['project_id'],
+        ];
     }
 
     /**

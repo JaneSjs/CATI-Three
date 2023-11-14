@@ -87,20 +87,8 @@
     </script> -->
 
     <!-- Fontawesome Kit -->
-    <!-- Check internet availability before trying to load fontawesome kit -->
-    <script>
-      if(navigator.onLine) {
-        var script = document.createElement('script');
-        script.src = 'https://kit.fontawesome.com/63b4fcb6d3.js';
-        script.crossOrigin = 'anonymous';
-
-        document.body.appendChild(script);
-        console.log("Internet Connection is available. Font Awesome kit loaded.");
-      } else {
-        console.log("No Internet Connection Available");
-      }
-    </script>
-    <!-- <script src="https://kit.fontawesome.com/63b4fcb6d3.js" crossorigin="anonymous"></script> -->
+    
+    <script src="{{ asset('assets/fontawesome/kit.js') }}" crossorigin="anonymous"></script>
 
     <script src="{{ asset('assets/core-ui/js/rocket-loader.min.js') }}" data-cf-settings="de208106593c1661e843c327-|49" defer=""></script>
 
