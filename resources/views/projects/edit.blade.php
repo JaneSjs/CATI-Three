@@ -37,7 +37,7 @@
             </label>
             <select class="form-select" id="project_type" name="type">
               <option value="{{ $project->type }}" selected>
-                {{ $project->type }}
+                {{ $project->type ?? 'Select Type'}}
               </option>
               <option value="CATI">CATI</option>
               <option value="CAWI">CAWI</option>

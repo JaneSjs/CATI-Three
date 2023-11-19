@@ -205,6 +205,8 @@ class ProjectController extends Controller
                 'name' => $request->input('name'),
                 'type' => $request->input('type'),
                 'database' => $request->input('database'),
+                'start_date' => Carbon::parse($request->date('start_date')),
+                'end_date' => Carbon::parse($request->date('end_date')),
             ]);
 
             $project->users()->sync($request->users);

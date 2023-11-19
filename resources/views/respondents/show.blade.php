@@ -14,7 +14,7 @@ use Carbon\Carbon;
       <div class="row">
         <div class="col">
           <h5>
-            {{ $project_name }} Respondents
+            {{ $project->name }} Respondents
           </h5>
         </div>
         <div class="col">
@@ -34,14 +34,20 @@ use Carbon\Carbon;
           @include('partials/alerts')
 
           @canany(['admin','head','manager','coordinator'])
-          <button class="btn btn-outline-info btn-sm" title="Export respondents">
-            <i class="fas fa-download"></i>
-            Export
-          </button>
-          <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm" title="Import respondents">
-            Import 
-            <i class="fas fa-upload"></i>
-          </a>
+            @if($project->database == 'Processor')
+              <button class="btn btn-outline-info btn-sm" title="Export respondents">
+                <i class="fas fa-download"></i>
+                Export
+              </button>
+              <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm" title="Import respondents">
+                Import 
+                <i class="fas fa-upload"></i>
+              </a>
+            @else
+              <span class="badge bg-success">
+                Controlled Database
+              </span>
+            @endif
           @endcan
         </div>
       </div>

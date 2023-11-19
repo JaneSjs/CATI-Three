@@ -81,7 +81,7 @@ class RespondentController extends Controller
     {
         $project = Project::find($project_id);
 
-        $data['project_name'] = $project->name;
+        $data['project'] = $project;
 
         $data['respondents'] = Respondent::where('project_id', $project_id)->orderBy('id', 'desc')->paginate(10);
 

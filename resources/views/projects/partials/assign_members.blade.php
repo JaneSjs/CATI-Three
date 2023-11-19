@@ -12,22 +12,11 @@
         </div>
         <div class="modal-body">
           <input type="hidden" name="project_id" value="{{ $project->id }}">
-          <div class="mb-3">
-            <label for="name" class="form-label">
-              Update Project Name
-            </label>
-            <input type="text" class="form-control" name="name" id="name" aria-describedby="nameDescription" value="{{  $project->name ?? old('name') }}">
-            @error('name')
-            <p class="text-danger">
-              {{ $message }}
-            </p>
-            @else
-            <div id="nameDescription" class="form-text">
-              Name of the Project
-            </div>
-            @endif
-          </div>
-          <input type="hidden" name="project_id" value="{{ $project->id }}">
+          <input type="hidden" name="name" value="{{ $project->name }}">
+          <input type="hidden" name="type" value="{{ $project->type }}">
+          <input type="hidden" name="database" value="{{ $project->database }}">
+          <input type="hidden" name="start_date" value="{{ $project->start_date }}">
+          <input type="hidden" name="end_date" value="{{ $project->end_date }}">
 
           <!-- Members Input -->
           <div class="col mt-3 mb-4">
