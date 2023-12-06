@@ -91,8 +91,7 @@ class ProjectController extends Controller
     {
         $project = Project::create([
             'name' => $request->input('name'),
-            'type' => $request->input('type'),
-            'database' => $request->input('database'),
+            //'dpia' => $request->input('dpia'),
             'start_date' => Carbon::parse($request->date('start_date')),
             'end_date' => Carbon::parse($request->date('end_date')),
         ]);

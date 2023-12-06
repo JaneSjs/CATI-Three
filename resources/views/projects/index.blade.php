@@ -63,11 +63,6 @@ use Carbon\Carbon;
               <td>
                 <a href="{{ route('projects.show', $project->id) }}">
                   {{ $project->name }}
-                  @canany(['admin','ceo','head','manager'])
-                  <span class="bg-info text-light p-2 m-2">
-                    {{ $project->type }}
-                  </span>
-                  @endcan
                 </a>
               </td>
               @canany(['admin','ceo','head','manager'])

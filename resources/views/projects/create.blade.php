@@ -22,21 +22,17 @@
             <label for="project_name" class="form-label">
               Project Name
             </label>
-            <input type="text" class="form-control" name="name" id="project_name" aria-describedby="projectName">
-            <div id="projectName" class="form-text">Name of the project</div>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="project_name" aria-describedby="projectName">
+            @error('name')
+              <p class="text-danger">{{ $message }}</p>
+            @else
+              <div id="projectName" class="form-text">
+                Name of the project
+              </div>
+            @enderror
           </div>
 
-          <div class="col">
-            <label for="project_type" class="form-label">
-              Project Type
-            </label>
-            <select class="form-select" id="project_type" name="type">
-              <option value="CATI">CATI</option>
-              <option value="CAWI">CAWI</option>
-              <option value="CAPI">CAPI</option>
-            </select>
-            <div id="projectType" class="form-text">Type of the project</div>
-          </div>
+          
         </div>
 
         <div class="row">
@@ -84,20 +80,7 @@
             <div id="qcs" class="form-text">Assign QCs</div>
           </div>
 
-          <div class="col mb-3">
-            <label for="database" class="form-label">
-              Data Protection Module
-            </label>
-            <select class="form-select" name="database" aria-label="Select Database">
-              <option value="controller" title="Controlled Database" selected>
-                Controller
-              </option>
-              <option value="processor" title="Processed Database">
-                Processor
-              </option>
-            </select>
-            <div id="database" class="form-text">Choose Database</div>
-          </div>
+          
         </div>
 
             <div class="row mb-3">
@@ -106,20 +89,28 @@
                   Expected Start Date
                 </label>
                 
-                <input class="form-control" type="date" name="start_date" aria-labelledby="start_date">
-                <div id="start_date" class="form-text">
-                  Project Start Date
-                </div>
+                <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="start_date" aria-labelledby="start_date">
+                @error('start_date')
+                  <p class="text-danger">{{ $message }}</p>
+                @else
+                  <div id="start_date" class="form-text">
+                      Project Start Date
+                    </div>
+                @enderror
               </div>
               <div class="col">
                 <label class="form-label">
                   Expected End Date
                 </label>
                 
-                <input class="form-control" type="date" name="end_date" aria-labelledby="end_date">
-                <div id="end_date" class="form-text">
-                  Project End Date
-                </div>
+                <input class="form-control @error('end_date') is-invalid @enderror" type="date" name="end_date" aria-labelledby="end_date">
+                @error('end_date')
+                  <p class="text-danger">{{ $message }}</p>
+                @else
+                  <div id="end_date" class="form-text">
+                    Project Start Date
+                  </div>
+                @enderror
               </div>
               
             </div>

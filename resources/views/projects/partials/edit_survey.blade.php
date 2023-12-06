@@ -25,8 +25,46 @@
             <label for="iframe_url" class="form-label">
               Iframe Url
             </label>
-            <input type="text" name="iframe_url" class="form-control" id="iframe_url" value="{{ $survey->iframe_url }}">
+            <input type="url" name="iframe_url" class="form-control" id="iframe_url" value="{{ $survey->iframe_url }}" placeholder="Survey To Go CAWI Link">
           </div>
+
+          <div class="row">
+          <div class="col">
+            <label for="project_type" class="form-label">
+              Survey Type
+            </label>
+            <select class="form-select" id="project_type" name="type">
+              <option value="{{ $survey->type }}" selected>
+                {{ $survey->type }}
+              </option>
+              <option value="CATI">CATI</option>
+              <option value="CAWI">CAWI</option>
+              <option value="CAPI">CAPI</option>
+            </select>
+            <div id="surveyType" class="form-text">
+              Type of the survey
+            </div>
+          </div>
+          <div class="col">
+            <label for="database" class="form-label">
+              Data Protection Module
+            </label>
+            <select class="form-select" name="database" aria-label="Select Database">
+              <option value="{{ $survey->database }}" selected>
+                {{ $survey->database }}
+              </option>
+              <option value="Controller" title="Controlled Database" selected>
+                Controller
+              </option>
+              <option value="Processor" title="Processed Database">
+                Processor
+              </option>
+            </select>
+            <div id="database" class="form-text">
+              Choose Database
+            </div>
+          </div>
+        </div>
 
           <div class="mb-3">
             <label for="stage" class="form-label">
@@ -36,8 +74,8 @@
               <option value="Draft" selected>
                 Draft
               </option>
-              <option value="Test">
-                Test
+              <option value="Pilot">
+                Pilot
               </option>
               <option value="Production">
                 Production

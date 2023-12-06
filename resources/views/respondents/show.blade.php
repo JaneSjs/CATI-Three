@@ -14,7 +14,7 @@ use Carbon\Carbon;
       <div class="row">
         <div class="col">
           <h5>
-            {{ $project->name }} Respondents
+            {{ $survey->survey_name }} Respondents
           </h5>
         </div>
         <div class="col">
@@ -34,7 +34,7 @@ use Carbon\Carbon;
           @include('partials/alerts')
 
           @canany(['admin','head','manager','coordinator'])
-            @if($project->database == 'Processor')
+            @if($survey->database == 'Processor')
               <button class="btn btn-outline-info btn-sm" title="Export respondents">
                 <i class="fas fa-download"></i>
                 Export
@@ -43,9 +43,10 @@ use Carbon\Carbon;
                 Import 
                 <i class="fas fa-upload"></i>
               </a>
-            @else
-              <span class="badge bg-success">
-                Controlled Database
+            @elseif($survey->database == 'Controller')
+              <span class="badge bg-success" title="Controlled Database" data-coreui-toggle="modal" data-coreui-target="#rdms">
+                RDMS
+                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
               </span>
             @endif
           @endcan
@@ -60,7 +61,7 @@ use Carbon\Carbon;
             <table class="table table-sm caption-top">
               @canany(['admin','ceo','head'])
               <caption>
-               Respondents that belong to this project
+               Respondents that belong to this survey
               </caption>
               @endcan
               <thead class="table-success">

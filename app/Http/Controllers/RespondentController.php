@@ -75,39 +75,39 @@ class RespondentController extends Controller
 
     /**
      * List all respondents on the the system 
-     * that belong to a project with their statistics.
+     * that belong to a survey with their statistics.
      */
-    public function show($project_id)
+    public function show($survey_id)
     {
-        $project = Project::find($project_id);
+        $survey = Schema::find($survey_id);
 
-        $data['project'] = $project;
+        $data['survey'] = $survey;
 
-        $data['respondents'] = Respondent::where('project_id', $project_id)->orderBy('id', 'desc')->paginate(10);
+        $data['respondents'] = Respondent::where('schema_id', $survey_id)->orderBy('id', 'desc')->paginate(10);
 
-        $data['total_respondents'] = count($project->respondents()->get());
+        $data['total_respondents'] = count($survey->respondents()->get());
 
-        $data['imported_today'] = Respondent::where('project_id', $project_id)->whereDate('created_at', Carbon::today())->count();
-        $data['imported_yesterday'] = Respondent::where('project_id', $project_id)->whereDate('created_at', Carbon::yesterday())->count();
+        $data['imported_today'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::today())->count();
+        $data['imported_yesterday'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::yesterday())->count();
 
-        $male_respondents = $project->respondents()
+        $male_respondents = $survey->respondents()
                                     ->where('gender', 'male')
                                     //->orWhere('gender', 'm')
                                     ->get();
         $data['male_respondents'] = count($male_respondents);
 
-        $female_respondents = $project->respondents()
+        $female_respondents = $survey->respondents()
                                     ->where('gender', 'female')
                                     //->orWhere('gender', 'f')
                                     ->get();
         $data['female_respondents'] = count($female_respondents);
 
-        $data['respondents_with_complete_interviews'] = count($project->respondents()->where('interview_status', 'Interview Completed')->get());
-        $data['respondents_with_feedback'] = count($project->respondents()->whereNotNull('feedback')->get());
-        $data['respondents_with_terminated_interviews'] = count($project->respondents()->where('interview_status', 'Interview Terminated')->get());
-        $data['locked_respondents'] = count($project->respondents()->where('interview_status', 'Locked')->get());
+        $data['respondents_with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
+        $data['respondents_with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
+        $data['respondents_with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
+        $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
 
-        $respondents_available_for_interviewing = $project->respondents()
+        $respondents_available_for_interviewing = $survey->respondents()
                                                         ->where('interview_status', '!=', 'Locked')
                                                         ->whereNull('interview_date_time')
                                                         ->get();
@@ -264,7 +264,7 @@ class RespondentController extends Controller
 
         if ($feedback)
         {
-            return to_route('projects.show',[$project_id],201)->with('success', 'Thanks For The Respondent feedback');
+            return to_route('projects.show',[$project_id],201)->with('success', 'Thanks For The Feedback');
         }
         else
         {

@@ -9,27 +9,42 @@
 
     <meta name="id" content="{{ $survey->id }}">
     <meta name="url" content="">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/jpg" href="{{ asset('favicon.jpeg') }}"/>
+    <!-- End Favicon -->
     
     <title> 
         {{ $survey->survey_name ?? ' ' }}
     </title>
 
     <!-- ... -->
-    <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script>
+    <!-- <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script> -->
+     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/knockout-latest.js') }}"></script>
 
     <!-- SurveyJS resources -->
-    <link  href="https://unpkg.com/survey-core/defaultV2.min.css" type="text/css" rel="stylesheet">
-    <script src="https://unpkg.com/survey-core/survey.core.min.js"></script>
-    <script src="https://unpkg.com/survey-knockout-ui/survey-knockout-ui.min.js"></script>
+    <!-- <link  href="https://unpkg.com/survey-core/defaultV2.min.css" type="text/css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ asset('assets/survey_js/resources/defaultV2.min.css') }}">
+
+    <!-- <script src="https://unpkg.com/survey-core/survey.core.min.js"></script> -->
+    <script type="text/javascript" src="{{ asset('assets/survey_js/resources/survey.core.min.js') }}"></script>
+
+    <!-- <script src="https://unpkg.com/survey-knockout-ui/survey-knockout-ui.min.js"></script> -->
+    <script type="text/javascript" src="{{ asset('assets/survey_js/resources/survey-knockout-ui.min.js') }}"></script>
     
     <!-- Survey Creator resources -->
-    <link  href="https://unpkg.com/survey-creator-core/survey-creator-core.min.css" type="text/css" rel="stylesheet">
-    <script src="https://unpkg.com/survey-creator-core/survey-creator-core.min.js"></script>
-    <script src="https://unpkg.com/survey-creator-knockout/survey-creator-knockout.min.js"></script>
+    <!-- <link  href="https://unpkg.com/survey-creator-core/survey-creator-core.min.css" type="text/css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ asset('assets/survey_js/resources/survey-creator-core.min.css') }}">
+
+    <!-- <script src="https://unpkg.com/survey-creator-core/survey-creator-core.min.js"></script> -->
+    <script src="{{ asset('assets/survey_js/resources/survey-creator-core.min.js') }}"></script>
+
+    <!-- <script src="https://unpkg.com/survey-creator-knockout/survey-creator-knockout.min.js"></script> -->
+    <script src="{{ asset('assets/survey_js/resources/survey-creator-knockout.min.js') }}"></script>
     
 
     <!-- Toastify CSS (For Notifications) -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/toastify/toastify.min.css') }}">
     
 </head>
 <body>

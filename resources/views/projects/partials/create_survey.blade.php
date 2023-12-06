@@ -27,6 +27,38 @@
             @endif
         </div>
         <input type="hidden" name="project_id" value="{{ $project->id }}">
+
+        <div class="row">
+          <div class="col">
+            <label for="project_type" class="form-label">
+              Survey Type
+            </label>
+            <select class="form-select" id="project_type" name="type">
+              <option value="CATI">CATI</option>
+              <option value="CAWI">CAWI</option>
+              <option value="CAPI">CAPI</option>
+            </select>
+            <div id="projectType" class="form-text">
+              Type of the survey
+            </div>
+          </div>
+          <div class="col">
+            <label for="database" class="form-label">
+              Data Protection Module
+            </label>
+            <select class="form-select" name="database" aria-label="Select Database">
+              <option value="Controller" title="Controlled Database" selected>
+                Controller
+              </option>
+              <option value="Processor" title="Processed Database">
+                Processor
+              </option>
+            </select>
+            <div id="database" class="form-text">
+              Choose Database
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">

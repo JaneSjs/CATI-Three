@@ -15,8 +15,6 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type')->nullable();
-            $table->string('database')->nullable();
             $table->string('dpia')->nullable();
             $table->date('start_date');
             $table->date('end_date');

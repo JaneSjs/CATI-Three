@@ -26,6 +26,11 @@ return new class extends Migration
             $table->string('version')->nullable();
             $table->string('stage')->nullable();
             $table->string('iframe_url')->nullable();
+
+            $table->string('type')->nullable();
+            $table->string('database')->nullable();
+            $table->string('dpia')->nullable();
+            
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->timestamps();

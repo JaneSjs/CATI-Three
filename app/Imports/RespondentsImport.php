@@ -29,6 +29,7 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
         return new Respondent([
             'r_id'          => $row['r_id'],
             'project_id'    => $row['project_id'],
+            'schema_id'    => $row['survey_id'],
             'name'          => $row['name'],
             'phone_1'       => $row['phone_1'],
             'phone_2'       => $row['phone_2'],
@@ -68,6 +69,7 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     {
         return [
             '*.phone_1' => ['unique:respondents,phone_1'],
+            '*.project_id' => ['required'],
         ];
     }
 

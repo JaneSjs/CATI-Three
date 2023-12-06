@@ -62,11 +62,11 @@
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
           @canany(['admin','head','manager','coordinator','scripter'])
-            <a href="{{ route('respondents.show', $project->id) }}" class="btn btn-outline-info btn-sm" title="Project Respondents">
-              Respondents
-            </a>
             <a href="{{ route('interviewers', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Interviewers">
               Interviewers
+            </a>
+            <a href="" class="btn btn-outline-success btn-sm" title="Project Recordings">
+              Recordings
             </a>
           @endcan
           </div>
@@ -97,7 +97,7 @@
 
       <div class="row">
         @canany(['admin','head','ceo','manager'])
-        <div class="col-4">
+        <div class="col-3">
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
@@ -124,7 +124,7 @@
           </ul>
         </div>
         @endcan
-        <div class="col-8">
+        <div class="col-9">
           <hr>
 
           <div class="table-responsive">
@@ -156,13 +156,18 @@
 
                   @canany(['qc'])
                   <td>
-                      <a href="{{ route('surveys.show', $survey->id) }}">
-                        {{ $survey->survey_name }}
-                      </a>
+                    <a href="{{ route('surveys.show', $survey->id) }}">
+                      {{ $survey->survey_name }}
+                    </a>
                   </td>
                   @else
                   <td>
                     {{ $survey->survey_name }}
+                    @canany(['admin','ceo','head','manager'])
+                      <span class="bg-info text-light p-2 m-2">
+                        {{ $survey->type }}
+                      </span>
+                    @endcan
                   </td>
                   @endcan
                   
@@ -223,6 +228,9 @@
                       @canany(['admin','ceo','head','manager','coding'])
                       <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="Coding ">
                         <i class="fa-solid fa-arrow-up-a-z fa-bounce"></i>
+                      </a>
+                      <a href="{{ route('respondents.show', $survey->id) }}" class="btn btn-outline-info btn-sm" title="Survey Respondents">
+                        Respondents
                       </a>
                       @endcan
                     </div>

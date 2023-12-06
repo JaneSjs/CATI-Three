@@ -22,7 +22,9 @@ class StoreSchemaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'survey_name' => 'required|max:255'
+            'survey_name' => 'required|max:255',
+            'type' => 'required',
+            'database' => 'required',
         ];
     }
 }

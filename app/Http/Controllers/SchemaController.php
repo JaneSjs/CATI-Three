@@ -41,6 +41,8 @@ class SchemaController extends Controller
             'stage' => 'Draft',
             'project_id'  => $request->input('project_id'),
             'survey_name' => $request->input('survey_name'),
+            'type' => $request->input('type'),
+            'database' => $request->input('database'),
         ]);
         
 
@@ -102,6 +104,8 @@ class SchemaController extends Controller
                 'iframe_url'  => $request->input('iframe_url'),
                 'stage' => $request->input('stage'),
                 'updated_by' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+                'type' => $request->input('type'),
+                'database' => $request->input('database'),
             ]);
 
             return redirect()->back()->with('success', 'Survey Updated Successfully.');

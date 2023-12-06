@@ -5,9 +5,9 @@
 <section class="vh-100 mt-4">
       <div class="container-fluid h-custom bg-warning">
         <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
+          <div class="col-md-12 col-lg-6 col-xl-5 text-center">
             <img src="{{ asset('assets/images/survey.jpg') }}"
-              class="img-thumbnail img-fluid" style="height: 500px; width: 500px;" alt="TIFA Call Center">
+              class="img-thumbnail img-fluid" style="max-width: 100%; height: auto;" alt="TIFA SURVEYS">
           </div>
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
           	<div class="bg-light p-3 border border-primary rounded my-4">
@@ -78,23 +78,6 @@
           Copyright © <?= date('Y') ?>. All rights reserved.
         </div>
         <!-- Copyright -->
-
-        <!-- Right -->
-        <div>
-          <!-- <a href="#!" class="text-white me-4">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-google"></i>
-          </a>
-          <a href="#!" class="text-white">
-            <i class="fab fa-linkedin-in"></i>
-          </a> -->
-        </div>
-        <!-- Right -->
       </div>
     </section>
 

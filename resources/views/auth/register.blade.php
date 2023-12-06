@@ -7,9 +7,9 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-md-9 col-lg-6 col-xl-5">
             <img src="{{ asset('assets/images/survey.jpg') }}"
-              class="img-thumbnail img-fluid" style="height: 500px; width: 500px;" alt="TIFA Call Center">
+              class="img-thumbnail img-fluid" style="max-width: 100%; height: auto;" alt="TIFA SURVEYS">
           </div>
-          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <div class="col-md-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
           	<div class="bg-light p-3 border border-primary rounded my-4">
           		<h3 class="text-primary">
                 TIFA Research Ltd
@@ -21,7 +21,7 @@
 
               <div class="row">
                 <!-- First Name input -->
-                <div class="col">
+                <div class="col-md-6">
                   <div class="form-outline mb-4">
                     <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="First Name" value="{{ old('first_name') }}"/>
                     @error('first_name')
@@ -32,7 +32,7 @@
                   </div>
                 </div>
                 <!-- Last Name input -->
-                <div class="col">
+                <div class="col-md-6">
                   <div class="form-outline mb-4">
                     <input type="text" name="last_name" class="form-control form-control-lg @error('last_name') is-invalid @enderror" placeholder="Last Name" value="{{ old('last_name') }}"/>
                     @error('last_name')
@@ -56,7 +56,7 @@
 
               <div class="row">
                 <!-- Password input -->
-                <div class="col">
+                <div class="col-md-6">
                   <div class="form-outline mb-3">
                     <input type="password" name="password" class="form-control form-control-lg @error('password') is-invalid @enderror" placeholder="Password" />
                     @error('password')
@@ -67,7 +67,7 @@
                   </div>
                 </div>
                 <!-- Confirm Password input -->
-                <div class="col">
+                <div class="col-md-6">
                   <div class="form-outline mb-3">
                     <input type="password" name="password_confirmation" class="form-control form-control-lg @error('password_confirmation') is-invalid @enderror" placeholder="Verify Password" />
                     @error('password')
@@ -103,23 +103,6 @@
           Copyright © <?= date('Y') ?>. All rights reserved.
         </div>
         <!-- Copyright -->
-
-        <!-- Right -->
-        <div>
-          <!-- <a href="#!" class="text-white me-4">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#!" class="text-white me-4">
-            <i class="fab fa-google"></i>
-          </a>
-          <a href="#!" class="text-white">
-            <i class="fab fa-linkedin-in"></i>
-          </a> -->
-        </div>
-        <!-- Right -->
       </div>
     </section>
 

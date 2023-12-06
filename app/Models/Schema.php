@@ -27,6 +27,10 @@ class Schema extends Model
         'version',
         'stage',
         'iframe_url',
+
+        'type',
+        'database',
+
         'updated_by',
         'deleted_by',
     ];
@@ -58,7 +62,7 @@ class Schema extends Model
     /**
      * Processed Respondents 
      * 
-     * This Project has many respondents.
+     * This Survey has many respondents.
      */
     public function respondents(): HasMany
     {

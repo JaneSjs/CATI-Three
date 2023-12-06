@@ -19,8 +19,7 @@ class Project extends Model
      */
     protected $fillable = [
         'name',
-        'type',
-        'database',
+        'dpia',
         'start_date',
         'end_date'
 

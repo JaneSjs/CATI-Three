@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="Research Projects & Surveys Management System | CATI System | CAWI System">
+    <meta name="description" content="Research Projects & Surveys - CATI, CAWI and CAPI Management System">
     <meta name="author" content="Kenneth Kipchumba">
     <meta name="author" content="Kipchumba.Kenneth@ymail.com">
 
@@ -56,7 +56,7 @@
               <ul class="list-group">
                 <li class="list-group-item">
                   <a href="https://www.mozilla.org/en-US/firefox/all/#product-desktop-release" target="_blank" title="Firefox Browser">
-                    <img src="{{ asset('assets/images/firefox-icon.png') }}" alt="Firefox Browser" height="30px" width="30px">
+                    <img src="{{ asset('assets/images/firefox-icon.png') }}" alt="Mozilla Firefox" height="30px" width="30px">
                   </a>
                 </li>
                 <li class="list-group-item">
@@ -92,7 +92,7 @@
     <script src="{{ asset('assets/core-ui/js/rocket-loader.min.js') }}" data-cf-settings="de208106593c1661e843c327-|49" defer=""></script>
 
     <!-- Toastify Js (For Notifications) -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+    <script type="text/javascript" src="{{ asset('assets/toastify/toastify-js') }}" defer></script>
     
   </body>
 </html>
