@@ -139,7 +139,7 @@ return [
             //     'filterableAttributes'=> ['id', 'name', 'email'],
             // ],
             Respondent::class => [
-                'filterableAttributes' => ['project_id','name','occupation','region','county','sub_county','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group']
+                'filterableAttributes' => ['project_id','schema_id','occupation','region','county','sub_county','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group']
             ],
         ],
     ],
