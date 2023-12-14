@@ -172,7 +172,7 @@ class RespondentController extends Controller
         //dd($path);
 
         // Clear any previous import errors
-        Session::forget('respondents_import_errors');
+        //Session::forget('respondents_import_errors');
 
         Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
         {
