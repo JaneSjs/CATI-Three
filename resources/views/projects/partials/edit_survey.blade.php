@@ -71,7 +71,10 @@
               Staging
             </label>
             <select name="stage" class="form-select" aria-label="Change Survey Stage">
-              <option value="Draft" selected>
+              <option value="{{ $survey->stage }}" selected>
+                {{ $survey->stage }}
+              </option>
+              <option value="Draft">
                 Draft
               </option>
               <option value="Pilot">

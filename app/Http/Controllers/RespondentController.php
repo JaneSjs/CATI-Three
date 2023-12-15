@@ -166,13 +166,17 @@ class RespondentController extends Controller
     {
         $request->validate([
             'bulk_respondents' => 'required|file|mimes:xlsx',
+        ], [
+            'bulk_respondents.required' => 'That was an empty file upload. Please select a file',
+            'bulk_respondents.file' => 'Invalid file format. Please upload a valid Excel file',
+            'bulk_respondents.mimes' => 'Invalid file format. Please upload an Excel file.'
         ]);
 
         $path = $request->file('bulk_respondents')->store('imports');
         //dd($path);
 
         // Clear any previous import errors
-        //Session::forget('respondents_import_errors');
+        Session::forget('respondents_import_errors');
 
         Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
         {

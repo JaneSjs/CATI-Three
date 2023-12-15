@@ -28,44 +28,45 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
             Log::info("Importing respondent: {$row['name']}");
 
             return new Respondent([
-                'r_id'          => $row['r_id'],
-                'project_id'    => $row['project_id'],
-                'schema_id'    => $row['survey_id'],
-                'name'          => $row['name'],
-                'phone_1'       => $row['phone_1'],
-                'phone_2'       => $row['phone_2'],
-                'phone_3'       => $row['phone_3'],
-                'phone_4'       => $row['phone_4'],
-                'national_id'   => $row['national_id'],
-                'email'         => $row['email'],
-                'occupation'    => $row['occupation'],
-                'region'        => $row['region'],
-                'county'        => $row['county'],
-                'sub_county'    => $row['sub_county'],
-                'district'      => $row['district'],
-                'division'      => $row['division'],
-                'location'      => $row['location'],
-                'sub_location'  => $row['sub_location'],
-                'constituency'  => $row['constituency'],
-                'ward'          => $row['ward'],
-                'sampling_point' => $row['sampling_point'],
-                'setting'       => $row['setting'],
-                'gender'        => $row['gender'],
-                'dob'        => $row['dob'],
-                'exact_age'     => $row['exact_age'],
+                'r_id'            => $row['r_id'],
+                'project_id'      => $row['project_id'],
+                'schema_id'       => $row['survey_id'],
+                'name'            => $row['name'],
+                'phone_1'         => $row['phone_1'],
+                'phone_2'         => $row['phone_2'],
+                'phone_3'         => $row['phone_3'],
+                'phone_4'         => $row['phone_4'],
+                'national_id'     => $row['national_id'],
+                'email'           => $row['email'],
+                'occupation'      => $row['occupation'],
+                'region'          => $row['region'],
+                'county'          => $row['county'],
+                'sub_county'      => $row['sub_county'],
+                'district'        => $row['district'],
+                'division'        => $row['division'],
+                'location'        => $row['location'],
+                'sub_location'    => $row['sub_location'],
+                'constituency'    => $row['constituency'],
+                'ward'            => $row['ward'],
+                'sampling_point'  => $row['sampling_point'],
+                'setting'         => $row['setting'],
+                'gender'          => $row['gender'],
+                'dob'             => $row['dob'],
+                'exact_age'       => $row['exact_age'],
                 'education_level' => $row['education_level'],
-                'marital_status' => $row['marital_status'],
-                'religion'      => $row['religion'],
-                'income'        => $row['income'],
-                'Lsm'           => $row['Lsm'] ?? $row['lsm'],
-                'ethnic_group'  => $row['ethnic_group'],
+                'marital_status'  => $row['marital_status'],
+                'religion'        => $row['religion'],
+                'income'          => $row['income'],
+                'Lsm'             => $row['Lsm'] ?? $row['lsm'],
+                'ethnic_group'    => $row['ethnic_group'],
+                'age_group'       => $row['age_group'],
                 'employment_status' => $row['employment_status'],
                 'interview_status'     => null,
                 'interview_date_time'     => null,
                 'last_downloaded_date'     => null
             ]);
-        } catch (Exception $e) {
-            Log::error("Error importing respondent: { $e->getMessage() }");
+        } catch (\Exception $e) {
+            Log::error("Error importing respondent: " .  $e->getMessage() );
             throw $e;
         }
     }
@@ -73,6 +74,7 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     public function rules(): array
     {
         return [
+            '*.name' => ['required'],
             '*.phone_1' => ['unique:respondents,phone_1'],
             '*.project_id' => ['required'],
         ];
@@ -80,12 +82,15 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
 
     public function onFailure(Failure ...$failures)
     {
-           foreach ($failures as $failure)
-           {
-                Log::error("Failed to import row {$failure->row()}: {$failure->errors()[0]}");
-                $error = "Failed to import row {$failure->row()}: {$failure->errors()[0]}";
+        foreach ($failures as $failure)
+        {
+            Log::error("Failed to import row {$failure->row()}: {$failure->errors()[0]}");
+            $error = "Failed to import row {$failure->row()}: {$failure->errors()[0]}";
 
-                Session::push('respondents_import_errors', $error);
-           }
+            Session::push('respondents_import_errors', $error);
+        }
+
+        // Continue importing subsequent rows on failure 
+        return true;
     }
 }
