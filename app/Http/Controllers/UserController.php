@@ -126,7 +126,19 @@ class UserController extends Controller
 
         if (Gate::allows('admin') || auth()->user()->id == 1){
             $data['roles'] = Role::all();
-        } else {
+        }
+        elseif (Gate::allows('head'))
+        {
+            $data['roles'] = Role::where('name', 'Interviewer')
+                                ->orwhere('name', 'Client')
+                                ->orwhere('name', 'Manager')
+                                ->orwhere('name', 'Head')
+                                ->orwhere('name', 'Coordinator')
+                                ->orderBy('name')
+                                ->get();
+        }
+        else
+        {
 
             $data['roles'] = Role::where('name', 'Interviewer')
                                 ->orderBy('name')

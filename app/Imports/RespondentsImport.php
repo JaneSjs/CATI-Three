@@ -74,9 +74,10 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     public function rules(): array
     {
         return [
+            '*.project_id' => ['required'],
             '*.name' => ['required'],
             '*.phone_1' => ['unique:respondents,phone_1'],
-            '*.project_id' => ['required'],
+            //'*.national_id' => ['unique:respondents,national_id'],
         ];
     }
 
