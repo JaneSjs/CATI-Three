@@ -11,7 +11,10 @@
           <p class="float-start" title="Respondent's Name is Pseudonymised For Data Protection">
             <strong>{{ $survey->survey_name }}.</strong>
             @can(['interviewer'])
-             You are interviewing {{ '######' . $respondent->id ?? ''}}
+             You are interviewing 
+             <strong>
+               {{ '#' . md5($respondent->id) . '#' ?? ''}}
+             </strong>
             @endcan
             @can('admin')
              @if($survey->updated_by)

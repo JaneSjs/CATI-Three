@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Validators\Failure;
 class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidation, SkipsOnFailure
 {
     use SkipsErrors, SkipsFailures;
+
     /**
     * @param array $row
     *
@@ -77,10 +78,13 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
             '*.project_id' => ['required'],
             '*.name' => ['required'],
             '*.phone_1' => ['unique:respondents,phone_1'],
-            //'*.national_id' => ['unique:respondents,national_id'],
+            '*.national_id' => ['nullable','unique:respondents,national_id'],
         ];
     }
 
+    /**
+     * @param \Maatwebsite\Excel\Validators\Failure[] $failures
+     */
     public function onFailure(Failure ...$failures)
     {
         foreach ($failures as $failure)
