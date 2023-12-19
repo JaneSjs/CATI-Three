@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'client' => \App\Http\Middleware\Client::class,
         'coordinator' => \App\Http\Middleware\Coordinator::class,
         'coding' => \App\Http\Middleware\Coding::class,
+        'dpo' => \App\Http\Middleware\Dpo::class,
         'head' => \App\Http\Middleware\Head::class,
         'manager' => \App\Http\Middleware\Manager::class,
         'qc' => \App\Http\Middleware\Qc::class,

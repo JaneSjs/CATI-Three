@@ -75,7 +75,7 @@
       Research
     </li>
 
-    @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client'])
+    @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client','dpo'])
     <li class="nav-item">
       <a class="nav-link" href="{{ route('projects.index') }}">
         <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 

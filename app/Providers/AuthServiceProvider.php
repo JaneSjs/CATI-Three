@@ -51,6 +51,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAnyRoles(['head']);
         });
 
+        // Check if user is dpo
+        Gate::define('dpo', function ($user)
+        {
+            return $user->hasAnyRoles(['dpo']);
+        });
+
         // Check if user is manager
         Gate::define('manager', function ($user)
         {

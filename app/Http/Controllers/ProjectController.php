@@ -34,6 +34,11 @@ class ProjectController extends Controller
             $data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
             //dd('Head');
         }
+        elseif (Gate::allows('dpo'))
+        {
+            $data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
+            //dd('DPO');
+        }
         elseif (Gate::allows('manager'))
         {
             $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
