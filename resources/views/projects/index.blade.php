@@ -57,14 +57,22 @@ use Carbon\Carbon;
               </th>
               @canany(['admin','ceo','head','manager','dpo'])
               <td>
-                {{ $project->database ?? 'Undefined' }}
+                {{ $project->database ?? 'Not Approved' }}
               </td>
               @endcan
+              @canany(['dpo'])
+              <td>
+                <a href="{{ route('dpias.show', $project->id) }}">
+                  {{ $project->name }}
+                </a>
+              </td>
+              @else
               <td>
                 <a href="{{ route('projects.show', $project->id) }}">
                   {{ $project->name }}
                 </a>
               </td>
+              @endcan
               @canany(['admin','ceo','head','manager','dpo'])
               <td>
                 {{ $project->dpia ?? 'Not Approved' }}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DpiaController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\InterviewScheduleController;
 use App\Http\Controllers\PabxController;
@@ -95,6 +96,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::delete('remove_quota/{schema_id}', [QuotaController::class, 'remove_quota'])->name('remove_quota');
 
     Route::resource('analytics', AnalyticsController::class);
+    Route::resource('dpias', DpiaController::class);
     Route::resource('interviews', InterviewController::class);
     Route::resource('interview_schedules', InterviewScheduleController::class);
     Route::resource('projects', ProjectController::class);
