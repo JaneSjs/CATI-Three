@@ -6,6 +6,15 @@
     <a class="header-brand d-md-none" href="#">
       <img src="{{ asset('assets/images/company-logo.png') }}" alt="TIFA Logo" height="50px" width="50px">
     </a>
+
+    <ul class="header-nav ms-3 text-dark">
+      <li class="nav-item">
+        <a class="nav-link py-0" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="fa-solid fa-bell"></i>
+        </a>
+      </li>
+    </ul>
+
     <ul class="header-nav d-none d-md-flex">
       @can('admin')
       <li class="nav-item">
@@ -26,6 +35,14 @@
         
     <ul class="header-nav ms-auto">
       <i class="fa-solid fa-bars-progress nav-icon" style="color: #fff;"></i> 
+    </ul>
+
+    <ul class="header-nav ms-3">
+      <li class="nav-item dropdown">
+        <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="fa-solid fa-bell"></i>
+        </a>
+      </li>
     </ul>
     @if(request()->segment(1) !== 'begin_survey')
       <ul class="header-nav ms-3">

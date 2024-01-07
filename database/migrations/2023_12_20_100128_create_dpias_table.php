@@ -29,12 +29,12 @@ return new class extends Migration
                   ->constrained();
 
             $table->string('dpia_approval');
-            $table->string('dpia_file');
-            $table->string('dpa_training_file');
-            $table->string('dpa_controller_agreement_file');
-            $table->string('extra_dpa_file_1');
-            $table->string('extra_dpa_file_2');
-            $table->string('extra_dpa_file_3');
+            $table->string('dpia_document');
+            $table->string('dpa_training_document');
+            $table->string('dpa_controller_agreement_document');
+            $table->string('extra_dpa_document_1');
+            $table->string('extra_dpa_document_2');
+            $table->string('extra_dpa_document_3');
 
             $table->timestamps();
             $table->softDeletes();

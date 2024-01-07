@@ -35,9 +35,9 @@
         <div class="col text-end">
           @if($respondent)
             <button type="button" class="btn btn-info" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback">
-                Respondent Feedback
-                <i class="fa-solid fa-comment" style="color: #ffffff;"></i>
-              </button>
+              Respondent Feedback
+              <i class="fa-solid fa-comment" style="color: #ffffff;"></i>
+            </button>
             @include('interviews/modals')
           @else
             <div class="btn-group float-end" role="group" aria-label="Project Actions">
@@ -163,9 +163,16 @@
           @if($respondent)
             <div class="mt-2">
 
-              <span class="bg-warning border border-info mx-auto">
-                {{ $respondent->feedback ?? '' }}
-              </span>
+              <?php if(!is_null($respondent->feedback)) : ?>
+              <!-- Start => Idea: Shalom Eshuchi - (shalommary18@gmail.com) -->
+                <span class="bg-info text-light border border-info mx-auto">
+                  Called {{ $respondent->updated_at ?? '' }}
+                </span>
+              <!-- End => Idea: Shalom Eshuchi - (shalommary18@gmail.com) -->
+                <span class="bg-warning border border-info mx-auto">
+                  {{ $respondent->feedback ?? '' }}
+                </span>
+              <?php endif; ?>
 
               <ul class="list-group">
                 <li class="list-group-item" title="Respondent's Name is Pseudonymised For Data Protection">

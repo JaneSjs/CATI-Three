@@ -15,26 +15,41 @@
         <div class="col">
           <ul class="list-group">
             <li class="list-group-item">
-              {{ $project_dpia }}
+              <strong>Approved or Not</strong>
             </li>
-            <li class="list-group-item">
-              {{ $project_dpia }}
+            <li class="list-group-item" title="Data Protection Impact Assessment">
+              Project <strong>DPIA</strong> Document
+              <a href="" class="btn btn-primary btn-sm text-light float-end">
+                <i class="fa-solid fa-download"></i>
+              </a>
             </li>
-            <li class="list-group-item">
-              {{ $project_dpia }}
+            <li class="list-group-item" title="Data Protection Sensitization">
+              Interviewers <strong>DPS</strong> Training Document
+              <a href="" class="btn btn-primary btn-sm text-light float-end">
+                <i class="fa-solid fa-download"></i>
+              </a>
             </li>
           </ul>
         </div>
         <div class="col">
           <ul class="list-group">
             <li class="list-group-item">
-              {{ $project_dpia }}
+              Data Protection Controller/Processor Agreement Document
+              <a href="" class="btn btn-primary btn-sm text-light float-end">
+                <i class="fa-solid fa-download"></i>
+              </a>
             </li>
             <li class="list-group-item">
-              {{ $project_dpia }}
+              Extra Document 1
+              <a href="" class="btn btn-primary btn-sm text-light float-end">
+                <i class="fa-solid fa-download"></i>
+              </a>
             </li>
             <li class="list-group-item">
-              {{ $project_dpia }}
+              Extra Document 2
+              <a href="" class="btn btn-primary btn-sm text-light float-end">
+                <i class="fa-solid fa-download"></i>
+              </a>
             </li>
           </ul>
         </div>
