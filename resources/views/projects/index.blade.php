@@ -94,46 +94,13 @@ use Carbon\Carbon;
                     <i class="fa-solid fa-pen"></i>
                   </a>
                   @endcan
-                  @canany(['admin','dpo'])
-                  <button type="button" class="btn btn-outline-success" data-coreui-toggle="modal" data-coreui-target="#delete_project-{{ $project->id }}" title="Approve {{ $project->name }} DPIO ?">
-                    <i class="fa-solid fa-check"></i>
-                  </button>
-                  @endcan
+                  
                   @canany(['admin','ceo','head'])
                   <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#delete_project-{{ $project->id }}" title="Delete {{ $project->name }}">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                   @endcan
                 </div>
-
-                <!-- DPIO Project Modal -->
-                <div class="modal fade" id="delete_project-{{ $project->id }}" tabindex="-1" data-coreui-backdrop="static">
-                  <div class="modal-dialog modal-sm bg-success">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">
-                          DPIO Approval For {{ $project->name }}
-                        </h5>
-                        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <p>
-                          You are about to perform a sensitive operation. Are you sure about this ?
-                        </p>
-                      </div>
-                      <div class="modal-footer">
-                        <form action="{{ route('projects.destroy', $project->id) }}" method="post">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-outline-success">
-                            Approve
-                          </button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- DPIO Modal -->
 
                 <!-- Delete Project Modal -->
                 <div class="modal fade" id="delete_project-{{ $project->id }}" tabindex="-1" data-coreui-backdrop="static">

@@ -1,3 +1,8 @@
+<?php
+use Carbon\Carbon;
+
+?>
+
 @extends('layouts.main')
     
 @section('content')
@@ -165,8 +170,11 @@
 
               <?php if(!is_null($respondent->feedback)) : ?>
               <!-- Start => Idea: Shalom Eshuchi - (shalommary18@gmail.com) -->
-                <span class="bg-info text-light border border-info mx-auto">
-                  Called {{ $respondent->updated_at ?? '' }}
+              <?php 
+                $last_called = Carbon::parse($respondent->updated_at);
+               ?>
+                <span class="bg-info text-light border border-info mx-2">
+                  Last Called Approx {{ $last_called->diffForHumans() ?? '' }}
                 </span>
               <!-- End => Idea: Shalom Eshuchi - (shalommary18@gmail.com) -->
                 <span class="bg-warning border border-info mx-auto">

@@ -30,7 +30,7 @@ class DpiaController extends Controller
      */
     public function store(StoreDpiaRequest $request)
     {
-        //
+        dd('Store');
     }
 
     /**
@@ -62,7 +62,7 @@ class DpiaController extends Controller
      */
     public function update(UpdateDpiaRequest $request, Dpia $dpia)
     {
-        //
+        dd('Update');
     }
 
     /**
