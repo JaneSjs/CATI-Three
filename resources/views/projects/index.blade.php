@@ -35,9 +35,6 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Id</th>
-              @canany(['admin','ceo','head','manager','dpo'])
-              <th scope="col">Data Protection</th>
-              @endcan
               <th scope="col">Name</th>
               @canany(['admin','ceo','head','manager','dpo'])
               <th scope="col" title="Data Protection Impact Assessment">
@@ -55,11 +52,6 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $project->id }}
               </th>
-              @canany(['admin','ceo','head','manager','dpo'])
-              <td>
-                {{ $project->database ?? 'Not Approved' }}
-              </td>
-              @endcan
               @canany(['dpo'])
               <td>
                 <a href="{{ route('dpias.show', $project->id) }}">

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreDpiaRequest;
 use App\Http\Requests\UpdateDpiaRequest;
 use App\Models\Dpia;
 use App\Models\Project;
+use Illuminate\Http\Request;
 
 class DpiaController extends Controller
 {
@@ -30,7 +31,47 @@ class DpiaController extends Controller
      */
     public function store(StoreDpiaRequest $request)
     {
-        dd('Store');
+        $fileNames = [];
+        $project_id = $request->input('project_id');
+        $dpia = Dpia::where('project_id', $project_id)->first();
+        //dd($dpia);
+
+        if ($dpia)
+        {
+            //dd('Update');
+
+            $dpia_documents = $request->file('dpia_documents');
+            if ($request->hasFile($dpia_documents)) 
+            {
+                dd($dpia_documents);
+                $this->handleMediaUploads($dpia, $request);
+
+                return back()->with('success', 'DPIA Documents for this Project have been Saved');
+            }
+
+            dd('Here');
+
+            $dpia->update([
+                'project_id' => $request->input('project_id'),
+                'schema_id' => $request->input('schema_id'),
+                'user_id' => auth()->user()->id,
+                'dpia_approval' => $request->input('dpia_approval')
+            ]);
+
+            return back()->with('success', 'DPIA for this Project has been Updated');
+        }
+        else
+        {
+            //dd('Create');
+            Dpia::create([
+                'project_id' => $request->input('project_id'),
+                'schema_id' => $request->input('schema_id'),
+                'user_id' => auth()->user()->id,
+                'dpia_approval' => $request->input('dpia_approval'),
+            ]);
+
+            return back()->with('success', 'DPIA for this Project has been captured Successfully');
+        }
     }
 
     /**
@@ -71,5 +112,24 @@ class DpiaController extends Controller
     public function destroy(Dpia $dpia)
     {
         //
+    }
+
+    /**
+     * File Uploads using Spatie Media Library
+     * @param Dpia $dpia
+     * @param Request $request
+     */
+    private function handleMediaUploads(Dpia $dpia, Request $request)
+    {
+        $mediaCollectionName = 'dpia_documents';
+        
+        // Clear existing media files in the collection
+        $dpia->clearMediaCollection($mediaCollectionName);
+
+        // Add new media files to the collection
+        foreach ($request->file('dpia_documents') as $document)
+        {
+            $dpia->addMedia($document)->toMediaCollection($mediaCollectionName);
+        }
     }
 }

@@ -29,8 +29,8 @@ return new class extends Migration
                   ->constrained();
 
             $table->string('dpia_approval');
-            $table->string('dpia_document')->nullable();
             $table->string('comment')->nullable();
+            $table->string('dpia_document')->nullable();
             $table->string('dpa_training_document')->nullable();
             $table->string('dpa_controller_agreement_document')->nullable();
             $table->string('extra_dpa_document_1')->nullable();
