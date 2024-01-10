@@ -19,13 +19,13 @@
             <div class="toast show">
               <div class="toast-header bg-info text-light">
                 <strong>
-                  {{ $project->dpia->dpia_approval ?? 'Pending DPIA Approval' }}
+                  {{ $project->dpia ?? 'Pending DPIA Approval' }}
                 </strong>
-                <button type="button" class="btn-close me-1" data-coreui-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-coreui-dismiss="toast" aria-label="Close"></button>
               </div>
               <div class="toast-body">
                 <i class="fa-solid fa-database text-warning"></i>
-                {{ $project->database ?? 'Pending Database' }}
+                {{ $project->database ?? 'Pending Respondents Database To Be Used' }}
               </div>
             </div>
           @endcan

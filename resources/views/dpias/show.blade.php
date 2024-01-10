@@ -11,7 +11,7 @@
       </h2>
       <div class="row">
         <div class="col">
-          {{ $project_dpia->dpia_approval ?? '' }}
+          
         </div>
         <div class="col">
           @canany(['admin','dpo'])
@@ -32,7 +32,9 @@
         <div class="col">
           <ul class="list-group">
             <li class="list-group-item">
-              <strong>Approved or Not</strong>
+              <strong>
+                {{ $project_dpia->dpia_approval ?? 'Pending Approval' }}
+              </strong>
             </li>
             <li class="list-group-item" title="Data Protection Impact Assessment">
               Project <strong>DPIA</strong> Document

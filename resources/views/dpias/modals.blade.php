@@ -56,7 +56,7 @@
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{{ route('dpias.store') }}" method="post">
+      <form action="{{ route('dpias.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
           <div class="row mb-3">
