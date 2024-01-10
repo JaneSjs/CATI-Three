@@ -138,7 +138,7 @@ class ProjectController extends Controller
         //dd($data['users']);
 
         $data['project'] = $project;
-        $data['members'] = $project->users()->get();
+        $data['members'] = $project->users()->paginate(10);
         //$data['surveys'] = Schema::all();
 
         //dd($data['users']);

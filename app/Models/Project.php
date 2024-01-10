@@ -74,4 +74,12 @@ class Project extends Model
     {
         return $this->hasMany(Email::class);
     }
+
+    /**
+     * This project has DPIA
+     */
+    public function dpia(): HasOne
+    {
+        return $this->hasOne(Dpia::class);
+    }
 }

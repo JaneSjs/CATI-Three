@@ -12,9 +12,22 @@
             {{ $project->name }}
           </h2>
           @canany(['admin','manager','coordinator','client'])
-            <button type="button" class="btn btn-success btn-sm" data-coreui-container="" data-coreui-toggle="popover" data-coreui-placement="top" data-coreui-content="Data {{ $project->database }}">
-              {{ $project->database }}
-            </button>
+            <!-- <button type="button" class="btn btn-primary" id="dpiaBtn">
+              DPIA
+            </button> -->
+
+            <div class="toast show">
+              <div class="toast-header bg-info text-light">
+                <strong>
+                  {{ $project->dpia->dpia_approval ?? 'Pending DPIA Approval' }}
+                </strong>
+                <button type="button" class="btn-close me-1" data-coreui-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                <i class="fa-solid fa-database text-warning"></i>
+                {{ $project->database ?? 'Pending Database' }}
+              </div>
+            </div>
           @endcan
         </div>
         <div class="col text-end">
@@ -101,26 +114,29 @@
           <ul class="list-group">
               <li class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">
+                  <h6 class="mb-1">
                       {{ count($members) }} Project Team Members
-                  </h5>
+                  </h6>
                 </div>
               </li>
 
-            @foreach($members as $member)
             <dl class="list-group-item">
+              @foreach($members as $member)
               <dt>
                 {{ $member->first_name . ' ' . $member->last_name }}
               </dt>
               <dd>
                 @foreach($member->roles as $role)
-                  <span class="badge text-light text-bg-info">
-                    {{ $role->name }}
+                  <span class="badge text-light text-bg-info small">
+                    <small>{{ $role->name }}</small>
                   </span>
                 @endforeach
               </dd>
+              @endforeach
+
+              {{ $members->links() }}
             </dl>
-            @endforeach
+
           </ul>
         </div>
         @endcan
