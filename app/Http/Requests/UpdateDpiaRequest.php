@@ -22,7 +22,7 @@ class UpdateDpiaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'dpia_documents' => 'required'
         ];
     }
 }

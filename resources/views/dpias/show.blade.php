@@ -11,7 +11,8 @@
       </h2>
       <div class="row">
         <div class="col">
-          
+          @include('partials.alerts')
+          @include('partials.errors')
         </div>
         <div class="col">
           @canany(['admin','dpo'])

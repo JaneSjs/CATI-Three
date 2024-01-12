@@ -52,12 +52,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          DPA Documents For {{ $project->name }}
+          Upload DPA Documents For {{ $project->name }}
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{{ route('dpias.store') }}" method="post" enctype="multipart/form-data">
+      <form action="{{ route('dpias.update', $project->id) }}" method="post" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
+        <input type="hidden" name="project_id" value="{{ $project->id }}">
+        <input type="hidden" name="project_name" value="{{ $project->name }}">
         <div class="modal-body">
           <div class="row mb-3">
             <div class="col">
@@ -66,14 +69,14 @@
                 DPIA Documents
               </label>
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <input type="file" class="form-control" name="dpa_training_document" id="dpa_training_document">
               <label for="dpa_training_document" class="form-label">
                 DPA Training Document
               </label>
-            </div>
+            </div> -->
           </div>
-          <div class="row mb-3">
+          <!-- <div class="row mb-3">
             <div class="col">
               <input type="file" class="form-control" name="dpa_controller_agreement_document" id="dpa_controller_agreement_document">
               <label for="dpa_controller_agreement_document" class="form-label">
@@ -100,7 +103,7 @@
                 Extra Document 3
               </label>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer">
           

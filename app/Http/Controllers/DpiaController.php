@@ -34,45 +34,11 @@ class DpiaController extends Controller
         $project_id = $request->input('project_id');
         $dpia = Dpia::where('project_id', $project_id)->first();
         //dd($dpia);
-        $dpia_documents = $request->file('dpia_documents');
-        dd($project_id);
-
-        // Create a new Dpia record
-        if (!$dpia && !is_null($project_id))
-        {
-            $dpia_record = Dpia::create([
-                'project_id' => $request->input('project_id'),
-                'schema_id' => $request->input('schema_id'),
-                'user_id' => auth()->user()->id,
-                'dpia_approval' => $request->input('dpia_approval'),
-            ]);
-
-            if ($dpia_record)
-            {
-                return back()->with('success', 'DPIA for this Project has been captured Successfully');
-            }
-            else
-            {
-                    return back()->with('warning', 'DPIA for this Project has not been captured Successfully');
-            }  
-            
-        }
 
         // Update Dpia record if it exists
         if ($dpia)
         {
-            //dd('Update');
-
-            if ($request->hasFile('dpia_documents')) 
-            {
-                // Upload Dpia document files
-                dd($dpia_documents);
-                $this->handleMediaUploads($dpia, $dpia_documents);
-
-                return back()->with('success', 'DPIA Documents for this Project have been Saved');
-            }
-
-            dd('Here');
+            //dd('Update Dpia record');
 
             $dpia->update([
                 'project_id' => $request->input('project_id'),
@@ -82,6 +48,25 @@ class DpiaController extends Controller
             ]);
 
             return back()->with('success', 'DPIA for this Project has been Updated');    
+        }
+        else
+        {
+            // Create a new Dpia record
+            $new_dpia = Dpia::create([
+                'project_id' => $request->input('project_id'),
+                'schema_id' => $request->input('schema_id'),
+                'user_id' => auth()->user()->id,
+                'dpia_approval' => $request->input('dpia_approval'),
+            ]);
+
+            if ($new_dpia)
+            {
+                return back()->with('success', 'DPIA for this Project has been captured Successfully');
+            }
+            else
+            {
+                    return back()->with('warning', 'DPIA for this Project has not been captured Successfully');
+            }    
         }
     }
 
@@ -114,7 +99,34 @@ class DpiaController extends Controller
      */
     public function update(UpdateDpiaRequest $request, Dpia $dpia)
     {
-        dd('Update');
+        $dpia_documents = $request->file('dpia_documents');
+        $project_name = $request->input('project_name');
+        //dd($dpia_documents);
+
+        // Upload DPIA documents
+        if ($request->hasFile('dpia_documents')) 
+        {
+            foreach ($dpia_documents as $document)
+            {
+                // Check for duplicates
+                $file_exists = $dpia->getMedia($project_name . ' DPIA documents')
+                                    ->where('name', $document->getClientOriginalName())
+                                    ->where('size', $document->getSize())
+                                    ->first();
+
+                if ($file_exists) {
+                    session()->flash('warning', 'Possible Duplicate DPIA Document Found: ' . $file_exists->name);
+                } else {
+                    $file = $dpia->addMedia($document)->toMediaCollection($project_name . ' DPIA documents');
+                    $file->update([
+                        'name' => $document->getClientOriginalName()
+                    ]);
+                    session()->flash('success', 'DPIA Documents for this Project have been Saved');
+                }
+            }
+
+            return back();
+        }
     }
 
     /**
@@ -123,24 +135,5 @@ class DpiaController extends Controller
     public function destroy(Dpia $dpia)
     {
         //
-    }
-
-    /**
-     * File Uploads using Spatie Media Library
-     * @param Dpia $dpia
-     * @param Request $request
-     */
-    private function handleMediaUploads(Dpia $dpia, $dpia_documents)
-    {
-        $mediaCollectionName = 'dpia_documents';
-        
-        // Clear existing media files in the collection
-        $dpia->clearMediaCollection($mediaCollectionName);
-
-        // Add new media files to the collection
-        foreach ($dpia_documents as $document)
-        {
-            $dpia->addMedia($document)->toMediaCollection($mediaCollectionName);
-        }
     }
 }
