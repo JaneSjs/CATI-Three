@@ -77,49 +77,56 @@ class RespondentController extends Controller
      * List all respondents on the the system 
      * that belong to a survey with their statistics.
      */
-    public function show($project_id, $survey_id =null)
+    // public function show($project_id, $survey_id =null)
+    // {
+    //     $survey = Schema::find($survey_id);
+
+    //     $data['survey'] = $survey;
+
+    //     $respondents = Respondent::where('project_id', $project_id);
+
+    //     if ($survey_id !== null) {
+    //         $respondents->where('survey_id', $survey_id);
+    //     }
+
+    //     $data['respondents'] = $respondents->orderBy('id', 'desc')->paginate(10);
+
+    //     $data['total_respondents'] = count($survey->respondents()->get());
+
+    //     $data['imported_today'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::today())->count();
+    //     $data['imported_yesterday'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::yesterday())->count();
+
+    //     $male_respondents = $survey->respondents()
+    //                                 ->where('gender', 'male')
+    //                                 //->orWhere('gender', 'm')
+    //                                 ->get();
+    //     $data['male_respondents'] = count($male_respondents);
+
+    //     $female_respondents = $survey->respondents()
+    //                                 ->where('gender', 'female')
+    //                                 //->orWhere('gender', 'f')
+    //                                 ->get();
+    //     $data['female_respondents'] = count($female_respondents);
+
+    //     $data['respondents_with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
+    //     $data['respondents_with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
+    //     $data['respondents_with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
+    //     $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
+
+    //     $respondents_available_for_interviewing = $survey->respondents()
+    //                                                     ->where('interview_status', '!=', 'Locked')
+    //                                                     ->whereNull('interview_date_time')
+    //                                                     ->get();
+    //     $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
+
+    //     return view('respondents.show', $data);
+    // }
+
+    public function show(Respondent $respondent)
     {
-        $survey = Schema::find($survey_id);
+        $data['respondent'] = $respondent;
 
-        $data['survey'] = $survey;
-
-        $respondents = Respondent::where('project_id', $project_id);
-
-        if ($survey_id !== null) {
-            $respondents->where('survey_id', $survey_id);
-        }
-
-        $data['respondents'] = $respondents->orderBy('id', 'desc')->paginate(10);
-
-        $data['total_respondents'] = count($survey->respondents()->get());
-
-        $data['imported_today'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::today())->count();
-        $data['imported_yesterday'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::yesterday())->count();
-
-        $male_respondents = $survey->respondents()
-                                    ->where('gender', 'male')
-                                    //->orWhere('gender', 'm')
-                                    ->get();
-        $data['male_respondents'] = count($male_respondents);
-
-        $female_respondents = $survey->respondents()
-                                    ->where('gender', 'female')
-                                    //->orWhere('gender', 'f')
-                                    ->get();
-        $data['female_respondents'] = count($female_respondents);
-
-        $data['respondents_with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
-        $data['respondents_with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
-        $data['respondents_with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
-        $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
-
-        $respondents_available_for_interviewing = $survey->respondents()
-                                                        ->where('interview_status', '!=', 'Locked')
-                                                        ->whereNull('interview_date_time')
-                                                        ->get();
-        $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
-
-        return view('respondents.show', $data);
+        return view('respondents.showw', $data);
     }
 
     
