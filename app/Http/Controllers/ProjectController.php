@@ -27,7 +27,7 @@ class ProjectController extends Controller
         } elseif (Gate::allows('ceo'))
         {
             $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
-            //dd('Head');
+            //dd('CEO');
         }
         elseif (Gate::allows('head'))
         {
@@ -139,6 +139,7 @@ class ProjectController extends Controller
 
         $data['project'] = $project;
         $data['members'] = $project->users()->paginate(10);
+        $data['dpia'] = $project->dpia();
         //$data['surveys'] = Schema::all();
 
         //dd($data['users']);

@@ -100,7 +100,7 @@ use Carbon\Carbon;
                       </button>
                       @endcan
 
-                      @canany(['admin','head','manager','coordinator'])
+                      @canany(['admin','head','manager','coordinator','dpo'])
                       <form action="{{ route('respondents.destroy', $respondent->id) }}" method="post">
                         @csrf
                         @method('DELETE')

@@ -67,7 +67,7 @@ use Carbon\Carbon;
               @endcan
               @canany(['admin','ceo','head','manager','dpo'])
               <td>
-                {{ $project->dpia ?? 'Not Approved' }}
+                {{ $project->dpia->dpia_approval ?? 'Not Approved' }}
               </td>
               <?php
                   $start_date = Carbon::parse($project->start_date);

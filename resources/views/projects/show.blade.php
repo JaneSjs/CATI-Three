@@ -19,7 +19,7 @@
             <div class="toast show">
               <div class="toast-header bg-info text-light">
                 <strong>
-                  {{ $project->dpia ?? 'Pending DPIA Approval' }}
+                  {{ $project->dpia->dpia_approval ?? 'Pending DPIA Approval' }}
                 </strong>
                 <button type="button" class="btn-close" data-coreui-dismiss="toast" aria-label="Close"></button>
               </div>
@@ -245,7 +245,7 @@
                       <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="Coding ">
                         <i class="fa-solid fa-arrow-up-a-z fa-bounce"></i>
                       </a>
-                      <a href="{{ route('respondents.show', $survey->id) }}" class="btn btn-outline-info btn-sm" title="Survey Respondents">
+                      <a href="{{ route('project_survey_respondents', [$project->id, $survey->id]) }}" class="btn btn-outline-info btn-sm" title="Survey Respondents">
                         Respondents
                       </a>
                       @endcan
