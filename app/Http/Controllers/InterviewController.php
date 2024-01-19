@@ -437,9 +437,6 @@ class InterviewController extends Controller
     /**
      * Find a respondent based on Quotas Set
      */
-    /**
-     * Search for a respondent
-     */
     function find_respondent(Request $request)
     {
         $data['respondent'] = null;
@@ -451,7 +448,7 @@ class InterviewController extends Controller
                                 ->get();
 
         //$findRespondent->eligible();
-        //dd($findRespondent);
+        //dd($respondents);
 
         
 

@@ -6,7 +6,10 @@ use App\Http\Requests\StoreDpiaRequest;
 use App\Http\Requests\UpdateDpiaRequest;
 use App\Models\Dpia;
 use App\Models\Project;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DpiaController extends Controller
 {
@@ -75,13 +78,16 @@ class DpiaController extends Controller
      */
     public function show($project_id, $schema_id = null)
     {
-        $data['project'] = Project::where('id', $project_id)->first();
+        $project = Project::where('id', $project_id)->first();
+        $data['project'] = $project;
 
         $data['project_dpia'] = Dpia::where('project_id', $project_id)->first();
 
         $data['schema_dpia'] = Dpia::where('schema_id', $schema_id)->first();
 
-        //dd($data);
+        $data['dpia_documents'] = $project->getMedia($project->name . ' DPIA documents');
+
+        //dd($data['dpia_documents']);
 
         return view('dpias.show', $data);
     }
@@ -108,8 +114,11 @@ class DpiaController extends Controller
         {
             foreach ($dpia_documents as $document)
             {
-                // Check for duplicates
-                $file_exists = $dpia->getMedia($project_name . ' DPIA documents')
+                //dd($document->getMimeType());
+
+                // Check for duplicates (This is not working. Fix it)
+                $file_exists = Media::query()
+                                    ->where('collection_name', 'like', $project_name . 'DPIA documents')
                                     ->where('name', $document->getClientOriginalName())
                                     ->where('size', $document->getSize())
                                     ->first();
@@ -117,11 +126,17 @@ class DpiaController extends Controller
                 if ($file_exists) {
                     session()->flash('warning', 'Possible Duplicate DPIA Document Found: ' . $file_exists->name);
                 } else {
-                    $file = $dpia->addMedia($document)->toMediaCollection($project_name . ' DPIA documents');
-                    $file->update([
-                        'name' => $document->getClientOriginalName()
-                    ]);
-                    session()->flash('success', 'DPIA Documents for this Project have been Saved');
+                    try {
+                        $file = $dpia->addMedia($document)->toMediaCollection($project_name . ' DPIA documents');
+                        $file->update([
+                            'name' => $document->getClientOriginalName()
+                        ]);
+                        session()->flash('success', 'DPIA Documents for this Project have been Saved');
+                    } catch (Exception $e) {
+                        Log::error('Error Uploading DPIA Documents for this Project: ' . $e->getMessage());
+
+                        session()->flash('error', 'Error Uploading DPIA Documents for this Project: ' . $e->getMessage());
+                    }
                 }
             }
 

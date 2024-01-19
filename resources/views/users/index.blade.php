@@ -8,7 +8,9 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          User Management
+          <h5>
+            System Users
+          </h5>
         </div>
         <div class="col">
           @include('partials/alerts')
@@ -17,6 +19,21 @@
           <a href="{{ route('users.create') }}" class="btn btn-outline-success">
             Register User
           </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <form action="{{ url('search_users') }}" method="GET">
+            <div class="input-group">
+              <input type="search" name="query" class="form-control" placeholder="Search" aria-label="Search for system users..." aria-describedby="search_users" value="{{ request()->get('query') }}">
+              <button type="submit" class="btn btn-outline-info" id="search_users">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col">
+          
         </div>
       </div>
     </div>

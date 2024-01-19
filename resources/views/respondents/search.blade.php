@@ -21,7 +21,7 @@ use Carbon\Carbon;
           <form action="{{ url('search_respondents') }}" method="GET">
             @csrf
             <div class="input-group">
-              <input type="search" name="query" class="form-control" placeholder="Search for respondents..." aria-label="Search for respondents..." aria-describedby="search_respondents" value="">
+              <input type="search" name="query" class="form-control" placeholder="Search for respondents..." aria-label="Search for respondents..." aria-describedby="search_respondents" value="{{ request()->get('query') }}">
               <button type="submit" class="btn btn-outline-info" id="search_respondents">
                 <i class="fa fa-search"></i>
               </button>

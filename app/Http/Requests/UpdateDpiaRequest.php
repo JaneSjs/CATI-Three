@@ -22,7 +22,8 @@ class UpdateDpiaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dpia_documents' => 'required'
+            'dpia_documents' => 'required|file|mimes:pdf|max:2048',
+            
         ];
     }
 }

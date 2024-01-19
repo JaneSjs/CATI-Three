@@ -301,4 +301,30 @@ class UserController extends Controller
 
         return view('users.clients', $data);
     }
+
+    /**
+     * Search System Users
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (Gate::allows('admin') || auth()->user()->id == 1){
+            $data['users'] = User::search($query)->paginate(10);
+        }
+        elseif (Gate::allows('head')) {
+            $data['users'] = User::search($query)->paginate(10);
+        }
+        else
+        {
+            $role = Role::where('name', 'Interviewer')
+                           ->find(auth()->id());
+
+            //$data['users'] = User::search($query)->get();
+
+            $data['users'] = User::search($query)->paginate(10);
+        }
+
+        return view('users.index', $data);
+    }
 }
