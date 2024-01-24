@@ -15,8 +15,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
-use App\Models\Quota;
-use App\Models\Respondent;
+//use App\Models\Quota;
+//use App\Models\Respondent;
 use Illuminate\Support\Facades\Route;
 
 /*

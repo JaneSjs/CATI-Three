@@ -6,7 +6,8 @@ use App\Exports\ResultsExport;
 use App\Exports\ResultsjsonExport;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
-use App\Jobs\ExportResults;
+use App\Jobs\ExportSurveyResults;
+use App\Mail\SurveyResultsExport;
 use App\Models\Interview;
 use App\Models\Respondent;
 use App\Models\Result;
@@ -14,6 +15,7 @@ use App\Models\Schema;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -86,13 +88,23 @@ class ResultController extends Controller
     /**
      * xlsx Survey Results Export
      */
-    public function xlsx_export(int $schema_id)
+    public function xlsx_export(int $schema_id, Excel $excel)
     {
-        $excel = app(ExcelExcel::class);
+        //$excel = app(ExcelExcel::class);
+        $filePath = storage_path('app/public/SurveyResults/TIFA - 2024-01-23  Day 1 Results.xlsx');
+        $surveyName = 'TIFA - 2024-01-23  Day 1 Results';
 
-        ExportResults::dispatch($schema_id, $excel);
+        $user_email = auth()->user()->email;
 
-        return back()->with('info', 'Results Export Will be sent to your Email as soon as the server finishes processing it.');
+        //dd($user_email);
+
+        ExportSurveyResults::dispatch($schema_id, $excel, $user_email);
+
+        // Mail::mailer('smtp')
+        //       ->to('kenneth.kipchumba@tifaresearch.com')
+        //       ->send(new SurveyResultsExport($filePath, $surveyName));
+
+        return back()->with('info', 'Results Export Will Be Sent To your Email as Soon As The Server Finishes Processing It.');
     }
 
     /**

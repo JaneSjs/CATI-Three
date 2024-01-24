@@ -6,7 +6,7 @@
 @section('content')
 
 <div class="body flex-grow-1 px-3">
-  <div class="card">
+  <div class="card mb-4">
     <div class="card-header">
       <div class="row">
         <div class="col-9">
