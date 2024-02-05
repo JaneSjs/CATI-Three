@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
@@ -236,5 +237,50 @@ class ProjectController extends Controller
         }
 
         return redirect()->back()->with('error', 'Project wasn\'t found, thus wasn\'t deleted');
+    }
+
+    /**
+     * Search for respondents
+     */
+    function search_projects(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (Gate::allows('admin') || auth()->user()->id == 1)
+        {
+            $data['projects'] = Project::search($query)->paginate(10);
+            //dd('Admin');
+        } elseif (Gate::allows('ceo'))
+        {
+            $data['projects'] = Project::search($query)->paginate(10);
+            //dd('CEO');
+        }
+        elseif (Gate::allows('head'))
+        {
+            //$data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
+            $data['projects'] = Project::with('users')->search($query)->paginate(10);
+            //dd('Head');
+        }
+        elseif (Gate::allows('dpo'))
+        {
+            //$data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
+            $data['projects'] = Project::with('users')->search($query)->paginate(10);
+            //dd('DPO');
+        }
+        elseif (Gate::allows('manager'))
+        {
+            //$data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
+            $data['projects'] = Project::search($query)->paginate(10);
+            //dd('Manager');
+        }
+        else
+        {
+            //dd('Here');
+            $user = User::find(auth()->user()->id);
+
+            $data['projects'] = $user->projects()->orderBy('id', 'DESC')->paginate(10);
+        }  
+
+        return view('projects.index', $data);
     }
 }

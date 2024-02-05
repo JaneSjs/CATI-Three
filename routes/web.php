@@ -85,6 +85,9 @@ Route::middleware(['auth','verified'])->group(function ()
 	// Respondent Feedback
 	Route::patch('respondent_feedback', [RespondentController::class, 'respondent_feedback'])->name('respondent_feedback');
 
+	// Search projects route
+	Route::get('search_projects', [ProjectController::class, 'search_projects']);
+
 
     // Extra Respondents routes
 	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
