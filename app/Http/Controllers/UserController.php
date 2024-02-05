@@ -272,13 +272,17 @@ class UserController extends Controller
 
         $rolesToFilter = ['Interviewer', '', null];
 
-        $data['users'] = $users->where(function ($query) use ($rolesToFilter)
+        $interviewers = $users->where(function ($query) use ($rolesToFilter)
         {
             $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
             {
                 $subQuery->whereIn('name', $rolesToFilter);
             })->orWhereDoesntHave('roles');
         })->paginate(10);
+
+        $data['project_interviewers'] = $interviewers;
+
+        $data['users'] = $interviewers;
 
         return view('users.interviewers', $data);
     }
