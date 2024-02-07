@@ -12,6 +12,7 @@ use Carbon\Carbon;
     <div class="card-header">
       <div class="row">
         <div class="col">
+          @canany(['admin','head','manager'])
           <form action="{{ url('search_projects') }}" method="GET">
             <div class="input-group">
               <input type="search" name="query" class="form-control" placeholder="Search projects..." aria-label="Search project..." aria-describedby="search_projects" value="{{ request()->get('query') }}">
@@ -20,6 +21,7 @@ use Carbon\Carbon;
               </button>
             </div>
           </form>
+          @endcan
         </div>
         <div class="col">
           @include('partials.alerts')

@@ -29,7 +29,8 @@ return new class extends Migration
             $table->foreignId('schema_id')
                   ->references('id')
                   ->on('schemas')
-                  ->constrained();
+                  ->constrained()
+                  ->cascadeOnDelete();
 
             $table->unsignedBigInteger('respondent_id')
                   ->nullable();

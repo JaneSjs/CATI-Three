@@ -17,14 +17,12 @@ return new class extends Migration
             $table->foreignId('project_id')
                   ->references('id')
                   ->on('projects')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                  ->constrained();
             $table->index('project_id');
 
             $table->foreignId('user_id')
                   ->references('id')
-                  ->on('users')
-                  ->cascadeOnDelete();
+                  ->on('users');
             $table->index('user_id');
 
             $table->timestamps();

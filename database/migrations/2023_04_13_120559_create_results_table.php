@@ -31,7 +31,8 @@ return new class extends Migration
                   ->nullable()
                   ->references('id')
                   ->on('interviews')
-                  ->constrained();
+                  ->constrained()
+                  ->cascadeOnDelete();
             $table->index('interview_id');
 
             $table->foreignId('interview_schedule_id')

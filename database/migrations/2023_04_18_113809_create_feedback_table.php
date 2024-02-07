@@ -16,14 +16,12 @@ return new class extends Migration
 
             $table->foreignId('user_id')
                   ->references('id')
-                  ->on('users')
-                  ->cascadeOnDelete();
+                  ->on('users');
             $table->index('user_id');
 
             $table->foreignId('interview_id')
                   ->references('id')
-                  ->on('interviews')
-                  ->cascadeOnDelete();
+                  ->on('interviews');
             $table->index('interview_id');
                   
             $table->unsignedBigInteger('respondent_id')

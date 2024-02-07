@@ -15,13 +15,11 @@ return new class extends Migration
             $table->comment('User Roles Pivot Table');
             $table->id();
             $table->foreignId('role_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+                  ->constrained();
             $table->index('role_id');
 
             $table->foreignId('user_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+                  ->constrained();
             $table->index('user_id');
             
             $table->timestamps();
