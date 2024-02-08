@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Interview;
 use App\Models\Respondent;
 
 return [
@@ -140,6 +141,10 @@ return [
             // ],
             Respondent::class => [
                 'filterableAttributes' => ['project_id','schema_id','occupation','region','county','sub_county','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group']
+            ],
+            Interview::class => [
+                'filterableAttributes' => ['quality_control'],
+                'sortableAttributes' => ['updated_at'],
             ],
         ],
     ],

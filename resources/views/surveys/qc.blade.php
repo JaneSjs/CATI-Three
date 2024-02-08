@@ -6,10 +6,11 @@ use Carbon\Carbon;
   <div class="card-header">
     <div class="row">
       <div class="col">
-        <form action="{{ url('search_users') }}" method="GET">
+        <form action="{{ url('search_interviews') }}" method="GET">
+          <input type="hidden" name="survey_id" value="{{ $survey->id }}">
           <div class="input-group">
-            <input type="search" name="query" class="form-control" placeholder="Coming soon." aria-label="Search for Interviews" aria-describedby="search_users" value="{{ request()->get('query') }}" disabled>
-            <button type="button" class="btn btn-outline-info" id="search_users">
+            <input type="search" name="query" class="form-control" placeholder="Search Interviews" aria-label="Search for Interviews" aria-describedby="search_interviews" value="{{ request()->get('query') }}">
+            <button type="submit" class="btn btn-outline-info" id="search_interviews">
               <i class="fa fa-search"></i>
             </button>
           </div>

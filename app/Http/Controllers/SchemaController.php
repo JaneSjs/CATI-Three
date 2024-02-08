@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSchemaRequest;
 use App\Http\Requests\UpdateSchemaRequest;
 use App\Http\Resources\SchemaResource;
+use App\Models\Interview;
 use App\Models\Schema;
 use App\Models\User;
 use Exception;
@@ -122,6 +123,30 @@ class SchemaController extends Controller
     public function destroy(Schema $survey)
     {
         //
+    }
+
+    /**
+     * Search Interviews
+     */
+    public function search_interviews(Request $request)
+    {
+        $survey_id = $request->input('survey_id');
+
+        $survey = Schema::where('id', $survey_id)->first();
+        $data['survey'] = $survey;
+        //dd($survey);
+
+        $data['results'] = $survey->results;
+
+        $data['interviews'] = Interview::where('schema_id', $survey_id)
+                                        ->where('quality_control', NULL)
+                                        ->orderBy('id', 'asc')
+                                        ->paginate(10);
+
+        //dd($data['interviews']);
+
+        return view('surveys.show', $data);
+        
     }
 
 }
