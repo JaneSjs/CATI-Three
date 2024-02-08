@@ -31,6 +31,7 @@ class Interview extends Model
         'interview_status',
         'survey_url',
         'quality_control',
+        'qc_feedback',
         'start_time',
         'end_time',
         'feedback',

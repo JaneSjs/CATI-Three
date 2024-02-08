@@ -113,5 +113,45 @@
 </div>
 <!-- End Schedule Interview Modal -->
 
+@endcan
 
+@canany('qc')
+<!-- QC Interview Cancellation Modal -->
+<div class="modal fade" id="qc_interview_cancellation" tabindex="-1" aria-labelledby="qc_interview_cancellation" data-coreui-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qc_interview_cancellation">
+          Reason for cancelling the interview.
+        </h5>
+
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form method="post" action="{{ route('interviews.update', $interview->id) }}">
+      @csrf
+      @method('PATCH')
+      <input type="hidden" name="quality_control" value="Cancelled">
+      <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
+
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="qc_feedback" class="form-label text-primary">
+              Reason for cancelling the interview.
+            </label>
+            <textarea class="form-control" name="qc_feedback" id="qc_feedback" rows="7" required>
+              
+            </textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger btn-block">
+            Submit 
+          </button>
+        </div> 
+    </form>
+    </div>
+  </div>
+</div>
+<!-- End QC Interview Cancellation Modal -->
 @endcan

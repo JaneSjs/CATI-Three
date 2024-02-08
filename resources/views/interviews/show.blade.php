@@ -136,17 +136,11 @@
           </form>
         </div>
         <div class="col">
-          <form method="post" action="{{ route('interviews.update', $interview->id) }}">
-            @csrf
-            @method('PATCH')
-            <input type="hidden" name="quality_control" value="Cancelled">
-            <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
-
-            <button type="submit" class="btn btn-outline-danger float-end">
-              Cancel This Interview
-              <i class="fas fa-times"></i>
-            </button>
-          </form>
+          
+          <button type="button" class="btn btn-outline-danger float-end" data-coreui-toggle="modal" data-coreui-target="#qc_interview_cancellation">
+            Cancel This Interview
+            <i class="fas fa-times"></i>
+          </button>
         </div>
       </div>  
       
@@ -166,6 +160,7 @@
 
 </div>
 
+@include('interviews/modals')
 
 <script type="text/javascript" src="{{ asset('assets/survey_js/survey_results.js') }}" defer></script>
 

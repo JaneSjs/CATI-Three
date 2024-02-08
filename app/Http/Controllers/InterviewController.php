@@ -126,7 +126,8 @@ class InterviewController extends Controller
         $quality_control = $interview->update([
             'qc_id' => auth()->id(),
             'qc_name' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
-            'quality_control' => $request->input('quality_control')
+            'quality_control' => $request->input('quality_control'),
+            'qc_feedback' => $request->input('qc_feedback'),
         ]);
 
         if ($quality_control) {
