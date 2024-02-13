@@ -44,59 +44,74 @@
       <div class="row">
         <div class="col">
           @if($interview->respondent)
-          <ul class="list-group list-group-horizontal">
-            <li class="list-group-item list-group-item-primary">
-              <div class="fw-bold">
-                Gender
-              </div>
-              {{ $interview->respondent->gender }}
-            </li>
-            <li class="list-group-item">
-              <div class="fw-bold">
-                Phone Called
-              </div>
-              {{ $interview->phone_called }}
-            </li>
-            <li class="list-group-item list-group-item-primary">
-            <?php
-              $start_time = Carbon::parse($interview->start_time);
-              $end_time   = Carbon::parse($interview->end_time);
-            ?> 
-              <div class="fw-bold">
-                Start Time
-              </div>
-               <span class="badge bg-primary">
-                {{ $start_time->format('D d/M/Y, h:i:s') }}
-               </span>
-            </li>
-            <li class="list-group-item">
-              <div class="fw-bold">
-                End Time
-              </div>
-              <span class="badge bg-primary">
-                {{ $end_time->format('D d/M/Y, h:i:s') }}
-               </span>
-            </li>
-            <li class="list-group-item">
-              <div class="fw-bold">
-                Region
-              </div>
-              {{ $interview->respondent->region . ' - ' . $interview->respondent->county . ' - ' . $interview->respondent->sub_county . ' - ' . $interview->respondent->ward }}
-            </li>
-            <li class="list-group-item list-group-item-primary">
-              <div class="fw-bold">
-                Setting
-              </div>
-              {{ $interview->respondent->setting }}
-            </li>
+          <div class="container">
+            <ul class="list-group list-group-horizontal">
+              <li class="list-group-item list-group-item-primary">
+                <div class="fw-bold">
+                  Gender
+                </div>
+                {{ $interview->respondent->gender }}
+              </li>
+              <li class="list-group-item">
+                <div class="fw-bold">
+                  Phone Called
+                </div>
+                {{ $interview->phone_called }}
+              </li>
+              <li class="list-group-item list-group-item-primary">
+              <?php
+                $start_time = Carbon::parse($interview->start_time);
+                $end_time   = Carbon::parse($interview->end_time);
+              ?> 
+                <div class="fw-bold">
+                  Start Time
+                </div>
+                 <span class="badge bg-primary">
+                  {{ $start_time->format('D d/M/Y, h:i:s') }}
+                 </span>
+              </li>
+              <li class="list-group-item">
+                <div class="fw-bold">
+                  End Time
+                </div>
+                <span class="badge bg-primary">
+                  {{ $end_time->format('D d/M/Y, h:i:s') }}
+                 </span>
+              </li>
+              <li class="list-group-item">
+                <div class="fw-bold">
+                  Interview Duration
+                </div>
+                <span class="badge bg-primary">
+                  {{ $start_time->diffInMinutes($end_time) }} Minutes
+                </span>
+              </li>
+              <li class="list-group-item">
+                <div class="fw-bold">
+                  Region
+                </div>
+                {{ $interview->respondent->region . ' - ' . $interview->respondent->county . ' - ' . $interview->respondent->sub_county . ' - ' . $interview->respondent->ward }}
+              </li>
+              <li class="list-group-item list-group-item-primary">
+                <div class="fw-bold">
+                  Setting
+                </div>
+                {{ $interview->respondent->setting }}
+              </li>
           </ul>
+          </div>
           @endif
         </div>
         <div class="col">
-          <audio controls>
-            <source src="{{ asset('assets/audios/sample-audio.wav') }}" type="audio/wav">
-            Your browser is not able to play audio recordings.
-          </audio>
+          <figure>
+            <figcaption>Interview Recording(s)</figcaption>
+            <audio controls>
+              <source src="{{ asset('assets/audios/sample-audio.wav') }}" type="audio/wav">
+              <track kind="subtitles" src="not_available_at_the_moment.vtt" srclang="en" label="English">
+              <track kind="subtitles" src="not_available_at_the_moment.vtt" srclang="sw" label="Kiswahili">
+              Your browser is not able to play audio recordings.
+            </audio>
+          </figure>
         </div>
       </div> 
     </div>

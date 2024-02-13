@@ -19,6 +19,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $user_id = auth()->user()->id;
         $user = new User();
 
         $data['roles'] = Role::all();
@@ -32,7 +33,9 @@ class DashboardController extends Controller
             //dd('Admin');
         }
         
-        $data['interviews'] = Interview::orderBy('id', 'DESC')
+        $data['interviews'] = $user->interviews()
+                                    ->where('interview_status', '!=', null)
+                                    ->orderBy('id', 'DESC')
                                     ->paginate(10);
 
         $data['total_interviews'] = Interview::
@@ -46,6 +49,11 @@ class DashboardController extends Controller
 
         $data['user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
+                                    ->where('interview_status', '!=', null)
+                                    ->orderBy('id', 'DESC')
+                                    ->paginate(10);
+
+        $data['qcd_interviews'] =   Interview::where('qc_id', $user_id)
                                     ->where('interview_status', '!=', null)
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
