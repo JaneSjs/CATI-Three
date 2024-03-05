@@ -7,6 +7,7 @@ use App\Exports\ResultsjsonExport;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
 use App\Jobs\ExportSurveyResults;
+use App\Jobs\MailSurveyResults;
 use App\Mail\SurveyResultsExport;
 use App\Models\Interview;
 use App\Models\Respondent;
@@ -16,6 +17,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -88,23 +90,23 @@ class ResultController extends Controller
     /**
      * xlsx Survey Results Export
      */
-    public function xlsx_export(int $schema_id, Excel $excel)
+    public function xlsx_export(int $schemaId, Excel $excel)
     {
-        //$excel = app(ExcelExcel::class);
-        $filePath = storage_path('app/public/SurveyResults/TIFA - 2024-01-23  Day 1 Results.xlsx');
-        $surveyName = 'TIFA - 2024-01-23  Day 1 Results';
+        $survey = Schema::find($schemaId);
+        $surveyName = $survey->survey_name;
+        $userId = auth()->user()->id;
 
-        $user_email = auth()->user()->email;
+        $userEmail = auth()->user()->email ?? 'kenneth.kipchumba@tifaresearch.com';
+        $fileName = 'TIFA-' . now()->format('Y-m-d') . '-' . str_replace(' ', '_', $surveyName). '-Results.xlsx';
 
-        //dd($user_email);
 
-        ExportSurveyResults::dispatch($schema_id, $excel, $user_email);
+        //dd($filePath);
 
-        // Mail::mailer('smtp')
-        //       ->to('kenneth.kipchumba@tifaresearch.com')
-        //       ->send(new SurveyResultsExport($filePath, $surveyName));
+        ExportSurveyResults::withChain([
+            new MailSurveyResults($userEmail, $fileName, $surveyName),
+        ])->dispatch($userId, $schemaId, $fileName, $surveyName);
 
-        return back()->with('info', 'Results Export Will Be Sent To your Email as Soon As The Server Finishes Processing It.');
+        return back()->with('info', 'Results Export Download Link Will Be Sent To your Email Later On');
     }
 
     /**

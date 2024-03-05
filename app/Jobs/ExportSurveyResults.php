@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Exports\ResultsExport;
 use App\Mail\QuotaMet;
 use App\Mail\SurveyResultsExport;
+use App\Models\ExportedFile;
 use App\Models\Schema;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -23,58 +24,53 @@ class ExportSurveyResults implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $schema_id;
-    protected $user_email;
+    protected $userId;
+    protected $schemaId;
+    protected $fileName;
+    protected $surveyName;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(int $schema_id, $user_email)
+    public function __construct(int $userId, int $schemaId, $fileName, $surveyName)
     {
-        $this->schema_id = $schema_id;
-        $this->user_email = $user_email;
+        $this->userId = $userId;
+        $this->schemaId = $schemaId;
+        $this->fileName = $fileName;
+        $this->surveyName = $surveyName;
     }
 
     /**
      * Execute the job.
      */
-    public function handle(Excel $excel): void
+    public function handle(): void
     {
+        $survey = Schema::findOrFail($this->schemaId);
+
         try {
-            $survey = Schema::findOrFail($this->schema_id);
+            $export = new ResultsExport($this->schemaId);
 
-            $export = new ResultsExport($this->schema_id);
+            $export->queue($this->fileName, 'public');
 
-            $filePath = 'TIFA - ' . now()->format('Y-m-d') . '  ' . $survey->survey_name . ' Results.xlsx';
+            $exportedFile = new ExportedFile();
 
-            $export->queue($filePath, 'public');
+            $exportedFile->user_id = $this->userId;
+            //$exportedFile->project_id = $this->project_id;
+            $exportedFile->schema_id = $this->schemaId;
+            $exportedFile->file_name = $this->fileName;
+            $exportedFile->file_size = '';
+            $exportedFile->file_type = '';
+            $exportedFile->file_path = '';
 
-            $file = Storage::disk('public')->get($filePath);
+            $exportedFile->save();
 
-            $headers = [
-                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'Content-Disposition' => 'attachment; filename="' . $survey->survey_name . ' Results.xlsx"',
-            ];
-
-            response()->download($file, $survey->survey_name . 'Results.xlsx', $headers);
-
-            //$user = Auth::user();
-
-            if ($this->user_email) {
-                Mail::to($this->user_email)
-                ->send(new SurveyResultsExport($filePath, $survey->survey_name));
-            } else {
-                Log::warning('No Authenticated User Found.');
-                Mail::to($this->user_email)
-                ->send(new SurveyResultsExport($filePath, $survey->survey_name));
-            }
 
         } catch (Exception $e) {
             // Mail::to('kipchumba.kenneth@ymail.com')
             //      ->send(new QuotaMet());
 
-            Log::error('Error Exporting ' . $survey->survey_name . ' Survey Results: ' . $e->getMessage());
-            session()->flash('error', 'An Error Occured During ' . $survey->survey_name . ' Survey Results Export. Please Try Again After Some Time.');
+            Log::error('Error Exporting ' . $this->surveyName . ' Survey Results: ' . $e->getMessage());
+            session()->flash('error', 'An Error Occured During ' . $this->surveyName . ' Survey Results Export. Please Try Again After Some Time.');
         }
     }
 }

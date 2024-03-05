@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DpiaController;
+use App\Http\Controllers\ExportedFileController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\InterviewScheduleController;
 use App\Http\Controllers\PabxController;
@@ -71,6 +72,10 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
+	Route::get('exported_files/{userId}/{projectId}/{schemaId}', [ExportedFileController::class, 'exported_files'])->name('exported_files');
+	Route::get('download_exported_files/{userId?}/{projectId?}/{schemaId?}', [ExportedFileController::class, 'download_exported_files'])->name('download_exported_files');
+
+
 
 	// Interview
 	Route::get('begin_interview/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_interview'])->name('begin_interview');
@@ -104,6 +109,7 @@ Route::middleware(['auth','verified'])->group(function ()
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('dpias', DpiaController::class);
+    Route::resource('exported_files', ExportedFileController::class);
     Route::resource('interviews', InterviewController::class);
     Route::resource('interview_schedules', InterviewScheduleController::class);
     Route::resource('projects', ProjectController::class);

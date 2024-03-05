@@ -122,8 +122,8 @@
 
             <dl class="list-group-item">
               @foreach($members as $member)
-              <dt>
-                {{ $member->first_name . ' ' . $member->last_name }}
+              <dt title="{{ $member->first_name . ' ' . $member->last_name }}">
+                {{ $member->last_name }}
               </dt>
               <dd>
                 @foreach($member->roles as $role)

@@ -14,16 +14,18 @@ class SurveyResultsExport extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $filePath;
+    public $fileName;
     public $surveyName;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($filePath, $surveyName)
+    public function __construct($fileName, $surveyName)
     {
-        $this->filePath = $filePath;
+        $this->fileName = $fileName;
         $this->surveyName = $surveyName;
+
+
     }
 
     /**
@@ -32,7 +34,7 @@ class SurveyResultsExport extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Survey Results Export',
+            subject: $this->surveyName . ' Results Export',
         );
     }
 
@@ -43,6 +45,9 @@ class SurveyResultsExport extends Mailable
     {
         return new Content(
             view: 'emails.survey_results_export',
+            with: [
+                'downloadLink' => url('public/' . urlencode($this->fileName))
+            ]
         );
     }
 
@@ -54,7 +59,7 @@ class SurveyResultsExport extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromStorage($this->filePath),
+            //Attachment::fromStorage($this->fileName),
         ];
     }
 }

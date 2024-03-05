@@ -7,13 +7,7 @@
       <img src="{{ asset('assets/images/company-logo.png') }}" alt="TIFA Logo" height="50px" width="50px">
     </a>
 
-    <ul class="header-nav ms-3 text-dark">
-      <li class="nav-item">
-        <a class="nav-link py-0" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-          <i class="fa-solid fa-bell"></i>
-        </a>
-      </li>
-    </ul>
+    
 
     <ul class="header-nav d-none d-md-flex">
       @can('admin')
