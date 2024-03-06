@@ -81,7 +81,7 @@ class ExportedFileController extends Controller
     public function download_exported_files($userId = null, $projectId, $schemaId = null)
     {
         $fileName = ExportedFile::where('user_id', $userId)->first();
-        $filePath = 'imports/' . $fileName->file_name;
+        $filePath = 'public/' . $fileName->file_name;
 
         //dd($filePath);
 
@@ -91,8 +91,8 @@ class ExportedFileController extends Controller
         }
         else
         {
-            //dd('Here');
-            abort(404, 'File is missing');
+            dd(Storage::exists($filePath));
+            return back()->with('error', 'File is missing');
         }
     }
 }
