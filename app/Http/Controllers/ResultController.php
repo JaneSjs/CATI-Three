@@ -97,7 +97,7 @@ class ResultController extends Controller
         $userId = auth()->user()->id;
 
         $userEmail = auth()->user()->email ?? 'kenneth.kipchumba@tifaresearch.com';
-        $fileName = 'TIFA-' . now()->format('Y-m-d') . '-' . str_replace(' ', '_', $surveyName). '-Results.xlsx';
+        $fileName = 'TIFA-' . now()->format('Y-m-d-H-i') . '-' . str_replace(' ', '-', $surveyName). '-Results.xlsx';
 
 
         //dd($filePath);
