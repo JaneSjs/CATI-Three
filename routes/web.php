@@ -73,7 +73,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
 	Route::get('exported_files/{userId}/{projectId}/{schemaId}', [ExportedFileController::class, 'exported_files'])->name('exported_files');
-	Route::get('download_exported_files/{userId?}/{projectId?}/{schemaId?}', [ExportedFileController::class, 'download_exported_files'])->name('download_exported_files');
+	Route::get('download_exported_files/{fileName}', [ExportedFileController::class, 'download_exported_files'])->name('download_exported_files');
 
 
 

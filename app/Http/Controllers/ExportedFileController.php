@@ -70,7 +70,10 @@ class ExportedFileController extends Controller
      */
     public function exported_files($userId = null, $projectId = null, $schemaId = null)
     {
-        $data['exported_files'] = ExportedFile::where('user_id', auth()->user()->id)->paginate(10);
+        $data['exported_files'] = ExportedFile::where('project_id', $projectId)
+                                              ->orWhere('schema_id', $schemaId)
+                                              ->orWhere('user_id', $userId)
+                                              ->paginate(10);
 
         return view('exported_files.index', $data);
     }
@@ -78,20 +81,25 @@ class ExportedFileController extends Controller
     /**
      * Download the Selected Exported File
      */
-    public function download_exported_files($userId = null, $projectId, $schemaId = null)
+    public function download_exported_files($fileName)
     {
-        $fileName = ExportedFile::where('user_id', $userId)->first();
-        $filePath = 'public/' . $fileName->file_name;
+        $fileName = ExportedFile::where('file_name', 'like', $fileName)
+                                ->first();
+        //$filePath = 'app/public/' . $fileName->file_name;
+        $filePath = storage_path('app/public/' . $fileName->file_name);
 
         //dd($filePath);
+        //dd(storage_path($filePath));
 
-        if (Storage::exists($filePath))
+        //if (Storage::exists($filePath))
+        if ($filePath)
         {
-            return Storage::download($filePath);
+            //return Storage::download($filePath);
+            return response()->download($filePath);
         }
         else
         {
-            dd(Storage::exists($filePath));
+            //dd(Storage::exists($filePath));
             return back()->with('error', 'File is missing');
         }
     }

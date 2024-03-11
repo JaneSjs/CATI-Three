@@ -45,12 +45,12 @@
                     {{ $exported_file->id }}
                   </td>
                   <th scope="row">
-                    {{ $exported_file->file_name  }}/
+                    {{ $exported_file->file_name  }}
                     {{ $exported_file->project_id }}
                   </th>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('download_exported_files', ['userId' => auth()->user()->id, 'projectId' => $exported_file->project_id ?? 1, 'schemaId' => $exported_file->schema_id]) }}" class="btn btn-sm btn-primary" title="Download">
+                      <a href="{{ route('download_exported_files', $exported_file->file_name) }}" class="btn btn-sm btn-primary" title="Download">
                         <i class="fas fa-download"></i>
                         {{ $exported_file->project_id }}
                       </a>
