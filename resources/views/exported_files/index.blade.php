@@ -29,12 +29,13 @@
           <div class="table-responsive">
             <table class="table caption-top">
               <caption>
-               All Exported Files
+               Latest Exported Files
               </caption>
               <thead class="table-success">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">File Name</th>
+                  <th scope="col">Generated Time</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -46,8 +47,10 @@
                   </td>
                   <th scope="row">
                     {{ $exported_file->file_name  }}
-                    {{ $exported_file->project_id }}
                   </th>
+                  <td>
+                    {{ $exported_file->created_at }}
+                  </td>
                   <td>
                     <div class="btn-group">
                       <a href="{{ route('download_exported_files', $exported_file->file_name) }}" class="btn btn-sm btn-primary" title="Download">
