@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreExportedFileRequest;
 use App\Http\Requests\UpdateExportedFileRequest;
 use App\Models\ExportedFile;
+use App\Models\Project;
 use Illuminate\Support\Facades\Storage;
 
 class ExportedFileController extends Controller
@@ -68,8 +69,13 @@ class ExportedFileController extends Controller
     /**
      * Display the Exported Files
      */
-    public function exported_files($userId = null, $projectId = null, $schemaId = null)
+    public function exported_files($projectId = null, $schemaId = null)
     {
+        $userId = auth()->user()->id;
+        //dd($userId);
+        $project = Project::find($projectId);
+        $data['projectName'] = $project;
+
         $data['exported_files'] = ExportedFile::where('project_id', $projectId)
                                               ->orWhere('schema_id', $schemaId)
                                               ->orWhere('user_id', $userId)

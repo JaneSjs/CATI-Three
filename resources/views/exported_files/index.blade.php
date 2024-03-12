@@ -8,7 +8,9 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          Download Exported Files
+          <h4 class="text-primary">
+            {{ $projectName->name }} Exported Files
+          </h4>
         </div>
         <div class="col">
           @error('name', 'description')

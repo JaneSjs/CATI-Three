@@ -46,7 +46,7 @@
               </tr>
               <tr>
                 <td>
-                  <a href="{{ route('exported_files', ['userId' => auth()->user()->id, 'projectId' => $project->id, 'schemaId' => $survey->id]) }}">
+                  <a href="{{ route('exported_files', ['projectId' => $project->id, 'schemaId' => $survey->id]) }}">
                     Exported Files
                   </a>
                 </td>
