@@ -76,8 +76,7 @@ class ExportedFileController extends Controller
         $project = Project::find($projectId);
         $data['projectName'] = $project;
 
-        $data['exported_files'] = ExportedFile::where('project_id', $projectId)
-                                              ->orWhere('schema_id', $schemaId)
+        $data['exported_files'] = ExportedFile::where('schema_id', $schemaId)
                                               ->orWhere('user_id', $userId)
                                               ->orderBy('id', 'DESC')
                                               ->paginate(10);
