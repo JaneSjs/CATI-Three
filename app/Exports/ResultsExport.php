@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnFormatting, ShouldQueue
 {
     use Exportable;
+
     private $schema_id;
     
     public function __construct(int $schema_id)
@@ -52,6 +53,19 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $result->feedback,
         ];
 
+        // Handle Multiple Choice Answers
+        foreach ($content as $key => $value) {
+            if (is_array($value))
+            {
+                //$rowData[] = implode(', ', $value);
+                $rowData = $this->handleMultipleChoiceQuestions($rowData, $value, $key);
+            }
+            else
+            {
+                $rowData[] = $value;
+            }
+        }
+
         return array_merge($rowData, array_values($content));
     }
 
@@ -64,7 +78,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             'Respondent Name',
             'Respondent Id',
             'Phone Called',
-            'Callers Extension',
+            'Ext No',
             'Interview Completed',
             'Interview Status',
             'Survey Id',
@@ -76,9 +90,16 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
         ];
 
         if ($firstRow) {
-            $content = json_decode($firstRow->content, true); 
+            $content = json_decode($firstRow->content, true);
 
-            $allHeadings = array_merge($defaultHeadings, array_keys($content));
+            $dynamicHeadings = [];
+
+            foreach ($content as $key => $value)
+            {
+                $dynamicHeadings[] = $key;
+            }
+
+            $allHeadings = array_merge($defaultHeadings, $dynamicHeadings);
 
             return $allHeadings;
         }
@@ -90,15 +111,25 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
     public function columnFormats(): array
     {
         return [
-            13 => NumberFormat::FORMAT_DATE_DATETIME,
-            14 => NumberFormat::FORMAT_DATE_DATETIME,
+            10 => NumberFormat::FORMAT_DATE_DATETIME,
+            11 => NumberFormat::FORMAT_DATE_DATETIME,
             17 => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 
-    public function queue(?string $filePath = null, ?string $disk = null, ?string $writerType = null, $diskOptions = [])
+    public function queue(?string $filePath = null, ?string $disk = null)
     {
         return $this->store($filePath, $disk);
         
+    }
+
+    private function handleMultipleChoiceQuestions(array $rowData, array $choices, string $questionKey): array
+    {
+         foreach ($choices as $index => $choice)
+         {
+             $rowData[] = $choice;
+         }
+
+         return $rowData;
     }
 }

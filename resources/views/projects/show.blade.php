@@ -8,9 +8,10 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          <h2>
-            {{ $project->name }}
-          </h2>
+          <h5>
+            #{{ $project->id }}
+          </h5>
+          <h2 class="text-primary">{{ $project->name }}</h2>
           @canany(['admin','manager','coordinator','client'])
             <!-- <button type="button" class="btn btn-primary" id="dpiaBtn">
               DPIA
@@ -147,7 +148,7 @@
             <table class="table table-sm">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th title="Survey Id">Id</th>
                   <th>Surveys</th>
                   @canany(['admin','ceo','head','manager','coordinator','scripter'])
                     <th>
@@ -166,8 +167,10 @@
                 @foreach($surveys as $survey)
                 <tr>
 
-                  <td>
-                    {{ $survey->id }}
+                  <td title="Survey {{ $survey->survey_name }} Id">
+                    <strong>
+                      {{ $survey->id }}
+                    </strong>
                   </td>
 
                   @canany(['qc'])
@@ -177,13 +180,8 @@
                     </a>
                   </td>
                   @else
-                  <td>
+                  <td title="@canany(['admin','ceo','head','manager']) {{ $survey->type }} @endcan">
                     {{ $survey->survey_name }}
-                    @canany(['admin','ceo','head','manager'])
-                      <span class="bg-info text-light p-2 m-2">
-                        {{ $survey->type }}
-                      </span>
-                    @endcan
                   </td>
                   @endcan
                   

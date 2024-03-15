@@ -50,6 +50,12 @@ use Carbon\Carbon;
               </span>
             @endif
           @endcan
+          @canany(['admin','dpo'])
+            <button type="button" class="btn btn-outline-danger btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkDeleteRespondents">
+              Bulk Delete
+            </button>
+            @include('respondents/partials/modals')
+          @endcan
         </div>
       </div>
     </div>

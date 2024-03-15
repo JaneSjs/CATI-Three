@@ -20,7 +20,8 @@ use Maatwebsite\Excel\Validators\ValidationException;
 class RespondentController extends Controller
 {
     /**
-     * List all respondents on the the system with their statistics.
+     * List all respondents on the system 
+     * with their statistics.
      */
     public function index()
     {
@@ -136,19 +137,22 @@ class RespondentController extends Controller
      */
     public function project_survey_respondents($project_id, $survey_id)
     {
-        $survey = Schema::find($survey_id);
-        //dd($survey);
-
-        if ($survey) {
-            $data['survey'] = $survey;
-
-            $respondents = Respondent::where('project_id', $project_id);
-
+        //dd($project_id . '-' . $survey_id);
             if ($survey_id !== null) {
-                $respondents->where('schema_id', $survey_id);
-            }
+                $survey  = Schema::find($survey_id);
 
-            $data['respondents'] = $respondents->orderBy('id', 'desc')->paginate(10);
+                $data['survey'] = $survey;
+                $respondents = $survey->respondents()->orderBy('id', 'desc')->paginate(10);
+                //dd($respondents);
+                $data['respondents'] = $respondents;
+            }
+            elseif($project_id !== null)
+            {
+                $project = Project::find($project_id);
+                $respondents = $project->respondents()->orderBy('id', 'desc')->paginate(10);
+                //dd($respondents);
+                $data['respondents'] = $respondents;
+            }
 
             $data['total_respondents'] = count($survey->respondents()->get());
 
@@ -173,15 +177,13 @@ class RespondentController extends Controller
             $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
 
             $respondents_available_for_interviewing = $survey->respondents()
-                                                            ->where('interview_status', '!=', 'Locked')
+                                                             ->where('interview_status', '!=', 'Locked')
                                                             ->whereNull('interview_date_time')
                                                             ->get();
             $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
 
             return view('respondents.show', $data);
-        } else {
-            return back()->with('warning', 'Survey is null');
-        }
+        
     }
 
     /**
@@ -225,6 +227,33 @@ class RespondentController extends Controller
         }
 
         return redirect()->back()->with('error', 'Respondent wasn\'t found, thus wasn\'t deleted');
+    }
+
+    /**
+     * Bulk Delete Respondents
+     */
+    public function bulk_delete(Request $request)
+    {
+        //dd($request);
+        $schemaId = $request->input('survey_id');
+        $projectId = $request->input('projectId');
+
+        if ($schemaId !== null) {
+            Respondent::where('schema_id', $schemaId)->delete();
+            // Notify The Project Manager Via Email
+            return back()->with('success', 'Survey Respondents Have Now Been Deleted');
+        }
+        elseif ($projectId !== null) {
+            Respondent::where('project_id', $projectId)->delete();
+            // Notify The Project Manager Via Email
+            return back()->with('success', 'Project Respondents Have Now Been Deleted');
+        }
+        else
+        {
+            Respondent::truncate();
+            // Notify The DPOs Via Email
+            return back()->with('success', 'All Respondents Have Now Been Deleted');
+        }
     }
 
     /**

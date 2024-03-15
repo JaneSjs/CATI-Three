@@ -90,7 +90,7 @@ class ResultController extends Controller
     /**
      * xlsx Survey Results Export
      */
-    public function xlsx_export(int $schemaId, Excel $excel)
+    public function xlsx_export(int $schemaId)
     {
         $survey = Schema::find($schemaId);
         $surveyName = $survey->survey_name;
@@ -98,7 +98,6 @@ class ResultController extends Controller
 
         $userEmail = auth()->user()->email ?? 'kenneth.kipchumba@tifaresearch.com';
         $fileName = 'TIFA-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.xlsx';
-
 
         //dd($filePath);
 

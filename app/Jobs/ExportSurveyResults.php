@@ -50,7 +50,7 @@ class ExportSurveyResults implements ShouldQueue
         try {
             $export = new ResultsExport($this->schemaId);
 
-            $export->queue($this->fileName, 'public/exports');
+            $export->queue($this->fileName, 'public');
 
             $exportedFile = new ExportedFile();
 

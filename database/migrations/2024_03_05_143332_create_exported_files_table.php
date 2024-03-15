@@ -21,12 +21,12 @@ return new class extends Migration
             $table->foreignId('project_id')
                   ->nullable()
                   ->references('id')
-                  ->on('users')
+                  ->on('projects')
                   ->constrained();
             $table->foreignId('schema_id')
                   ->nullable()
                   ->references('id')
-                  ->on('users')
+                  ->on('schemas')
                   ->constrained();
             $table->string('file_name');
             $table->string('file_size');

@@ -16,6 +16,15 @@ use Carbon\Carbon;
           <h5>
             All Respondents
           </h5>
+          @canany(['admin','dpo'])
+          <form action="" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">
+              Delete All
+            </button>
+          </form>
+          @endcan
         </div>
         <div class="col">
           <form action="{{ url('search_respondents') }}" method="GET">
