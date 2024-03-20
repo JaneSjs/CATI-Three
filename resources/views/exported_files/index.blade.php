@@ -2,14 +2,17 @@
     
 @section('content')
 
+<?php
+use Carbon\Carbon;
 
+?>
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
       <div class="row">
         <div class="col">
           <h4 class="text-primary">
-            {{ $projectName->name }} Exported Files
+            {{ $survey->survey_name }} Exported Files
           </h4>
         </div>
         <div class="col">
@@ -42,28 +45,34 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($exported_files as $exported_file)
-                <tr>
-                  <td>
-                    {{ $exported_file->id }}
-                  </td>
-                  <th scope="row">
-                    {{ $exported_file->file_name  }}
-                  </th>
-                  <td>
-                    {{ $exported_file->created_at }}
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="{{ route('download_exported_files', $exported_file->file_name) }}" class="btn btn-sm btn-primary" title="Download">
-                        <i class="fas fa-download"></i>
-                        {{ $exported_file->project_id }}
-                      </a>
+                @if(count($exported_files) > 0)
+                  @foreach($exported_files as $exported_file)
+                  <tr>
+                    <td>
+                      {{ $exported_file->id }}
+                    </td>
+                    <th scope="row">
+                      {{ $exported_file->file_name  }}
+                    </th>
+                    <td>
+                      {{ Carbon::parse($exported_file->created_at)->diffForHumans() }}
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <a href="{{ route('download_exported_files', $exported_file->file_name) }}" class="btn btn-sm btn-primary" title="Download">
+                          <i class="fas fa-download"></i>
+                          {{ $exported_file->project_id }}
+                        </a>
 
-                    </div>
-                  </td>
+                      </div>
+                    </td>
+                  </tr>
+                  @endforeach
+                @else
+                <tr>
+                  Could Not Generate The Spreadsheet. Use the Json Data Instead
                 </tr>
-                @endforeach
+                @endif
               </tbody>
               <tfoot>
                 {{ $exported_files->links() }}

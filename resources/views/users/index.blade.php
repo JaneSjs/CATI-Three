@@ -110,9 +110,9 @@
             </table>
           </div>
         </div>
-        @canany(['admin','ceo','head'])
+        @canany(['admin','ceo'])
         <div class="col-3 bg-secondary">
-          Total System Users = {{ count($users) }}
+          Total System Users = {{ $allUsers }}
         </div>
         @endcan
       </div>

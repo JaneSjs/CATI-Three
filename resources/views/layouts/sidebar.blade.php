@@ -101,6 +101,32 @@
       </a>
     </li>
     @endcan
+
+    <li class="nav-group">
+      <a class="nav-link nav-group-toggle" href="#">
+        <strong>Incentives</strong>
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item" title="SMS">
+          <a href="#" onclick="alert('Coming Soon')" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-message nav-icon" style="color: #fff;"></i>
+            SMS
+          </a>
+        </li>
+        <li class="nav-item" title="Airtime">
+          <a href="#" onclick="alert('Coming Soon')" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-phone nav-icon" style="color: #fff;"></i>
+            Airtime
+          </a>
+        </li>
+        <li class="nav-item" title="Internet Bundles">
+          <a href="#" onclick="alert('Coming Soon')" class="nav-link" target="_blank" rel="noreferrer">
+            <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i>
+            Data Bundles
+          </a>
+        </li>
+      </ul>
+    </li>
         
         @canany(['admin','ceo','head','manager','coordinator'])
         <li class="nav-title">

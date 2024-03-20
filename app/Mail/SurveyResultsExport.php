@@ -15,14 +15,16 @@ class SurveyResultsExport extends Mailable
     use Queueable, SerializesModels;
 
     public $fileName;
+    public $schemaId;
     public $surveyName;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($fileName, $surveyName)
+    public function __construct($fileName, $schemaId, $surveyName)
     {
         $this->fileName = $fileName;
+        $this->schemaId = $schemaId;
         $this->surveyName = $surveyName;
 
 
@@ -46,7 +48,7 @@ class SurveyResultsExport extends Mailable
         return new Content(
             view: 'emails.survey_results_export',
             with: [
-                'downloadLink' => url('public/' . urlencode($this->fileName))
+                'downloadLink' => route('exported_files', $this->schemaId)
             ]
         );
     }

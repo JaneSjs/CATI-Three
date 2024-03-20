@@ -57,6 +57,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
         foreach ($content as $key => $value) {
             if (is_array($value))
             {
+                // This bit potentially messes up with the headings
                 //$rowData[] = implode(', ', $value);
                 $rowData = $this->handleMultipleChoiceQuestions($rowData, $value, $key);
             }
@@ -99,6 +100,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
                 $dynamicHeadings[] = $key;
             }
 
+            // Merge default headings with dynamic headings
             $allHeadings = array_merge($defaultHeadings, $dynamicHeadings);
 
             return $allHeadings;

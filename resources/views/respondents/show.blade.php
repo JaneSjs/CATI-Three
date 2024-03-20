@@ -72,7 +72,6 @@ use Carbon\Carbon;
               @endcan
               <thead class="table-success">
                 <tr>
-                  <th scope="col">Id</th>
                   <th scope="col">Name</th>
                   <th scope="col">Gender</th>
                   <th scope="col">Interview Status</th>
@@ -85,14 +84,10 @@ use Carbon\Carbon;
                 @foreach($respondents as $respondent)
                 <tr>
                   <th scope="row">
-                    {{ $respondent->id ?? '-' }}
-                  </th>
-                  <td>
-                    <i class="fas fa-eye"></i>
                     <a href="{{ route('respondents.show', $respondent->id) }}">                  
                       {{ $respondent->name }}
                     </a>
-                  </td>
+                  </th>
                   <td>
                     {{ $respondent->gender ?? '-' }}
                   </td>

@@ -19,15 +19,17 @@ class MailSurveyResults implements ShouldQueue
 
     protected $userEmail;
     protected $fileName;
+    protected $schemaId;
     protected $surveyName;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(string $userEmail, string $fileName, string $surveyName)
+    public function __construct(string $userEmail, string $fileName, int $schemaId, string $surveyName)
     {
         $this->userEmail = $userEmail;
         $this->fileName = $fileName;
+        $this->schemaId = $schemaId;
         $this->surveyName = $surveyName;
     }
 
@@ -39,7 +41,7 @@ class MailSurveyResults implements ShouldQueue
         try {
             Mail::to($this->userEmail)
             ->cc('admin@tifaresearch.com')
-            ->send(new SurveyResultsExport($this->fileName, $this->surveyName));
+            ->send(new SurveyResultsExport($this->fileName, $this->schemaId, $this->surveyName));
         } catch (Exception $e) {
             Log::error('Failed to send Survey Results Export: ' . $e->getMessage());
         }

@@ -102,7 +102,7 @@ class ResultController extends Controller
         //dd($filePath);
 
         ExportSurveyResults::withChain([
-            new MailSurveyResults($userEmail, $fileName, $surveyName),
+            new MailSurveyResults($userEmail, $fileName, $schemaId, $surveyName),
         ])->dispatch($userId, $schemaId, $fileName, $surveyName);
 
         return back()->with('info', 'Results Export Download Link Will Be Sent To your Email Later On');
