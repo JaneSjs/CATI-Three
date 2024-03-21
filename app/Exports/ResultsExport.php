@@ -5,7 +5,6 @@ namespace App\Exports;
 use App\Models\Result;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
-//use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -53,8 +52,10 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $result->feedback,
         ];
 
+        // Flatten nested JSON structure
+
         // Handle Multiple Choice Answers
-        foreach ($content as $key => $value) {
+        /**foreach ($content as $key => $value) {
             if (is_array($value))
             {
                 // This bit potentially messes up with the headings
@@ -67,7 +68,30 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             }
         }
 
-        return array_merge($rowData, array_values($content));
+         return array_merge($rowData, array_values($content));
+         */
+        //End Handle Multiple Choice Answers
+
+        // New Approach. Flatten nested JSON structure
+        $this->flattenArray($content, $rowData);
+
+        return $rowData;
+    }
+
+    /**
+     * Flatten nested JSON structure
+     */
+    protected function flattenArray($array, $rowData, $prefix = '')
+    {
+         foreach ($array as $key => $value) {
+             if (is_array($value)) {
+                 $this->flattenArray($value, $rowData, $prefix . $key . '_');
+             }
+             else
+             {
+                $rowData[] = $value;
+             }
+         }
     }
 
     public function headings(): array

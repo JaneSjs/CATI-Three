@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Models\Interview;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -27,6 +26,7 @@ class InterviewsExport implements FromQuery, WithHeadings
                 ->whereNotNull('interview_status')
                 ->orderBy('id');
     }
+
 
     function map($interviews): array
     {
@@ -67,22 +67,10 @@ class InterviewsExport implements FromQuery, WithHeadings
     public function headings(): array
     {
         return [
-            'Interview ID',
-            'Interviewer ID',
-            'Project ID',
-            'Survey ID',
-            'Respondent ID',
-            'Respondent\'s Name',
-            'Caller\'s Extension Number',
-            'Phone Called',
-            'Interview Status',
-            'QC Name',
-            'Quality Control',
-            'Quality Control Feedback',
-            'Start Time',
-            'End Time',
-            'Interviewer Feedback',
-            'Interview Duration',
+            [
+                'Survey ID: ' . $this->schemaId,
+            ],
+            ['Interview ID','Interviewer ID','Respondent ID','Respondent\'s Name','Caller\'s Extension Number','Phone Called','Interview Status','QC Name','Quality Control','Quality Control Feedback','Start Time','End Time','Interviewer Feedback','Interview Duration',]
         ];
     }
 }
