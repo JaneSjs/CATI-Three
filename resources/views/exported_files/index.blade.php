@@ -70,7 +70,8 @@ use Carbon\Carbon;
                   @endforeach
                 @else
                 <tr>
-                  Could Not Generate The Spreadsheet. Use the Json Data Instead
+                  Could Not Generate The Spreadsheet. Instead, use the Json Data to generate CSV File 
+                  <a class="btn btn-sm btn-outline-primary" href="https://jsonformatter.org" target="_blank">Here</a>
                 </tr>
                 @endif
               </tbody>

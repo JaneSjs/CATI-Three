@@ -20,6 +20,7 @@ class InterviewsExport implements FromQuery, WithHeadings
     {
         return Interview::query()
                 ->where('schema_id', $this->schemaId)
+                ->whereNotNull('interview_status')
                 ->orderBy('id');
     }
 
@@ -42,6 +43,7 @@ class InterviewsExport implements FromQuery, WithHeadings
                 $interview->survey_url,
                 $interview->survey_version,
                 $interview->quality_control,
+                $interview->feedback,
                 $interview->start_time,
                 $interview->end_time,
                 $interview->feedback,
@@ -67,9 +69,9 @@ class InterviewsExport implements FromQuery, WithHeadings
             'Survey Url',
             'Survey Version',
             'Quality Control',
+            'Quality Control Feedback',
             'Start Time',
             'End Time',
-            'Feedback'
         ];
     }
 }
