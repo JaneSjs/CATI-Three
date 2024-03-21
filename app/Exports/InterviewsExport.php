@@ -54,10 +54,10 @@ class InterviewsExport implements FromQuery, WithHeadings
                 $interview->qc_name,
                 $interview->quality_control,
                 $interview->qc_feedback,
-                $interview->feedback,
                 $interview->start_time,
                 $interview->end_time,
                 $duration,
+                $interview->feedback,
             ];
         }
 
@@ -79,10 +79,10 @@ class InterviewsExport implements FromQuery, WithHeadings
             'QC Name',
             'Quality Control',
             'Quality Control Feedback',
-            'Feedback',
             'Start Time',
             'End Time',
             'Interview Duration',
+            'Interviewer Feedback',
         ];
     }
 }
