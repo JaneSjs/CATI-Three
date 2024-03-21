@@ -22,10 +22,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $allUsers = User::all();
-        $data['allUsers'] = count($allUsers);
-        
-        if (Gate::allows('admin') || auth()->user()->id == 1){
+        if (Gate::allows(['admin','ceo']) || auth()->user()->id == 1){
+            $allUsers = User::all();
+            $data['allUsers'] = count($allUsers);
+
             $data['users'] = User::paginate(10);
         }
         elseif (Gate::allows('head')) {
@@ -317,6 +317,9 @@ class UserController extends Controller
         $query = $request->input('query');
 
         if (Gate::allows('admin') || auth()->user()->id == 1){
+            $allUsers = User::all();
+            $data['allUsers'] = count($allUsers);
+            
             $data['users'] = User::search($query)->paginate(10);
         }
         elseif (Gate::allows('head')) {
