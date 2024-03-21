@@ -36,7 +36,7 @@ class InterviewsExport implements FromQuery, WithHeadings
             $end_time = Carbon::parse($interview->end_time);
 
             $duration = $start_time->diff($end_time)->format('%h Hr %i Min %s Sec');
-            return [
+            $mappedInterviews[] = [
                 $interview->id,
                 $interview->user_id,
                 $interview->project_id,
@@ -53,6 +53,8 @@ class InterviewsExport implements FromQuery, WithHeadings
                 $interview->feedback,
             ];
         }
+
+        return $mappedInterviews;
     }
 
     public function headings(): array
@@ -66,11 +68,12 @@ class InterviewsExport implements FromQuery, WithHeadings
             'Respondent\'s Name',
             'Caller\'s Extension Number',
             'Phone Called',
-            'QC Name',
             'Interview Status',
+            'QC Name',
             'Quality Control',
             'Quality Control Feedback',
             'Interview Duration',
+            'Feedback'
         ];
     }
 }
