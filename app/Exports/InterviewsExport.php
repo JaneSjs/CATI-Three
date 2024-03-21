@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Interview;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -19,6 +20,9 @@ class InterviewsExport implements FromQuery, WithHeadings
     public function query()
     {
         return Interview::query()
+                ->select([
+                    'id','user_id','project_id','schema_id','respondent_id','respondent_name','ext_no','phone_called','interview_status','qc_name','quality_control','qc_feedback','start_time','end_time','feedback'
+                ])
                 ->where('schema_id', $this->schemaId)
                 ->whereNotNull('interview_status')
                 ->orderBy('id');
@@ -27,6 +31,11 @@ class InterviewsExport implements FromQuery, WithHeadings
     function map($interviews)
     {
         foreach ($interviews as $interview) {
+            // Calculate Interview Duration
+            $start_time = Carbon::parse($interview->start_time);
+            $end_time = Carbon::parse($interview->end_time);
+
+            $duration = $start_time->diff($end_time)->format('%h Hr %i Min %s Sec');
             return [
                 $interview->id,
                 $interview->user_id,
@@ -36,16 +45,11 @@ class InterviewsExport implements FromQuery, WithHeadings
                 $interview->respondent_name,
                 $interview->ext_no,
                 $interview->phone_called,
-                $interview->audio_recording,
-                $interview->qc_id,
-                $interview->qc_name,
                 $interview->interview_status,
-                $interview->survey_url,
-                $interview->survey_version,
+                $interview->qc_name,
                 $interview->quality_control,
-                $interview->feedback,
-                $interview->start_time,
-                $interview->end_time,
+                $interview->qc_feedback,
+                $duration,
                 $interview->feedback,
             ];
         }
@@ -62,16 +66,11 @@ class InterviewsExport implements FromQuery, WithHeadings
             'Respondent\'s Name',
             'Caller\'s Extension Number',
             'Phone Called',
-            'Audio Recording',
-            'QC Id',
             'QC Name',
             'Interview Status',
-            'Survey Url',
-            'Survey Version',
             'Quality Control',
             'Quality Control Feedback',
-            'Start Time',
-            'End Time',
+            'Interview Duration',
         ];
     }
 }
