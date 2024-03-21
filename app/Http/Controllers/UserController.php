@@ -22,10 +22,11 @@ class UserController extends Controller
      */
     public function index()
     {
+        $allUsers = User::all();
+        $data['allUsers'] = count($allUsers);
+        
         if (Gate::allows('admin') || auth()->user()->id == 1){
             $data['users'] = User::paginate(10);
-            $allUsers = User::all();
-            $data['allUsers'] = count($allUsers);
         }
         elseif (Gate::allows('head')) {
             $data['users'] = User::paginate(10);

@@ -28,14 +28,19 @@ class InterviewsExport implements FromQuery, WithHeadings
                 ->orderBy('id');
     }
 
-    function map($interviews)
+    function map($interviews): array
     {
+        $mappedInterviews = [];
+
         foreach ($interviews as $interview) {
             // Calculate Interview Duration
+            $duration = 'failed to compute';
+
             $start_time = Carbon::parse($interview->start_time);
             $end_time = Carbon::parse($interview->end_time);
 
             $duration = $start_time->diff($end_time)->format('%h Hr %i Min %s Sec');
+
             $mappedInterviews[] = [
                 $interview->id,
                 $interview->user_id,
@@ -49,8 +54,10 @@ class InterviewsExport implements FromQuery, WithHeadings
                 $interview->qc_name,
                 $interview->quality_control,
                 $interview->qc_feedback,
-                $duration,
                 $interview->feedback,
+                $interview->start_time,
+                $interview->end_time,
+                $duration,
             ];
         }
 
@@ -72,8 +79,10 @@ class InterviewsExport implements FromQuery, WithHeadings
             'QC Name',
             'Quality Control',
             'Quality Control Feedback',
+            'Feedback',
+            'Start Time',
+            'End Time',
             'Interview Duration',
-            'Feedback'
         ];
     }
 }

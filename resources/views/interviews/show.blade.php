@@ -35,11 +35,18 @@
           </div>
           @endcan
         </div>
-        <div class="col-3 text-end">
+        <div class="col-3">
 
           @include('partials.alerts')
           
         </div>
+        @if($interview->feedback)
+        <div class=" col-3 text-end">
+          <div class="callout callout-info">
+            {{ $interview->feedback }}
+          </div>
+        </div>
+        @endif
       </div>
       <div class="row">
         <div class="col">
@@ -58,32 +65,17 @@
                 </div>
                 {{ $interview->phone_called }}
               </li>
-              <li class="list-group-item list-group-item-primary">
               <?php
                 $start_time = Carbon::parse($interview->start_time);
                 $end_time   = Carbon::parse($interview->end_time);
-              ?> 
-                <div class="fw-bold">
-                  Start Time
-                </div>
-                 <span class="badge bg-primary">
-                  {{ $start_time->format('D d/M/Y, h:i:s') }}
-                 </span>
-              </li>
-              <li class="list-group-item">
-                <div class="fw-bold">
-                  End Time
-                </div>
-                <span class="badge bg-primary">
-                  {{ $end_time->format('D d/M/Y, h:i:s') }}
-                 </span>
-              </li>
+              ?>
+              
               <li class="list-group-item">
                 <div class="fw-bold">
                   Interview Duration
                 </div>
                 <span class="badge bg-primary">
-                  {{ $start_time->diffInMinutes($end_time) }} Minutes
+                  {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }} 
                 </span>
               </li>
               <li class="list-group-item">
