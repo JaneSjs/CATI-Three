@@ -37,7 +37,7 @@
                       <i class="fas fa-file-pdf" style="color: #ef2929;"></i>
                       PDF
                     </a>
-                    <a href="!#" class="btn btn-outline-primary" title="JSON Format" title="Curre">
+                    <a href="{{ route('json_export', $survey->id) }}" class="btn btn-outline-primary" title="JSON Format" title="Curre">
                       <i class="fas fa-brackets-curly"></i>
                       JSON
                     </a>

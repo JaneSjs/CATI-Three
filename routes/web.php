@@ -16,8 +16,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
-//use App\Models\Quota;
-//use App\Models\Respondent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +70,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
+	Route::get('json_export/{id}', [ResultController::class, 'json_export'])->name('json_export');
 	Route::get('exported_files/{schemaId}', [ExportedFileController::class, 'exported_files'])->name('exported_files');
 	Route::get('download_exported_files/{fileName}', [ExportedFileController::class, 'download_exported_files'])->name('download_exported_files');
 

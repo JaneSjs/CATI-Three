@@ -97,7 +97,7 @@ class ResultController extends Controller
         $userId = auth()->user()->id;
 
         $userEmail = auth()->user()->email ?? 'kenneth.kipchumba@tifaresearch.com';
-        $fileName = 'TIFA-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.xlsx';
+        $fileName = 'TIFA-Spreadsheet-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.xlsx';
 
         //dd($filePath);
 
@@ -124,6 +124,34 @@ class ResultController extends Controller
     public function pdf_export(int $id)
     {
         return Excel::download(new ResultsExport($id), 'survey_results.pdf', ExcelExcel::DOMPDF);
+    }
+
+    /**
+     * JSON Results Export
+     */
+    public function json_export(int $schemaId)
+    {
+        $survey = Schema::find($schemaId);
+        $surveyName = $survey->survey_name;
+
+        $fileName = 'TIFA-JSON' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results';
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ];
+
+        $results = Result::query()
+            ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+            ->join('users', 'results.user_id', '=', 'users.id')
+            ->select('results.*', 'interviews.*', 'users.first_name', 'users.last_name')
+            ->where('results.schema_id', $schemaId)->get();
+
+        //dd($results);
+
+        $resultsJson = json_encode($results, JSON_PRETTY_PRINT);
+
+        return response($resultsJson, 200, $headers);
     }
 
     public function getresults(Request $request)
