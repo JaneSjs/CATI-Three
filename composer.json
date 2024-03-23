@@ -10,6 +10,8 @@
         "guzzlehttp/guzzle": "^7.2",
         "haruncpi/laravel-log-reader": "^1.0",
         "http-interop/http-factory-guzzle": "^1.2",
+        "koolreport/core": "^6.2",
+        "koolreport/laravel": "^2.0",
         "laravel/fortify": "^1.16",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",

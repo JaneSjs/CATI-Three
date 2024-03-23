@@ -10,6 +10,7 @@ use App\Http\Controllers\PabxController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\QuotaController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RespondentController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RoleController;
@@ -107,12 +108,14 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	Route::delete('remove_quota/{schema_id}', [QuotaController::class, 'remove_quota'])->name('remove_quota');
 
+
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('dpias', DpiaController::class);
     Route::resource('exported_files', ExportedFileController::class);
     Route::resource('interviews', InterviewController::class);
     Route::resource('interview_schedules', InterviewScheduleController::class);
     Route::resource('projects', ProjectController::class);
+    Route::resource('reports', ReportController::class);
     Route::resource('respondents', RespondentController::class);
     Route::resource('results', ResultController::class);
 	Route::resource('surveys', SchemaController::class);

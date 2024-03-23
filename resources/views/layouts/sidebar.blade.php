@@ -102,6 +102,7 @@
     </li>
     @endcan
 
+    @canany(['admin','ceo','finance'])
     <li class="nav-group">
       <a class="nav-link nav-group-toggle" href="#">
         <strong>Incentives</strong>
@@ -127,31 +128,32 @@
         </li>
       </ul>
     </li>
+    @endcan
         
-        @canany(['admin','ceo','head','manager','coordinator'])
-        <li class="nav-title">
-          Data Protection Module
+    @canany(['admin','ceo','head','manager','coordinator'])
+    <li class="nav-title">
+      Data Protection Module
+    </li>
+    <li class="nav-group">
+      <a class="nav-link nav-group-toggle" href="#">
+         Respondents
+       </a>
+      <ul class="nav-group-items">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('respondents.index') }}">
+            <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i> 
+            Data Processing
+          </a>
         </li>
-        <li class="nav-group">
-          <a class="nav-link nav-group-toggle" href="#">
-             Respondents
-           </a>
-          <ul class="nav-group-items">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('respondents.index') }}">
-                <i class="fa-solid fa-database nav-icon" style="color: #fff;"></i> 
-                Data Processing
-              </a>
-            </li>
-            <li class="nav-item" title="RDMS">
-              <button type="button" class="nav-link" title="RDMS" data-coreui-toggle="modal" data-coreui-target="#rdms">
-                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
-                Data Controlling
-              </button>
-            </li>
-          </ul>
+        <li class="nav-item" title="RDMS">
+          <button type="button" class="nav-link" title="RDMS" data-coreui-toggle="modal" data-coreui-target="#rdms">
+            <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+            Data Controlling
+          </button>
         </li>
-        @endcan
+      </ul>
+    </li>
+    @endcan
   </ul>
   <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>

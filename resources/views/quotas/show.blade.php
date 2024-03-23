@@ -6,12 +6,7 @@
   <div class="card">
 
     <div class="btn-group btn-sm" role="group" aria-label="Action Buttons">
-      <button class="btn btn-outline-info">
-        Edit Quota Attributes
-      </button>
-      <button class="btn btn-outline-danger">
-        Remove This Quota From This Survey
-      </button>
+      
       <form action="{{ route('remove_quota', $survey->id) }}" method="post">
         @csrf
         @method('DELETE')
@@ -37,6 +32,11 @@
           @enderror
 
           @include('partials.alerts')
+        </div>
+        <div>
+          <a href="{{ route('reports.index') }}" class="btn btn-sm btn-info">
+            Kool Reports
+          </a>
         </div>
       </div>
     </div>

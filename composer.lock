@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35b13a249ced5e2263e9943a0a27909a",
+    "content-hash": "6595a035b3e47a28c9e375ae41d2c3ca",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1528,6 +1528,91 @@
                 "source": "https://github.com/http-interop/http-factory-guzzle/tree/1.2.0"
             },
             "time": "2021-07-21T13:50:14+00:00"
+        },
+        {
+            "name": "koolreport/core",
+            "version": "6.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koolreport/core.git",
+                "reference": "7cf23aabc30b1ab377178dbd2e74d2e92380022f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koolreport/core/zipball/7cf23aabc30b1ab377178dbd2e74d2e92380022f",
+                "reference": "7cf23aabc30b1ab377178dbd2e74d2e92380022f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KoolPHP Inc",
+                    "homepage": "https://www.koolphp.net"
+                }
+            ],
+            "description": "An Open Source PHP Reporting Framework for easier and faster report delivery.",
+            "homepage": "https://www.koolreport.com",
+            "keywords": [
+                "PHP Reporting Framework",
+                "PHP Reporting Tools",
+                "charts and graphs",
+                "data processing",
+                "data visualization"
+            ],
+            "support": {
+                "issues": "https://github.com/koolreport/core/issues",
+                "source": "https://github.com/koolreport/core/tree/v6.2.0"
+            },
+            "time": "2023-09-11T09:53:18+00:00"
+        },
+        {
+            "name": "koolreport/laravel",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koolreport/laravel.git",
+                "reference": "b6918a3ae7c72d4a4c814691f716f257c9d2a784"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koolreport/laravel/zipball/b6918a3ae7c72d4a4c814691f716f257c9d2a784",
+                "reference": "b6918a3ae7c72d4a4c814691f716f257c9d2a784",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Allow to use KoolReport seamlessly in Laravel",
+            "homepage": "https://www.koolreport.com",
+            "keywords": [
+                "Data Report",
+                "KooLReport Laravel",
+                "Laravel Report",
+                "Reporting Tools",
+                "laravel",
+                "laravel reporting",
+                "laravel reporting tool",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/koolreport/laravel/issues",
+                "source": "https://github.com/koolreport/laravel/tree/master"
+            },
+            "time": "2020-01-21T07:25:24+00:00"
         },
         {
             "name": "laravel/fortify",
