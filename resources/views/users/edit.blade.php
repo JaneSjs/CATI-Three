@@ -35,9 +35,11 @@
             </div>
             <!-- End Roles Input -->
             <input type="hidden" name="password">
-            <button type="submit" class="btn btn-outline-danger btn-sm">
-              Deactivate {{ $user->first_name . ' ' . $user->last_name }}
-            </button>
+            @canany(['admin','ceo'])
+              <button type="submit" class="btn btn-outline-danger btn-sm">
+                Deactivate {{ $user->first_name . ' ' . $user->last_name }}
+              </button>
+            @endcan
           </form>
         </div>
         <div class="col-4">

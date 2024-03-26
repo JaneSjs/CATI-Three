@@ -50,7 +50,7 @@ use Carbon\Carbon;
         <div class="col-9">
           <div class="table-responsive">
             <table class="table caption-top">
-              @canany(['admin','ceo','head'])
+              @canany(['admin','ceo','head','dpo'])
               <caption>
                All Respondents
               </caption>
@@ -129,7 +129,7 @@ use Carbon\Carbon;
             </table>
           </div>
         </div>
-        @canany(['admin','ceo','head','manager','coordinator'])
+        @canany(['admin','ceo','head','manager','coordinator','dpo'])
         <div class="col-3 bg-dark">
           <ul class="list-group mt-5">
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">

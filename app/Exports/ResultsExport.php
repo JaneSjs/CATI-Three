@@ -17,10 +17,13 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
     use Exportable;
 
     private $schema_id;
+    protected $dynamicHeadings;
     
     public function __construct(int $schema_id)
     {
         $this->schema_id = $schema_id;
+        // Initialize dynamic headings
+        $this->dynamicHeadings = $this->retrieveDynamicHeadings();
     }
 
     public function query()
@@ -52,28 +55,23 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             $result->feedback,
         ];
 
-        // Flatten nested JSON structure
+        // Different Approach. Flatten nested JSON structure
+        //$this->flattenArray($content, $rowData);
 
-        // Handle Multiple Choice Answers
-        /**foreach ($content as $key => $value) {
-            if (is_array($value))
+        // Populate the row with values from the JSON data
+        foreach ($this->dynamicHeadings as $heading)
+        {
+            // Check if the key exists in the JSON data
+            if (isset($content[$heading]))
             {
-                // This bit potentially messes up with the headings
-                //$rowData[] = implode(', ', $value);
-                $rowData = $this->handleMultipleChoiceQuestions($rowData, $value, $key);
+                // Add the value to the row data
+                $rowData[] = $content[$heading];
             }
             else
             {
-                $rowData[] = $value;
+                $rowData = '';
             }
         }
-
-         return array_merge($rowData, array_values($content));
-         */
-        //End Handle Multiple Choice Answers
-
-        // New Approach. Flatten nested JSON structure
-        $this->flattenArray($content, $rowData);
 
         return $rowData;
     }
@@ -132,6 +130,24 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
         return $defaultHeadings;
 
+    }
+
+    protected function retrieveDynamicHeadings()
+    {
+        $firstRow = Result::where('schema_id', $this->schema_id)->first();
+
+        $dynamicHeadings = [];
+
+        if ($firstRow) {
+            $content = json_decode($firstRow->content, true);
+
+            foreach ($content as $key => $value)
+            {
+                $dynamicHeadings = $key;    
+            }
+        }
+
+        return $dynamicHeadings;
     }
 
     public function columnFormats(): array

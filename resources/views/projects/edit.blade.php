@@ -47,47 +47,20 @@
           </div>
         </div>
 
-        <!-- <div class="mb-3">
-          <label for="supervisors" class="form-label">
-            Assign Supervisors
+        <div class="mb-3">
+          <label for="users" class="form-label">
+            Assign Someone
           </label>
-          <select class="form-select" id="supervisors" name="supervisors[]" multiple>
-            @foreach($supervisors as $supervisor)
-            <option value="{{ $supervisor->id }}">
-              {{ $supervisor->last_name }}
+          <select class="form-select" id="users" name="users[]" multiple>
+            
+            @foreach($users as $user)
+            <option value="{{ $user->id }}"  {{ $project->user && $project->user->id == $user->id ? 'selected' : '' }} >
+              {{ $user->first_name . ' ' . $user->last_name }}
             </option>
             @endforeach
           </select>
-          <div id="supervisor" class="form-text">Assign Supervisors</div>
-        </div> -->
-
-        <!-- <div class="mb-3">
-          <label for="scriptors" class="form-label">
-            Assign Scriptors
-          </label>
-          <select class="form-select" id="scriptors" name="scriptors[]" multiple>
-            @foreach($scriptors as $scriptor)
-            <option value="{{ $scriptor->id }}">
-              {{ $scriptor->last_name }}
-            </option>
-            @endforeach
-          </select>
-          <div id="scriptors" class="form-text">Assign Scriptors</div>
-        </div> -->
-
-        <!-- <div class="mb-3">
-          <label for="qcs" class="form-label">
-            Assign QCs
-          </label>
-          <select class="form-select" id="qcs" name="qcs[]" multiple>
-            @foreach($qcs as $qc)
-            <option value="{{ $qc->id }}">
-              {{ $qc->last_name }}
-            </option>
-            @endforeach
-          </select>
-          <div id="qcs" class="form-text">Assign QCs</div>
-        </div> -->
+          <div id="user" class="form-text">Assign Someone</div>
+        </div>
 
         <div class="mb-3">
           <label for="database" class="form-label">
@@ -96,7 +69,7 @@
           <select class="form-select" name="database" aria-label="Select Database">
             <option value="{{ $project->database }}" selected>
                 {{ $project->database }}
-              </option>
+            </option>
             <option value="Controller" title="Controlled Database">
               Controller
             </option>

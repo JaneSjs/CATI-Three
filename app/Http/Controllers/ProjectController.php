@@ -42,8 +42,11 @@ class ProjectController extends Controller
         }
         elseif (Gate::allows('manager'))
         {
-            $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
+            // $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
             //dd('Manager');
+
+            $user = User::find(auth()->user()->id);
+            $data['projects'] = $user->projects()->orderBy('id', 'DESC')->paginate(10);
         }
         else
         {
@@ -177,22 +180,10 @@ class ProjectController extends Controller
     {
         $data['project'] = $project;
 
-        $data['supervisors'] = User::with('roles')
+        $data['users'] = User::with('roles')
                             ->whereHas('roles', function (Builder $query)
                             {
-                                $query->where('name', 'Supervisor');
-                            })->get();
-
-        $data['scriptors'] = User::with('roles')
-                            ->whereHas('roles', function (Builder $query)
-                            {
-                                $query->where('name', 'Scripter');
-                            })->get();
-
-        $data['qcs'] = User::with('roles')
-                            ->whereHas('roles', function (Builder $query)
-                            {
-                                $query->where('name', 'QC');
+                                $query->whereIn('name', ['Supervisor','Scripter','Manager','QC']);
                             })->get();
 
         return view('projects.edit', $data);

@@ -108,7 +108,7 @@ use Carbon\Carbon;
             </p>
 
             
-            <button type="button" onclick="call()" class="btn btn-outline-info" title="Call {{ $respondent->name ?? '' }}">
+            <button type="button" onclick="call()" class="btn btn-outline-info mt-3" title="Call {{ $respondent->name ?? '' }}">
               <i class="fas fa-phone fa-bounce"></i>
               {{ auth()->user()->ext_no }}
             </button>
@@ -199,6 +199,9 @@ use Carbon\Carbon;
                   
                 <li class="list-group-item">
                   {{ $respondent->age ?? 'Age is Undefined'}}
+                  <button class="btn btn-outline-info btn-sm float-end" title="Click To Update Respondent's Details">
+                    Incorrect Respondent's Details ?
+                  </button>
                 </li>
                 <li class="list-group-item">
                   {{ $respondent->ethnic_group . ', ' . $respondent->gender ?? 'Gender is Undefined' }}

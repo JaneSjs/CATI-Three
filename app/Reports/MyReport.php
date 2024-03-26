@@ -22,6 +22,6 @@ class MyReport extends \koolreport\KoolReport
 
         $this->src($database)
              ->query("SELECT * FROM interviews")
-             ->pipe($this->dataStore("respondents"));
+             ->pipe($this->dataStore("interviews"));
     }
 }

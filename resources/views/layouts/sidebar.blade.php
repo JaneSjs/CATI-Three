@@ -75,7 +75,7 @@
       Research
     </li>
 
-    @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client','dpo'])
+    @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client','dpo','finance'])
     <li class="nav-item">
       <a class="nav-link" href="{{ route('projects.index') }}">
         <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
@@ -130,7 +130,7 @@
     </li>
     @endcan
         
-    @canany(['admin','ceo','head','manager','coordinator'])
+    @canany(['admin','ceo','head','manager','coordinator','dpo'])
     <li class="nav-title">
       Data Protection Module
     </li>
