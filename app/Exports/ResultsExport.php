@@ -37,7 +37,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
     public function map($result): array
     {
-        $content = json_decode($result->content, true);
+        $content = json_decode(stripslashes($result->content), true);
 
         $rowData = [
             $result->first_name . ' ' . $result->last_name,
@@ -69,7 +69,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             }
             else
             {
-                $rowData = '';
+                $rowData[] = '';
             }
         }
 
