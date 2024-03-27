@@ -15,7 +15,9 @@ use App\Models\Result;
 use App\Models\Schema;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel as ExcelExcel;
@@ -114,65 +116,79 @@ class ResultController extends Controller
      */
     public function csv_export(int $schemaId)
     {
-        // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
-        //     'Content-Type' => 'text/csv',
-        // ]);
-        $survey = Schema::find($schemaId);
+        try {
+            // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
+            //     'Content-Type' => 'text/csv',
+            // ]);
+            $survey = Schema::find($schemaId);
 
-        if ($survey)
-        {
-            $surveyName = $survey->survey_name;
-
-            $fileName = 'TIFA-CSV' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
-
-            $headers = [
-                'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-            ];
-
-            $results = Result::query()
-                ->join('interviews', 'results.interview_id', '=', 'interviews.id')
-                ->join('users', 'results.user_id', '=', 'users.id')
-                ->select('interviews.id','results.content')
-                ->where('results.schema_id', $schemaId)
-                ->where('interviews.interview_status', 'Interview Completed')
-                ->where('interviews.quality_control', '<>', 'Cancelled')
-                ->get();
-
-            // Convert JSON results to CSV Format
-            $csv = new SplTempFileObject();
-
-            // Write Interview Id header
-            $csv->fputcsv(['interview_id','content']);
-
-            //Function to extract question keys and answer values recursively
-            function processData($data, $csv)
+            if ($survey)
             {
-                foreach ($data as $key => $value)
+                $surveyName = $survey->survey_name;
+
+                $fileName = 'TIFA-CSV' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+
+                $headers = [
+                    'Content-Type' => 'text/csv',
+                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+                ];
+
+                $results = Result::query()
+                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+                    ->join('users', 'results.user_id', '=', 'users.id')
+                    ->select('interviews.id','results.content')
+                    ->where('results.schema_id', $schemaId)
+                    ->where('interviews.interview_status', 'Interview Completed')
+                    ->where('interviews.quality_control', '<>', 'Cancelled')
+                    ->get();
+
+                // Convert JSON results to CSV Format
+                $csv = new SplTempFileObject();
+
+                // Write Interview Id header
+                $csv->fputcsv(['interview_id','content']);
+
+                //Function to extract question keys and answer values recursively
+                function processData($data, $csv)
                 {
-                    if (is_array($value))
-                    {
-                        processData($value, $csv); 
-                    }
-                    else
-                    {
-                        $csv->fputcsv([$key, $value]);
+                    try {
+                        foreach ($data as $key => $value)
+                        {
+                            if (is_array($value))
+                            {
+                                processData($value, $csv); 
+                            }
+                            else
+                            {
+                                $csv->fputcsv([$key, $value]);
+                            }
+                        } 
+                    } catch (Exception $e) {
+                           Log::error("CSV Export Error. Error Processing Data: " . $e->getCode() . ": " . $e->getMessage());
                     }
                 }
+
+                foreach ($results as $result) {
+                    try {
+                        $decodedData = json_decode($result->content, true);
+
+                        $csv->fputcsv([$result->id]);
+                        processData($decodedData, $csv);
+                    } catch (Exception $e) {
+                        Log::error("CSV Export Error. Error Processing Result Id : " . $result->id . '-' . $e->getCode() . ": " . $e->getMessage());
+                    }
+                }
+
+                    return response($csv, 200, $headers);    
             }
-
-            foreach ($results as $result) {
-                $decodedData = json_decode($result->content, true);
-
-                $csv->fputcsv([$result->id]);
-                processData($decodedData, $csv);
+            else
+            {
+                return redirect()->back(404)->with('warning', 'Survey Not Found');
             }
+        } catch (Exception $e) {
+            Log::error("CSV Export Error. General Error Exporting Data: " . $e->getCode() . ": " . $e->getMessage());
 
-            return response($csv, 200, $headers);    
-        }
-        else
-        {
-            return redirect()->back(404)->with('warning', 'Survey Not Found');
+            return back($e->getCode())->with('error', 'Failed To Export Survey Results Data to a CSV file.');
         }
     }
 
