@@ -134,7 +134,7 @@ class ResultController extends Controller
         $survey = Schema::find($schemaId);
         $surveyName = $survey->survey_name;
 
-        $fileName = 'TIFA-JSON' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results';
+        $fileName = 'TIFA-JSON' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
 
         $headers = [
             'Content-Type' => 'application/json',
