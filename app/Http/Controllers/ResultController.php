@@ -142,6 +142,8 @@ class ResultController extends Controller
                     ->where('interviews.quality_control', '<>', 'Cancelled')
                     ->get();
 
+                dd($results);
+
                 // Convert JSON results to CSV Format
                 $csv = new SplTempFileObject();
 
