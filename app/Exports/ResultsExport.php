@@ -74,8 +74,9 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
                 // Check if the key exists in the JSON data
                 if (isset($content[$heading]))
                 {
+                    $value = is_array($content[$heading]) ? json_encode($content[$heading]) : $content[$heading];
                     // Add the value to the row data
-                    $rowData[] = $content[$heading];
+                    $rowData[] = $value;
                 }
                 else
                 {
