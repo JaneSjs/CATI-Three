@@ -142,46 +142,67 @@ class ResultController extends Controller
                     ->where('interviews.quality_control', '<>', 'Cancelled')
                     ->get();
 
-                dd($results);
-
-                // Convert JSON results to CSV Format
+                //dd($results);
                 $csv = new SplTempFileObject();
 
-                // Write Interview Id header
-                $csv->fputcsv(['interview_id','content']);
+                // Write the first row, write the interview id and the question headers
+                $csv->fputcsv(array_merge(['interview_id'], array_keys(json_decode($results->first()->content, true))));
 
                 //Function to extract question keys and answer values recursively
-                function processData($data, $csv)
+                function processData($data)
                 {
                     try {
+                        $processedData = [];
+
                         foreach ($data as $key => $value)
                         {
                             if (is_array($value))
                             {
-                                processData($value, $csv); 
+                                $processedData = array_merge($processedData, processData($value));
                             }
                             else
                             {
-                                $csv->fputcsv([$key, $value]);
+                                $processedData[] = [$key, $value];
                             }
-                        } 
+                        }
+
+                        return $processedData;
+
                     } catch (Exception $e) {
-                           Log::error("CSV Export Error. Error Processing Data: " . $e->getCode() . ": " . $e->getMessage());
+                        Log::error("CSV Export Error. Error Processing Data: " . $e->getCode() . ": " . $e->getMessage());
+                        return back($e->getCode())->with("error", "CSV Export Error. Error Processing Data: " . $e->getMessage());
                     }
                 }
+
+
+                $allProcessedData = [];
 
                 foreach ($results as $result) {
                     try {
                         $decodedData = json_decode($result->content, true);
 
+                        $processedData = processData($decodedData);
+
+                        $allProcessedData = array_merge($allProcessedData, $processedData);
+
                         $csv->fputcsv([$result->id]);
-                        processData($decodedData, $csv);
+                        
                     } catch (Exception $e) {
                         Log::error("CSV Export Error. Error Processing Result Id : " . $result->id . '-' . $e->getCode() . ": " . $e->getMessage());
+                        return back($e->getCode())->with("error", "CSV Export Error. Error Processing Result Id : " . $result->id . '-' . $e->getCode() . ": " . $e->getMessage());
                     }
                 }
 
-                    return response($csv, 200, $headers);    
+                // Write accumulated processed data to CSV
+
+                // Write header row again
+                $csv->fputcsv(array_merge(['interview_id'], array_keys(json_decode($results->first()->content, true))));
+
+                foreach ($allProcessedData as $row) {
+                    $csv->fputcsv($row);
+                }
+
+                return response($csv, 200, $headers);    
             }
             else
             {
