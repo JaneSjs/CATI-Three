@@ -3,7 +3,9 @@
 namespace App\Exports;
 
 use App\Models\Result;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -37,40 +39,53 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
     public function map($result): array
     {
-        $content = json_decode(stripslashes($result->content), true);
+        try {
+            $content = json_decode(stripslashes($result->content), true);
 
-        $rowData = [
-            $result->first_name . ' ' . $result->last_name,
-            $result->respondent_name,
-            $result->respondent_id,
-            $result->phone_called,
-            $result->ext_no,
-            $result->interview_completed,
-            $result->status,
-            $result->schema_id,
-            $result->interview_id,
-            $result->start_time ? Date::dateTimeFromTimestamp($result->start_time) : null,
-            $result->end_time ? Date::dateTimeFromTimestamp($result->end_time) : null,
-            $result->survey_url,
-            $result->feedback,
-        ];
-
-        // Different Approach. Flatten nested JSON structure
-        //$this->flattenArray($content, $rowData);
-
-        // Populate the row with values from the JSON data
-        foreach ($this->dynamicHeadings as $heading)
-        {
-            // Check if the key exists in the JSON data
-            if (isset($content[$heading]))
-            {
-                // Add the value to the row data
-                $rowData[] = $content[$heading];
+            // Check if $content is an array
+            if (!is_array($content)) {
+                Log::error('Invalid JSON Survey Results Content For Result ID : ' . $result->id);
+                // Set $content to null
+                $content = null;
             }
-            else
+
+            $rowData = [
+                $result->first_name . ' ' . $result->last_name,
+                $result->respondent_name,
+                $result->respondent_id,
+                $result->phone_called,
+                $result->ext_no,
+                $result->interview_completed,
+                $result->status,
+                $result->schema_id,
+                $result->interview_id,
+                $result->start_time ? Date::dateTimeFromTimestamp($result->start_time) : null,
+                $result->end_time ? Date::dateTimeFromTimestamp($result->end_time) : null,
+                $result->survey_url,
+                $result->feedback,
+            ];
+
+            // Different Approach. Flatten nested JSON structure
+            //$this->flattenArray($content, $rowData);
+
+            // Populate the row with values from the JSON data
+            foreach ($this->dynamicHeadings as $heading)
             {
-                $rowData[] = '';
+                // Check if the key exists in the JSON data
+                if (isset($content[$heading]))
+                {
+                    // Add the value to the row data
+                    $rowData[] = $content[$heading];
+                }
+                else
+                {
+                    $rowData[] = null;
+                }
             }
+        } catch (Exception $e) {
+            Log::error('Survey Results Export. Error Processing result ID ' . $result->id . ': (' . $e->getCode() . ') ' . $e->getMessage() . ' { ' . $e->getTrace() . ' }');
+
+            $rowData = [];
         }
 
         return $rowData;
