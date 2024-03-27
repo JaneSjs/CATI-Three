@@ -26,7 +26,14 @@ use Carbon\Carbon;
           @include('partials.alerts')
         </div>
         <div class="col text-end">
-          
+          <div class="alert alert-info" role="alert">
+            <strong class="me-auto">{ JSON formatter }</strong>
+            <p>
+              <a class="btn btn-sm btn-outline-primary" href="https://jsonformatter.org" target="_blank">
+               Convert JSON Survey Results Here
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
