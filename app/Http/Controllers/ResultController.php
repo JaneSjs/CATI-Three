@@ -111,11 +111,44 @@ class ResultController extends Controller
     /**
      * csv Survey Results Export
      */
-    public function csv_export(int $schema_id)
+    public function csv_export(int $schemaId)
     {
-        return Excel::download(new ResultsjsonExport($schema_id), 'only_survey_results.csv', ExcelExcel::CSV, [
+        // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
+        //     'Content-Type' => 'text/csv',
+        // ]);
+
+        $survey = Schema::find($schemaId);
+        $surveyName = $survey->survey_name;
+
+        $fileName = 'TIFA-CSV' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+
+        $headers = [
             'Content-Type' => 'text/csv',
-        ]);
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ];
+
+        $results = Result::query()
+            ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+            ->join('users', 'results.user_id', '=', 'users.id')
+            ->select('interviews.id','results.content')
+            ->where('results.schema_id', $schemaId)
+            ->where('interviews.interview_status', 'Interview Completed')
+            ->where('interviews.quality_control', '<>', 'Cancelled')
+            ->get();
+
+        // Convert JSON results to CSV Format
+        $csv = $results->map(function ($result)
+        {
+            return $result->id . ',' . '"' . str_replace('"', '""', $result->content) . '"';
+        });
+
+        // Prepend header line
+        $csv->prepend('interview_id,content');
+
+        // Convert to string
+        $csv = $csv->implode("\n");
+
+        return response($csv, 200, $headers);
     }
 
     /**
