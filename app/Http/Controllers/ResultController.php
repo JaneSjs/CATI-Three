@@ -144,8 +144,11 @@ class ResultController extends Controller
         $results = Result::query()
             ->join('interviews', 'results.interview_id', '=', 'interviews.id')
             ->join('users', 'results.user_id', '=', 'users.id')
-            ->select('results.*', 'interviews.*', 'users.first_name', 'users.last_name')
-            ->where('results.schema_id', $schemaId)->get();
+            ->select('results.content')
+            ->where('results.schema_id', $schemaId)
+            ->where('interviews.interview_status', 'Interview Completed')
+            ->where('interviews.quality_control', '<>', 'Cancelled')
+            ->get();
 
         //dd($results);
 
