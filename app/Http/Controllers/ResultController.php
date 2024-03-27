@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
+use SplTempFileObject;
 
 class ResultController extends Controller
 {
@@ -109,46 +110,70 @@ class ResultController extends Controller
     }
 
     /**
-     * csv Survey Results Export
+     * CSV Survey Results Export
      */
     public function csv_export(int $schemaId)
     {
         // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
         //     'Content-Type' => 'text/csv',
         // ]);
-
         $survey = Schema::find($schemaId);
-        $surveyName = $survey->survey_name;
 
-        $fileName = 'TIFA-CSV' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
-
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-        ];
-
-        $results = Result::query()
-            ->join('interviews', 'results.interview_id', '=', 'interviews.id')
-            ->join('users', 'results.user_id', '=', 'users.id')
-            ->select('interviews.id','results.content')
-            ->where('results.schema_id', $schemaId)
-            ->where('interviews.interview_status', 'Interview Completed')
-            ->where('interviews.quality_control', '<>', 'Cancelled')
-            ->get();
-
-        // Convert JSON results to CSV Format
-        $csv = $results->map(function ($result)
+        if ($survey)
         {
-            return $result->id . ',' . '"' . str_replace('"', '""', $result->content) . '"';
-        });
+            $surveyName = $survey->survey_name;
 
-        // Prepend header line
-        $csv->prepend('interview_id,content');
+            $fileName = 'TIFA-CSV' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
 
-        // Convert to string
-        $csv = $csv->implode("\n");
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+            ];
 
-        return response($csv, 200, $headers);
+            $results = Result::query()
+                ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+                ->join('users', 'results.user_id', '=', 'users.id')
+                ->select('interviews.id','results.content')
+                ->where('results.schema_id', $schemaId)
+                ->where('interviews.interview_status', 'Interview Completed')
+                ->where('interviews.quality_control', '<>', 'Cancelled')
+                ->get();
+
+            // Convert JSON results to CSV Format
+            $csv = new SplTempFileObject();
+
+            // Write Interview Id header
+            $csv->fputcsv(['interview_id','content']);
+
+            //Function to extract question keys and answer values recursively
+            function processData($data, $csv)
+            {
+                foreach ($data as $key => $value)
+                {
+                    if (is_array($value))
+                    {
+                        processData($value, $csv); 
+                    }
+                    else
+                    {
+                        $csv->fputcsv([$key, $value]);
+                    }
+                }
+            }
+
+            foreach ($results as $result) {
+                $decodedData = json_decode($result->content, true);
+
+                $csv->fputcsv([$result->id]);
+                processData($decodedData, $csv);
+            }
+
+            return response($csv, 200, $headers);    
+        }
+        else
+        {
+            return redirect()->back(404)->with('warning', 'Survey Not Found');
+        }
     }
 
     /**
