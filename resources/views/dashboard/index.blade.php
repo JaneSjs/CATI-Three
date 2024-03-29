@@ -75,7 +75,7 @@
     </div>
     <div class="row">
       <div class="col-sm-6 col-lg-3">
-        <a href="{{ route('users.index') }} ">
+        <a href="#">
           <div class="card mb-4 text-white bg-success">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start" title="USB Headsets is Preffered">
               <div>
@@ -91,12 +91,12 @@
         </a>
       </div>
       <div class="col-sm-6 col-lg-3">
-        <a href="{{ route('projects.index') }}">
+        <a href="#">
           <div class="card mb-4 text-white bg-success">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
               <div>
                 <div class="fs-4 fw-semibold">
-                  60 
+                  200 
                   <span class="fs-6 fw-normal">
                     <i class="fas fa-phone-volume fa-xl"></i>
                   </span></div>
@@ -107,7 +107,7 @@
         </a>
       </div>
       <div class="col-sm-6 col-lg-3">
-        <a href="{{ route('surveys.index') }}">
+        <a href="#">
           <div class="card mb-4 text-white bg-success">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
               <div>

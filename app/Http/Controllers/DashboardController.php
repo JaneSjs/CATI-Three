@@ -60,8 +60,12 @@ class DashboardController extends Controller
 
         $data['total_user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
-                                    //->where('project_id', )
-                                    ->where('interview_status', '!=', null)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->get();
+
+        $data['total_user_cancelled_interviews'] = User::find(auth()->user()->id)
+                                    ->interviews()
+                                    ->where('quality_control', 'Cancelled')
                                     ->get();
 
         $data['todays_user_interviews'] = User::find(auth()->user()->id)

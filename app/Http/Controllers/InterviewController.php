@@ -243,7 +243,6 @@ class InterviewController extends Controller
             ]);
 
             $data['project'] = Project::find($project_id);
-            //$data['survey']  = Schema::find($survey_id);
             $survey = $data['survey'] = Schema::find($survey_id);
             $data['interview'] = Interview::find($interview_id);
             $respondent = $data['respondent'] = Respondent::find($respondent_id);
@@ -373,7 +372,8 @@ class InterviewController extends Controller
         $query = $request->input('query');
 
         $respondents = Respondent::search($query)
-                                ->where('project_id', $project_id)
+                                ->where('schema_id', $survey_id)
+                                //->where('project_id', $project_id)
                                 ->get();
 
         //$findRespondent->eligible();

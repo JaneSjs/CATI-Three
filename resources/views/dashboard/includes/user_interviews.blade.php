@@ -1,4 +1,6 @@
-
+<?php
+  use Carbon\Carbon;
+?>
     <!-- /.row-->
     <div class="card mb-4">
       <div class="card-header">
@@ -34,6 +36,21 @@
                     </span>
                   </div>
                   <div>Todays Interviews</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card mb-4 text-white bg-danger">
+              <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="fs-4 fw-semibold">
+                    {{ $total_user_cancelled_interviews->count() }} 
+                    <span class="fs-6 fw-normal">
+                      <i class="fas fa-calendar fa-xl"></i>
+                    </span>
+                  </div>
+                  <div>Cancelled Interviews</div>
                 </div>
               </div>
             </div>
@@ -88,10 +105,16 @@
                         @endif
                       </dt>
                       <dd>
-                        Start Time: ({{ $interview->start_time ?? '' }})
-                        @if($interview->end_time)
-                        | End Time: ({{ $interview->end_time ?? '' }})
-                        @endif
+                        <?php
+                          $start_time = Carbon::parse($interview->start_time ?? '' );
+                          $end_time   = Carbon::parse($interview->end_time ?? '' );
+                        ?>
+                        <p>
+                          Duration
+                          <span class="badge bg-primary">
+                            {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }}
+                          </span>
+                        </p>
                       </dd>
                       <dt>
                         <a href="{{ route('begin_survey', [
@@ -103,6 +126,7 @@
                           class="btn btn-dark btn-xs" 
                           target="_blank"
                           title="Go To Interview"
+                          onclick="return false;"
                         >
                           Preview
                         </a>

@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'temporary' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/temporary'), // Adjust path as needed
+        ],
+
     ],
 
     /*

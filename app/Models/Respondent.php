@@ -67,7 +67,11 @@ class Respondent extends Model
             return true;
         }
 
-        // Respondent is currently being interviewed by someone else.
+        /**
+         * Respondent is currently being interviewed
+         * by someone else, or has been scheduled for
+         * an interview later on.
+         */ 
         if ($this->interview_status == 'Locked')
         {
             return false;

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
-use SplTempFileObject;
+use OzdemirBurak\JsonCsv\File\Json;
 
 class ResultController extends Controller
 {
@@ -126,7 +126,7 @@ class ResultController extends Controller
             {
                 $surveyName = $survey->survey_name;
 
-                $fileName = 'TIFA-CSV' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+                $fileName = 'TIFA-CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
 
                 $headers = [
                     'Content-Type' => 'text/csv',
@@ -142,76 +142,48 @@ class ResultController extends Controller
                     ->where('interviews.quality_control', '<>', 'Cancelled')
                     ->get();
 
+                $csvData = [];
                 //dd($results);
-                $csv = new SplTempFileObject();
 
-                // Write the first row, write the interview id and the question headers
-                $csv->fputcsv(array_merge(['interview_id'], array_keys(json_decode($results->first()->content, true))));
-
-                //Function to extract question keys and answer values recursively
-                function processData($data)
+                foreach ($results as $result)
                 {
-                    try {
-                        $processedData = [];
-
-                        foreach ($data as $key => $value)
-                        {
-                            if (is_array($value))
-                            {
-                                $processedData = array_merge($processedData, processData($value));
-                            }
-                            else
-                            {
-                                $processedData[] = [$key, $value];
-                            }
-                        }
-
-                        return $processedData;
-
-                    } catch (Exception $e) {
-                        Log::error("CSV Export Error. Error Processing Data: " . $e->getCode() . ": " . $e->getMessage());
-                        return back($e->getCode())->with("error", "CSV Export Error. Error Processing Data: " . $e->getMessage());
-                    }
+                    $csvData[] = [
+                        "interview_id" => $result->id,
+                        "content" => $result->content // Include JSON content as is
+                    ];
                 }
 
+                //dd($csvData);
 
-                $allProcessedData = [];
+                // Use Laravel Storage for temporary file
+                $disk = Storage::disk('temporary'); // Use 'temporary' disk or default
 
-                foreach ($results as $result) {
-                    try {
-                        $decodedData = json_decode($result->content, true);
+                $tempFile = $disk->put('csv_export_' . uniqid(), json_encode($csvData)); // Store data directly
 
-                        $processedData = processData($decodedData);
+                //dd($tempFile);
+                // if ($tempFile) {
+                //     $tempFileName = $disk->
+                // }
 
-                        $allProcessedData = array_merge($allProcessedData, $processedData);
+                // Json library can now use the stored file path
+                $json = new Json($tempFile);
+                //dd($json);
 
-                        $csv->fputcsv([$result->id]);
-                        
-                    } catch (Exception $e) {
-                        Log::error("CSV Export Error. Error Processing Result Id : " . $result->id . '-' . $e->getCode() . ": " . $e->getMessage());
-                        return back($e->getCode())->with("error", "CSV Export Error. Error Processing Result Id : " . $result->id . '-' . $e->getCode() . ": " . $e->getMessage());
-                    }
-                }
+                $json->setConversionKey('utf8_encoding', true);
 
-                // Write accumulated processed data to CSV
+                $json->convertAndDownload();
 
-                // Write header row again
-                $csv->fputcsv(array_merge(['interview_id'], array_keys(json_decode($results->first()->content, true))));
-
-                foreach ($allProcessedData as $row) {
-                    $csv->fputcsv($row);
-                }
-
-                return response($csv, 200, $headers);    
+                $disk->delete($tempFile);
+ 
             }
             else
             {
                 return redirect()->back(404)->with('warning', 'Survey Not Found');
             }
         } catch (Exception $e) {
-            Log::error("CSV Export Error. General Error Exporting Data: " . $e->getCode() . ": " . $e->getMessage());
+            Log::error("CSV Export Error. General Error Exporting Data: ". $e->getMessage());
 
-            return back($e->getCode())->with('error', 'Failed To Export Survey Results Data to a CSV file.');
+            return back()->with('error', 'Failed To Export Survey Results Data to a CSV file: ' . $e->getMessage());
         }
     }
 
