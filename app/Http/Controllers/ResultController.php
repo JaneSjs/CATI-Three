@@ -115,7 +115,7 @@ class ResultController extends Controller
     /**
      * Primitive CSV Survey Results Export
      */
-    public function attempt_csv_export(int $schemaId)
+    public function hold_csv_export(int $schemaId)
     {
         try {
             // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
@@ -202,7 +202,7 @@ class ResultController extends Controller
     /**
      * CSV Survey Results Export
      */
-    public function hold_csv_export(int $schemaId)
+    public function csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -282,7 +282,7 @@ class ResultController extends Controller
     /**
      * Muhidin CSV Export Solution
      */
-    public function csv_export(int $schemaId)
+    public function attempt_csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
