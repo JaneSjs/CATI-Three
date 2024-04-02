@@ -56,6 +56,7 @@
             </div>
           </div>
         </div>
+          @if($user_interviews)
           <div class="table-responsive">
             <table class="table table-striped table-sm table-bordered">
               <thead class="table-dark">
@@ -144,6 +145,7 @@
               </tfoot>
             </table>
           </div>
+          @endif
       </div>
       <div class="card-footer">
         
