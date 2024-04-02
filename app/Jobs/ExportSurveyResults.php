@@ -66,11 +66,11 @@ class ExportSurveyResults implements ShouldQueue
 
 
         } catch (Exception $e) {
-            // Mail::to('kipchumba.kenneth@ymail.com')
-            //      ->send(new QuotaMet());
+            $errorMessage = $e->getMessage();
+            $errorTrace = $e->getTraceAsString();
 
-            Log::error('Error Exporting ' . $this->surveyName . ' Survey Results: ' . $e->getMessage());
-            session()->flash('error', 'An Error Occured During ' . $this->surveyName . ' Survey Results Export. Please Try Again After Some Time.');
+            Log::error('A Queue Error Occured During ' . $this->surveyName . ' Survey Results Export.' . $errorMessage . ' ' . $errorTrace);
+            session()->flash('error', 'A Queue Error Occured During ' . $this->surveyName . ' Survey Results Export. Please Try Again After Some Time.');
         }
     }
 }

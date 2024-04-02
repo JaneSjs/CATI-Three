@@ -54,7 +54,9 @@
                   @can('admin')
                     <th scope="col">Role(s)</th>
                   @endcan
-                  <!-- <th scope="col">Email</th> -->
+                  @canany(['admin','supervisor'])
+                    <th scope="col">Ext No</th>
+                  @endcan
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -76,9 +78,11 @@
                       @endforeach
                     </td>
                   @endcan
-                  <!-- <td>
-                    {{ $user->email }}
-                  </td> -->
+                  @canany(['admin','supervisor'])
+                    <td class="">
+                      {{ $user->ext_no }}
+                    </td>
+                  @endcan
                   <td>
                     <div class="btn-group">
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">

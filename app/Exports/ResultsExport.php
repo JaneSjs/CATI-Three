@@ -8,24 +8,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+//use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnFormatting, ShouldQueue
+class ResultsExport implements FromQuery, WithMapping, WithHeadings, /*WithColumnFormatting,*/ ShouldQueue
 {
     use Exportable;
 
-    private $schema_id;
-    protected $dynamicHeadings;
-    
-    public function __construct(int $schema_id)
+    private $schemaId;
+
+    public function __construct(int $schemaId)
     {
-        $this->schema_id = $schema_id;
-        // Initialize dynamic headings
-        $this->dynamicHeadings = $this->retrieveDynamicHeadings();
+        $this->schemaId = $schemaId;
     }
 
     public function query()
@@ -34,19 +30,18 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             ->join('interviews', 'results.interview_id', '=', 'interviews.id')
             ->join('users', 'results.user_id', '=', 'users.id')
             ->select('results.*', 'interviews.*', 'users.first_name', 'users.last_name')
-            ->where('results.schema_id', $this->schema_id);
+            ->where('results.schema_id', $this->schemaId);
     }
 
     public function map($result): array
     {
         try {
-            $content = json_decode(stripslashes($result->content), true);
+            $results = json_decode(stripslashes($result->content), true);
 
-            // Check if $content is an array
-            if (!is_array($content)) {
-                Log::error('Invalid JSON Survey Results Content For Result ID : ' . $result->id);
-                // Set $content to null
-                $content = null;
+            // Check if $results is an array
+            if (!is_array($results)) {
+                Log::error('Invalid Survey Results Content For Interview ID : ' . $result->id);
+                $results = [];
             }
 
             $rowData = [
@@ -59,37 +54,17 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
                 $result->status,
                 $result->schema_id,
                 $result->interview_id,
-                $result->start_time ? Date::dateTimeFromTimestamp($result->start_time) : null,
-                $result->end_time ? Date::dateTimeFromTimestamp($result->end_time) : null,
+                $result->start_time ? date('d-m-Y H:i:s', strtotime($result->start_time)) : null,
+                $result->end_time ?   date('d-m-Y H:i:s', strtotime($result->end_time)) : null,
                 $result->survey_url,
                 $result->feedback,
             ];
 
-            // Different Approach. Flatten nested JSON structure
-            //$this->flattenArray($content, $rowData);
-
-            // Populate the row with values from the JSON data
-            foreach ($this->dynamicHeadings as $heading)
-            {
-                // Check if the key exists in the JSON data
-                if (isset($content[$heading]))
-                {
-                    $value = is_array($content[$heading]) ? json_encode($content[$heading]) : $content[$heading];
-                    // Add the value to the row data
-                    $rowData[] = $value;
-                }
-                else
-                {
-                    $rowData[] = null;
-                }
-            }
+            return $rowData;
         } catch (Exception $e) {
-            Log::error('Survey Results Export. Error Processing result ID ' . $result->id . ': (' . $e->getCode() . ') ' . $e->getMessage() . ' { ' . $e->getTrace() . ' }');
-
-            $rowData = [];
+            Log::error('Survey Results Export. Error Processing Interview ID ' . $result->id . ' ' . $e->getMessage() . ' { ' . $e->getTrace() . ' }');
+            return [];
         }
-
-        return $rowData;
     }
 
     /**
@@ -110,7 +85,7 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
     public function headings(): array
     {
-        $firstRow = Result::where('schema_id', $this->schema_id)->first();
+        $firstRow = Result::where('schema_id', $this->schemaId)->first();
 
         $defaultHeadings = [
             'Interviewer',
@@ -146,48 +121,5 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
         return $defaultHeadings;
 
-    }
-
-    protected function retrieveDynamicHeadings()
-    {
-        $firstRow = Result::where('schema_id', $this->schema_id)->first();
-
-        $dynamicHeadings = [];
-
-        if ($firstRow) {
-            $content = json_decode($firstRow->content, true);
-
-            foreach ($content as $key => $value)
-            {
-                $dynamicHeadings = $key;    
-            }
-        }
-
-        return $dynamicHeadings;
-    }
-
-    public function columnFormats(): array
-    {
-        return [
-            10 => NumberFormat::FORMAT_DATE_DATETIME,
-            11 => NumberFormat::FORMAT_DATE_DATETIME,
-            17 => NumberFormat::FORMAT_DATE_DDMMYYYY,
-        ];
-    }
-
-    public function queue(?string $filePath = null, ?string $disk = null)
-    {
-        return $this->store($filePath, $disk);
-        
-    }
-
-    private function handleMultipleChoiceQuestions(array $rowData, array $choices, string $questionKey): array
-    {
-         foreach ($choices as $index => $choice)
-         {
-             $rowData[] = $choice;
-         }
-
-         return $rowData;
     }
 }

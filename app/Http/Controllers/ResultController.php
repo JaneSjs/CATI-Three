@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use League\Csv\Writer;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use OzdemirBurak\JsonCsv\File\Json;
@@ -112,9 +113,9 @@ class ResultController extends Controller
     }
 
     /**
-     * CSV Survey Results Export
+     * Primitive CSV Survey Results Export
      */
-    public function csv_export(int $schemaId)
+    public function attempt_csv_export(int $schemaId)
     {
         try {
             // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
@@ -126,7 +127,7 @@ class ResultController extends Controller
             {
                 $surveyName = $survey->survey_name;
 
-                $fileName = 'TIFA-CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+                $fileName = 'CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
 
                 $headers = [
                     'Content-Type' => 'text/csv',
@@ -153,21 +154,32 @@ class ResultController extends Controller
                     ];
                 }
 
-                //dd($csvData);
+                //print_r($csvData);exit;
+
+                // Convert the array to json format
+                $jsonData = json_encode($csvData);
+
+                //print_r($jsonData);exit;
 
                 // Use Laravel Storage for temporary file
                 $disk = Storage::disk('temporary'); // Use 'temporary' disk or default
 
-                $tempFile = $disk->put('csv_export_' . uniqid(), json_encode($csvData)); // Store data directly
+                $tempFileName = 'csv_export_' . uniqid();
+
+                $tempFile = $disk->put($tempFileName, json_encode($csvData)); // Store data directly
 
                 //dd($tempFile);
-                // if ($tempFile) {
-                //     $tempFileName = $disk->
-                // }
+                if ($tempFile) {
+                    $path = Storage::path('temporary/' . $tempFileName);
+                    //dd($path);
+                }
 
                 // Json library can now use the stored file path
-                $json = new Json($tempFile);
+                $json = new Json($path);
                 //dd($json);
+
+                $csvString = $json->convert();
+                //dd($csvString);
 
                 $json->setConversionKey('utf8_encoding', true);
 
@@ -184,6 +196,175 @@ class ResultController extends Controller
             Log::error("CSV Export Error. General Error Exporting Data: ". $e->getMessage());
 
             return back()->with('error', 'Failed To Export Survey Results Data to a CSV file: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * CSV Survey Results Export
+     */
+    public function hold_csv_export(int $schemaId)
+    {
+        try {
+            $survey = Schema::find($schemaId);
+
+            if ($survey)
+            {
+                $surveyName = $survey->survey_name;
+
+                $fileName = 'CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+
+                $headers = [
+                    'Content-Type' => 'text/csv',
+                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+                ];
+
+                $results = Result::query()
+                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+                    ->join('users', 'results.user_id', '=', 'users.id')
+                    ->select('interviews.id','results.content')
+                    ->where('results.schema_id', $schemaId)
+                    ->where('interviews.interview_status', 'Interview Completed')
+                    ->where('interviews.quality_control', '<>', 'Cancelled')
+                    ->get();
+
+                $csvData = [];
+                $questions = [];
+                //dd($results);
+
+                foreach ($results as $result)
+                {
+                    $content = json_decode($result->content, true);
+
+                    $questions = array_merge($questions, array_keys($content));
+
+                    $csvData[] = array_merge(['interview_id' => $result->id], $content);
+                }
+
+                $questions = array_unique($questions);
+
+                $csvHeader = array_merge($questions);
+                //dd($csvHeader);
+
+                $tempFile = fopen('php://temp', 'wb');
+
+                if (mb_detect_encoding($csvHeader) === 'UTF-8') {
+                    fwrite($tempFile, chr(0xEF) . chr(0xBB) . chr(0xBF));
+                }
+
+                fputcsv($tempFile, $csvHeader);
+
+                foreach ($csvData as $row) {
+                    fputcsv($tempFile, $row);
+                }
+
+                rewind($tempFile);
+                $csvString = stream_get_contents($tempFile);
+                fclose($tempFile);
+
+                // Download the generated csv file
+                return response()->streamDownload(function () use ($csvString)
+                {
+                    echo $csvString;
+                }, $fileName, $headers);
+ 
+            }
+            else
+            {
+                return redirect()->back(404)->with('warning', 'Survey Not Found');
+            }
+        } catch (Exception $e) {
+            Log::error("CSV Export Error. General Error Exporting Data: ". $e->getMessage());
+
+            return back()->with('error', 'Failed To Export Survey Results Data to a CSV file: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Muhidin CSV Export Solution
+     */
+    public function csv_export(int $schemaId)
+    {
+        try {
+            $survey = Schema::find($schemaId);
+
+            if ($survey)
+            {
+                $surveyName = $survey->survey_name;
+
+                $fileName = 'CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+
+                $headers = [
+                    'Content-Type' => 'text/csv',
+                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+                ];
+
+                $results = Result::query()
+                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+                    ->join('users', 'results.user_id', '=', 'users.id')
+                    ->select('interviews.id','results.content')
+                    ->where('results.schema_id', $schemaId)
+                    ->where('interviews.interview_status', 'Interview Completed')
+                    ->where('interviews.quality_control', '<>', 'Cancelled')
+                    ->get();
+
+                $csv = Writer::createFromString();
+
+                foreach ($results as $result)
+                {
+                    $data = $result->content;
+
+                    $resultData = json_decode($json, true);
+
+                    $header = [];
+
+                    $data = [];
+
+                    array_push($header, 'question_id');
+
+                    foreach ($resultData as $key => $value) {
+                        array_push($header, $key);
+
+                        array_push($data, $value);
+                    }
+                }
+
+                // Remove duplicates from header array
+                $header = array_unique($header);
+
+                $csv->insertOne($header);
+
+                $csv->insertAll($data);
+
+                //print_r($csvData);exit;
+
+                // Convert the array to json format
+                $jsonData = json_encode($csvData);
+
+                //print_r($jsonData);exit;
+
+                // Use Laravel Storage for temporary file
+                $disk = Storage::disk('temporary'); // Use 'temporary' disk or default
+
+                $tempFileName = 'csv_export_' . uniqid();
+
+                $tempFile = $disk->put($tempFileName, json_encode($csvData)); // Store data directly
+
+                //dd($tempFile);
+                if ($tempFile) {
+                    $path = Storage::path('temporary/' . $tempFileName);
+                    //dd($path);
+                }
+
+                
+ 
+            }
+            else
+            {
+                return redirect()->back(404)->with('warning', 'Survey Not Found');
+            }
+
+        } catch (Exception $e) {
+            
         }
     }
 
