@@ -291,7 +291,7 @@ class ResultController extends Controller
             {
                 $surveyName = $survey->survey_name;
 
-                $fileName = 'CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+                $fileName = 'TIFA-CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
 
                 $headers = [
                     'Content-Type' => 'text/csv',
@@ -301,73 +301,43 @@ class ResultController extends Controller
                 $results = Result::query()
                     ->join('interviews', 'results.interview_id', '=', 'interviews.id')
                     ->join('users', 'results.user_id', '=', 'users.id')
-                    ->select('interviews.id','results.content')
+                    ->select('interviews.id as interview_id','results.content')
                     ->where('results.schema_id', $schemaId)
                     ->where('interviews.interview_status', 'Interview Completed')
-                    ->where('interviews.quality_control', '<>', 'Cancelled')
+                    ->where(function ($query)
+                    {
+                        $query->where('interviews.quality_control', '<>', 'Cancelled')
+                      ->orWhereNull('interviews.quality_control');
+                    })
                     ->get();
                 
-                echo count($results) . ' Interviews';
-                //var_dump($results);
-                foreach ($results as $result)
+                // Flatten Nested JSON Structure
+                $flattenedResults = [];
+                foreach ($results as $result) {
+                    $flatResult = ['interview_id' => $result->interview_id];
+                    $content = json_decode($result->content, true);
+
+                    $this->flattenArray('', $content, $flatResult);
+
+                    $flattenedResults[] = $flatResult;
+                }
+
+                // Prepare CSV Data
+                $csvData = '';
+                if (!empty($flattenedResults))
                 {
-                    $result = json_decode($result->content);
-                    echo "<pre>";
-                    print_r($result->question1);
-                    echo "</pre>";
-                }
-                exit;
-
-                //$csv = Writer::createFromString();
-
-                foreach ($results as $result)
-                {
-                    $data = $result->content;
-
-                    $resultData = json_decode($json, true);
-
-                    $header = [];
-
-                    $data = [];
-
-                    array_push($header, 'question_id');
-
-                    foreach ($resultData as $key => $value) {
-                        array_push($header, $key);
-
-                        array_push($data, $value);
-                    }
+                    // Header Row
+                    $csvData .= implode(',', array_keys($flattenedResults[0])) . "\n";
+                    // Data Rows
+                    foreach ($flattenedResults as $row)
+                    {
+                         $csvData .= implode(',', $row) . "\n";
+                    } 
                 }
 
-                // Remove duplicates from header array
-                $header = array_unique($header);
-
-                $csv->insertOne($header);
-
-                $csv->insertAll($data);
-
-                //print_r($csvData);exit;
-
-                // Convert the array to json format
-                $jsonData = json_encode($csvData);
-
-                //print_r($jsonData);exit;
-
-                // Use Laravel Storage for temporary file
-                $disk = Storage::disk('temporary'); // Use 'temporary' disk or default
-
-                $tempFileName = 'csv_export_' . uniqid();
-
-                $tempFile = $disk->put($tempFileName, json_encode($csvData)); // Store data directly
-
-                //dd($tempFile);
-                if ($tempFile) {
-                    $path = Storage::path('temporary/' . $tempFileName);
-                    //dd($path);
-                }
-
-                
- 
+                return response()->streamDownload(function () use ($csvData) {
+                    echo $csvData;
+                }, $fileName, $headers);
             }
             else
             {
@@ -375,9 +345,23 @@ class ResultController extends Controller
             }
 
         } catch (Exception $e) {
-            
+            Log::error('CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+            return back()->with('error', 'CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
         }
     }
+
+    // Function to flatten nested array
+    private function flattenArray($prefix, $array, &$result)
+    {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $this->flattenArray($prefix . $key . '_', $value, $result);
+            } else {
+                $result[$prefix . $key] = $value;
+            }
+        }
+    }
+
 
     /**
      * PDF Results Export
