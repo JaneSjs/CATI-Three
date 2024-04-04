@@ -411,7 +411,11 @@ class ResultController extends Controller
             ->where('interviews.quality_control', '<>', 'Cancelled')
             ->get();
 
-        dd($results);
+        //dd($results);
+        if (count($results) == 0)
+        {
+            return back()->with('warning', 'The Survey Is Pending Quality Control');
+        }
         // Decode the JSON Content column
         $results->map(function ($result)
         {
