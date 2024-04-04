@@ -202,7 +202,7 @@ class ResultController extends Controller
     /**
      * CSV Survey Results Export
      */
-    public function csv_export(int $schemaId)
+    public function attempt_csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -282,7 +282,7 @@ class ResultController extends Controller
     /**
      * Muhidin CSV Export Solution
      */
-    public function attempt_csv_export(int $schemaId)
+    public function csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -306,8 +306,19 @@ class ResultController extends Controller
                     ->where('interviews.interview_status', 'Interview Completed')
                     ->where('interviews.quality_control', '<>', 'Cancelled')
                     ->get();
+                
+                echo count($results) . ' Interviews';
+                //var_dump($results);
+                foreach ($results as $result)
+                {
+                    $result = json_decode($result->content);
+                    echo "<pre>";
+                    print_r($result->question1);
+                    echo "</pre>";
+                }
+                exit;
 
-                $csv = Writer::createFromString();
+                //$csv = Writer::createFromString();
 
                 foreach ($results as $result)
                 {
@@ -384,7 +395,7 @@ class ResultController extends Controller
         $survey = Schema::find($schemaId);
         $surveyName = $survey->survey_name;
 
-        $fileName = 'TIFA-JSON' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
+        $fileName = 'TIFA-JSON-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
 
         $headers = [
             'Content-Type' => 'application/json',
@@ -401,8 +412,14 @@ class ResultController extends Controller
             ->get();
 
         //dd($results);
+        // Decode the JSON Content column
+        $results->map(function ($result)
+        {
+            $result->content = json_decode($result->content, true);
+            return $result;
+        });
 
-        $resultsJson = json_encode($results, JSON_PRETTY_PRINT);
+        $resultsJson = $results->toJson(JSON_PRETTY_PRINT);
 
         return response($resultsJson, 200, $headers);
     }

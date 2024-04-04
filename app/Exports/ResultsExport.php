@@ -39,12 +39,13 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
 
     public function map($result): array
     {
+        Log::info("Result: ". $result);
         try {
             $content = json_decode(stripslashes($result->content), true);
 
             // Check if $content is an array
             if (!is_array($content)) {
-                Log::error('Invalid JSON Survey Results Content For Result ID : ' . $result->id);
+                Log::error('Invalid JSON Survey Results For Interview ID : ' . $result->id);
                 // Set $content to null
                 $content = null;
             }
@@ -67,23 +68,31 @@ class ResultsExport implements FromQuery, WithMapping, WithHeadings, WithColumnF
             ];
 
             // Different Approach. Flatten nested JSON structure
-            $this->flattenArray($content, $rowData);
+            //$this->flattenArray($content, $rowData);
 
+            Log::info("Dynamic Headings " . $this->dynamicHeadings);
             // Populate the row with values from the JSON data
-            // foreach ($this->dynamicHeadings as $heading)
-            // {
-            //     // Check if the key exists in the JSON data
-            //     if (isset($content[$heading]))
-            //     {
-            //         $value = is_array($content[$heading]) ? json_encode($content[$heading]) : $content[$heading];
-            //         // Add the value to the row data
-            //         $rowData[] = $value;
-            //     }
-            //     else
-            //     {
-            //         $rowData[] = null;
-            //     }
-            // }
+            foreach ($this->dynamicHeadings as $heading)
+            {
+                Log::info("Dynamic Heading: " . $heading);
+                // Check if the key exists in the JSON data
+                if (isset($content[$heading]))
+                {
+                    Log::info("JSON Value: " . $content[$heading]);
+                    // If the value is an array, encode it to json
+                    if (is_array($content[$heading])) {
+                        $rowData[] = json_encode($content[$heading]);
+                    } else {
+                        // If the value is a scalar, add it directly
+                        $rowData[] = $content[$heading];
+                        Log::info($rowData);
+                    }
+                }
+                else
+                {
+                    $rowData[] = null;
+                }
+            }
         } catch (Exception $e) {
             Log::error('Survey Results Export. Error Processing result ID: ' . $result->id . ' ' . $e->getMessage() . ' { ' . $e->getTrace() . ' }');
 
