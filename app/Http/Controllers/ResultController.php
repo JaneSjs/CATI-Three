@@ -411,7 +411,7 @@ class ResultController extends Controller
             ->where('interviews.quality_control', '<>', 'Cancelled')
             ->get();
 
-        //dd($results);
+        dd($results);
         // Decode the JSON Content column
         $results->map(function ($result)
         {
