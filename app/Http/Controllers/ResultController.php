@@ -24,6 +24,7 @@ use League\Csv\Writer;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use OzdemirBurak\JsonCsv\File\Json;
+use SimpleXMLElement;
 
 class ResultController extends Controller
 {
@@ -112,175 +113,10 @@ class ResultController extends Controller
         return back()->with('info', 'Results Export Download Link Will Be Sent To your Email Later On');
     }
 
-    /**
-     * Primitive CSV Survey Results Export
-     */
-    public function hold_csv_export(int $schemaId)
-    {
-        try {
-            // return Excel::download(new ResultsjsonExport($schemaId), 'only_survey_results.csv', ExcelExcel::CSV, [
-            //     'Content-Type' => 'text/csv',
-            // ]);
-            $survey = Schema::find($schemaId);
 
-            if ($survey)
-            {
-                $surveyName = $survey->survey_name;
-
-                $fileName = 'CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
-
-                $headers = [
-                    'Content-Type' => 'text/csv',
-                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-                ];
-
-                $results = Result::query()
-                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
-                    ->join('users', 'results.user_id', '=', 'users.id')
-                    ->select('interviews.id','results.content')
-                    ->where('results.schema_id', $schemaId)
-                    ->where('interviews.interview_status', 'Interview Completed')
-                    ->where('interviews.quality_control', '<>', 'Cancelled')
-                    ->get();
-
-                $csvData = [];
-                //dd($results);
-
-                foreach ($results as $result)
-                {
-                    $csvData[] = [
-                        "interview_id" => $result->id,
-                        "content" => $result->content // Include JSON content as is
-                    ];
-                }
-
-                //print_r($csvData);exit;
-
-                // Convert the array to json format
-                $jsonData = json_encode($csvData);
-
-                //print_r($jsonData);exit;
-
-                // Use Laravel Storage for temporary file
-                $disk = Storage::disk('temporary'); // Use 'temporary' disk or default
-
-                $tempFileName = 'csv_export_' . uniqid();
-
-                $tempFile = $disk->put($tempFileName, json_encode($csvData)); // Store data directly
-
-                //dd($tempFile);
-                if ($tempFile) {
-                    $path = Storage::path('temporary/' . $tempFileName);
-                    //dd($path);
-                }
-
-                // Json library can now use the stored file path
-                $json = new Json($path);
-                //dd($json);
-
-                $csvString = $json->convert();
-                //dd($csvString);
-
-                $json->setConversionKey('utf8_encoding', true);
-
-                $json->convertAndDownload();
-
-                $disk->delete($tempFile);
- 
-            }
-            else
-            {
-                return redirect()->back(404)->with('warning', 'Survey Not Found');
-            }
-        } catch (Exception $e) {
-            Log::error("CSV Export Error. General Error Exporting Data: ". $e->getMessage());
-
-            return back()->with('error', 'Failed To Export Survey Results Data to a CSV file: ' . $e->getMessage());
-        }
-    }
 
     /**
-     * CSV Survey Results Export
-     */
-    public function attempt_csv_export(int $schemaId)
-    {
-        try {
-            $survey = Schema::find($schemaId);
-
-            if ($survey)
-            {
-                $surveyName = $survey->survey_name;
-
-                $fileName = 'CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
-
-                $headers = [
-                    'Content-Type' => 'text/csv',
-                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-                ];
-
-                $results = Result::query()
-                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
-                    ->join('users', 'results.user_id', '=', 'users.id')
-                    ->select('interviews.id','results.content')
-                    ->where('results.schema_id', $schemaId)
-                    ->where('interviews.interview_status', 'Interview Completed')
-                    ->where('interviews.quality_control', '<>', 'Cancelled')
-                    ->get();
-
-                $csvData = [];
-                $questions = [];
-                //dd($results);
-
-                foreach ($results as $result)
-                {
-                    $content = json_decode($result->content, true);
-
-                    $questions = array_merge($questions, array_keys($content));
-
-                    $csvData[] = array_merge(['interview_id' => $result->id], $content);
-                }
-
-                $questions = array_unique($questions);
-
-                $csvHeader = array_merge($questions);
-                //dd($csvHeader);
-
-                $tempFile = fopen('php://temp', 'wb');
-
-                if (mb_detect_encoding($csvHeader) === 'UTF-8') {
-                    fwrite($tempFile, chr(0xEF) . chr(0xBB) . chr(0xBF));
-                }
-
-                fputcsv($tempFile, $csvHeader);
-
-                foreach ($csvData as $row) {
-                    fputcsv($tempFile, $row);
-                }
-
-                rewind($tempFile);
-                $csvString = stream_get_contents($tempFile);
-                fclose($tempFile);
-
-                // Download the generated csv file
-                return response()->streamDownload(function () use ($csvString)
-                {
-                    echo $csvString;
-                }, $fileName, $headers);
- 
-            }
-            else
-            {
-                return redirect()->back(404)->with('warning', 'Survey Not Found');
-            }
-        } catch (Exception $e) {
-            Log::error("CSV Export Error. General Error Exporting Data: ". $e->getMessage());
-
-            return back()->with('error', 'Failed To Export Survey Results Data to a CSV file: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Muhidin CSV Export Solution
+     *  CSV Export Solution
      */
     public function csv_export(int $schemaId)
     {
@@ -350,19 +186,6 @@ class ResultController extends Controller
         }
     }
 
-    // Function to flatten nested array
-    private function flattenArray($prefix, $array, &$result)
-    {
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $this->flattenArray($prefix . $key . '_', $value, $result);
-            } else {
-                $result[$prefix . $key] = $value;
-            }
-        }
-    }
-
-
     /**
      * PDF Results Export
      */
@@ -416,99 +239,82 @@ class ResultController extends Controller
         return response($resultsJson, 200, $headers);
     }
 
-    public function getresults(Request $request)
+    /**
+     *  CSV Export Solution
+     */
+    public function xml_export(int $schemaId)
     {
-        $survey = Schema::find($request->survey);
-        // $structure = $survey->structure;
+        try {
+            $survey = Schema::find($schemaId);
 
-        if ($survey->stage == 'test') {
-            $results =  Result::where('survey_id', $request->survey)->whereBetween('created_at', [$request->from, $request->to])->latest()->take(20)->get();
-        } else {
-            $results =  Result::where('survey_id', $request->survey)->whereBetween('created_at', [$request->from, $request->to])->get();
-        }
+            if ($survey)
+            {
+                $surveyName = $survey->survey_name;
 
+                $fileName = 'TIFA-XML-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.xml';
 
-        // // $results =  new Json($results);
+                $headers = [
+                    'Content-Type' => 'text/xml',
+                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+                ];
 
-        $new_array = array();
-        // all the rows
-        foreach ($results as $result) {
-            $smallarray = $result->json;
+                $results = Result::query()
+                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+                    ->join('users', 'results.user_id', '=', 'users.id')
+                    ->select('interviews.id as interview_id','results.content')
+                    ->where('results.schema_id', $schemaId)
+                    ->where('interviews.interview_status', 'Interview Completed')
+                    ->where(function ($query)
+                    {
+                        $query->where('interviews.quality_control', '<>', 'Cancelled')
+                      ->orWhereNull('interviews.quality_control');
+                    })
+                    ->get();
+                
+                // Flatten Nested JSON Structure
+                $flattenedResults = [];
+                foreach ($results as $result) {
+                    $flatResult = ['interview_id' => $result->interview_id];
+                    $content = json_decode($result->content, true);
 
-            $interview = Interview::find($result->interview);
-            $respondent = Respondent::find($interview->respondent);
-            // rsort($smallarray);
-            // array_push
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $interview->created_at, 'UTC')
-                ->setTimezone('Africa/Nairobi');
-            $smallarray = array("Phone Number Called" => $interview->phone_called) + $smallarray;
-            if ($interview->qcd_by !== NULL) {
-                // dd($interview);
+                    $this->flattenArray('', $content, $flatResult);
 
-                if ($interview->status == "Approved") {
-                    $smallarray = array("Approved" => "Yes") + $smallarray;
-                } else {
-                    $smallarray = array("Approved" => " ") + $smallarray;
+                    $flattenedResults[] = $flatResult;
                 }
-                $smallarray = array("Quality Checked" => "Yes") + $smallarray;
-            } else {
-                $smallarray = array("Quality Checked" => "No") + $smallarray;
-                $smallarray = array("Approved" => " ") + $smallarray;
+
+                // CONVERT TO XML
+                $xmlData = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><results></results>');
+
+                foreach ($flattenedResults as $result)
+                {
+                    $interview = $xmlData->addChild('interview');
+                    foreach ($result as $key => $value)
+                    {
+                        $interview->addChild($key, $value);
+                    }
+                }
+
+                return response($xmlData->asXML(), 200, $headers);
             }
-            $smallarray = array("date_of_interview" =>  date_format($datetime, "D-d-M-Y H:i:s")) + $smallarray;
-            $smallarray = array("respondent_id" => $interview->respondent) + $smallarray;
-            $smallarray = array("respondent name" => $respondent->name) + $smallarray;
-            $smallarray = array("Iterview Start time" => $interview->start_time) + $smallarray;
-            $smallarray = array("Iterview End  time" => $interview->end_time) + $smallarray;
-            $smallarray = array("county" => $respondent->county) + $smallarray;
-            $smallarray = array("region" => $respondent->town) + $smallarray;
-            $smallarray = array("original_id" => $respondent->res_d) + $smallarray;
-            $smallarray = array("interviewer" => User::find($interview->agent)->name) + $smallarray;
-            $smallarray = array("interview_id" => $result->interview) + $smallarray;
+            else
+            {
+                return redirect()->back(404)->with('warning', 'Survey Not Found');
+            }
 
-
-            
+        } catch (Exception $e) {
+            Log::error('CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+            return back()->with('error', 'CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
         }
+    }
 
-
-        // array_unshift($new_array, $structure);
-        $new_array =  json_encode($new_array);
-
-
-        if ($request->submit == "csv") {
-
-            $fileName = $survey->name . '.json';
-            $handle = fopen($fileName, 'w+');
-            fputs($handle, $new_array);
-            fclose($handle);
-
-
-
-
-            $json = new Json($fileName);
-            $json->setConversionKey('utf8_encoding', true);
-           
-
-
-
-            // fpassthru($f);
-
-            if ($results->first()) {
-                $json->convertAndDownload();
-                // return response()->attachment($result, $survey->name . time());
+    // Function to flatten nested array
+    private function flattenArray($prefix, $array, &$result)
+    {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $this->flattenArray($prefix . $key . '_', $value, $result);
             } else {
-                return redirect()->back()->with(['message' => "Results from the specified period could not be found", 'alert-type' => 'error']);
-            }
-        } else if ($request->submit == "json") {
-            if ($results->first()) {
-                $fileName = $survey->name . '_datafile.json';
-                $handle = fopen($fileName, 'w+');
-                fputs($handle, $new_array);
-                fclose($handle);
-                $headers = array('Content-type' => 'application/json');
-                return response()->download($fileName, time() . '_datafile.json', $headers);
-            } else {
-                return redirect()->back()->with(['message' => "Results from the specified period could not be found", 'alert-type' => 'error']);
+                $result[$prefix . $key] = $value;
             }
         }
     }
