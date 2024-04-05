@@ -159,6 +159,14 @@ class ResultController extends Controller
 
                     $this->flattenArray('', $content, $flatResult);
 
+                    foreach ($flatResult as $key => $value)
+                    {
+                        if ($value == null)
+                        {
+                            $flatResult[$key] = 'null';
+                        }    
+                    }
+
                     $flattenedResults[] = $flatResult;
                 }
 
@@ -171,19 +179,15 @@ class ResultController extends Controller
                     // Data Rows (Answers)
                     foreach ($flattenedResults as $row)
                     {
-                        // Replace null values with the string "null"
-                        $row = array_map(function ($value)
-                        {
-                            return is_null($value) ? 'null' : $value;
-                        }, $row);
+                        // // Replace null values with the string "null"
+                        // $row = array_map(function ($value)
+                        // {
+                        //     return is_null($value) ? 'null' : $value;
+                        // }, $row);
 
                         $csvData .= implode(',', $row) . "\n";
                     } 
                 }
-
-                // echo "<pre>";
-                // print_r($csvData);exit;
-                // echo "</pre>";
 
                 return response()->streamDownload(function () use ($csvData) {
                     echo $csvData;
