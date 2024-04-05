@@ -171,7 +171,13 @@ class ResultController extends Controller
                     // Data Rows (Answers)
                     foreach ($flattenedResults as $row)
                     {
-                         $csvData .= implode(',', $row) . "\n";
+                        // Replace null values with the string "null"
+                        $row = array_map(function ($value)
+                        {
+                            return is_null($value) ? 'null' : $value;
+                        }, $row);
+
+                        $csvData .= implode(',', $row) . "\n";
                     } 
                 }
 
@@ -322,7 +328,7 @@ class ResultController extends Controller
             if (is_array($value)) {
                 $this->flattenArray($prefix . $key . '_', $value, $result);
             } else {
-                $result[$prefix . $key] = $value ?? 'null';
+                $result[$prefix . $key] = $value;
             }
         }
     }
