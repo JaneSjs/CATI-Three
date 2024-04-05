@@ -1,5 +1,9 @@
 @extends('layouts.main')
 <!-- ... -->
+    <!-- Localization (Translations)-->
+    <script src="https://unpkg.com/survey-creator-core/survey-creator-core.i18n.min.js"></script>
+
+    
     <!-- <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script> -->
     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/knockout-latest.js') }}"></script>
 

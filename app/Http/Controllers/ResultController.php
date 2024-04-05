@@ -146,8 +146,12 @@ class ResultController extends Controller
                       ->orWhereNull('interviews.quality_control');
                     })
                     ->get();
+
+                // echo "<pre>";
+                // print_r($results);exit;
+                // echo "</pre>";
                 
-                // Flatten Nested JSON Structure
+                // Flatten Nested JSON Structure and Include Null Values
                 $flattenedResults = [];
                 foreach ($results as $result) {
                     $flatResult = ['interview_id' => $result->interview_id];
@@ -162,14 +166,18 @@ class ResultController extends Controller
                 $csvData = '';
                 if (!empty($flattenedResults))
                 {
-                    // Header Row
+                    // Header Row (Questions)
                     $csvData .= implode(',', array_keys($flattenedResults[0])) . "\n";
-                    // Data Rows
+                    // Data Rows (Answers)
                     foreach ($flattenedResults as $row)
                     {
                          $csvData .= implode(',', $row) . "\n";
                     } 
                 }
+
+                // echo "<pre>";
+                // print_r($csvData);exit;
+                // echo "</pre>";
 
                 return response()->streamDownload(function () use ($csvData) {
                     echo $csvData;
@@ -307,14 +315,14 @@ class ResultController extends Controller
         }
     }
 
-    // Function to flatten nested array
+    // Function to flatten nested array with null values
     private function flattenArray($prefix, $array, &$result)
     {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $this->flattenArray($prefix . $key . '_', $value, $result);
             } else {
-                $result[$prefix . $key] = $value;
+                $result[$prefix . $key] = $value ?? 'null';
             }
         }
     }
