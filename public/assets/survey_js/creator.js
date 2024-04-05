@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const creatorOptions = {
         showLogicTab: true,
         isAutoSave: false,
+        showTranslationTab: true,
+        availableLanguages: ["en", "fr"],
       };
 
       const creator = new SurveyCreator.SurveyCreator(creatorOptions);
@@ -95,8 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
             Toastify({
               text: "Survey Schema Updated Successfully",
               duration: 4000,
-              destination: "https://github.com/apvarun/toastify-js",
-              newWindow: true,
+              destination: "#",
+              newWindow: false,
               close: true,
               gravity: "top", // `top` or `bottom`
               position: "center", // `left`, `center` or `right`

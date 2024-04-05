@@ -3,7 +3,13 @@
     <!-- Localization (Translations)-->
     <script src="https://unpkg.com/survey-creator-core/survey-creator-core.i18n.min.js"></script>
 
-    
+    <!-- Supported Languages -->
+      <script src="https://unpkg.com/survey-creator-core/i18n/french.js"></script>
+      <script src="https://unpkg.com/survey-creator-core/i18n/german.js"></script>
+      <script src="https://unpkg.com/survey-creator-core/i18n/italian.js"></script>
+    <!-- End Supported Languages -->
+
+
     <!-- <script type="text/javascript" src="https://unpkg.com/knockout/build/output/knockout-latest.js"></script> -->
     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/knockout-latest.js') }}"></script>
 
