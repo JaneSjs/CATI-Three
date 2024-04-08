@@ -43,7 +43,9 @@
               <option value="CAWI">CAWI</option>
               <option value="CAPI">CAPI</option>
             </select>
-            <div id="projectType" class="form-text">Type of the project</div>
+            <div id="projectType" class="form-text">
+              Type of the project
+            </div>
           </div>
         </div>
 
@@ -54,7 +56,7 @@
           <select class="form-select" id="users" name="users[]" multiple>
             
             @foreach($users as $user)
-            <option value="{{ $user->id }}"  {{ $project->user && $project->user->id == $user->id ? 'selected' : '' }} >
+            <option value="{{ $user->id }}"  {{ $project->user->id == $user->id ? 'selected' : '' }} >
               {{ $user->first_name . ' ' . $user->last_name }}
             </option>
             @endforeach

@@ -100,7 +100,7 @@ class ProjectController extends Controller
     {
         $project = Project::create([
             'name' => $request->input('name'),
-            //'dpia' => $request->input('dpia'),
+            'dpia' => $request->input('dpia'),
             'start_date' => Carbon::parse($request->date('start_date')),
             'end_date' => Carbon::parse($request->date('end_date')),
         ]);
@@ -116,7 +116,7 @@ class ProjectController extends Controller
 
         $project_members = array_merge($user_id, $user_id, $scriptors, $supervisors, $qcs);
 
-        //dd($project_members);
+        dd($project_members);
         
         if ($project) {
             $project->users()->sync($project_members);
@@ -197,6 +197,7 @@ class ProjectController extends Controller
         //dd($project);
         if ($project)
         {
+            //dd($request->users);
             
             $project->update([
                 'name' => $request->input('name'),
@@ -206,7 +207,12 @@ class ProjectController extends Controller
                 'end_date' => Carbon::parse($request->date('end_date')),
             ]);
 
-            $project->users()->sync($request->users);
+            // Include Curently Authenticated User To Project Assigned Users
+            $users = array_merge([(string) auth()->user()->id], $request->users);
+
+            //dd($users);
+
+            $project->users()->sync($users);
 
             return redirect()->back()->with('success', 'Project Updated Successfully.');
         } else {
