@@ -50,9 +50,11 @@ class UserController extends Controller
     {
         if (Gate::allows('admin') || auth()->user()->id == 1){
             $data['roles'] = Role::all();
+            //dd('Admin');
         }
         elseif (Gate::allows('head'))
         {
+            //dd('Head');
             $data['roles'] = Role::where('name', 'Interviewer')
                                 ->orwhere('name', 'Client')
                                 ->orwhere('name', 'Manager')
@@ -60,6 +62,19 @@ class UserController extends Controller
                                 ->orwhere('name', 'Coordinator')
                                 ->orderBy('name')
                                 ->get();
+        }
+        elseif (Gate::allows('manager'))
+        {
+            //dd('Manager');
+            $data['roles'] = Role::where('name', 'Interviewer')
+                                ->orwhere('name', 'Client')
+                                ->orwhere('name', 'Supervisor')
+                                ->orwhere('name', 'Scripter')
+                                ->orwhere('name', 'Coordinator')
+                                ->orwhere('name', 'QC')
+                                ->get();
+
+            //dd($data);
         }
         else
         {
@@ -134,11 +149,25 @@ class UserController extends Controller
         {
             $data['roles'] = Role::where('name', 'Interviewer')
                                 ->orwhere('name', 'Client')
+                                ->orwhere('name', 'Supervisor')
                                 ->orwhere('name', 'Manager')
-                                ->orwhere('name', 'Head')
+                                ->orwhere('name', 'Scripter')
                                 ->orwhere('name', 'Coordinator')
                                 ->orderBy('name')
                                 ->get();
+        }
+        elseif (Gate::allows('manager'))
+        {
+            //dd('Manager');
+            $data['roles'] = Role::where('name', 'Interviewer')
+                                ->orwhere('name', 'Client')
+                                ->orwhere('name', 'Supervisor')
+                                ->orwhere('name', 'Scripter')
+                                ->orwhere('name', 'Coordinator')
+                                ->orwhere('name', 'QC')
+                                ->get();
+
+            //dd($data);
         }
         else
         {
