@@ -185,7 +185,7 @@ use Carbon\Carbon;
               <ul class="list-group">
                 <li class="list-group-item" title="Respondent's Name is Pseudonymised For Data Protection">
                   <strong>
-                    {{ '#' . md5($respondent->id) . '#' ?? 'Database is Probably Empty' }}
+                    {{ $respondent->name ?? 'Database is Probably Empty' }}
                   </strong>
                 </li>
                 @canany(['admin'])

@@ -90,7 +90,7 @@
           </div>
         </a>
       </div>
-      <div class="col-sm-6 col-lg-3">
+      <div class="col-sm-6 col-lg-3" title="PBX Capacity">
         <a href="#">
           <div class="card mb-4 text-white bg-success">
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
@@ -100,7 +100,7 @@
                   <span class="fs-6 fw-normal">
                     <i class="fas fa-phone-volume fa-xl"></i>
                   </span></div>
-                <div>PBX Capacity - Concurrent Calls</div>
+                <div>Concurrent Calls</div>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@
             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
               <div>
                 <div class="fs-4 fw-semibold">
-                  - 
+                  200
                   <span class="fs-6 fw-normal">
                     <i class="fas fa-server fa-xl"></i>
                   </span>

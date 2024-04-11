@@ -116,9 +116,9 @@ class ResultController extends Controller
 
 
     /**
-     *  CSV Export Solution
+     *  CSV Export Solution (Output Needs Restructuring)
      */
-    public function csv_export(int $schemaId)
+    public function primitive_csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -191,6 +191,85 @@ class ResultController extends Controller
 
                 return response()->streamDownload(function () use ($csvData) {
                     echo $csvData;
+                }, $fileName, $headers);
+            }
+            else
+            {
+                return redirect()->back(404)->with('warning', 'Survey Not Found');
+            }
+
+        } catch (Exception $e) {
+            Log::error('CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+            return back()->with('error', 'CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+        }
+    }
+
+    /**
+     *  CSV Export Solution
+     */
+    public function csv_export(int $schemaId)
+    {
+        try {
+            $survey = Schema::find($schemaId);
+
+            if ($survey)
+            {
+                $surveyName = $survey->survey_name;
+
+                $fileName = 'TIFA-CSV-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.csv';
+
+                $headers = [
+                    'Content-Type' => 'text/csv',
+                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+                ];
+
+                $results = Result::query()
+                    ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+                    ->join('users', 'results.user_id', '=', 'users.id')
+                    ->select('interviews.id as interview_id','results.content')
+                    ->where('results.schema_id', $schemaId)
+                    ->where('interviews.interview_status', 'Interview Completed')
+                    ->where(function ($query)
+                    {
+                        $query->where('interviews.quality_control', '<>', 'Cancelled')
+                      ->orWhereNull('interviews.quality_control');
+                    })
+                    ->get();
+
+                // echo "<pre>";
+                // print_r($results);exit;
+                // echo "</pre>";
+                
+                // Flatten Nested JSON Structure and Include Null Values
+                $flattenedResults = [];
+                foreach ($results as $result) {
+                    $flatResult = ['interview_id' => $result->interview_id];
+                    $content = json_decode($result->content, true);
+
+                    $this->flattenArray('', $content, $flatResult);
+
+                    foreach ($flatResult as $key => $value)
+                    {
+                        if ($value == null)
+                        {
+                            $flatResult[$key] = 'null';
+                        }    
+                    }
+
+                    $flattenedResults[] = $flatResult;
+                }
+
+                //dd(json_encode($flattenedResults));
+                $json = json_encode($flattenedResults);
+
+                $jsonAdapter = new JsonToCSV($json);
+
+                dd($csvString);
+
+                return response()->streamDownload(function () use ($csvString)
+                
+                {
+                    echo $csvString;
                 }, $fileName, $headers);
             }
             else

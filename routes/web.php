@@ -109,6 +109,9 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	Route::delete('remove_quota/{schema_id}', [QuotaController::class, 'remove_quota'])->name('remove_quota');
 
+	// Reports
+	Route::get('interviewers_report', [ReportController::class, 'interviewers']);
+
 
     Route::resource('analytics', AnalyticsController::class);
     Route::resource('dpias', DpiaController::class);

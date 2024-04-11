@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\Report;
+use App\Models\User;
 use App\Reports\MyReport;
 
 class ReportController extends Controller
@@ -72,6 +73,17 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         //
+    }
+
+    /**
+     * Interviewers Report
+     */
+    public function interviewers()
+    {
+        $data['interviewers'] = User::orderBy('first_name')
+                                    ->paginate(20);
+
+        return view('reports.interviewers', $data);
     }
 
 }

@@ -131,12 +131,9 @@
     @endcan
         
     @canany(['admin','ceo','head','manager','coordinator','dpo'])
-    <li class="nav-title">
-      Data Protection Module
-    </li>
     <li class="nav-group">
-      <a class="nav-link nav-group-toggle" href="#">
-         Respondents
+      <a class="nav-title nav-link nav-group-toggle" href="#">
+         Data Protection
        </a>
       <ul class="nav-group-items">
         <li class="nav-item">
@@ -150,6 +147,22 @@
             <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
             Data Controlling
           </button>
+        </li>
+      </ul>
+    </li>
+    @endcan
+
+    @canany(['admin'])
+    <li class="nav-group">
+      <a class="nav-title nav-link nav-group-toggle" href="#">
+        Reports
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item" title="Server Environment">
+          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-users-rectangle nav-icon" style="color: #fff;"></i>
+            Interviewers
+          </a>
         </li>
       </ul>
     </li>

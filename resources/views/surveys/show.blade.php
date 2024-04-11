@@ -8,12 +8,12 @@
 
       <div class="row">
         <div class="col">
-          <p class="float-start" title="Respondent's Name is Pseudonymised For Data Protection">
+          <p class="float-start" title="Respondent's Name Can Be Pseudonymised For Data Protection">
             <strong>{{ $survey->survey_name }}.</strong>
             @can(['interviewer'])
              You are interviewing 
              <strong>
-               {{ '#' . md5($respondent->id) . '#' ?? ''}}
+               {{ $respondent->name }}
              </strong>
             @endcan
             @can('admin')
@@ -52,6 +52,10 @@
               Interview Feedback
               <i class="fa-regular fa-comment-dots"></i>
             </button>
+            <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
+            Terminate Interview
+            <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+          </button>
             
 
             <p id="call_route" class="d-none">
@@ -205,9 +209,9 @@
       <div class="row">
         <div class="col text-start">
           <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
-              Terminate Interview
-              <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
-            </button>
+            Terminate Interview
+            <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+          </button>
         </div>
         <div class="col text-end">
           <button type="button" class="btn btn-success invisible" data-coreui-toggle="modal" data-coreui-target="#complete_interview" id="completeInterview">

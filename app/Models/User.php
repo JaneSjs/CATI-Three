@@ -118,7 +118,9 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function scheduled_interviews(): HasMany
     {
-        return $this->hasMany(InterviewSchedule::class, 'interview_schedule_id');
+        return $this->hasMany(InterviewSchedule::class, 'interview_schedule_id')
+                    ->where('interview_status', 'Interview Completed')
+                    ->where('quality_control', '!=', 'Cancelled');
     }
 
     /**
