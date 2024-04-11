@@ -54,34 +54,15 @@
             Assign Someone
           </label>
           <select class="form-select" id="users" name="users[]" multiple>
-            
-            @foreach($users as $user)
-            <option value="{{ $user->id }}"  {{ $project->user->id == $user->id ? 'selected' : '' }} >
-              {{ $user->first_name . ' ' . $user->last_name }}
-            </option>
-            @endforeach
+            @if($users)
+              @foreach($users as $user)
+              <option value="{{ $user->id }}" @if($project->user) {{ $project->user->id == $user->id ? 'selected' : '' }} @endif >
+                {{ $user->first_name . ' ' . $user->last_name }}
+              </option>
+              @endforeach
+            @endif
           </select>
           <div id="user" class="form-text">Assign Someone</div>
-        </div>
-
-        <div class="mb-3">
-          <label for="database" class="form-label">
-            Change Respondents Database
-          </label>
-          <select class="form-select" name="database" aria-label="Select Database">
-            <option value="{{ $project->database }}" selected>
-                {{ $project->database }}
-            </option>
-            <option value="Controller" title="Controlled Database">
-              Controller
-            </option>
-            <option value="Processor" title="Processed Database">
-              Processor
-            </option>
-          </select>
-          <div id="database" class="form-text">
-            Change Database
-          </div>
         </div>
 
         <div class="row mb-3">

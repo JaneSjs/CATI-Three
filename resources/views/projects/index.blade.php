@@ -83,7 +83,8 @@ use Carbon\Carbon;
                   $end_date = Carbon::parse($project->end_date);
                 ?>
               <td>
-                {{ $start_date->diffForHumans() }}
+                
+                
               </td>
               <td>
                 {{ $end_date->diffForHumans() }}

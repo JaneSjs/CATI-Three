@@ -135,6 +135,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         const surveyResult = await response.json();
         resultId = surveyResult.id;
 
+        // Display Interview Complete Button
+        setTimeout(() => {
+          console.log("Complete Interview Button To Be Visible");
+          document.getElementById('completeInterview').classList.remove('invisible')
+        }, 100);
+
         // Toastify Notifications
         Toastify({
           text: "Results Recorded Successfully",

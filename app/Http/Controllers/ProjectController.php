@@ -185,6 +185,7 @@ class ProjectController extends Controller
                             {
                                 $query->whereIn('name', ['Supervisor','Scripter','Manager','QC']);
                             })->get();
+        //dd($data['project']);
 
         return view('projects.edit', $data);
     }
@@ -194,7 +195,7 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //dd($project);
+        //dd($request);
         if ($project)
         {
             //dd($request->users);
@@ -202,7 +203,6 @@ class ProjectController extends Controller
             $project->update([
                 'name' => $request->input('name'),
                 'type' => $request->input('type'),
-                'database' => $request->input('database'),
                 'start_date' => Carbon::parse($request->date('start_date')),
                 'end_date' => Carbon::parse($request->date('end_date')),
             ]);

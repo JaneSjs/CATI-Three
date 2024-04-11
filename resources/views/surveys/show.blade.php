@@ -210,7 +210,7 @@
             </button>
         </div>
         <div class="col text-end">
-          <button type="button" class="btn btn-success" data-coreui-toggle="modal" data-coreui-target="#complete_interview">
+          <button type="button" class="btn btn-success invisible" data-coreui-toggle="modal" data-coreui-target="#complete_interview" id="completeInterview">
             Complete Interview
             <i class="fa-solid fa-check" style="color: #ffffff;"></i>
           </button>

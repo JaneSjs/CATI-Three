@@ -5,6 +5,10 @@
         <h5 class="modal-title" id="stageLabel">
          Edit {{ $survey->survey_name }} Survey Details
         </h5>
+        <hr>
+        <h6 class="text-primary">
+          {{ $survey->database }}
+        </h6>
         <button type="button" class="btn btn-outline-info btn-sm float-end" data-coreui-dismiss="modal">
           x
         </button>

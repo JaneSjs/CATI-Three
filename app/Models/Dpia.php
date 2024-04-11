@@ -24,7 +24,13 @@ class Dpia extends Model implements HasMedia
         'schema_id',
         'user_id',
         'dpia_approval',
-        'comment'
+        'comment',
+        'dpia_document',
+        'dpa_training_document',
+        'dpa_controller_agreement_document',
+        'extra_dpa_document_1',
+        'extra_dpa_document_2',
+        'extra_dpa_document_3',
     ];
 
     /**

@@ -25,7 +25,9 @@ class Project extends Model implements HasMedia
         'name',
         'dpia',
         'start_date',
-        'end_date'
+        'end_date',
+        'updated_by',
+        'deleted_by'
 
     ];
 
