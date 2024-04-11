@@ -161,6 +161,24 @@
         <li class="nav-item" title="Server Environment">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rectangle nav-icon" style="color: #fff;"></i>
+            Project Managers
+          </a>
+        </li>
+        <li class="nav-item" title="Server Environment">
+          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-users-viewfinder nav-icon" style="color: #fff;"></i>
+            Supervisors
+          </a>
+        </li>
+        <li class="nav-item" title="Server Environment">
+          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-users-between-lines nav-icon" style="color: #fff;"></i>
+            QC's
+          </a>
+        </li>
+        <li class="nav-item" title="Server Environment">
+          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-users-rays nav-icon" style="color: #fff;"></i>
             Interviewers
           </a>
         </li>

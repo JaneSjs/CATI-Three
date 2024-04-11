@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateReportRequest;
 use App\Models\Report;
 use App\Models\User;
 use App\Reports\MyReport;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -76,12 +77,16 @@ class ReportController extends Controller
     }
 
     /**
-     * Interviewers Report
+     * Interviewers Report Per Project
      */
-    public function interviewers()
+    public function interviewers($projectId)
     {
         $data['interviewers'] = User::orderBy('first_name')
-                                    ->paginate(20);
+                                     ->with(['interviews' => function ($query) use ($projectId)
+                                     {
+                                         $query->where('project_id', $projectId);
+                                     }])
+                                     ->paginate(20);
 
         return view('reports.interviewers', $data);
     }

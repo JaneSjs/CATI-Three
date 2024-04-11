@@ -40,8 +40,10 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Interviews</th>
-              <th scope="col">Percentage</th>
+              <th scope="col">Total Interviews</th>
+              <th scope="col">Approved Interviews</th>
+              <th scope="col">Cancelled Interviews</th>
+              <th scope="col">Performance</th>
             </tr>
           </thead>
           <tbody>
@@ -53,11 +55,11 @@ use Carbon\Carbon;
               <td>
                 {{ count($interviewer->interviews) }}
               </td>
-              
               <td>
                 
-                
               </td>
+              <td></td>
+              <td></td>
             </tr>
             @endforeach
           </tbody>

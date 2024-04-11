@@ -118,7 +118,7 @@ class ResultController extends Controller
     /**
      *  CSV Export Solution (Output Needs Restructuring)
      */
-    public function primitive_csv_export(int $schemaId)
+    public function csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -207,7 +207,7 @@ class ResultController extends Controller
     /**
      *  CSV Export Solution
      */
-    public function csv_export(int $schemaId)
+    public function in_progress_csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
