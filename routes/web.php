@@ -70,6 +70,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	// Survey Results Exports
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
+	Route::get('xlsx_sheets_export/{id}', [ResultController::class, 'xlsx_sheets_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
 	Route::get('json_export/{id}', [ResultController::class, 'json_export'])->name('json_export');
 	Route::get('xml_export/{id}', [ResultController::class, 'xml_export'])->name('xml_export');

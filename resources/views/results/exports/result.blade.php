@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Survey Result Details</title>
+    <title>Survey Results</title>
     <style>
         /* CSS styles for the result table */
         table {
@@ -18,8 +18,13 @@
 </head>
 <body>
     <h5>
-        Survey Result - ID: {{ $result->id }}
+        Survey Results
     </h5>
+
+    @foreach($results as $result)
+    <h6>
+        Interview ID: {{ $result->interview_id }}
+    </h6>
 
     <table>
         <thead>
@@ -30,22 +35,23 @@
         </thead>
         <tbody>
             @php
-                $resultContent = json_decode($result->content, true);
+               $resultContent = json_decode($result->content, true);
             @endphp
 
-            @foreach ($resultContent as $question => $answer)
-                <tr>
-                    <td>{{ $question }}</td>
-                    <td>
-                        @if (is_array($answer))
-                            {{ json_encode($answer) }}
-                        @else
-                            {{ $answer }}
-                        @endif
-                    </td>
-                </tr>
+            @foreach($resultContent as $question => $answer)
+               <tr>
+                   <td>{{ $question }}</td>
+                   <td>
+                       @if(is_array($answer))
+                         {{ json_encode($answer) }}
+                       @else
+                        {{ $answer }}
+                       @endif
+                   </td>
+               </tr>
             @endforeach
         </tbody>
     </table>
+    @endforeach
 </body>
 </html>

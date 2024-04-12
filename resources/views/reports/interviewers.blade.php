@@ -39,19 +39,19 @@ use Carbon\Carbon;
         <li class="list-group-item">
           Sample Size: 
           <span class="badge bg-primary rounded-pill">
-            3000
+            ?
           </span>
         </li>
         <li class="list-group-item">
           Total Interviews: 
           <span class="badge bg-success rounded-pill">
-            3000
+            {{ count($total_interviews) }}
           </span>
         </li>
         <li class="list-group-item">
           Excess Interviews: 
           <span class="badge bg-danger rounded-pill">
-            3000
+            ?
           </span>
         </li>
       </ul>

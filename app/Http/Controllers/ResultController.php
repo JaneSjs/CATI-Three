@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ResultsExport;
+use App\Exports\ResultSheetExport;
 use App\Exports\ResultsjsonExport;
 use App\Http\Requests\StoreResultRequest;
 use App\Http\Requests\UpdateResultRequest;
@@ -113,6 +114,23 @@ class ResultController extends Controller
         return back()->with('info', 'Results Export Download Link Will Be Sent To your Email Later On');
     }
 
+    /**
+     * xlsx Sheets Survey Results Export
+     */
+    public function xlsx_sheets_export(int $schemaId)
+    {
+        $survey = Schema::find($schemaId);
+        $surveyName = $survey->survey_name;
+        $userId = auth()->user()->id;
+
+        $results = Result::where('schema_id', $schemaId)->get();
+
+        $fileName = 'TIFA-SpreadSheets-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.xlsx';
+
+        //dd($filePath);
+
+        return (new ResultSheetExport($results))->download($fileName);
+    }
 
 
     /**

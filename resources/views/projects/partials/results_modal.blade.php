@@ -25,6 +25,9 @@
                       <i class="fas fa-file-csv"></i>
                       CSV
                     </a>
+                    <a href="{{ url('xlsx_sheets_export', $survey->id) }}" class="btn btn-outline-primary btn-sm" title="Excel Sheets">
+                      Sheets
+                    </a>
                     <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark btn-sm" title="Excel Format">
                       <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
                       Survey Results XLSX

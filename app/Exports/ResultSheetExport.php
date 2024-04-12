@@ -9,28 +9,40 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use Maatwebsite\Excel\Events\AfterSheet;
 
 class ResultSheetExport implements FromView, ShouldAutoSize, Responsable
 {
     use Exportable;
 
-    protected $result;
+    protected $results;
 
-    public function __construct(Result $result)
+    public function __construct(Collection $results)
     {
-        $this->result = $result;
+        $this->results = $results;
     }
 
     public function view(): View
     {
         return view('results.exports.result', [
-            'result' => $this->result,
+            'results' => $this->results,
         ]);
     }
 
-    public function withResponse($response, $writer, $excel)
+    // public function withResponse($response, $writer, $excel)
+    // {
+    //     $sheet = $writer->getSheetByIndex(0);
+    //     $sheet->setTitle('Survey Result ' . $this->result->id);
+    // }
+
+    public function registerEvents(): array
     {
-        $sheet = $writer->getSheetByIndex(0);
-        $sheet->setTitle('Survey Result ' . $this->result->id);
+        return [
+            AfterSheet::class => function (AfterSheet $event)
+            {
+                $event->sheet->setTitle('Survey Results');
+            }
+        ];
     }
 }

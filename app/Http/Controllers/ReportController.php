@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
+use App\Models\Interview;
 use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
@@ -83,6 +84,8 @@ class ReportController extends Controller
     public function interviewers($projectId)
     {
         $data['project'] = $project = Project::with('interviews')->find($projectId);
+        $data['total_interviews'] = Interview::where('project_id', $projectId)->get();
+        //dd($data);
 
         $data['interviewers'] = User::orderBy('first_name')
                                      ->with(['interviews' => function ($query) use ($projectId)
