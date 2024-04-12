@@ -91,7 +91,17 @@ use Carbon\Carbon;
                   echo $totalApproved
                 @endphp
               </td>
-              <td></td>
+              <td>
+                @php
+                  $totalApproved = 0;
+                  foreach($interviewer->interviews as $interview)
+                  {
+                    $totalApproved += $interview->total_cancelled_interviews;
+                  }
+
+                  echo $totalApproved
+                @endphp
+              </td>
               <td></td>
               <td></td>
               <td></td>
