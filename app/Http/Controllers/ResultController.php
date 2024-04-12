@@ -181,7 +181,7 @@ class ResultController extends Controller
                     {
                         if ($value == null)
                         {
-                            $flatResult[$key] = 'null';
+                            $flatResult[$key] = -1;
                         }    
                     }
 
