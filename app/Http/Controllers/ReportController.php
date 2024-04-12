@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
+use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
 use App\Reports\MyReport;
@@ -81,10 +82,14 @@ class ReportController extends Controller
      */
     public function interviewers($projectId)
     {
+        $data['project'] = Project::find($projectId);
+
         $data['interviewers'] = User::orderBy('first_name')
                                      ->with(['interviews' => function ($query) use ($projectId)
                                      {
-                                         $query->where('project_id', $projectId);
+                                         $query->where('project_id', $projectId)
+                                               ->select('user_id', DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'))
+                                               ->groupBy('user_id');
                                      }])
                                      ->paginate(20);
 

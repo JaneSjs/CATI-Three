@@ -102,7 +102,7 @@ class RoleController extends Controller
         {
             Role::destroy($role->id);
 
-            return redirect('roles')->with('danger', 'Role successfully removed');
+            return redirect('admin/roles')->with('danger', 'Role successfully removed');
         }
         else
         {

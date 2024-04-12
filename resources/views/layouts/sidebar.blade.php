@@ -152,7 +152,7 @@
     </li>
     @endcan
 
-    @canany(['admin'])
+    @canany(['admin','ceo','finance'])
     <li class="nav-group">
       <a class="nav-title nav-link nav-group-toggle" href="#">
         Reports

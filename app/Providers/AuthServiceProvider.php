@@ -63,6 +63,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAnyRoles(['manager']);
         });
 
+        // Check if user is finance
+        Gate::define('finance', function ($user)
+        {
+            return $user->hasAnyRoles(['finance']);
+        });
+
         // Check if user is qc
         Gate::define('qc', function ($user)
         {

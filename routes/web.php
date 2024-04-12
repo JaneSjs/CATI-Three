@@ -110,7 +110,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::delete('remove_quota/{schema_id}', [QuotaController::class, 'remove_quota'])->name('remove_quota');
 
 	// Reports
-	Route::get('interviewers_report/{projectId}', [ReportController::class, 'interviewers']);
+	Route::get('interviewers_report/{projectId}', [ReportController::class, 'interviewers'])->name('interviewers_report');
 
 
     Route::resource('analytics', AnalyticsController::class);

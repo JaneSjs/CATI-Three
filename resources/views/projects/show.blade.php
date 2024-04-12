@@ -50,6 +50,9 @@
                   <th scope="col">End Date</th>
                   @endcan
                   <th scope="col">Project Duration</th>
+                  @canany(['admin','ceo','finance'])
+                  <th scope="col">Reports</th>
+                  @endcan
                 </tr>
               </thead>
               <tbody>
@@ -68,6 +71,19 @@
                       echo $start_date->diffInDays($end_date) . ' days';
                     ?>
                   </td>
+                  @canany(['admin','ceo','finance'])
+                  <td>
+                    <a href="{{ route('interviewers_report', $project->id) }}" class="btn btn-outline-primary btn-sm">
+                      Interviewers
+                    </a>
+                    <a href="" class="btn btn-outline-info btn-sm">
+                      QC's
+                    </a>
+                    <a href="" class="btn btn-secondary btn-sm">
+                      Supervisors
+                    </a>
+                  </td>
+                  @endcan
                 </tr>
               </tbody>
             </table>
