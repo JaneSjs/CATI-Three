@@ -190,7 +190,7 @@ class ResultController extends Controller
                     $flattenedResults[] = $flatResult;
                 }
 
-                dd($flattenedResults);
+                //dd($flattenedResults);
 
                 // Prepare CSV Data
                 $csvData = '';
@@ -202,10 +202,10 @@ class ResultController extends Controller
                     foreach ($flattenedResults as $row)
                     {
                         // // Replace null values with the string "null"
-                        // $row = array_map(function ($value)
-                        // {
-                        //     return is_null($value) ? 'null' : $value;
-                        // }, $row);
+                        $row = array_map(function ($value)
+                        {
+                            return is_null($value) ? 'null' : $value;
+                        }, $row);
 
                         $csvData .= implode(',', $row) . "\n";
                     } 
