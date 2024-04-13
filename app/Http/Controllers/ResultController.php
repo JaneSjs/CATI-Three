@@ -173,7 +173,7 @@ class ResultController extends Controller
                 $flattenedResults = [];
                 //dd($flattenedResults);
                 foreach ($results as $result) {
-                    $flatResult = ['interview_id' => $result->interview_id];
+                    $flatResult = ['interview_id' => $result->interview_id, 'has_null' => false];
                     $content = json_decode($result->content, true);
 
                     $this->flattenArray('', $content, $flatResult);
@@ -182,8 +182,10 @@ class ResultController extends Controller
                     {
                         if ($value == null)
                         {
-                            //echo $value;
-                            $flatResult[$key] = -1;
+                            $value = '';
+                            $flatResult['has_null'] = true;
+
+                            //$flatResult[$key] = -1;
                         }    
                     }
 
@@ -201,10 +203,10 @@ class ResultController extends Controller
                     // Data Rows (Answers)
                     foreach ($flattenedResults as $row)
                     {
-                        // Replace null values with the string "null"
+                        // // Replace null values with the string "null"
                         $row = array_map(function ($value)
                         {
-                            return is_null($value) ? -1 : $value;
+                            return is_null($value) ? 'null' : $value;
                         }, $row);
 
                         $csvData .= implode(',', $row) . "\n";
