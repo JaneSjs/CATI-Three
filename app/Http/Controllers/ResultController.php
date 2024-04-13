@@ -171,6 +171,7 @@ class ResultController extends Controller
                 
                 // Flatten Nested JSON Structure and Include Null Values
                 $flattenedResults = [];
+                //dd($flattenedResults);
                 foreach ($results as $result) {
                     $flatResult = ['interview_id' => $result->interview_id];
                     $content = json_decode($result->content, true);
@@ -181,12 +182,15 @@ class ResultController extends Controller
                     {
                         if ($value == null)
                         {
+                            //echo $value;
                             $flatResult[$key] = -1;
                         }    
                     }
 
                     $flattenedResults[] = $flatResult;
                 }
+
+                dd($flattenedResults);
 
                 // Prepare CSV Data
                 $csvData = '';
