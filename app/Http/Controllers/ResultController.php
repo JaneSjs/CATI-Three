@@ -201,10 +201,10 @@ class ResultController extends Controller
                     // Data Rows (Answers)
                     foreach ($flattenedResults as $row)
                     {
-                        // // Replace null values with the string "null"
+                        // Replace null values with the string "null"
                         $row = array_map(function ($value)
                         {
-                            return is_null($value) ? 'null' : $value;
+                            return is_null($value) ? -1 : $value;
                         }, $row);
 
                         $csvData .= implode(',', $row) . "\n";
