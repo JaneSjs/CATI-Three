@@ -136,7 +136,7 @@ class ResultController extends Controller
     /**
      *  CSV Export Solution (Output Needs Restructuring)
      */
-    public function csv_export(int $schemaId)
+    public function _csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -229,9 +229,9 @@ class ResultController extends Controller
     }
 
     /**
-     *  CSV Export Solution
+     *  CSV Export Solution (Output Needs Restructuring)
      */
-    public function in_progress_csv_export(int $schemaId)
+    public function csv_export(int $schemaId)
     {
         try {
             $survey = Schema::find($schemaId);
@@ -259,41 +259,51 @@ class ResultController extends Controller
                       ->orWhereNull('interviews.quality_control');
                     })
                     ->get();
-
-                // echo "<pre>";
-                // print_r($results);exit;
-                // echo "</pre>";
                 
                 // Flatten Nested JSON Structure and Include Null Values
                 $flattenedResults = [];
+                //dd($flattenedResults);
                 foreach ($results as $result) {
-                    $flatResult = ['interview_id' => $result->interview_id];
+                    $flatResult = ['interview_id' => $result->interview_id, 'has_null' => false];
                     $content = json_decode($result->content, true);
 
-                    $this->flattenArray('', $content, $flatResult);
-
-                    foreach ($flatResult as $key => $value)
-                    {
-                        if ($value == null)
-                        {
-                            $flatResult[$key] = 'null';
-                        }    
-                    }
+                    $this->flattenJson('', $content, $flatResult);
 
                     $flattenedResults[] = $flatResult;
                 }
 
-                //dd(json_encode($flattenedResults));
-                $json = json_encode($flattenedResults);
+                //dd($flattenedResults);
 
-                $jsonAdapter = new JsonToCSV($json);
-
-                dd($csvString);
-
-                return response()->streamDownload(function () use ($csvString)
-                
+                // Prepare CSV Data
+                $csvData = '';
+                if (!empty($flattenedResults))
                 {
-                    echo $csvString;
+                    // Header Row (Questions)
+                    $csvData .= implode(',', array_keys($flattenedResults[0])) . "\n";
+                    // Data Rows (Answers)
+                    foreach ($flattenedResults as $row)
+                    {
+                        $csvRow = [];
+
+                        foreach (array_keys($flattenedResults[0]) as $key)
+                        {
+                            if (array_key_exists($key, $row))
+                            {
+                                $csvRow[] = is_array($row[$key]) ? implode(',', $row[$key]) : $row[$key];
+                            }
+                            else
+                            {
+                                // Empty String For Missing Keys
+                                $csvRow[] = '';
+                            }
+                        }
+
+                        $csvData .= implode(',', $csvRow) . "\n";
+                    } 
+                }
+
+                return response()->streamDownload(function () use ($csvData) {
+                    echo $csvData;
                 }, $fileName, $headers);
             }
             else
@@ -307,6 +317,7 @@ class ResultController extends Controller
         }
     }
 
+    
     /**
      * PDF Results Export
      */
@@ -361,7 +372,7 @@ class ResultController extends Controller
     }
 
     /**
-     *  CSV Export Solution
+     *  XML Export Solution
      */
     public function xml_export(int $schemaId)
     {
@@ -423,8 +434,8 @@ class ResultController extends Controller
             }
 
         } catch (Exception $e) {
-            Log::error('CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
-            return back()->with('error', 'CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+            Log::error('XML Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+            return back()->with('error', 'XML Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
         }
     }
 
@@ -438,5 +449,23 @@ class ResultController extends Controller
                 $result[$prefix . $key] = $value;
             }
         }
+    }
+
+    // Function to flatten nested JSON with null values
+    private function flattenJson($keyPrefix, $data, &$flatResult, $hasNull = false)
+    {
+         if (is_array($data))
+         {
+            foreach ($data as $subKey => $subValue)
+            {
+                $newKey = empty($keyPrefix) ? $subKey : $keyPrefix . '.' . $subKey;
+                $this->flattenJson($newKey, $subValue, $flatResult, $hasNull || is_null($subValue));
+            }    
+         }
+         else
+         {
+            $flatResult[$keyPrefix] = $data;
+            $flatResult['has_null'] = $hasNull || is_null($data);
+         }
     }
 }
