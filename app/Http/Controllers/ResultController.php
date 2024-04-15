@@ -276,7 +276,7 @@ class ResultController extends Controller
 
                 // Prepare CSV Data
                 $csvData = '';
-                $chunkSize = 15;
+                $chunkSize = 150;
 
                 if (!empty($flattenedResults))
                 {
