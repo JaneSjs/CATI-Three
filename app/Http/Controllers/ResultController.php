@@ -452,7 +452,7 @@ class ResultController extends Controller
     }
 
     // Function to flatten nested JSON with null values
-    private function flattenJson($keyPrefix, $data, &$flatResult, $hasNull = false)
+    private function flattenJson($keyPrefix, $data, &$flatResult, $hasNull = false): void
     {
          if (is_array($data))
          {
