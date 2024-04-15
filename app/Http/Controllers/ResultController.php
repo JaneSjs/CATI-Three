@@ -229,7 +229,7 @@ class ResultController extends Controller
     }
 
     /**
-     *  CSV Export Solution (Output Needs Restructuring)
+     *  CSV Export Solution
      */
     public function csv_export(int $schemaId)
     {
@@ -276,6 +276,8 @@ class ResultController extends Controller
 
                 // Prepare CSV Data
                 $csvData = '';
+                $chunkSize = 15;
+
                 if (!empty($flattenedResults))
                 {
                     // Header Row (Questions)
@@ -298,7 +300,20 @@ class ResultController extends Controller
                             }
                         }
 
-                        $csvData .= implode(',', $csvRow) . "\n";
+                        // Chunking
+                        $chunks = array_chunk($csvRow, $chunkSize);
+
+                        foreach ($chunks as $chunk) {
+                            // Using temporary stream for efficiency
+                            $stream = fopen('php://temp', 'r+');
+
+                            fputcsv($stream, $chunk);
+                            rewind($stream);
+                            $csvData .= stream_get_contents($stream);
+                            fclose($stream);
+                        }
+
+                        //$csvData .= implode(',', $csvRow) . "\n";
                     } 
                 }
 
@@ -454,18 +469,18 @@ class ResultController extends Controller
     // Function to flatten nested JSON with null values
     private function flattenJson($keyPrefix, $data, &$flatResult, $hasNull = false): void
     {
-         if (is_array($data))
-         {
-            foreach ($data as $subKey => $subValue)
-            {
-                $newKey = empty($keyPrefix) ? $subKey : $keyPrefix . '.' . $subKey;
-                $this->flattenJson($newKey, $subValue, $flatResult, $hasNull || is_null($subValue));
-            }    
-         }
-         else
-         {
-            $flatResult[$keyPrefix] = $data;
-            $flatResult['has_null'] = $hasNull || is_null($data);
-         }
+        if (is_array($data))
+        {
+           foreach ($data as $subKey => $subValue)
+           {
+               $newKey = empty($keyPrefix) ? $subKey : $keyPrefix . '.' . $subKey;
+               $this->flattenJson($newKey, $subValue, $flatResult, $hasNull || is_null($subValue));
+           }    
+        }
+        else
+        {
+           $flatResult[$keyPrefix] = $data;
+           $flatResult['has_null'] = $hasNull || is_null($data);
+        }
     }
 }
