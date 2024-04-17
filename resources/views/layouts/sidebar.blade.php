@@ -158,28 +158,50 @@
         Reports
       </a>
       <ul class="nav-group-items">
-        <li class="nav-item" title="Server Environment">
+        <li class="nav-item" title="Project Managers Report">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rectangle nav-icon" style="color: #fff;"></i>
             Project Managers
           </a>
         </li>
-        <li class="nav-item" title="Server Environment">
+        <li class="nav-item" title="Supervisors Report">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-viewfinder nav-icon" style="color: #fff;"></i>
             Supervisors
           </a>
         </li>
-        <li class="nav-item" title="Server Environment">
+        <li class="nav-item" title="QC's Report">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-between-lines nav-icon" style="color: #fff;"></i>
             QC's
           </a>
         </li>
-        <li class="nav-item" title="Server Environment">
+        <li class="nav-item" title="Interviewers Report">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rays nav-icon" style="color: #fff;"></i>
             Interviewers
+          </a>
+        </li>
+      </ul>
+    </li>
+    @endcan
+
+    @canany(['admin','ceo','head'])
+    <li class="nav-group">
+      <a class="nav-title nav-link nav-group-toggle" href="#">
+        Data Converters
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item" title="Convert JSON To CSV">
+          <a href="{{ route('converters.index') }}" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-gear fa-spin-pulse nav-icon" style="color: #fff;"></i>
+            JSON To CSV
+          </a>
+        </li>
+        <li class="nav-item" title="Convert PDF to Word">
+          <a href="" class="nav-link" rel="noreferrer" disabled>
+            <i class="fa-solid fa-gear fa-spin-pulse nav-icon" style="color: #fff;"></i>
+            PDF To Word
           </a>
         </li>
       </ul>

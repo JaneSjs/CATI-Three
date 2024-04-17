@@ -276,7 +276,7 @@ class ResultController extends Controller
 
                 // Prepare CSV Data
                 $csvData = '';
-                $chunkSize = 150;
+                $chunkSize = 4000;
 
                 if (!empty($flattenedResults))
                 {
@@ -327,8 +327,8 @@ class ResultController extends Controller
             }
 
         } catch (Exception $e) {
-            Log::error('CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
-            return back()->with('error', 'CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTrace());
+            Log::debug('CSV Export Error: ' . $e->getMessage() . ' ' . $e->getTraceAsString());
+            return back()->with('error', 'CSV Export Error: ' . $e->getMessage());
         }
     }
 
@@ -473,7 +473,7 @@ class ResultController extends Controller
         {
            foreach ($data as $subKey => $subValue)
            {
-               $newKey = empty($keyPrefix) ? $subKey : $keyPrefix . '.' . $subKey;
+               $newKey = empty($keyPrefix) ? $subKey : $keyPrefix . '_' . $subKey;
                $this->flattenJson($newKey, $subValue, $flatResult, $hasNull || is_null($subValue));
            }    
         }
