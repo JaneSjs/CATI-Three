@@ -31,7 +31,11 @@ use Carbon\Carbon;
             <th>Interviewer</th>
             <th>Respondent</th>
             <th>Phone Called</th>
-            <th></th>
+            <th>Date Time</th>
+            <th>
+              Sort By Duration
+              <i class="fa-solid fa-sort"></i>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +56,14 @@ use Carbon\Carbon;
                 <?php
                   $interview_date = Carbon::parse($interview->created_at)
                 ?>
-                {{ $interview_date->diffForHumans() }}
+                {{ $interview_date->format('jS M Y H:i \H\r\s') }}
+              </td>
+              <td>
+                <?php
+                $start_time = Carbon::parse($interview->start_time);
+                $end_time   = Carbon::parse($interview->end_time);
+                ?>
+                {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }} 
               </td>
               <td>
                 <a href="{{ route('interviews.show', $interview->id) }}" class="btn btn-dark">
