@@ -223,7 +223,7 @@ class RespondentController extends Controller
     {
         if ($respondent) {
             $respondent->delete();
-            return redirect()->back()->with('success', 'Respondent Deleted Successfully.');
+            return redirect()->back()->with('success', 'Respondent Removed From The Database.');
         }
 
         return redirect()->back()->with('error', 'Respondent wasn\'t found, thus wasn\'t deleted');
@@ -241,18 +241,17 @@ class RespondentController extends Controller
         if ($schemaId !== null) {
             Respondent::where('schema_id', $schemaId)->delete();
             // Notify The Project Manager Via Email
-            return back()->with('success', 'Survey Respondents Have Now Been Deleted');
+            return back()->with('success', 'Survey Respondents Have Now Been Removed From The Database');
         }
         elseif ($projectId !== null) {
             Respondent::where('project_id', $projectId)->delete();
             // Notify The Project Manager Via Email
-            return back()->with('success', 'Project Respondents Have Now Been Deleted');
+            return back()->with('success', 'Project Respondents Have Now Been Removed From The Database');
         }
         else
         {
-            Respondent::truncate();
-            // Notify The DPOs Via Email
-            return back()->with('success', 'All Respondents Have Now Been Deleted');
+            //Respondent::truncate();
+            return back()->with('error', 'Respondents Have Not Been Removed Due To Unknown Reasons');
         }
     }
 

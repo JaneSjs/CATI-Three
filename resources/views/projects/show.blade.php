@@ -91,9 +91,9 @@
         </div>
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
-          @canany(['admin','head','manager','coordinator','scripter'])
+          @canany(['admin','head','manager','coordinator'])
             <a href="{{ route('interviewers', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Interviewers">
-              Interviewers
+              Interviewers List
             </a>
             <a href="" class="btn btn-outline-success btn-sm" title="Project Recordings">
               Recordings
@@ -108,7 +108,7 @@
               </button>
             @endcan
 
-            @canany(['admin','head','manager','coordinator','scripter'])
+            @canany(['admin','head','manager','scripter'])
               <!-- Trigger Survey Modal -->
               <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                 Create Survey
@@ -140,7 +140,9 @@
             <dl class="list-group-item">
               @foreach($members as $member)
               <dt title="{{ $member->first_name . ' ' . $member->last_name }}">
-                {{ $member->last_name }}
+                <small>
+                  {{ $member->first_name . ' ' . $member->last_name }}
+                </small>
               </dt>
               <dd>
                 @foreach($member->roles as $role)
@@ -183,7 +185,7 @@
                 @foreach($surveys as $survey)
                 <tr>
 
-                  <td title="Survey {{ $survey->survey_name }} Id">
+                  <td title="Survey {{ $survey->survey_name }} Id" class="bg-primary text-light">
                     <strong>
                       {{ $survey->id }}
                     </strong>
@@ -213,9 +215,23 @@
                     
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
                       @canany(['interviewer'])
+                        @if($survey->stage == 'Production')
                         <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
                           Begin Interview
                         </a>
+                        @elseif($survey->stage == 'Draft')
+                          <span class="badge bg-info">
+                            Draft Stage
+                          </span>
+                        @elseif($survey->stage == 'Pilot')
+                          <span class="badge bg-primary">
+                            Pilot Stage
+                          </span>
+                        @elseif($survey->stage == 'Closed')
+                          <span class="badge bg-danger">
+                            Survey Closed
+                          </span>
+                        @endif
                       @endcan
 
                       @canany(['admin','scripter'])
@@ -224,19 +240,19 @@
                         </a>
                       @endcan
 
-                      @canany(['admin','manager'])
+                      @canany(['admin','manager','scripter'])
                       <button type="button" class="btn btn-outline-primary btn-sm" data-coreui-toggle="modal" data-coreui-target="#edit-survey-{{ $survey->id }}" title="Edit Survey Name or Change Survey Stage">
                         <i class="fas fa-pen"></i>
                       </button>
                       @endcan
                       
                       @canany(['admin','ceo','head','manager','scripter'])
-                      <a href="" class="btn btn-outline-primary" title="View Tool">
+                      <a href="" class="btn btn-outline-primary" title="Pending SurveyJs Developer Licence">
                         Tool
                       </a>
                       @endcan
 
-                      @canany(['admin','ceo','head','manager','coordinator'])
+                      @canany(['admin','ceo','head','manager'])
                       <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results-{{ $survey->id }}" title="Survey Results Actions">
                         Results
                       </button>

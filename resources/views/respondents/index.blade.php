@@ -17,13 +17,18 @@ use Carbon\Carbon;
             All Respondents
           </h5>
           @canany(['admin','dpo'])
-          <form action="" method="post">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-sm btn-outline-danger">
-              Delete All
-            </button>
-          </form>
+            <div class="btn-group" role="group" aria-label="Respondents Deletion">
+              <form action="" method="post">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-secondary">
+                  Remove All
+                </button>
+              </form>
+              <a href="" class="btn btn-sm btn-danger">
+                Removed Respondents
+              </a>
+            </div>
           @endcan
         </div>
         <div class="col">
