@@ -1,8 +1,8 @@
-<div class="modal fade" id="results-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="results-{{ $survey->id }}" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="resultsLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">
+        <h5 class="modal-title" id="resultsLabel">
           Download {{ $survey->survey_name }} Results
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>

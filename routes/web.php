@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function ()
 {
 	Route::get('admin', [DashboardController::class, 'index']);
-	Route::resource('profile', ProfileController::class);
+	Route::resource('profiles', ProfileController::class);
 });
 
 // Verified Routes
