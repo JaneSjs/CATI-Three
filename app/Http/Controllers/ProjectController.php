@@ -116,7 +116,7 @@ class ProjectController extends Controller
 
         $project_members = array_merge($user_id, $user_id, $scriptors, $supervisors, $qcs);
 
-        dd($project_members);
+        //dd($project_members);
         
         if ($project) {
             $project->users()->sync($project_members);
