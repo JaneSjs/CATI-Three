@@ -30,7 +30,7 @@ use Carbon\Carbon;
           <tr>
             <th>Interviewer</th>
             <th>Respondent</th>
-            <th>Phone Called</th>
+            <th>Phone</th>
             <th>Date Time</th>
             <th>
               Sort By Duration
@@ -50,7 +50,7 @@ use Carbon\Carbon;
                 {{ $interview->respondent->name ?? $interview->respondent_name }}
               </td>
               <td>
-                {{ $interview->respondent->phone_1 ?? '' }}
+                {{ $interview->phone_called ?? $interview->respondent->phone_1 }}
               </td>
               <td>
                 <?php
