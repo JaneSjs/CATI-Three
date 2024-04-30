@@ -39,7 +39,6 @@ use Carbon\Carbon;
           </tr>
         </thead>
         <tbody>
-          
           @if($interviews)
             @foreach($interviews as $interview)
             <tr>
@@ -77,7 +76,6 @@ use Carbon\Carbon;
              No Interview to QC
            </tr>
           @endif
-
         </tbody>
         <tfoot>
           {{ $interviews->links() }}

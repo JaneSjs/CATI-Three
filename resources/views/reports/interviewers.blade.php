@@ -69,6 +69,7 @@ use Carbon\Carbon;
               <th>Performance</th>
               <th>Rate</th>
               <th>Total Payable</th>
+              <th>Pay</th>
             </tr>
           </thead>
           <tbody>
@@ -105,8 +106,41 @@ use Carbon\Carbon;
               <td></td>
               <td></td>
               <td></td>
+              <td>
+                <div class="btn-group">
+                  <!-- Let Wages button Appear Only When The Project is Closed -->
+                  <button class="btn btn-outline-success btn-sm">
+                    Pay Wage Via M-Pesa
+                  </button>
+                  <!-- Let Wages button Appear Only When The Project is Closed -->
+                  <button class="btn btn-outline-success btn-sm">
+                    Pay LT Via M-Pesa
+                  </button>
+                </div>
+              </td>
             </tr>
             @endforeach
+            <tr>
+              <td>Grand Total</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="btn-group">
+                  <!-- Let Wages button Appear Only When The Project is Closed -->
+                  <button class="btn btn-success btn-sm">
+                    Pay All Wages At Once
+                  </button>
+                  <!-- Let Wages button Appear Only When The Project is Closed -->
+                  <button class="btn btn-success btn-sm">
+                    Pay All LT At Once
+                  </button>
+                </div>
+              </td>
+            </tr>
           </tbody>
           <tfoot>
             {{ $interviewers->links() }}
