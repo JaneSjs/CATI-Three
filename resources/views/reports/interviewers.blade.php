@@ -73,7 +73,7 @@ use Carbon\Carbon;
             </tr>
           </thead>
           <tbody>
-            @foreach($interviewers as $interviewer)
+            @foreach($project->users as $interviewer)
             <tr>
               <th scope="row">
                 {{ $interviewer->first_name . ' ' . $interviewer->last_name }}

@@ -83,7 +83,7 @@ class ReportController extends Controller
      */
     public function interviewers($projectId)
     {
-        $data['project'] = $project = Project::with('interviews')->find($projectId);
+        $data['project'] = $project = Project::with(['interviews','users'])->find($projectId);
         $data['total_interviews'] = Interview::where('project_id', $projectId)->get();
         //dd($data);
 
