@@ -119,10 +119,10 @@
                       </dd>
                       <dt>
                         <a href="{{ route('begin_survey', [
-                            'project_id' => $interview->project->id, 
-                            'survey_id' => $interview->schema_id,
-                            'interview_id' => $interview->id,
-                            'respondent_id' => $interview->respondent_id,
+                            'project_id' => $interview->project->id ?? '', 
+                            'survey_id' => $interview->schema_id ?? '',
+                            'interview_id' => $interview->id ?? '',
+                            'respondent_id' => $interview->respondent_id ?? '',
                               ]) }}" 
                           class="btn btn-dark btn-xs" 
                           target="_blank"
