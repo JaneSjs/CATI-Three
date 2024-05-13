@@ -83,19 +83,21 @@ class ReportController extends Controller
      */
     public function interviewers($projectId)
     {
-        $data['project'] = $project = Project::with(['interviews','users'])->find($projectId);
+        $data['project'] = $project = Project::with('interviews')->find($projectId);
         $data['total_interviews'] = Interview::where('project_id', $projectId)->get();
         //dd($data);
 
         $data['interviewers'] = User::orderBy('first_name')
-                                     ->with(['interviews' => function ($query) use ($projectId)
-                                     {
-                                         $query->where('project_id', $projectId)
-                                               ->select('user_id', DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'))
-                                               ->select('user_id', DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'))
+                                    ->with(['interviews' => function ($query) use ($projectId)
+                                    {
+                                        $query->where('project_id', $projectId)
+                                              ->select('user_id', 
+                                                DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
+                                                DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews')
+                                                    )
                                                ->groupBy('user_id');
-                                     }])
-                                     ->paginate(20);
+                                    }])
+                                    ->paginate(20);
 
         return view('reports.interviewers', $data);
     }
