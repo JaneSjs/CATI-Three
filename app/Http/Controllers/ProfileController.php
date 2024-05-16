@@ -65,19 +65,36 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
+        $id = $request->input('userId');
         $user = User::find($id);
+        //dd($user);
 
         if ($user)
         {
-            $user->update([
-                    'first_name' => $request->input('first_name'),
-                    'last_name' => $request->input('last_name'),
-                    'ext_no' => $request->input('ext_no'),
-                    'phone_1' => $request->input('phone_1'),
-                    'phone_2' => $request->input('phone_2')
-                ]);    
+            if ($request->has(['userId','extNo']))
+            {
+                $user->update([
+                    'ext_no' => $request->input('extNo'),
+                ]);
+            }
+
+            if ($request->has(['userId','phone1']))
+            {
+                $user->update([
+                    'phone_1' => $request->input('phone1'),
+                    'phone_2' => $request->input('phone1'),
+                ]);
+            }
+
+            if ($request->has(['userId','first_name']))
+            {
+                $user->update([
+                    'first_name' => $request->input('firstName'),
+                    'last_name' => $request->input('lastName'),
+                ]);
+            }   
         }
 
         return redirect()->back()->with('success', 'Profile Details Updated Successfully');

@@ -23,12 +23,19 @@
         </nav>
       </div>
       <div class="col">
-
-        <a href="{{ route('profiles.edit', $user->id) }}" class="btn btn-outline-info float-end">
-          <div class="icon me-2">
-            <i class="fa-solid fa-pen"></i>
-          </div>Edit
-        </a>
+        <div class="btn-group btn-sm float-end">
+          <button type="button" class="btn btn-outline-primary" title="Edit Ext No" data-coreui-toggle="modal" data-coreui-target="#editExtNo">
+            <div class="icon me-2">
+              <i class="fa-solid fa-square-phone"></i>
+            </div>Ext No
+          </button>
+          <button type="button" class="btn btn-outline-info" title="Will be used to pay your wages." data-coreui-toggle="modal" data-coreui-target="#editPhoneNumber">
+            <div class="icon me-2">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>Phone No
+          </button>
+        </div>
+        @include('profiles.includes.modals')
       </div>
     </div>
 
@@ -41,15 +48,16 @@
             <h5 class="my-3">
               {{ $user->first_name . ' ' . $user->last_name }}
             </h5>
-            <p class="text-muted mb-1">Pre Primary 1</p>
-            <p class="text-muted mb-4">Utu Academy</p>
+            <p class="text-primary mb-4">
+              TIFA Research Ltd
+            </p>
             <div class="d-flex justify-content-center mb-2">
-              <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">
-                Activate
-              </button>
-              <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">
-                Send Invoice
-              </button>
+              <a href="{{ route('profiles.edit', $user->id) }}" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">
+                <div class="icon me-2">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+                Update Profile
+              </a>
             </div>
           </div>
         </div>
