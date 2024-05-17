@@ -40,7 +40,7 @@
     Translations
   </label>
   <select id="languages">
-    <option value="en">English</option>bg
+    <option value="en">English</option>
     <option value="sw">Kiswahili</option>
     <option value="bg">Bulgarian</option>
   </select>

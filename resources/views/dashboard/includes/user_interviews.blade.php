@@ -117,7 +117,7 @@
                   </p>
                 </dd>
                 <dt>
-                  <a href="{{ route('begin_survey', [
+                  <!-- <a href="{{ route('begin_survey', [
                             'project_id' => $interview->project->id ?? '', 
                             'survey_id' => $interview->schema_id ?? '',
                             'interview_id' => $interview->id ?? '',
@@ -129,7 +129,7 @@
                           onclick="return false;"
                         >
                     Preview
-                  </a>
+                  </a> -->
                 </dt>
               </dl>
             </td>
