@@ -117,19 +117,14 @@
                   </p>
                 </dd>
                 <dt>
-                  <!-- <a href="{{ route('begin_survey', [
-                            'project_id' => $interview->project->id ?? '', 
-                            'survey_id' => $interview->schema_id ?? '',
-                            'interview_id' => $interview->id ?? '',
-                            'respondent_id' => $interview->respondent_id ?? '',
-                              ]) }}" 
+                  <a href="#" 
                           class="btn btn-dark btn-xs" 
                           target="_blank"
-                          title="Go To Interview"
+                          title="Go To Interview (Currently Not Working)"
                           onclick="return false;"
                         >
                     Preview
-                  </a> -->
+                  </a>
                 </dt>
               </dl>
             </td>
