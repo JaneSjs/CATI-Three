@@ -23,39 +23,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (response.ok) {
         const responseData = await response.json();
 
-        console.log(responseData);
+        console.log("Response Data: ", responseData);
 
         // Parse the survey content from the response
-        const surveyContent = JSON.parse(responseData.survey.content);
-
-        const surveyJson = surveyContent;
+        const surveyJson = JSON.parse(responseData.survey.content);
 
         // Create the SurveyJS instance with the generated model
         survey = new Survey.Model(surveyJson);
+
+        // Set the default language
+        survey.locale = "en";
 
         // Render survey inside the page
         ko.applyBindings({
           model: survey
         });
-
-        /**
-         * Save Survey When User Clicks the "Next" button
-         * This feature is Still Work in Progress
-         */
-
-        // survey.onCurrentPageChanged.add(function (sender, options)
-        // {
-        //   if (sender.currentPage.isStartPage || sender.currentPage.isFirstPage)
-        //   {
-        //     console.log("Its Start page");
-        //     surveyStartPage(sender);
-        //   }
-        //   else
-        //   {
-        //     console.log("Its Other pages");
-        //     surveyNextPages(sender);
-        //   }
-        // });
 
         // Add the onComplete event handler
         survey.onComplete.add(surveyComplete);
@@ -72,6 +54,18 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   fetchSurvey();
+
+  // Event listener for language selection dropdown
+  document.getElementById("languages").addEventListener("change", function (event)
+  {
+    const selectedLanguage = event.target.value;
+    console.log("Selected Language: ", selectedLanguage);
+
+    if (survey)
+    {
+      survey.locale = selectedLanguage;
+    }
+  });
 
   /**
    * Collecting Survey Results

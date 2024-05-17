@@ -35,9 +35,17 @@
   </p>
   <!-- Survey Results-->
 
-  <survey params="survey: model"></survey>
+  <!--Translations-->
+  <label for="languages">
+    Translations
+  </label>
+  <select id="languages">
+    <option value="en">English</option>
+    <option value="sw">Kiswahili</option>
+  </select>
+  <!-- EndTranslations-->
 
-  
+  <survey params="survey: model"></survey>
 
 </div>
 
