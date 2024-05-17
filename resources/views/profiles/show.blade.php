@@ -10,17 +10,20 @@
       <div class="col">
         <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
           <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item">
               <a href="#">
-                {{ $user->first_name }}
+                User Profile
               </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-              {{ $user->first_name . ' ' . $user->last_name }} Profile
+              {{ $user->first_name . ' ' . $user->last_name }}
             </li>
           </ol>
         </nav>
+      </div>
+      <div class="col">
+        @include('partials.errors')
+        @include('partials.alerts')
       </div>
       <div class="col">
         <div class="btn-group btn-sm float-end">
@@ -43,8 +46,8 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="{{ asset('assets/images/male-avatar.png') }}" alt="Student Avatar"
-              class="rounded-circle img-fluid" style="width: 150px;">
+            <img src="{{ asset('assets/images/male-avatar.png') }}" alt="{{ $user->first_name . ' ' . $user->last_name }} Profile Image"
+              class="rounded-circle img-fluid" style="width: 150px;" title="{{ $user->gender }}">
             <h5 class="my-3">
               {{ $user->first_name . ' ' . $user->last_name }}
             </h5>

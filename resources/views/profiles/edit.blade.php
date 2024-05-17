@@ -20,7 +20,7 @@
       <form class="needs-validation"  action="{{ route('profiles.update', $user->id) }}" method="post">
         @csrf
         @method('PATCH')
-
+        <input type="hidden" name="userId" value="{{ $user->id }}">
         <div class="row mb-3">
           <div class="col">
               <div class="form-outline mb-4">
@@ -46,37 +46,6 @@
           </div>
         </div>
         
-        <div class="row mb-3">
-          <div class="col">
-              <div class="form-outline mb-4">
-              <input type="text" name="phone_1" id="phone_1" class="form-control @error('phone_1') is-invalid @enderror" placeholder="Primary Phone Number" value="{{ $user->phone_1 }}"/>
-              <label for="phone_1" class="form-text-label text-primary">
-                Primary Phone Number
-              </label>
-              @error('phone_1')
-              <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-          </div>
-          <div class="col">
-              <div class="form-outline mb-4">
-              <input type="text" name="phone_2" id="phone_2" class="form-control @error('phone_2') is-invalid @enderror" placeholder="Secondary Phone Number" value="{{ $user->phone_2 }}"/>
-              <label for="phone_2" class="form-text-label text-primary">
-                Secondary Phone Number
-              </label>
-              @error('phone_2')
-              <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                {{ $message }}
-              </div>
-              @enderror
-            </div>
-          </div>
-        </div>
-
-        
-        
         <div class="row">
           <!-- Email input -->
           <div class="col">
@@ -91,18 +60,25 @@
             </div>
           </div>
 
-          <!-- Extension Number input -->
+          <!-- Gender input -->
           <div class="col">
-              <div class="form-floating form-outline mb-4">
-                <input type="number" name="ext_no" id="ext_no" class="form-control @error('ext_no') is-invalid @enderror" placeholder="Caller's Extension Number" value="{{ $user->ext_no }}"/>
-                <label for="ext_no" class="form-text-label text-primary">Ext No</label>
-                  @error('ext_no')
-                  <div class="invalid-feedback bg-light rounded text-center" role="alert">
-                    {{ $message }}
-                  </div>
-                  @enderror
+            <div class="form-floating form-outline mb-4">
+              <select class="form-select form-select-sm" id="gender" name="gender" aria-label="Select Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+
+              <label for="gender" class="form-text-label text-primary">
+                Select Gender
+              </label>
+              @error('gender')
+              <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                {{ $message }}
               </div>
+              @enderror
+            </div>
           </div>
+          <!-- End Gender input -->
         </div>   
 
         <button type="submit" class="btn btn-primary">

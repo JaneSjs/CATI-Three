@@ -12,6 +12,8 @@
         @csrf
         @method('PATCH')
         <input type="hidden" name="userId" value="{{ $user->id }}">
+        <input type="hidden" name="firstName" value="{{ $user->first_name }}">
+        <input type="hidden" name="lastName" value="{{ $user->last_name }}">
         <div class="modal-body">
             <div class="mb-3">
               <label for="extNo" class="form-label">
@@ -44,36 +46,67 @@
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="route('profiles.update', $user->id)" method="post">
-        @csrf
-        @method('PATCH')
-        <input type="hidden" name="userId" value="{{ $user->id }}">
-        <div class="modal-body">
-            <div class="mb-3">
-              <label for="phone1" class="form-label">
-                Primary Phone No
-              </label>
-              <input type="text" class="form-control" id="phone1" aria-describedby="phone1Help" name="phone_1" value="{{ $user->phone_1 ?? old('phone_1') }}">
-              <div id="phone1Help" class="form-text">
-                Secondary Phone Number
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <form action="route('profiles.update', $user->id)" method="post">
+              @csrf
+              @method('PATCH')
+              <input type="hidden" name="userId" value="{{ $user->id }}">
+              <input type="hidden" name="firstName" value="{{ $user->first_name }}">
+              <input type="hidden" name="lastName" value="{{ $user->last_name }}">
+              <div class="mb-3">
+                <label for="phone1" class="form-label">
+                  Primary Phone No
+                </label>
+                <input type="text" class="form-control @error('phone1') is-invalid @enderror" id="phone1" aria-describedby="phone1Help" name="phone1" value="{{ $user->phone_1 ?? old('phone1') }}">
+                @error('phone1')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+                @else
+                <div id="phone1Help" class="form-text">
+                  Primary Phone Number
+                </div>
+                @enderror
               </div>
-            </div>
-            <div class="mb-3">
-              <label for="phone2" class="form-label">
-                Secondary Phone No
-              </label>
-              <input type="text" class="form-control" id="phone2" aria-describedby="phone1Help" name="phone_2" value="{{ $user->phone_2 ?? old('phone_2') }}">
-              <div id="phone1Help" class="form-text">
-                Alternative Phone Number
+              <button type="submit" class="btn btn-outline-primary">
+                Update
+              </button>
+            </form>
+          </div>
+          <div class="col">
+            <form action="route('profiles.update', $user->id)" method="post">
+              @csrf
+              @method('PATCH')
+              <input type="hidden" name="userId" value="{{ $user->id }}">
+              <input type="hidden" name="firstName" value="{{ $user->first_name }}">
+              <input type="hidden" name="lastName" value="{{ $user->last_name }}">
+              <div class="mb-3">
+                <label for="phone2" class="form-label">
+                  Secondary Phone No
+                </label>
+                <input type="text" class="form-control @error('phone2') is-invalid @enderror" id="phone2" aria-describedby="phone2Help" name="phone2" value="{{ $user->phone_2 ?? old('phone2') }}">
+                @error('phone2')
+                <div class="invalid-feedback">
+                  {{ $message }}
+                </div>
+                @else
+                <div id="phone2Help" class="form-text">
+                  Primary Phone Number
+                </div>
+                @enderror
               </div>
-            </div>
+              <button type="submit" class="btn btn-outline-info">
+                Update 
+              </button>
+            </form>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-outline-primary">
-            Update
-          </button>
-        </div>
-      </form>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
     </div>
   </div>
 </div>

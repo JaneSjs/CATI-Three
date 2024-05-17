@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Schema;
 use App\Models\User;
@@ -65,14 +66,29 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProfileRequest $request, string $id)
     {
         $id = $request->input('userId');
         $user = User::find($id);
-        //dd($user);
+        //dd($request);
 
         if ($user)
         {
+            if ($request->has(['userId','gender']))
+            {
+                //dd($request->input('gender'));
+                $userUpdate = $user->update([
+                    'first_name' => $request->input('firstName'),
+                    'last_name' => $request->input('lastName'),
+                    'gender' => $request->input('gender'),
+                ]);
+                if ($userUpdate) {
+                    return back()->with('success', 'Profile Details Updated Successfully');
+                } else {
+                    return back()->with('error', 'Profile Details Was Not Updated');
+                }
+            }
+
             if ($request->has(['userId','extNo']))
             {
                 $user->update([
@@ -84,11 +100,17 @@ class ProfileController extends Controller
             {
                 $user->update([
                     'phone_1' => $request->input('phone1'),
-                    'phone_2' => $request->input('phone1'),
                 ]);
             }
 
-            if ($request->has(['userId','first_name']))
+            if ($request->has(['userId','phone2']))
+            {
+                $user->update([
+                    'phone_2' => $request->input('phone2'),
+                ]);
+            }
+
+            if ($request->has(['userId','firstName']))
             {
                 $user->update([
                     'first_name' => $request->input('firstName'),
