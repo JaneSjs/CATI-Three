@@ -376,50 +376,15 @@ class InterviewController extends Controller
                                 //->where('project_id', $project_id)
                                 ->get();
 
-        //$findRespondent->eligible();
-        //dd($respondents);
+        if ($respondents->isNotEmpty()) {
+            $randomRespondent = $respondents->random();
 
-        
-
-        //$metAttributes = $this->metAttributes($survey_id);
-        // Trigger Email Alerts For Quota Met.
-        $this->metAttributes($survey_id);
-        //dd($metAttributes);
-
-        // foreach ($metAttributes as $attribute)
-        // {
-        //     $findRespondent->where($attribute['field'], $attribute['operator'], $attribute['value']);
-        // }
-
-        // Bare minimum conditions for any respondent
-        // $findRespondent->where(function ($query)
-        // {
-        //     $query->where(function ($query)
-        //     {
-        //         // Six months.
-        //         $query->whereNull('interview_date_time')
-        //         ->orWhere('interview_date_time', '<=', Carbon::now()->subMonths(6));
-        //     })->orWhere('interview_status', '!=', 'Locked');
-        // });
-
-        //dd($findRespondent);
-        //dd(Carbon::now()->subMonths(6));
-
-        //dd($findRespondent->toSql());
-
-        //$respondent = $respondents->first();
-        if ($respondents->isNotEmpty())
-        {
-            $randomIndex = rand(0, $respondents->count() - 1);
-
-            $randomRespondent = $respondents[$randomIndex];
-        }
-        else
-        {
+            dd($randomRespondent);
+        } else {
             $randomRespondent = null;
-        }
 
-        //dd($randomRespondent);
+            session()->flash('warning', 'No respondent found');
+        }
 
         //$data['respondent'] = $respondent;
         $data['respondent'] = $randomRespondent;
