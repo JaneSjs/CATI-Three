@@ -89,7 +89,7 @@ class Respondent extends Model
     public function scoutMetadata()
     {
         return [
-            'filterableAttributes' => ['project_id'],
+            'filterableAttributes' => ['project_id','schema_id'],
         ];
     }
 
