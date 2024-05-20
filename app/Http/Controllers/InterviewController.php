@@ -377,7 +377,7 @@ class InterviewController extends Controller
                                 ->get();
 
         if ($respondents->isNotEmpty()) {
-            $randomRespondent = $respondents->random();
+            $firstRespondent = $respondents->first();
 
             //dd($randomRespondent);
         } else {
