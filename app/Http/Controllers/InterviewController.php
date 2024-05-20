@@ -379,7 +379,7 @@ class InterviewController extends Controller
         if ($respondents->isNotEmpty()) {
             $randomRespondent = $respondents->random();
 
-            dd($randomRespondent);
+            //dd($randomRespondent);
         } else {
             $randomRespondent = null;
 
