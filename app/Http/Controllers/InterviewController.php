@@ -381,13 +381,13 @@ class InterviewController extends Controller
 
             //dd($randomRespondent);
         } else {
-            $randomRespondent = null;
+            $firstRespondent = null;
 
             session()->flash('warning', 'No respondent found');
         }
 
         //$data['respondent'] = $respondent;
-        $data['respondent'] = $randomRespondent;
+        $data['respondent'] = $firstRespondent;
 
         $data['project'] = Project::find($project_id);
 
