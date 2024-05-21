@@ -386,8 +386,9 @@ class InterviewController extends Controller
 
         $respondents = Respondent::search($query)
                                 ->where('schema_id', $surveyId)
-                                //->filter($filters)
+                                ->take(5000)
                                 ->get();
+        dd($respondents);
 
         // Manually Filter the search results
         $filteredRespondents = $respondents->filter(function ($respondent) use ($metAttributes)
