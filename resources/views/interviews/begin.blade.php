@@ -132,7 +132,8 @@ use Carbon\Carbon;
 
           <div class="row">
             <div class="col">
-              <form action="{{ url('search_respondent') }}" method="GET">
+              <form action="{{ url('search_respondent') }}" method="post">
+                @csrf
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
                 <input type="hidden" name="interview_id" value="{{ $interview_id }}">

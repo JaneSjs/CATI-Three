@@ -318,7 +318,7 @@ class InterviewController extends Controller
                 // Exclude Female Respondents
                 $metAttributes[] = ['field'=>'gender', 'operator' => '!=', 'value'=>'female'];
             } else {
-                // Start With Male Respondents
+                // Include Male Respondents
                 $metAttributes[] = ['field'=>'gender', 'operator' => '==', 'value'=>'male'];
             }
         }
@@ -365,38 +365,93 @@ class InterviewController extends Controller
      */
     function search_respondent(Request $request)
     {
-        //dd('Here');
+        //dd($request);
         $data['respondent'] = null;
-        $project_id = $request->input('project_id');
-        $survey_id = $request->input('survey_id');
+        $projectId = $request->input('project_id');
+        $surveyId = $request->input('survey_id');
         $query = $request->input('query');
 
+        //dd($query);
+
+        // Get the met quota attributes
+        $metAttributes = $this->metAttributes($surveyId);
+
+        // Build the search filters based on quota attributes
+        $filters = collect($metAttributes)->map(function ($attr)
+        {
+            return "{$attr['field']} {$attr['operator']} '{$attr['value']}'";
+        })->join(' AND ');
+
+        //dd($filters);
+
         $respondents = Respondent::search($query)
-                                ->where('schema_id', $survey_id)
-                                //->where('project_id', $project_id)
+                                ->where('schema_id', $surveyId)
+                                //->filter($filters)
                                 ->get();
 
-        if ($respondents->isNotEmpty()) {
-            $firstRespondent = $respondents->first();
+        $filteredRespondents = $respondents->filter(function ($respondent) use ($metAttributes)
+        
+        {
+            foreach ($metAttributes as $attr)
+            {
+                $field = $attr['field'];
+                $operator = $attr['operator'];
+                $value = $attr['value'];
+
+                if (!$this->compare($respondent->$field, $operator, $value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        if ($filteredRespondents->isNotEmpty()) {
+            $randomIndex = rand(0, $filteredRespondents->count() - 1);
+            $randomRespondent = $filteredRespondents->values()[$randomIndex];
 
             //dd($randomRespondent);
         } else {
-            $firstRespondent = null;
+            $randomRespondent = null;
 
             session()->flash('warning', 'No respondent found');
         }
 
         //$data['respondent'] = $respondent;
-        $data['respondent'] = $firstRespondent;
+        $data['respondent'] = $randomRespondent;
 
-        $data['project'] = Project::find($project_id);
+        $data['project'] = Project::find($projectId);
 
-        $data['survey'] = Schema::find($survey_id);
+        $data['survey'] = Schema::find($surveyId);
         $data['interview_id'] = $request->input('interview_id');
 
         //dd($data);
 
         return view('interviews.begin', $data);
+    }
+
+    /**
+     * Compare Function to handle different operators
+     */
+    public function compare($a, $operator, $b): ReturnType
+    {
+        switch ($operator) {
+            case '==':
+                return $a == $b;
+            case '!=':
+                return $a != $b;
+            case '>':
+                return $a > $b;
+            case '>=':
+                return $a >= $b;
+            case '<':
+                return $a < $b;
+            case '<=':
+                return $a <= $b;
+            default:
+                return false;
+        }
     }
 
 

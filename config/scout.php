@@ -136,11 +136,10 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
-            // ],
             Respondent::class => [
-                'filterableAttributes' => ['project_id','schema_id','occupation','region','county','sub_county','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group']
+                'filterableAttributes' => [
+                    'project_id','schema_id','occupation','region','county','sub_county','constituency','ward','sampling_point','setting','gender','exact_age','education_level','marital_status','religion','income','Lsm','ethnic_group','employment_status','age_group'
+                ],
             ],
             Interview::class => [
                 'filterableAttributes' => ['quality_control'],
