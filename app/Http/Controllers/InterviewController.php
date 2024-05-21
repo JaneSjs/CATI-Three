@@ -389,6 +389,7 @@ class InterviewController extends Controller
                                 //->filter($filters)
                                 ->get();
 
+        // Manually Filter the search results
         $filteredRespondents = $respondents->filter(function ($respondent) use ($metAttributes)
         
         {
@@ -407,16 +408,37 @@ class InterviewController extends Controller
             return true;
         });
 
-        if ($filteredRespondents->isNotEmpty()) {
-            $randomIndex = rand(0, $filteredRespondents->count() - 1);
-            $randomRespondent = $filteredRespondents->values()[$randomIndex];
+        // Respondents With Feedback
+        $withFeedback = $filteredRespondents->filter(function ($respondent)
+        {
+            return !is_null($respondent->feedback);
+        });
 
-            //dd($randomRespondent);
-        } else {
+
+        // Respondents Without Feedback
+        $withoutFeedback = $filteredRespondents->filter(function ($respondent)
+        {
+            return is_null($respondent->feedback);
+        });
+
+        // Prefer Respondents Without Feedback
+        if ($withoutFeedback->isNotEmpty())
+        {
+            $randomIndex = rand(0, $withoutFeedback->count() - 1);
+            $randomRespondent = $withoutFeedback->values()[$randomIndex];
+        }
+        elseif($withFeedback->isNotEmpty())
+        {
+            $randomIndex = rand(0, $withFeedback->count() -1);
+            $randomRespondent = $withFeedback->values()[$randomIndex];
+        }
+        else
+        {
             $randomRespondent = null;
 
             session()->flash('warning', 'No respondent found');
         }
+
 
         //$data['respondent'] = $respondent;
         $data['respondent'] = $randomRespondent;
