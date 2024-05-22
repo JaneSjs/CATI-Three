@@ -54,9 +54,10 @@ use Carbon\Carbon;
             <button type="button" class="btn btn-outline-danger btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkDeleteRespondents">
               Bulk Delete
             </button>
-            <button type="button" class="btn btn-secondary btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#">
+            <button type="button" class="btn btn-success btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
               Unlock Respondents
             </button>
+
             @include('respondents/partials/modals')
           @endcan
         </div>

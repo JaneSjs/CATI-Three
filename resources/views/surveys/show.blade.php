@@ -3,6 +3,9 @@
 @section('content')
 
 <div class="body flex-grow-1 px-3">
+  <button type="button" class="btn btn-primary mb-3 mt-o" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back">
+    <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
+  </button>
   <div class="card">
     <div class="card-header">
 
@@ -48,10 +51,10 @@
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
             </button>
-            <button type="button" class="btn btn-info btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_feedback">
+            <!--<button type="button" class="btn btn-info btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_feedback">
               Interview Feedback
               <i class="fa-regular fa-comment-dots"></i>
-            </button>
+            </button>-->
             <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
             Terminate Interview
             <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>

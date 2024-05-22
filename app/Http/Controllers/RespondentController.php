@@ -388,4 +388,31 @@ class RespondentController extends Controller
 
         return view('respondents.search', $data);
     }
+
+    /**
+     * Unlock Respondents
+     */
+    public function unlockRespondents(Request $request)
+    {
+        $surveyId = $request->input('surveyId');
+
+        $unlockRespondents = Respondent::where('schema_id', $surveyId)
+        ->where('interview_status', 'Locked')
+        ->update([
+            'interview_status' => 'Unlocked',
+            'interview_date_time' => null
+        ]);
+
+        //dd($unlockRespondents);
+
+        if ($unlockRespondents > 0)
+        {
+            return back()->with('success', $unlockRespondents . ' Respondents Unlocked');
+        }
+        else
+        {
+            return back()->with('info', 'No Locked Respondents Found');
+        }
+
+    }
 }

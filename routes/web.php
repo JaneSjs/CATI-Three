@@ -107,6 +107,8 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
 	Route::get('project_survey_respondents/{project_id}/{survey_id}', [RespondentController::class, 'project_survey_respondents'])->name('project_survey_respondents');
 	Route::delete('bulk_delete_respondents', [RespondentController::class, 'bulk_delete'])->name('bulk_delete_respondents');
+	Route::patch('unlock_respondents', [RespondentController::class, 'unlockRespondents'])->name('unlock_respondents');
+
 	
 	Route::get('operations/survey/{id}', [QuotaController::class, 'show'])->name('operations');
 	Route::post('call', [PabxController::class, 'call'])->name('call');
