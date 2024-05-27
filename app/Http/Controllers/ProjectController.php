@@ -195,7 +195,7 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //dd($request);
+        //dd($request->users);
         if ($project)
         {
             //dd($request->users);
@@ -208,7 +208,7 @@ class ProjectController extends Controller
             ]);
 
             // Include Curently Authenticated User To Project Assigned Users
-            $users = array_merge([(string) auth()->user()->id], $request->users);
+            $users = array_merge([(string) auth()->user()->id], $request->users ?? []);
 
             //dd($users);
 

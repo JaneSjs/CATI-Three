@@ -87,11 +87,15 @@ use Carbon\Carbon;
               <tbody>
                 @foreach($respondents as $respondent)
                 <tr>
-                  <th scope="row">
+                  <td>
                     <a href="{{ route('respondents.show', $respondent->id) }}">                  
                       {{ $respondent->name }}
                     </a>
-                  </th>
+                    <hr>
+                    <small>
+                      {{ $respondent->phone_1 }}
+                    </small>
+                  </td>
                   <td>
                     {{ $respondent->gender ?? '-' }}
                   </td>

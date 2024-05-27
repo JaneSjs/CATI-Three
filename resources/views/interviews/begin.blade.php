@@ -149,7 +149,7 @@ use Carbon\Carbon;
               </form>
             </div>
             <div class="col">
-              <form action="{{ url('find_respondent') }}" method="GET">
+              <form action="{{ url('find_respondent') }}" method="GET" class="float-end">
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
                 <input type="hidden" name="interview_id" value="{{ $interview_id }}">

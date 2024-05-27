@@ -457,7 +457,7 @@ class InterviewController extends Controller
     /**
      * Compare Function to handle different operators
      */
-    public function compare($a, $operator, $b): ReturnType
+    public function compare($a, $operator, $b)
     {
         switch ($operator) {
             case '==':
@@ -483,65 +483,88 @@ class InterviewController extends Controller
      */
     function find_respondent(Request $request)
     {
+        //dd($request);
         $data['respondent'] = null;
-        $project_id = $request->input('project_id');
-        $survey_id = $request->input('survey_id');
+        $projectId = $request->input('project_id');
+        $surveyId = $request->input('survey_id');
         $query = $request->input('query');
 
-        $respondents = Respondent::search($query)
-                                ->get();
+        //dd($query);
 
-        //$findRespondent->eligible();
+        // Get the met quota attributes
+        $metAttributes = $this->metAttributes($surveyId);
+
+        // Build the search filters based on quota attributes
+        $filters = collect($metAttributes)->map(function ($attr)
+        {
+            return "{$attr['field']} {$attr['operator']} '{$attr['value']}'";
+        })->join(' AND ');
+
+        //dd($filters);
+
+        $respondents = Respondent::search($query)
+                                ->where('schema_id', $surveyId)
+                                ->take(5000)
+                                ->get();
         //dd($respondents);
 
+        // Manually Filter the search results
+        $filteredRespondents = $respondents->filter(function ($respondent) use ($metAttributes)
         
-
-        $metAttributes = $this->metAttributes($survey_id);
-        // Trigger Email Alerts For Quota Met.
-        $this->metAttributes($survey_id);
-        //dd($metAttributes);
-
-        foreach ($metAttributes as $attribute)
         {
-            $respondents->where($attribute['field'], $attribute['operator'], $attribute['value']);
-        }
-
-        // Bare minimum conditions for any respondent
-        $respondents->where(function ($query)
-        {
-            $query->where(function ($query)
+            foreach ($metAttributes as $attr)
             {
-                // Six months.
-                $query->whereNull('interview_date_time')
-                ->orWhere('interview_date_time', '<=', Carbon::now()->subMonths(6));
-            })->orWhere('interview_status', '!=', 'Locked');
+                $field = $attr['field'];
+                $operator = $attr['operator'];
+                $value = $attr['value'];
+
+                if (!$this->compare($respondent->$field, $operator, $value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         });
 
-        //dd($respondents);
-        //dd(Carbon::now()->subMonths(6));
-
-        //dd($respondents->toSql());
-
-        if ($respondents->isNotEmpty())
+        // Respondents With Feedback
+        $withFeedback = $filteredRespondents->filter(function ($respondent)
         {
-            $randomIndex = rand(0, $respondents->count() - 1);
+            return !is_null($respondent->feedback);
+        });
 
-            $randomRespondent = $respondents[$randomIndex];
+
+        // Respondents Without Feedback
+        $withoutFeedback = $filteredRespondents->filter(function ($respondent)
+        {
+            return is_null($respondent->feedback);
+        });
+
+        // Prefer Respondents Without Feedback
+        if ($withoutFeedback->isNotEmpty())
+        {
+            $randomIndex = rand(0, $withoutFeedback->count() - 1);
+            $randomRespondent = $withoutFeedback->values()[$randomIndex];
+        }
+        elseif($withFeedback->isNotEmpty())
+        {
+            $randomIndex = rand(0, $withFeedback->count() -1);
+            $randomRespondent = $withFeedback->values()[$randomIndex];
         }
         else
         {
-            session()->flash('warning', 'No respondent found');
             $randomRespondent = null;
+
+            session()->flash('warning', 'No respondent found');
         }
 
-        //dd($respondent);
 
         //$data['respondent'] = $respondent;
         $data['respondent'] = $randomRespondent;
 
-        $data['project'] = Project::find($project_id);
+        $data['project'] = Project::find($projectId);
 
-        $data['survey'] = Schema::find($survey_id);
+        $data['survey'] = Schema::find($surveyId);
         $data['interview_id'] = $request->input('interview_id');
 
         //dd($data);
