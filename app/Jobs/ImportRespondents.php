@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportRespondents implements ShouldQueue
@@ -30,9 +32,17 @@ class ImportRespondents implements ShouldQueue
      */
     public function handle(): void
     {
-        Excel::import(new RespondentsImport, storage_path('app/' . $this->path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
+        $import = new RespondentsImport();
+
+        Excel::import($import, storage_path('app/' . $this->path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
         {
             $reader->ignoreEmpty();
         });
+
+        //Log the number of successfully imported records
+        Log::info($import->getSuccessfulCount());
+
+        // Delete File after import
+        Storage::delete($this->path);
     }
 }

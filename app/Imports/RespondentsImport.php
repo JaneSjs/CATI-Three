@@ -18,6 +18,9 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
 {
     use SkipsErrors, SkipsFailures;
 
+    protected $successfulCount = 0;
+    protected $failedCount = 0;
+
     /**
     * @param array $row
     *
@@ -27,6 +30,7 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     {
         try {
             Log::info("Importing respondent: {$row['name']}");
+            $this->successfulCount++;
 
             return new Respondent([
                 'r_id'            => $row['r_id'],
@@ -67,6 +71,7 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
                 'last_downloaded_date'     => null
             ]);
         } catch (\Exception $e) {
+            $$this->failureCount++;
             Log::error("Error importing respondent: " .  $e->getMessage() );
             throw $e;
         }
@@ -97,5 +102,15 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
 
         // Continue importing subsequent rows on failure 
         return true;
+    }
+
+    public function getSuccessfulCount(): int
+    {
+        return $this->successfulCount;
+    }
+
+    public function getFailedCount(): int
+    {
+        return $this->failedCount;
     }
 }

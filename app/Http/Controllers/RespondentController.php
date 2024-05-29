@@ -13,6 +13,7 @@ use App\Models\Schema;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
@@ -74,55 +75,6 @@ class RespondentController extends Controller
         //
     }
 
-    /**
-     * List all respondents on the the system 
-     * that belong to a survey with their statistics.
-     */
-    // public function show($project_id, $survey_id =null)
-    // {
-    //     $survey = Schema::find($survey_id);
-
-    //     $data['survey'] = $survey;
-
-    //     $respondents = Respondent::where('project_id', $project_id);
-
-    //     if ($survey_id !== null) {
-    //         $respondents->where('survey_id', $survey_id);
-    //     }
-
-    //     $data['respondents'] = $respondents->orderBy('id', 'desc')->paginate(10);
-
-    //     $data['total_respondents'] = count($survey->respondents()->get());
-
-    //     $data['imported_today'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::today())->count();
-    //     $data['imported_yesterday'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::yesterday())->count();
-
-    //     $male_respondents = $survey->respondents()
-    //                                 ->where('gender', 'male')
-    //                                 //->orWhere('gender', 'm')
-    //                                 ->get();
-    //     $data['male_respondents'] = count($male_respondents);
-
-    //     $female_respondents = $survey->respondents()
-    //                                 ->where('gender', 'female')
-    //                                 //->orWhere('gender', 'f')
-    //                                 ->get();
-    //     $data['female_respondents'] = count($female_respondents);
-
-    //     $data['respondents_with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
-    //     $data['respondents_with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
-    //     $data['respondents_with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
-    //     $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
-
-    //     $respondents_available_for_interviewing = $survey->respondents()
-    //                                                     ->where('interview_status', '!=', 'Locked')
-    //                                                     ->whereNull('interview_date_time')
-    //                                                     ->get();
-    //     $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
-
-    //     return view('respondents.show', $data);
-    // }
-
     public function show(Respondent $respondent)
     {
         $data['respondent'] = $respondent;
@@ -135,54 +87,60 @@ class RespondentController extends Controller
      * List all respondents on the the system 
      * that belong to a project and survey with their statistics.
      */
-    public function project_survey_respondents($project_id, $survey_id)
+    public function project_survey_respondents($projectId, $surveyId)
     {
-        //dd($project_id . '-' . $survey_id);
-            if ($survey_id !== null) {
-                $survey  = Schema::find($survey_id);
+        //dd($projectId . '-' . $surveyId);
+        if($projectId !== null)
+        {
+            $project = Project::find($projectId);
 
-                $data['survey'] = $survey;
-                $respondents = $survey->respondents()->orderBy('id', 'desc')->paginate(10);
-                //dd($respondents);
-                $data['respondents'] = $respondents;
-            }
-            elseif($project_id !== null)
-            {
-                $project = Project::find($project_id);
-                $respondents = $project->respondents()->orderBy('id', 'desc')->paginate(10);
-                //dd($respondents);
-                $data['respondents'] = $respondents;
-            }
+            $data['project'] = $project;
+            $respondents = $project->respondents()->orderBy('id', 'desc')->paginate(10);
+            //dd($respondents);
+            $data['respondents'] = $respondents;
+        }
 
-            $data['total_respondents'] = count($survey->respondents()->get());
+        if ($surveyId !== null)
+        {
+            $survey  = Schema::find($surveyId);
 
-            $data['imported_today'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::today())->count();
-            $data['imported_yesterday'] = Respondent::where('schema_id', $survey_id)->whereDate('created_at', Carbon::yesterday())->count();
+            $data['survey'] = $survey;
+            $respondents = $survey->respondents()->orderBy('id', 'desc')->paginate(10);
+            //dd($respondents);
+            $data['respondents'] = $respondents;
+        }
 
-            $male_respondents = $survey->respondents()
+        $data['total_respondents'] = count($survey->respondents()->get());
+        $data['trashedRespondents'] = count($survey->respondents()->onlyTrashed()->get());
+
+        $data['imported_today'] = Respondent::where('schema_id', $surveyId)->whereDate('created_at', Carbon::today())->count();
+        $data['imported_yesterday'] = Respondent::where('schema_id', $surveyId)->whereDate('created_at', Carbon::yesterday())->count();
+
+        $male_respondents = $survey->respondents()
                                         ->where('gender', 'male')
                                         //->orWhere('gender', 'm')
                                         ->get();
-            $data['male_respondents'] = count($male_respondents);
+        $data['male_respondents'] = count($male_respondents);
 
-            $female_respondents = $survey->respondents()
+        $female_respondents = $survey->respondents()
                                         ->where('gender', 'female')
                                         //->orWhere('gender', 'f')
                                         ->get();
-            $data['female_respondents'] = count($female_respondents);
+        $data['female_respondents'] = count($female_respondents);
 
-            $data['respondents_with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
-            $data['respondents_with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
-            $data['respondents_with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
-            $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
+        $data['respondents_with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
+        $data['respondents_with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
+        $data['respondents_with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
+        $data['locked_respondents'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
 
-            $respondents_available_for_interviewing = $survey->respondents()
-                                                             ->where('interview_status', '!=', 'Locked')
-                                                            ->whereNull('interview_date_time')
-                                                            ->get();
-            $data['respondents_available_for_interviewing'] = count($respondents_available_for_interviewing);
+        $available_for_interviewing = $survey
+                                        ->respondents()
+                                        ->where('interview_status', '!=', 'Locked')
+                                        ->whereNull('interview_date_time')
+                                        ->get();
+        $data['available_for_interviewing'] = count($available_for_interviewing);
 
-            return view('respondents.show', $data);
+        return view('respondents.show', $data);
         
     }
 
@@ -230,9 +188,26 @@ class RespondentController extends Controller
     }
 
     /**
-     * Bulk Delete Respondents
+     * Permanently remove the specified resource from storage.
      */
-    public function bulk_delete(Request $request)
+    public function forceDelete(Request $request)
+    {
+        $id = $request->input('id');
+
+        $respondent = Respondent::onlyTrashed()->find($id);
+
+        if ($respondent) {
+            $respondent->forceDelete();
+            return back()->with('success', 'Respondent Permanently Removed From The System.');
+        }
+
+        return back()->with('error', 'Respondent wasn\'t found, thus no action was taken');
+    }
+
+    /**
+     * Bulk Soft Delete Respondents
+     */
+    public function bulkSoftDelete(Request $request)
     {
         //dd($request);
         $schemaId = $request->input('survey_id');
@@ -256,6 +231,118 @@ class RespondentController extends Controller
     }
 
     /**
+     * Bulk Permanent Delete Respondents
+     */
+    public function bulkPermanentDelete(Request $request)
+    {
+        //dd($request);
+        $schemaId = $request->input('survey_id');
+        $projectId = $request->input('projectId');
+
+        if ($schemaId !== null)
+        {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            Respondent::onlyTrashed()
+                        ->where('schema_id', $schemaId)
+                        ->forceDelete();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+            // Notify The DPO Via Email
+            return back()->with('success', 'Survey Respondents Have Now Been Completeley Removed From The System');
+        }
+        
+        if ($projectId !== null)
+        {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            Respondent::onlyTrashed()
+                        ->where('project_id', $projectId)
+                        ->forceDelete();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+            // Notify The DPO Via Email
+            return back()->with('success', 'Project Respondents Have Now Been Removed From The System');
+        }
+        
+        //Respondent::truncate();
+        return back()->with('error', 'Respondents Have Not Been Removed Due To Unknown Reasons');
+    }
+
+    /**
+     * Soft Deleted Respondents
+     */
+    public function softDeletedRespondents($project_id, $survey_id)
+    {
+        //dd($project_id . '-' . $survey_id);
+        if($project_id !== null)
+        {
+            $project = Project::find($project_id);
+
+            $data['project'] = $project;
+            $respondents = $project
+                                ->respondents()
+                                ->onlyTrashed()
+                                ->orderBy('id', 'desc')
+                                ->paginate(10);
+            //dd($respondents);
+            $data['respondents'] = $respondents;
+        }
+
+        if ($survey_id !== null) {
+            $survey  = Schema::find($survey_id);
+
+            $data['survey'] = $survey;
+            $respondents = $survey
+                            ->respondents()
+                            ->onlyTrashed()
+                            ->orderBy('id', 'desc')
+                            ->paginate(10);
+            //dd($respondents);
+            $data['respondents'] = $respondents;
+        }
+
+        $data['total_respondents'] = count($survey->respondents()->get());
+        $data['trashedRespondents'] = count($survey->respondents()->onlyTrashed()->get());
+
+        $data['imported_today'] = Respondent::onlyTrashed()->where('schema_id', $survey_id)->whereDate('created_at', Carbon::today())->count();
+        $data['imported_yesterday'] = Respondent::onlyTrashed()->where('schema_id', $survey_id)->whereDate('created_at', Carbon::yesterday())->count();
+
+        $male = $survey->respondents()
+                                    ->onlyTrashed()->where('gender', 'male')
+                                    //->orWhere('gender', 'm')
+                                    ->get();
+        $data['male'] = count($male);
+
+        $female = $survey->respondents()
+                                    ->onlyTrashed()->where('gender', 'female')
+                                    //->orWhere('gender', 'f')
+                                    ->get();
+        $data['female'] = count($female);
+
+        $data['with_complete_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Completed')->get());
+        $data['with_feedback'] = count($survey->respondents()->whereNotNull('feedback')->get());
+        $data['with_terminated_interviews'] = count($survey->respondents()->where('interview_status', 'Interview Terminated')->get());
+        $data['locked'] = count($survey->respondents()->where('interview_status', 'Locked')->get());
+
+        $available_for_interviewing = $survey
+                                        ->respondents()
+                                        ->where('interview_status', '!=', 'Locked')
+                                        ->whereNull('interview_date_time')
+                                        ->get();
+        $data['available_for_interviewing'] = count($available_for_interviewing);
+
+        return view('respondents.soft_deleted', $data);
+        
+    }
+
+    /**
+     * Restore soft deleted respondents
+     */
+    public function restoreRespondents()
+    {
+        dd('Implement Restoration Here');
+    }
+
+    /**
      * Show Respondents Import Page
      */
     public function import()
@@ -267,10 +354,11 @@ class RespondentController extends Controller
     {
         $request->validate([
             'bulk_respondents' => 'required|file|mimes:xlsx',
-        ], [
+        ],
+        [
             'bulk_respondents.required' => 'That was an empty file upload. Please select a file',
-            'bulk_respondents.file' => 'Invalid file format. Please upload a valid Excel file',
-            'bulk_respondents.mimes' => 'Invalid file format. Please upload an Excel file.'
+            'bulk_respondents.file' => 'Invalid file format. Please upload a valid Spreadsheet file',
+            'bulk_respondents.mimes' => 'Invalid file format. Please upload a Spreadsheet file.'
         ]);
 
         $path = $request->file('bulk_respondents')->store('imports');
@@ -279,10 +367,8 @@ class RespondentController extends Controller
         // Clear any previous import errors
         Session::forget('respondents_import_errors');
 
-        Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
-        {
-            $reader->ignoreEmpty();
-        });
+        // Dispatch Respondents Import Job
+        ImportRespondents::dispatch($path);
         
         //$this->respondents_import_job($path);
 
@@ -291,10 +377,10 @@ class RespondentController extends Controller
 
         if (!empty($importErrors))
         {
-            return redirect()->back()->withErrors($importErrors)->withInput()->with('warning', 'Respondents Imported Partially. Please Check The Errors Below: ');    
+            return back()->withErrors($importErrors)->withInput()->with('warning', 'Respondents Imported Partially. Please Check The Errors Below: ');    
         }
 
-        return redirect()->back()->with('info', 'Respondents Are Being Imported In The Background');
+        return back()->with('info', 'Respondents Are Being Imported In The Background');
         
     }
 

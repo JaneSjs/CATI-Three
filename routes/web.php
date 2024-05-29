@@ -106,7 +106,12 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
 	Route::get('project_survey_respondents/{project_id}/{survey_id}', [RespondentController::class, 'project_survey_respondents'])->name('project_survey_respondents');
-	Route::delete('bulk_delete_respondents', [RespondentController::class, 'bulk_delete'])->name('bulk_delete_respondents');
+	Route::get('soft_deleted_respondents/{project_id}/{survey_id}', [RespondentController::class, 'softDeletedRespondents'])->name('soft_deleted_respondents');
+	
+	Route::delete('bulk_soft_delete_respondents', [RespondentController::class, 'bulkSoftDelete'])->name('bulk_soft_delete_respondents');
+	Route::delete('bulk_permanent_delete_respondents', [RespondentController::class, 'bulkPermanentDelete'])->name('bulk_permanent_delete_respondents');
+	Route::patch('restore_respondents', [RespondentController::class, 'restoreRespondents'])->name('restore_respondents');
+
 	Route::patch('unlock_respondents', [RespondentController::class, 'unlockRespondents'])->name('unlock_respondents');
 
 	

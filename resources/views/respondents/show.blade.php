@@ -12,12 +12,12 @@ use Carbon\Carbon;
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col">
-          <h5>
+        <div class="col-3">
+          <h6>
             {{ $survey->survey_name }} Respondents
-          </h5>
+          </h6>
         </div>
-        <div class="col">
+        <div class="col-4">
           <form action="{{ url('search_respondents') }}" method="GET">
             @csrf
             <div class="input-group">
@@ -29,13 +29,14 @@ use Carbon\Carbon;
           </form>
         </div>
 
-        <div class="col text-end">
+        <div class="col-5 text-end">
 
           @include('partials/alerts')
 
-          @canany(['admin','head','manager','coordinator'])
+          <div class="btn-group">
+          @canany(['admin','ceo','head','manager','coordinator'])
             @if($survey->database == 'Processor')
-              <button class="btn btn-outline-info btn-sm" title="Export respondents">
+              <button type="button" class="btn btn-outline-info btn-sm" title="Export respondents">
                 <i class="fas fa-download"></i>
                 Export
               </button>
@@ -44,22 +45,25 @@ use Carbon\Carbon;
                 <i class="fas fa-upload"></i>
               </a>
             @elseif($survey->database == 'Controller')
-              <span class="badge bg-success" title="Controlled Database" data-coreui-toggle="modal" data-coreui-target="#rdms">
-                RDMS
-                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
-              </span>
+              
+
+              <button type="button" class="btn btn-success btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#rdms">
+              RDMS
+              <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+            </button>
             @endif
           @endcan
           @canany(['admin','dpo'])
-            <button type="button" class="btn btn-outline-danger btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkDeleteRespondents">
+            <button type="button" class="btn btn-outline-danger btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
               Bulk Delete
             </button>
-            <button type="button" class="btn btn-success btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
-              Unlock Respondents
+            <button type="button" class="btn btn-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
+              Unlock
             </button>
 
             @include('respondents/partials/modals')
           @endcan
+          </div>
         </div>
       </div>
     </div>
@@ -147,7 +151,7 @@ use Carbon\Carbon;
         @canany(['admin','ceo','head','manager','coordinator'])
         <div class="col-4 bg-dark">
           <ul class="list-group mt-5">
-            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Survey">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">
                   Total Respondents
@@ -157,6 +161,20 @@ use Carbon\Carbon;
                 {{ $total_respondents }}
               </span>
             </li>
+            @canany(['admin','dpo'])
+              <li class="list-group-item d-flex justify-content-between align-items-start" title="Soft Deleted Respondents For This Survey">
+              <div class="ms-2 me-auto">
+                <a href="{{ route('soft_deleted_respondents', [$project->id, $survey->id]) }}" class="text-danger">
+                  <div class="fw-bold">
+                    Soft Deleted Respondents
+                  </div>
+                </a>
+              </div>
+              <span class="badge bg-danger rounded-pill">
+                {{ $trashedRespondents }}
+              </span>
+            </li>
+            @endcan
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">
@@ -203,7 +221,7 @@ use Carbon\Carbon;
                 Available for Interviewing
               </div>
               <span class="badge bg-primary rounded-pill">
-                {{ $respondents_available_for_interviewing }}
+                {{ $available_for_interviewing }}
               </span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
