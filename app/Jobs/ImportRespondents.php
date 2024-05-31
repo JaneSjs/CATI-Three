@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Imports\RespondentsImport;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 class ImportRespondents implements ShouldQueue
 {
@@ -32,17 +34,35 @@ class ImportRespondents implements ShouldQueue
      */
     public function handle(): void
     {
-        $import = new RespondentsImport();
+        Log::notice('Spreadsheet File: ' . $this->path);
 
-        Excel::import($import, storage_path('app/' . $this->path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
-        {
-            $reader->ignoreEmpty();
-        });
+        try {
+            $import = new RespondentsImport();
 
-        //Log the number of successfully imported records
-        Log::info($import->getSuccessfulCount());
+            Excel::import($import, storage_path('app/' . $this->path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
+            {
+                $reader->chunkSize(100)->ignoreEmpty();
+            });
 
-        // Delete File after import
-        Storage::delete($this->path);
+            //Log the number of successfull and failed imported records
+            Log::notice("Successfully Imported Respondents: " . $import->getSuccessfulCount());
+            Log::warning("Failed Imported Respondents: " . $import->getFailedCount());
+
+            // Delete File after import
+            Storage::delete($this->path);
+
+            Log::notice("ImportRespondents Job Completed. Spreadsheet File: " . $this->path);
+        } catch (Exception $e) {
+            Log::error('ImportRespondents Job Error: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            // I want to get an sms alert.
+
+            //Log the number of successfull and failed imported records even during exception
+            if (isset($import))
+            {
+                Log::notice("Successfully Imported Respondents: " . $import->getSuccessfulCount());
+                Log::warning("Failed Imported Respondents: " . $import->getFailedCount());  
+            }
+            throw $e;
+        }
     }
 }

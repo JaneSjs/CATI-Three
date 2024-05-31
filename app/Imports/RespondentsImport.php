@@ -2,7 +2,9 @@
 
 namespace App\Imports;
 
+use App\Jobs\IndexRespondents;
 use App\Models\Respondent;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
@@ -10,16 +12,26 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Validators\Failure;
 
-class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidation, SkipsOnFailure
+class RespondentsImport implements ToModel, WithHeadingRow, WithChunkReading, SkipsOnError, WithValidation, SkipsOnFailure
 {
     use SkipsErrors, SkipsFailures;
 
     protected $successfulCount = 0;
     protected $failedCount = 0;
+    protected $importedRespondents = [];
+
+    /**
+     * Disable Meilisearch Indexing before the import
+     */
+    public function __construct()
+    {
+        Respondent::disableSearchSyncing();
+    }
 
     /**
     * @param array $row
@@ -30,9 +42,9 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     {
         try {
             Log::info("Importing respondent: {$row['name']}");
-            $this->successfulCount++;
+            DB::beginTransaction();
 
-            return new Respondent([
+            $respondent = new Respondent([
                 'r_id'            => $row['r_id'],
                 'project_id'      => $row['project_id'],
                 'schema_id'       => $row['survey_id'],
@@ -70,9 +82,19 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
                 'interview_date_time'     => null,
                 'last_downloaded_date'     => null
             ]);
+
+            $respondent->save();
+            DB::commit();
+
+            $this->importedRespondents[] = $respondent;
+            $this->successfulCount++;
+            return $respondent;
+
         } catch (\Exception $e) {
-            $$this->failureCount++;
-            Log::error("Error importing respondent: " .  $e->getMessage() );
+            DB::rollBack();
+
+            $this->failedCount++;
+            Log::error("Error importing respondent: " .  $e->getMessage(), ['trace' => $e->getTraceAsString()]);
             throw $e;
         }
     }
@@ -112,5 +134,34 @@ class RespondentsImport implements ToModel, WithHeadingRow, SkipsOnError, WithVa
     public function getFailedCount(): int
     {
         return $this->failedCount;
+    }
+
+    /**
+     * Specify the chunk size used when reading the file.
+     */
+    public function chunkSize(): int
+    {
+        // Process 100 rows at a time
+        return 100;
+    }
+
+    /**
+     * Dispatch imported respondents indexing
+     */
+    protected function dispatchIndexJob()
+    {
+        IndexRespondents::dispatch($this->importedRespondents);
+    }
+
+    /**
+     * Re-enable Meilisearch Indexing
+     * and trigger respondents indexing
+     *  after the import
+     */
+    public function __destruct()
+    {
+        Respondent::enableSearchSyncing();
+        // Trigger indexing
+        $this->dispatchIndexJob();
     }
 }

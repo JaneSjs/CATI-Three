@@ -13,7 +13,7 @@
           @csrf
           @method('DELETE')
           <input type="hidden" name="survey_id" value="{{ $survey->id }}">
-          <button type="submit" class="btn btn-sm btn-outline-danger">
+          <button type="submit" class="btn btn-sm btn-outline-warning">
             Bulk Soft Delete
           </button>
         </form>

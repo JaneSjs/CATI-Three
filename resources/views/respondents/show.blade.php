@@ -54,7 +54,7 @@ use Carbon\Carbon;
             @endif
           @endcan
           @canany(['admin','dpo'])
-            <button type="button" class="btn btn-outline-danger btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
+            <button type="button" class="btn btn-outline-warning btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
               Bulk Delete
             </button>
             <button type="button" class="btn btn-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">

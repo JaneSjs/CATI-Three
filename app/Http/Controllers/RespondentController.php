@@ -350,7 +350,10 @@ class RespondentController extends Controller
         return view('respondents.import');
     }
 
-    public function xlsx_import(Request $request): RedirectResponse
+    /**
+     * Queued Respondents Import (Asyncrounous)
+     */
+    public function xlsx_queued_import(Request $request): RedirectResponse
     {
         $request->validate([
             'bulk_respondents' => 'required|file|mimes:xlsx',
@@ -382,6 +385,43 @@ class RespondentController extends Controller
 
         return back()->with('info', 'Respondents Are Being Imported In The Background');
         
+    }
+
+    /**
+     * Respondent Import (Syncronous)
+     */
+    public function xlsx_import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'bulk_respondents' => 'required|file|mimes:xlsx',
+        ], [
+            'bulk_respondents.required' => 'That was an empty file upload. Please select a file',
+            'bulk_respondents.file' => 'Invalid file format. Please upload a valid Excel file',
+            'bulk_respondents.mimes' => 'Invalid file format. Please upload an Excel file.'
+        ]);
+
+        $path = $request->file('bulk_respondents')->store('imports');
+        //dd($path);
+
+        // Clear any previous import errors
+        Session::forget('respondents_import_errors');
+
+        Excel::import(new RespondentsImport, storage_path('app/' . $path), null, \Maatwebsite\Excel\Excel::XLSX, function ($reader)
+        {
+            $reader->ignoreEmpty();
+        });
+
+        //$this->respondents_import_job($path);
+
+        // Check if there were any import errors
+        $importErrors = Session::get('respondents_import_errors', []);
+
+        if (!empty($importErrors))
+        {
+            return redirect()->back()->withErrors($importErrors)->withInput()->with('warning', 'Respondents Imported Partially. Please Check The Errors Below: ');
+        }
+
+        return redirect()->back()->with('info', 'Respondents Are Being Imported In The Background');
     }
 
     public function respondents_import_job($path)
