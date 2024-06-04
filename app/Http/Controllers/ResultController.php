@@ -18,6 +18,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -362,14 +363,14 @@ class ResultController extends Controller
             ->join('respondents', 'interviews.respondent_id', '=', 'respondents.id')
             ->select(
                 'interviews.id as interview_id',
-                'results.content',
                 'interviews.respondent_id',
                 'interviews.respondent_name',
                 'interviews.phone_called',
                 'interviews.start_time',
                 'interviews.end_time',
-                'users.first_name as Interviewer First Name',
-                'users.last_name as Interviewer Last Name',
+                DB::raw('CONCAT(users.first_name, " ", users.last_name) as interviewer_name'),
+                'users.first_name as interviewer_first_name',
+                'users.last_name as interviewer_last_name',
                 'respondents.name',
                 'respondents.occupation',
                 'respondents.region',
@@ -388,6 +389,7 @@ class ResultController extends Controller
                 'respondents.ethnic_group',
                 'respondents.employment_status',
                 'respondents.age_group',
+                'results.content',
             )
             ->where('results.schema_id', $schemaId)
             ->where('interviews.interview_status', 'Interview Completed')
