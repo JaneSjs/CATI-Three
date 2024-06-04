@@ -24,7 +24,7 @@
             </strong> 
             Interview with 
             <strong>
-              {{ $interview->respondent->name ?? 'Respondent removed from the System' . ' ' . $interview_date->diffForHumans() }}
+              {{ $interview->respondent->name ?? 'Respondent ('. $interview->phone_called . ') deleted from the System' . ' ' . $interview_date->diffForHumans() }}
             </strong>. 
           </p>
           @canany(['admin','ceo','head','manager','scripter'])
