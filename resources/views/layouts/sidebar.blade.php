@@ -186,7 +186,7 @@
     </li>
     @endcan
 
-    @canany(['admin','ceo','head'])
+    @canany(['admin','ceo','head','manager'])
     <li class="nav-group">
       <a class="nav-title nav-link nav-group-toggle" href="#">
         Data Converters

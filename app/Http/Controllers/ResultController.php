@@ -359,7 +359,36 @@ class ResultController extends Controller
         $results = Result::query()
             ->join('interviews', 'results.interview_id', '=', 'interviews.id')
             ->join('users', 'results.user_id', '=', 'users.id')
-            ->select('interviews.id as interview_id','results.content')
+            ->join('respondents', 'interviews.respondent_id', '=', 'respondents.id')
+            ->select(
+                'interviews.id as interview_id',
+                'results.content',
+                'interviews.respondent_id',
+                'interviews.respondent_name',
+                'interviews.phone_called',
+                'interviews.start_time',
+                'interviews.end_time',
+                'users.first_name as Interviewer First Name',
+                'users.last_name as Interviewer Last Name',
+                'respondents.name',
+                'respondents.occupation',
+                'respondents.region',
+                'respondents.county',
+                'respondents.sub_county',
+                'respondents.constituency',
+                'respondents.ward',
+                'respondents.gender',
+                'respondents.dob',
+                'respondents.exact_age',
+                'respondents.education_level',
+                'respondents.marital_status',
+                'respondents.religion',
+                'respondents.income',
+                'respondents.Lsm',
+                'respondents.ethnic_group',
+                'respondents.employment_status',
+                'respondents.age_group',
+            )
             ->where('results.schema_id', $schemaId)
             ->where('interviews.interview_status', 'Interview Completed')
             ->where(function ($query)
