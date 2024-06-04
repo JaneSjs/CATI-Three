@@ -363,12 +363,12 @@ class ResultController extends Controller
             ->join('respondents', 'interviews.respondent_id', '=', 'respondents.id')
             ->select(
                 'interviews.id as interview_id',
+                DB::raw('CONCAT(users.first_name, " ", users.last_name) as interviewer_name'),
                 'interviews.respondent_id',
                 'interviews.respondent_name',
                 'interviews.phone_called',
                 'interviews.start_time',
                 'interviews.end_time',
-                DB::raw('CONCAT(users.first_name, " ", users.last_name) as interviewer_name'),
                 'respondents.occupation',
                 'respondents.region',
                 'respondents.county',
