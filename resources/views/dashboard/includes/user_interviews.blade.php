@@ -98,11 +98,6 @@
               <dl>
                 <dt>
                   {{ $interview->interview_status ?? '' }}
-                  @if($interview->quality_control)
-                    <span class="badge bg-info">
-                      {{ $interview->quality_control }}
-                    </span>
-                  @endif
                 </dt>
                 <dd>
                   <?php
