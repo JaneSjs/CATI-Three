@@ -46,7 +46,9 @@
           <div class="card">
             <div class="card-header">
               <h3>
-                (#{{ $survey->id }}) {{ $survey->survey_name }} Operations Dashboard
+                (#{{ $survey->id }}) <span class="text-info" style="text-decoration: underline;">
+                  {{ $survey->survey_name }}
+                </span> Operations Dashboard
               </h3>
             </div>
             <div class="card-body">
@@ -66,7 +68,7 @@
                     </tr>
                     <tr>
                       <th>
-                        Interviewed Respondents
+                        Interviewed <span class="text-success">(Active)</span> Respondents
                       </th>
                       <th>
                         {{ $interviewed_respondents }}
@@ -74,7 +76,7 @@
                     </tr>
                     <tr>
                       <th>
-                        Respondents With Complete Interviews
+                        <span class="text-success">(Active)</span> Respondents With Complete Interviews
                       </th>
                       <th>
                         {{ $respondents_with_complete_interviews }}
