@@ -62,8 +62,11 @@ class DashboardController extends Controller
         $data['total_user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('interview_status', 'Interview Completed')
-                                    ->where('quality_control', '!=', 'Cancelled')
-                                    ->whereNotNull('quality_control')
+                                    ->where(function ($query)
+                                    {
+                                        $query->where('quality_control', 'Approved')
+                                        ->orWhereNull('quality_control');
+                                    })
                                     ->orderBy('id', 'DESC')
                                     ->get();
 
