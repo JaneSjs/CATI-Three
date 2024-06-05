@@ -63,6 +63,7 @@ class DashboardController extends Controller
                                     ->interviews()
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', '!=', 'Cancelled')
+                                    ->whereNotNull('quality_control')
                                     ->orderBy('id', 'DESC')
                                     ->get();
 
