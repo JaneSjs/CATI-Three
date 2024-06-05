@@ -32,12 +32,15 @@
     </li>
     @endcan
 
+    @canany(['admin','ceo','head','manager'])
     <li class="nav-item">
       <a class="nav-link" href="{{ url('dashboard') }}">
         <i class="fa-solid fa-gauge nav-icon" style="color: #fff;"></i> 
         Dashboard
       </a>
     </li>
+    @endcan
+
     @canany(['admin','ceo'])
     <li class="nav-title">User Management</li>
     <li class="nav-item">

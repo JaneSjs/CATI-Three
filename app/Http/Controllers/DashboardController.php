@@ -152,8 +152,10 @@ class DashboardController extends Controller
     /**
      * Project Dashboard (Interviewer)
      */
-    public function project_dashboard($project_id)
+    public function interviews_dashboard($project_id)
     {
+        $data['project'] = Project::find($project_id);
+
         $data['user_interviews'] = User::find(auth()->user()->id)
                                     ->interviews()
                                     ->where('project_id', $project_id)
@@ -161,5 +163,31 @@ class DashboardController extends Controller
                                     ->where('quality_control', '!=', 'Cancelled')
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
+
+        $data['todays_user_interviews'] = User::find(auth()->user()->id)
+                                    ->interviews()
+                                    ->where('project_id', $project_id)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where(function ($query)
+                                    {
+                                        $query->where('quality_control', 'Approved')
+                                        ->orWhereNull('quality_control');
+                                    })
+                                    ->orderBy('id', 'DESC')
+                                    ->get();
+
+        $data['total_user_interviews'] = User::find(auth()->user()->id)
+                                    ->interviews()
+                                    ->where('project_id', $project_id)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where(function ($query)
+                                    {
+                                        $query->where('quality_control', 'Approved')
+                                        ->orWhereNull('quality_control');
+                                    })
+                                    ->orderBy('id', 'DESC')
+                                    ->get();
+
+        return view('dashboard.interviews_dashboard', $data);
     }
 }

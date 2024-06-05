@@ -32,7 +32,7 @@ class Respondent extends Model
     public function toSearchableArray(): array
     {
         return [
-            //'id'   => (int) $this->id,
+            'id'   => (int) $this->id,
             'r_id' => (int) $this->r_id,
             'project_id' => (int) $this->project_id,
             'schema_id'  => (int) $this->schema_id,

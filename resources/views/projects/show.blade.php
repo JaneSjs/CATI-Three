@@ -13,7 +13,7 @@
           </h5>
           <h2 class="text-primary">{{ $project->name }}</h2>
           @canany(['admin','interviewer'])
-            <a href="" class="btn btn-outline-primary float-end" id="dpiaBtn">
+            <a href="{{ route('interviews_dashboard', $project->id) }}" class="btn btn-outline-primary float-end" id="dpiaBtn">
               <i class="fa-solid fa-gauge nav-icon"></i>
               Dashboard
             </a>

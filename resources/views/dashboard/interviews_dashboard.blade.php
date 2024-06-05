@@ -1,3 +1,6 @@
+@extends('layouts.main')
+@section('content')
+
 <?php
   use Carbon\Carbon;
 ?>
@@ -5,7 +8,9 @@
 <div class="card mb-4">
   <div class="card-header">
     <h4 class="card-title mb-0">
-     My Interview Report.
+      My 
+      <span class="text-info">{{ $project->name }}</span>
+      Interview Report.
     </h4>
   </div>
   <div class="card-body">
@@ -40,21 +45,7 @@
           </div>
         </div>
       </div>
-      <!--<div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-danger">
-          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-            <div>
-              <div class="fs-4 fw-semibold">
-                {{ $total_user_cancelled_interviews->count() }} 
-                <span class="fs-6 fw-normal">
-                  <i class="fas fa-calendar fa-xl"></i>
-                </span>
-              </div>
-              <div>Cancelled Interviews</div>
-            </div>
-          </div>
-        </div>
-      </div>-->
+      
     </div>
     @if($user_interviews)
     <div class="table-responsive">
@@ -142,3 +133,6 @@
 </div>
 <!-- /.card.mb-4-->
     
+
+
+@endsection

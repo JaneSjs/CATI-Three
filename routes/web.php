@@ -143,4 +143,9 @@ Route::middleware(['auth','verified'])->group(function ()
 });
 
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
-Route::middleware(['auth','verified'])->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::middleware(['auth','verified'])->group(function ()
+{
+	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+	Route::get('interviews_dashboard/project/{id}', [DashboardController::class, 'interviews_dashboard'])->name('interviews_dashboard');
+});
