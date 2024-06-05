@@ -53,7 +53,7 @@ class QuotaController extends Controller
                                 ->first();
         //dd($data['quota']);
         $data['interviews'] = Interview::where('schema_id', $schema_id)->get();
-        $data['total_interviews'] = Interview::where('schema_id', $schema_id)->count();
+        $data['total_interviews'] = Interview::where('schema_id', $schema_id)->where('interview_status', 'Interview Completed')->where('quality_control', '!=', 'Cancelled')->count();
         $data['approved_interviews'] = Interview::where('schema_id', $schema_id)->where('quality_control', 'Approved')->count();
         $data['cancelleded_interviews'] = Interview::where('schema_id', $schema_id)->where('quality_control', 'Cancelled')->count();
 
