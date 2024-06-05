@@ -12,6 +12,12 @@
             #{{ $project->id }}
           </h5>
           <h2 class="text-primary">{{ $project->name }}</h2>
+          @canany(['admin','interviewer'])
+            <button type="button" class="btn btn-outline-primary float-end" id="dpiaBtn">
+              <i class="fa-solid fa-gauge nav-icon"></i>
+              Dashboard
+            </button>
+          @endcan
           @canany(['admin','manager','coordinator','client'])
             <!-- <button type="button" class="btn btn-primary" id="dpiaBtn">
               DPIA

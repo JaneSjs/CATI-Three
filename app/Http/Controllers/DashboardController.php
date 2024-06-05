@@ -148,4 +148,18 @@ class DashboardController extends Controller
     {
         //
     }
+
+    /**
+     * Project Dashboard (Interviewer)
+     */
+    public function project_dashboard($project_id)
+    {
+        $data['user_interviews'] = User::find(auth()->user()->id)
+                                    ->interviews()
+                                    ->where('project_id', $project_id)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where('quality_control', '!=', 'Cancelled')
+                                    ->orderBy('id', 'DESC')
+                                    ->paginate(10);
+    }
 }

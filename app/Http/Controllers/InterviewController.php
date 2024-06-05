@@ -386,7 +386,7 @@ class InterviewController extends Controller
 
         $respondents = Respondent::search($query)
                                 ->where('schema_id', $surveyId)
-                                ->take(10000)
+                                ->take(20000)
                                 ->get();
         //dd($respondents);
 
@@ -504,7 +504,7 @@ class InterviewController extends Controller
 
         $respondents = Respondent::search($query)
                                 ->where('schema_id', $surveyId)
-                                ->take(10000)
+                                ->take(20000)
                                 ->get();
         //dd($respondents);
 
