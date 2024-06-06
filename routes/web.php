@@ -104,6 +104,8 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	Route::get('search_respondents', [RespondentController::class, 'search_respondents']);
 
+	Route::patch('update_respondent', [RespondentController::class, 'updateRespondent'])->name('update_respondent');
+
 	Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
 	Route::get('project_survey_respondents/{project_id}/{survey_id}', [RespondentController::class, 'project_survey_respondents'])->name('project_survey_respondents');
 	Route::get('soft_deleted_respondents/{project_id}/{survey_id}', [RespondentController::class, 'softDeletedRespondents'])->name('soft_deleted_respondents');

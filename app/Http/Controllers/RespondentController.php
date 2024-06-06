@@ -175,6 +175,52 @@ class RespondentController extends Controller
     }
 
     /**
+     * Update Respondent Details
+     */
+    public function updateRespondent(Request $request)
+    {
+        $respondent_id = $request->input('respondent_id');
+
+        $respondent = Respondent::find($respondent_id);
+        //dd($respondent);
+
+        if ($respondent)
+        {
+            $respondent->update([
+                'name' => $request->input('name'),
+                'phone_2' => $request->input('phone_2'),
+                'occupation' => $request->input('occupation'),
+                'region' => $request->input('region'),
+                'county' => $request->input('county'),
+                'sub_county' => $request->input('sub_county'),
+                'constituency' => $request->input('constituency'),
+                'ward' => $request->input('ward'),
+                'sampling_point' => $request->input('sampling_point'),
+                'setting' => $request->input('setting'),
+                'gender' => $request->input('gender'),
+                'dob' => $request->input('dob'),
+                'exact_age' => $request->input('exact_age'),
+                'education_level' => $request->input('education_level'),
+                'marital_status' => $request->input('marital_status'),
+                'religion' => $request->input('religion'),
+                'income' => $request->input('income'),
+                'lsm' => $request->input('Lsm'),
+                'ethnic_group' => $request->input('ethnic_group'),
+                'employment_status' => $request->input('employment_status'),
+                'age_group' => $request->input('age_group'),
+                'interview_status' => $request->input('interview_status'),
+
+            ]);
+
+            return to_route('projects.index')->with('success', 'Thanks for updating the respondent');
+        }
+        else
+        {
+            return to_route('projects.index')->with('error', 'Error updating the respondent');
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Respondent $respondent)

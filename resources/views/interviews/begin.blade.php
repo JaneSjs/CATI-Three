@@ -110,7 +110,7 @@ use Carbon\Carbon;
             
             <button type="button" onclick="call()" class="btn btn-outline-info mt-3" title="Call {{ $respondent->name ?? '' }}">
               <i class="fas fa-phone fa-bounce"></i>
-              {{ auth()->user()->ext_no }}
+              {{ auth()->user()->ext_no ?? 'Ext Number Not Assigned' }}
             </button>
 
             @canany(['admin'])
@@ -170,21 +170,20 @@ use Carbon\Carbon;
             <div class="mt-2">
 
               <?php if(!is_null($respondent->feedback)) : ?>
-              <!-- Start => Idea: Shalom Eshuchi - (shalommary18@gmail.com) -->
+              
               <?php 
                 $last_called = Carbon::parse($respondent->updated_at);
                ?>
                 <span class="bg-info text-light border border-info mx-2">
                   Last Called Approx {{ $last_called->diffForHumans() ?? '' }}
                 </span>
-              <!-- End => Idea: Shalom Eshuchi - (shalommary18@gmail.com) -->
                 <span class="bg-warning border border-info mx-auto">
                   {{ $respondent->feedback ?? '' }}
                 </span>
               <?php endif; ?>
 
               <ul class="list-group">
-                <li class="list-group-item" title="Respondent's Name is Pseudonymised For Data Protection">
+                <li class="list-group-item">
                   <strong>
                     {{ $respondent->name ?? 'Database is Probably Empty' }}
                   </strong>
@@ -200,9 +199,10 @@ use Carbon\Carbon;
                   
                 <li class="list-group-item">
                   {{ $respondent->age ?? 'Age is Undefined'}}
-                  <button class="btn btn-outline-info btn-sm float-end" title="Click To Update Respondent's Details">
+                  <button class="btn btn-outline-info btn-sm float-end" data-coreui-toggle="modal" data-coreui-target="#editRespondentDetails-{{ $respondent->id }}" title="Click To Update Respondent's Details">
                     Incorrect Respondent's Details ?
                   </button>
+                  @include('respondents/partials/edit_respondent_details_modal')
                 </li>
                 <li class="list-group-item">
                   {{ $respondent->ethnic_group . ', ' . $respondent->gender ?? 'Gender is Undefined' }}
