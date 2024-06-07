@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RespondentsExport;
 use App\Http\Requests\StoreRespondentRequest;
 use App\Http\Requests\UpdateRespondentRequest;
 use App\Imports\RespondentsImport;
@@ -586,5 +587,22 @@ class RespondentController extends Controller
             return back()->with('info', 'No Locked Respondents Found');
         }
 
+    }
+
+    /**
+     * Export Respondents
+     */
+    public function export(Request $request)
+    {
+        $project_id = $request->input('project_id');
+        $survey_id = $request->input('survey_id');
+
+        $project = Project::find($project_id);
+        $survey = Schema::find($survey_id);
+
+        $project_name = $project ? $project->name : 'All CATI 3';
+        $survey_name = $survey ? $survey->survey_name : '';
+
+        return (new RespondentsExport($project_id, $survey_id))->download('TIFA-' . $project_name . '-' . $survey_name . '-respondents.xlsx');
     }
 }

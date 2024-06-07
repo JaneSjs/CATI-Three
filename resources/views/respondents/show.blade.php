@@ -36,10 +36,16 @@ use Carbon\Carbon;
           <div class="btn-group">
           @canany(['admin','ceo','head','manager','coordinator','dpo'])
             @if($survey->database == 'Processor')
-              <button type="button" class="btn btn-outline-info btn-sm mt-1" title="Export respondents">
-                <i class="fas fa-download"></i>
-                Export
-              </button>
+              
+              <form action="{{ route('respondents.export') }}" method="post">
+                @csrf
+                <input type="hidden" name="project_id" value="{{ $project->id }}">
+                <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+                <button type="submit" class="btn btn-outline-info btn-sm mt-1" title="Export respondents">
+                  <i class="fas fa-download"></i>
+                  Export
+                </button>
+              </form>
               <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm mt-1" title="Import respondents">
                 Import 
                 <i class="fas fa-upload"></i>

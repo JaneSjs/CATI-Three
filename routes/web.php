@@ -67,6 +67,8 @@ Route::middleware(['auth','verified'])->group(function ()
 	// Respondents Import
 	Route::get('respondents/import', [RespondentController::class, 'import']);
 	Route::post('respondents/xlsx_import', [RespondentController::class, 'xlsx_import']);
+	// Respondents Export
+	Route::post('respondents/export', [RespondentController::class, 'export'])->name('respondents.export');
 
 	// Survey Results Exports
 	Route::get('pdf_export/{id}', [ResultController::class, 'pdf_export']);
