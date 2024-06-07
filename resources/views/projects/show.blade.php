@@ -19,10 +19,6 @@
             </a>
           @endcan
           @canany(['admin','manager','coordinator','client'])
-            <!-- <button type="button" class="btn btn-primary" id="dpiaBtn">
-              DPIA
-            </button> -->
-
             <div class="toast show">
               <div class="toast-header bg-info text-light">
                 <strong>
@@ -32,7 +28,7 @@
               </div>
               <div class="toast-body">
                 <i class="fa-solid fa-database text-warning"></i>
-                {{ $project->database ?? 'Pending Respondents Database To Be Used' }}
+                {{ $project->database ?? 'Feature Coming Soon' }}
               </div>
             </div>
           @endcan
@@ -51,7 +47,7 @@
             <table class="table table-sm caption-top">
               <thead class="table-success">
                 <tr>
-                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
+                  @canany(['admin','ceo','head','manager','coordinator','scripter','dpo'])
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
                   @endcan
@@ -63,7 +59,7 @@
               </thead>
               <tbody>
                 <tr>
-                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
+                  @canany(['admin','ceo','head','manager','coordinator','scripter','dpo'])
                   <td>{{ $project->start_date }}</td>
                   <td>{{ $project->end_date }}</td>
                   @endcan
@@ -97,11 +93,11 @@
         </div>
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
-          @canany(['admin','head','manager','coordinator'])
+          @canany(['admin','ceo','head','manager','coordinator','dpo'])
             <a href="{{ route('interviewers', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Interviewers">
               Interviewers List
             </a>
-            <a href="" class="btn btn-outline-success btn-sm" title="Project Recordings">
+            <a href="" class="btn btn-outline-success btn-sm" title="Project Recordings (Coming Soon!)">
               Recordings
             </a>
           @endcan
@@ -204,16 +200,30 @@
                     </a>
                   </td>
                   @else
-                  <td title="@canany(['admin','ceo','head','manager']) {{ $survey->type }} @endcan">
+                  <td title="@canany(['admin','ceo','head','manager','coordinator','dpo']) {{ $survey->type }} @endcan">
                     {{ $survey->survey_name }}
                   </td>
                   @endcan
                   
-                  @canany(['admin','head','manager','coordinator','scripter'])
+                  @canany(['admin','head','manager','coordinator','scripter','dpo'])
                   <td>
-                    <span class="badge bg-dark">
-                      {{ $survey->stage }}
-                    </span>
+                    @if($survey->stage == 'Draft')
+                      <span class="badge bg-warning">
+                        Draft Stage
+                      </span>
+                    @elseif($survey->stage == 'Pilot')
+                      <span class="badge bg-primary">
+                        Pilot Stage
+                      </span>
+                    @elseif($survey->stage == 'Production')
+                      <span class="badge bg-success">
+                        Production
+                      </span>
+                    @elseif($survey->stage == 'Closed')
+                      <span class="badge bg-danger">
+                        Survey Closed
+                      </span>
+                    @endif
                   </td>
                   @endcan
 
@@ -226,7 +236,7 @@
                           Begin Interview
                         </a>
                         @elseif($survey->stage == 'Draft')
-                          <span class="badge bg-info">
+                          <span class="badge bg-warning">
                             Draft Stage
                           </span>
                         @elseif($survey->stage == 'Pilot')
@@ -277,11 +287,8 @@
                       </a>
                       @endcan
 
-                      @canany(['admin','ceo','head','manager','coding'])
-                      <a href="{{ route('coding', $interview->id ?? 1) }}" class="btn btn-outline-dark" title="Coding ">
-                        <i class="fa-solid fa-arrow-up-a-z fa-bounce"></i>
-                      </a>
-                      <a href="{{ route('project_survey_respondents', [$project->id, $survey->id]) }}" class="btn btn-outline-info btn-sm" title="Survey Respondents">
+                      @canany(['admin','ceo','head','manager','dpo'])
+                      <a href="{{ route('project_survey_respondents', [$project->id, $survey->id]) }}" class="btn btn-outline-info btn-sm" title="{{ $survey->survey_name ?? 'Survey' }} Respondents">
                         Respondents
                       </a>
                       @endcan

@@ -44,14 +44,21 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Id</th>
-              <th scope="col">Name</th>
+              <th scope="col">
+                Project
+              </th>
+              @canany(['admin','dpo'])
+                <th scope="col" title="Data Protection Impact Assessment">
+                  DPIA Control Panel
+                </th>
+              @endcan
               @canany(['admin','ceo','head','manager','dpo'])
               <th scope="col" title="Data Protection Impact Assessment">
-                DPIA
+                DPIA Status
               </th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
-                <th scope="col">Actions</th>
+              <th scope="col">Actions</th>
               @endcan
             </tr>
           </thead>
@@ -61,19 +68,19 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $project->id }}
               </th>
-              @canany(['dpo'])
-              <td>
-                <a href="{{ route('dpias.show', $project->id) }}">
-                  {{ $project->name }}
-                </a>
-              </td>
-              @else
               <td>
                 <a href="{{ route('projects.show', $project->id) }}">
                   {{ $project->name }}
                 </a>
               </td>
+              @canany(['dpo'])
+              <td>
+                <a href="{{ route('dpias.show', $project->id) }}">
+                  DPIA Documents
+                </a>
+              </td>
               @endcan
+              
               @canany(['admin','ceo','head','manager','dpo'])
               <td>
                 {{ $project->dpia->dpia_approval ?? 'Not Approved' }}

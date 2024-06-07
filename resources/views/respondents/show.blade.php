@@ -34,13 +34,13 @@ use Carbon\Carbon;
           @include('partials/alerts')
 
           <div class="btn-group">
-          @canany(['admin','ceo','head','manager','coordinator'])
+          @canany(['admin','ceo','head','manager','coordinator','dpo'])
             @if($survey->database == 'Processor')
-              <button type="button" class="btn btn-outline-info btn-sm" title="Export respondents">
+              <button type="button" class="btn btn-outline-info btn-sm mt-1" title="Export respondents">
                 <i class="fas fa-download"></i>
                 Export
               </button>
-              <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm" title="Import respondents">
+              <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm mt-1" title="Import respondents">
                 Import 
                 <i class="fas fa-upload"></i>
               </a>
@@ -73,11 +73,6 @@ use Carbon\Carbon;
         <div class="col-8">
           <div class="table-responsive">
             <table class="table table-sm caption-top">
-              @canany(['admin','ceo','head'])
-              <caption>
-               Respondents that belong to this survey
-              </caption>
-              @endcan
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
@@ -122,13 +117,7 @@ use Carbon\Carbon;
                       <a href="{{ route('respondents.edit', $respondent->id) }}" class="btn btn-sm btn-outline-info" title="Update respondent Details">
                         <i class="fas fa-pen"></i>
                       </a>
-                      @can('supervisor')
-                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $respondent->last_name }}">
-                        <i class="fas fa-respondent-tie"></i>
-                      </button>
-                      @endcan
-
-                      @canany(['admin','ceo','head','manager','coodinator','supervisor'])
+                      @canany(['admin','dpo'])
                       <form action="{{ route('respondents.destroy', $respondent->id) }}" method="post">
                         @csrf
                         @method('DELETE')
@@ -148,7 +137,7 @@ use Carbon\Carbon;
             </table>
           </div>
         </div>
-        @canany(['admin','ceo','head','manager','coordinator'])
+        @canany(['admin','ceo','head','manager','coordinator','dpo'])
         <div class="col-4 bg-dark">
           <ul class="list-group mt-5">
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Survey">
