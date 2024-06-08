@@ -280,4 +280,34 @@ class ProjectController extends Controller
 
         return view('projects.index', $data);
     }
+
+    /**
+     * Return users who have the role of Interviewer
+     * or those who have no roles yet.
+     */
+    public function attendanceList($id)
+    {
+        $project = Project::find($id);
+        $data['project'] = $project;
+
+        $users = $project->users();
+
+        //dd($users);
+
+        $rolesToFilter = ['Interviewer', 'Supervisor', 'QC', 'Coordinator'];
+
+        $project_members = $users->where(function ($query) use ($rolesToFilter)
+        {
+            $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
+            {
+                $subQuery->whereIn('name', $rolesToFilter);
+            })->orWhereDoesntHave('roles');
+        })->get();
+
+        $data['project_interviewers'] = $project_members;
+
+        $data['users'] = $project_members;
+
+        return view('projects.attendance_list', $data);
+    }
 }

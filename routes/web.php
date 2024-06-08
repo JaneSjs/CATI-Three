@@ -45,7 +45,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('search_interviews', [SchemaController::class, 'search_interviews']);
 
 	Route::resource('users', UserController::class);
-	Route::get('interviewers/{id}', [UserController::class, 'interviewers'])->name('interviewers');
+	Route::get('attendanceList/project/{id}', [ProjectController::class, 'attendanceList'])->name('attendanceList');
 	Route::get('clients', [UserController::class, 'clients']);
 });
 

@@ -290,34 +290,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', "Activation Link Sent to $request->email. Ask them to check their inbox");
     }
 
-    /**
-     * Return users who have the role of Interviewer
-     * or those who have no roles yet.
-     */
-    public function interviewers($id)
-    {
-        $project = Project::find($id);
-
-        $users = $project->users();
-
-        //dd($users);
-
-        $rolesToFilter = ['Interviewer', '', null];
-
-        $interviewers = $users->where(function ($query) use ($rolesToFilter)
-        {
-            $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
-            {
-                $subQuery->whereIn('name', $rolesToFilter);
-            })->orWhereDoesntHave('roles');
-        })->paginate(10);
-
-        $data['project_interviewers'] = $interviewers;
-
-        $data['users'] = $interviewers;
-
-        return view('users.interviewers', $data);
-    }
+    
 
     /**
      * Return users who have the role of client
