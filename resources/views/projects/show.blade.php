@@ -93,24 +93,26 @@
         </div>
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
-          @canany(['admin','ceo','head','manager','coordinator','dpo'])
+          @canany(['admin','ceo','head','manager','coordinator','dpo','finance'])
             <a href="{{ route('attendanceList', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Attendance List">
               Attendance List
             </a>
+          @endcan
+          @canany(['admin','ceo','head','manager'])
             <a href="" class="btn btn-outline-success btn-sm" title="Project Recordings (Coming Soon!)">
-              Recordings
+                Recordings
             </a>
           @endcan
           </div>
           <div class="btn-group mt-2" role="group" aria-label="Create Survey and Assign Members to Projects Button">
-            @canany(['admin','head','manager','coordinator','scripter','supervisor'])
+            @canany(['admin','manager','coordinator','supervisor'])
               <!-- Trigger Members Assignment Modal -->
               <button type="button" class="btn btn-outline-success btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignMembers">
                 Assign Members
               </button>
             @endcan
 
-            @canany(['admin','head','manager','scripter'])
+            @canany(['admin','ceo','head','manager','scripter'])
               <!-- Trigger Survey Modal -->
               <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                 Create Survey
@@ -134,7 +136,7 @@
               <li class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
                   <h6 class="mb-1">
-                      {{ $total_members }} Project Team Members
+                      {{ count($total_members) }} Project Team Members
                   </h6>
                 </div>
               </li>

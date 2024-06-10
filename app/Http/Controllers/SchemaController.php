@@ -129,9 +129,10 @@ class SchemaController extends Controller
     /**
      * Search Interviews
      */
-    public function search_interviews(Request $request)
+    public function searchInterviews(Request $request)
     {
         $survey_id = $request->input('survey_id');
+        $query = $request->input('query');
 
         $survey = Schema::where('id', $survey_id)->first();
         $data['survey'] = $survey;
@@ -139,10 +140,12 @@ class SchemaController extends Controller
 
         $data['results'] = $survey->results;
 
-        $data['interviews'] = Interview::where('schema_id', $survey_id)
-                                        ->where('quality_control', NULL)
-                                        ->orderBy('id', 'asc')
-                                        ->paginate(10);
+        $data['interviews'] = Interview::search($query)
+                                    ->where('schema_id', $survey_id)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where('quality_control', NULL)
+                                    ->orderBy('id', 'asc')
+                                    ->paginate(10);
 
         //dd($data['interviews']);
 

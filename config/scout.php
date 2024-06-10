@@ -143,8 +143,8 @@ return [
                 'sortableAttributes' => ['id'],
             ],
             Interview::class => [
-                'filterableAttributes' => ['quality_control'],
-                'sortableAttributes' => ['updated_at'],
+                'filterableAttributes' => ['user_id','project_id','schema_id','respondent_id','ext_no','phone_called','qc_id','qc_name','interview_status','survey_version','start_time','end_time','qc_feedback','quality_control'],
+                'sortableAttributes' => ['id','updated_at'],
             ],
         ],
     ],
