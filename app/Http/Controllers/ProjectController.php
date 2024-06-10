@@ -144,10 +144,8 @@ class ProjectController extends Controller
         $data['project'] = $project;
         $data['members'] = $project->users()->paginate(10);
         $data['dpia'] = $project->dpia();
-        //$data['surveys'] = Schema::all();
-
-        //dd($data['users']);
         $data['surveys'] = $project->surveys;
+        $data['total_members'] = count($data['members']);
 
         return view('projects.show', $data);
     }

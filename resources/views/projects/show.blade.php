@@ -134,7 +134,7 @@
               <li class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
                   <h6 class="mb-1">
-                      {{ count($members) }} Project Team Members
+                      {{ $total_members }} Project Team Members
                   </h6>
                 </div>
               </li>

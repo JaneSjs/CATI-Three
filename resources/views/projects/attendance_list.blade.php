@@ -18,9 +18,6 @@
         </div>
         <div class="col text-end">
           <div class="btn-group btn-group-sm" role="group" aria-label="Supervisor Actions">
-            <a href="{{ route('users.create') }}" class="btn btn-outline-success">
-              Add Interviewer
-            </a>
             <button type="button" class="btn btn-outline-primary">
               Print Attendance List
             </button>
@@ -125,8 +122,11 @@
                 </tr>
                 @endforeach
               </tbody>
-              <tfoot>
-                <div class="row">
+            </table>
+          </div>
+    </div>
+    <div class="card-footer">
+      <div class="row">
                   <div class="col">
                     <h6>
                       {{ $project->name }} Attendance List
@@ -138,9 +138,6 @@
                       </h6>
                   </div>
                 </div>
-              </tfoot>
-            </table>
-          </div>
     </div>
   </div>
 </div>
