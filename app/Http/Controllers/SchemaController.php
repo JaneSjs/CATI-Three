@@ -142,10 +142,10 @@ class SchemaController extends Controller
 
         $data['interviews'] = Interview::search($query)
                                     ->where('schema_id', $survey_id)
-                                    ->where('interview_status', 'Interview Completed')
-                                    ->where('quality_control', NULL)
-                                    ->orderBy('id', 'asc')
-                                    ->paginate(10);
+                                    ->where('interview_status', 'Interview Completed')->paginate(10);
+                                    //->where('quality_control', null)
+                                    //->orderBy('id', 'asc')
+                                    //->paginate(10);
 
         //dd($data['interviews']);
 
