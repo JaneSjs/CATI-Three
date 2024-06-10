@@ -47,10 +47,10 @@
 
           <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
             @can(['interviewer'])
-            <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
+            <!--<button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
-            </button>
+            </button>-->
             <!--<button type="button" class="btn btn-info btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_feedback">
               Interview Feedback
               <i class="fa-regular fa-comment-dots"></i>
