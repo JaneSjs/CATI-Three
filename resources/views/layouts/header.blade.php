@@ -1,4 +1,4 @@
-<header class="header header-sticky mb-4">
+<header class="header header-sticky mb-4 no-print">
   <div class="container-fluid">
     <button class="header-toggler px-md-0 me-md-3" type="button" onclick="if (!window.__cfRLUnblockHandlers) return false; coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" data-cf-modified-de208106593c1661e843c327-="">
       <i class="fas fa-bars"></i>
