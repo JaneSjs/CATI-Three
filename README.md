@@ -5,16 +5,19 @@ Get alert notifications on important project instances
 ## Surveys Management System
 
 This software is intended to make research projects efficient, accurate and seamless.
+GPS Location is enabled
 
 ## Scripting
 
-Script with ease using available tools
+Script with ease using available tools. 
 
 ## Quotas
 
 Set and Monitor Quotas with ease. The system auto-locks respondents with met quotas
 
-## Analytics
+## Quality Control (QC)
+The QC Panel displays interviews conducted in a nice UI with details like interview durations so that its easy for the QC team to notice and flag out suspicious interviews.
+QC Team can easily Approve or Reject Interviews.
 
 
 ## Data

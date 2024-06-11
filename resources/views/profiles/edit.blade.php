@@ -2,7 +2,6 @@
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
@@ -20,7 +19,7 @@
       <form class="needs-validation"  action="{{ route('profiles.update', $user->id) }}" method="post">
         @csrf
         @method('PATCH')
-        <input type="hidden" name="userId" value="{{ $user->id }}">
+        <input type="hidden" name="user_id" value="{{ $user->id }}">
         <div class="row mb-3">
           <div class="col">
               <div class="form-outline mb-4">

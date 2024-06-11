@@ -70,7 +70,7 @@ class ProfileController extends Controller
     {
         $id = $request->input('user_id');
         $user = User::find($id);
-        //dd($request);
+        //dd($user);
 
         if ($user)
         {
