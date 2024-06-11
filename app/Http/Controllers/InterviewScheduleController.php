@@ -44,7 +44,7 @@ class InterviewScheduleController extends Controller
             'interview_id' => $interview_id,
             'interview_datetime' => Carbon::parse($request->input('interview_datetime')),
             'interview_url' => $request->input('interview_url'),
-            'interview_status' => 'Pending'
+            'interview_status' => 'Scheduled'
         ];
 
         //dd($schedule);

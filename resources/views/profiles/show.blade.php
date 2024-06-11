@@ -37,6 +37,11 @@
               <i class="fa-solid fa-mobile-screen"></i>
             </div>Phone No
           </button>
+          <button type="button" class="btn btn-success" title="Put Your National Id Number." data-coreui-toggle="modal" data-coreui-target="#editNationalId">
+            <div class="icon me-2">
+              <i class="fa-regular fa-address-card"></i>
+            </div>ID No
+          </button>
         </div>
         @include('profiles.includes.modals')
       </div>
@@ -46,7 +51,7 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="{{ asset('assets/images/male-avatar.png') }}" alt="{{ $user->first_name . ' ' . $user->last_name }} Profile Image"
+            <img src="{{ $user->gender === 'Male' ? asset('assets/images/male-avatar.png') : asset('assets/images/female-avatar.png') }}" alt="{{ $user->first_name . ' ' . $user->last_name }} Profile Image"
               class="rounded-circle img-fluid" style="width: 150px;" title="{{ $user->gender }}">
             <h5 class="my-3">
               {{ $user->first_name . ' ' . $user->last_name }}

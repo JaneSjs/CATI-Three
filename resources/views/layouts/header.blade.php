@@ -43,7 +43,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             <div class="avatar avatar-md">
-              <img class="avatar-img" src="{{ asset('assets/images/male-avatar.png') }}" alt="{{ auth()->user()->email }}">
+              <img class="avatar-img" src="{{ auth()->user()->gender === 'Male' ? asset('assets/images/male-avatar.png') : asset('assets/images/female-avatar.png') }}" alt="{{ auth()->user()->email }}">
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-end pt-0">

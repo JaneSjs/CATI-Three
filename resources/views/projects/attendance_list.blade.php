@@ -58,7 +58,7 @@
 
 <div class="body flex-grow-1 px-3">
   <div class="card">
-    <div class="card-header text-center">
+    <div class="card-header">
       <div class="row">
         <div class="col">
           <h6>

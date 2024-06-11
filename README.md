@@ -1,4 +1,4 @@
-## Research Projects Management
+## Research Projects Management & Surveys
 
 Get alert notifications on important project instances
 
@@ -19,15 +19,16 @@ Set and Monitor Quotas with ease. The system auto-locks respondents with met quo
 
 ## Data
 
-Download collected data in your desired document format like pdf, excel, word e.t.c
+Download collected data in your desired document format like json, csv, and xml.
 
 ## Security
 
 Data security and protection is taken very seriously. This software is built with data safety and data protection concerns in mind.
+Data Protection has been implemented so that running research projects on this system ensures compliance to data protection by default
 
 ## Credits
    1. Laravel PHP Framework - https://laravel.com/
    2. Bootsrap CoreUI Admin Template Dashboard - https://coreui.io/
    3. SurveyJs Library - https://surveyjs.io/
-   4. Docker Container
+   4. Docker Container - https://www.docker.com/
 

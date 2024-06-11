@@ -29,10 +29,13 @@ return new class extends Migration
             $table->foreign('respondent_id')->references('id')->on('respondents');
             $table->index('respondent_id');
 
+            $table->string('respondent_name');
+
             $table->text('interviewer_feedback')->nullable();
             $table->text('respondent_feedback')->nullable();
             $table->text('qc_feedback')->nullable();
 
+            $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             

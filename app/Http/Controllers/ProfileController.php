@@ -68,18 +68,18 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request, string $id)
     {
-        $id = $request->input('userId');
+        $id = $request->input('user_id');
         $user = User::find($id);
         //dd($request);
 
         if ($user)
         {
-            if ($request->has(['userId','gender']))
+            if ($request->has(['user_id','gender']))
             {
                 //dd($request->input('gender'));
                 $userUpdate = $user->update([
-                    'first_name' => $request->input('firstName'),
-                    'last_name' => $request->input('lastName'),
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
                     'gender' => $request->input('gender'),
                 ]);
                 if ($userUpdate) {
@@ -89,32 +89,39 @@ class ProfileController extends Controller
                 }
             }
 
-            if ($request->has(['userId','extNo']))
+            if ($request->has(['user_id','ext_no']))
             {
                 $user->update([
-                    'ext_no' => $request->input('extNo'),
+                    'ext_no' => $request->input('ext_no'),
                 ]);
             }
 
-            if ($request->has(['userId','phone1']))
+            if ($request->has(['user_id','national_id']))
             {
                 $user->update([
-                    'phone_1' => $request->input('phone1'),
+                    'national_id' => $request->input('national_id'),
                 ]);
             }
 
-            if ($request->has(['userId','phone2']))
+            if ($request->has(['user_id','phone_1']))
             {
                 $user->update([
-                    'phone_2' => $request->input('phone2'),
+                    'phone_1' => $request->input('phone_1'),
                 ]);
             }
 
-            if ($request->has(['userId','firstName']))
+            if ($request->has(['user_id','phone_2']))
             {
                 $user->update([
-                    'first_name' => $request->input('firstName'),
-                    'last_name' => $request->input('lastName'),
+                    'phone_2' => $request->input('phone_2'),
+                ]);
+            }
+
+            if ($request->has(['user_id','first_name']))
+            {
+                $user->update([
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
                 ]);
             }   
         }
