@@ -85,7 +85,6 @@ Route::middleware(['auth','verified'])->group(function ()
 	// Interview
 	Route::get('begin_interview/project/{project_id}/survey/{survey_id}/interview/{interview_id}', [InterviewController::class, 'begin_interview'])->name('begin_interview');
 	Route::get('begin_survey/project/{project_id}/survey/{survey_id}/interview/{interview_id}/respondent/{respondent_id}', [InterviewController::class, 'begin_survey'])->name('begin_survey');
-	Route::get('coding/interview/{id}', [InterviewController::class, 'coding'])->name('coding');
 
 	// Route::get('update_interview_status/respondent/{respondent_id}/survey/{survey_id}/project/{project_id}/interview/{interview_id}/survey_url/{url}', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
 	Route::patch('update_interview_status', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
@@ -102,13 +101,16 @@ Route::middleware(['auth','verified'])->group(function ()
 
 
     // Extra Respondents routes
-	Route::post('search_respondent', [InterviewController::class, 'search_respondent']);
-
 	Route::get('search_respondents', [RespondentController::class, 'search_respondents']);
 
 	Route::patch('update_respondent', [RespondentController::class, 'updateRespondent'])->name('update_respondent');
 
-	Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
+	Route::middleware(['expire.page'])->group(function ()
+	{
+		Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
+		Route::post('search_respondent', [InterviewController::class, 'search_respondent']);
+	});
+
 	Route::get('project_survey_respondents/{project_id}/{survey_id}', [RespondentController::class, 'project_survey_respondents'])->name('project_survey_respondents');
 	Route::get('soft_deleted_respondents/{project_id}/{survey_id}', [RespondentController::class, 'softDeletedRespondents'])->name('soft_deleted_respondents');
 	

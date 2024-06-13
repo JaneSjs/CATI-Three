@@ -74,8 +74,8 @@
 <!-- End Respondent Feedback Modal -->
 
 <!-- Schedule Interview Modal -->
-<div class="modal fade" id="interview_schedule" tabindex="-1" aria-labelledby="interview_schedule" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="interview_schedule" tabindex="-1" aria-labelledby="interview_schedule" data-coreui-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog bg-warning">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="interview_schedule">
@@ -98,12 +98,12 @@
                 
             <input class="form-control" type="datetime-local" name="interview_datetime" aria-labelledby="interview_datetime">
             <div id="interview_datetime" class="form-text">
-              Schedule to This time
+              Schedule to This Date and Time
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-warning">
             Schedule
           </button>
         </div>

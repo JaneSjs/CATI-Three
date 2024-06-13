@@ -47,7 +47,7 @@ use Carbon\Carbon;
           @else
             <div class="btn-group float-end" role="group" aria-label="Project Actions">
               @can(['interviewer'])
-              <a href="{{ route('interview_schedules.index') }}" class="btn btn-warning">
+              <a href="{{ route('interview_schedules.index', ['project_id' => $project->id ?? null, 'schema_id' => $survey->id ?? null]) }}" class="btn btn-warning">
                 <i class="fa-solid fa-file-pen"></i>
                 Scheduled Interviews
               </a>

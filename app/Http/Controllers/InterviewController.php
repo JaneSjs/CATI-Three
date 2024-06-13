@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateInterviewRequest;
 use App\Mail\QuotaMet;
 use App\Models\Email;
 use App\Models\Interview;
+use App\Models\InterviewSchedule;
 use App\Models\Project;
 use App\Models\Quota;
 use App\Models\Respondent;
@@ -201,8 +202,8 @@ class InterviewController extends Controller
     }
 
     /**
-     * Begin Interview i.e search for a respondent to be interviewed
-     * during the survey
+     * Begin Interview i.e search for a respondent
+     *  to be interviewed during the survey
      */
     public function begin_interview($project_id, $survey_id, $interview_id)
     {
@@ -225,7 +226,23 @@ class InterviewController extends Controller
      */
     public function begin_survey(Request $request, $project_id, $survey_id, $interview_id, $respondent_id)
     {
+        /**
+         * Check where the link is coming from
+         */
+        $referer = $request->header('referer');
+        //dd($referer);
+
+        if ($referer && strpos($referer, 'interview_schedules') !== false)
+        {
+            $interview_status = 'Scheduled Interview In Progress';
+            $scheduled_interview_status = 'Interview Picked By' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            //dd($interview_status);
+
+            $this->updateInterviewStatus($interview_id, $interview_status, $scheduled_interview_status);
+        }
+
         $respondent = Respondent::find($respondent_id);
+        //dd($respondent);
 
         if ($respondent) {
             /**
@@ -258,6 +275,21 @@ class InterviewController extends Controller
                 return to_route('projects.index')->with('warning', 'Project, Survey, Interview, and Respondent have not been found');
             }
         }
+    }
+
+    /**
+     * Update Interview Status
+     */
+    public function updateInterviewStatus($interview_id, $interview_status, $scheduled_interview_status)
+    {
+        //dd('updateInterviewStatus');
+        $interview = Interview::findOrFail($interview_id);
+        $interview->interview_status = $interview_status;
+        $interview->save();
+
+        InterviewSchedule::where('interview_id', $interview_id)->update([
+            'interview_status' => $scheduled_interview_status
+        ]);
     }
 
     /**
@@ -363,7 +395,7 @@ class InterviewController extends Controller
     /**
      * Search for a respondent
      */
-    function search_respondent(Request $request)
+    public function search_respondent(Request $request)
     {
         //dd($request);
         $data['respondent'] = null;
@@ -572,26 +604,5 @@ class InterviewController extends Controller
         //dd($data);
 
         return view('interviews.begin', $data);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function coding($id)
-    {
-        $interview = Interview::find($id);
-
-        if ($interview) {
-            $data['interview'] = $interview;
-
-            if ($interview->result != null) {
-                $data['result'] = $interview->result;
-                //dd($data);
-            }
-        } else {
-            return to_route('projects.index')->with('error', 'That Interview Was Not Found');
-        }
-
-        return view('interviews.coding', $data);
     }
 }

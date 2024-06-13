@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Interview;
 use App\Models\InterviewSchedule;
 use App\Models\User;
 use Carbon\Carbon;
@@ -12,9 +13,26 @@ class InterviewScheduleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['scheduled_interviews'] = InterviewSchedule::where('user_id', auth()->id())->paginate(10);
+        $project_id = $request->query('project_id');
+        $schema_id = $request->query('schema_id');
+
+        // Query Builder
+        $query = InterviewSchedule::query();
+
+        //dd($project_id,$schema_id);
+        if($project_id !== null)
+        {
+            $query->where('project_id', $project_id);
+        }
+
+        if($schema_id !== null)
+        {
+            $query->where('schema_id', $schema_id);
+        }
+
+        $data['scheduled_interviews'] = $query->where('interview_status', 'Scheduled')->paginate(10);
         //dd($data);
 
         return view('schedules.index', $data);
@@ -52,7 +70,7 @@ class InterviewScheduleController extends Controller
 
         InterviewSchedule::create($schedule);
 
-        return to_route('begin_interview', $routeParameters, 201)->with('success', 'Your Interview Has Been Scheduled Successfully');
+        return to_route('begin_interview', $routeParameters, 201)->with('success', 'The Interview Has Been Scheduled Successfully');
     }
 
     /**

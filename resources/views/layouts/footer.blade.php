@@ -1,3 +1,4 @@
+@if(request()->segment(1) !== 'begin_survey')
 <footer class="footer sticky-bottom">
         <div>
                 @env('production')
@@ -12,3 +13,4 @@
                 © {{ date('Y') }} TIFA Research Ltd.
         </div>
 </footer>
+@endif

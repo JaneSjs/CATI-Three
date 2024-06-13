@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="body flex-grow-1 px-3">
-  <button type="button" class="btn btn-primary mb-3 mt-o" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back">
+  <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back">
     <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
   </button>
   <div class="card">
@@ -11,11 +11,13 @@
 
       <div class="row">
         <div class="col">
-          <p class="float-start" title="Respondent's Name Can Be Pseudonymised For Data Protection">
-            <strong>{{ $survey->survey_name }}.</strong>
+          <p class="float-start">
+            <strong class="text-warning">
+              {{ $survey->survey_name }}.
+            </strong>
             @can(['interviewer'])
              You are interviewing 
-             <strong>
+             <strong class="text-primary">
                {{ $respondent->name }}
              </strong>
             @endcan
@@ -47,10 +49,10 @@
 
           <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
             @can(['interviewer'])
-            <!--<button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
+            <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
-            </button>-->
+            </button>
             <!--<button type="button" class="btn btn-info btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_feedback">
               Interview Feedback
               <i class="fa-regular fa-comment-dots"></i>
@@ -166,7 +168,7 @@
 
           @if($survey->iframe_url == null)
           <button type="button" class="btn btn-primary text-light text-end">
-            Version 
+            Survey Version 
             <span class="badge text-bg-secondary">
               {{ $survey->version ?? 0 }}
             </span>

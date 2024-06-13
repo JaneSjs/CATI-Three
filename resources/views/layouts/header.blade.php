@@ -1,3 +1,4 @@
+@if(request()->segment(1) !== 'begin_survey')
 <header class="header header-sticky mb-4 no-print">
   <div class="container-fluid">
     <button class="header-toggler px-md-0 me-md-3" type="button" onclick="if (!window.__cfRLUnblockHandlers) return false; coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" data-cf-modified-de208106593c1661e843c327-="">
@@ -38,7 +39,7 @@
         </a>
       </li>
     </ul>
-    @if(request()->segment(1) !== 'begin_survey')
+    
       <ul class="header-nav ms-3">
         <li class="nav-item dropdown">
           <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +92,7 @@
           </div>
         </li>
       </ul>
-    @endif
   </div>
         
 </header>
+@endif
