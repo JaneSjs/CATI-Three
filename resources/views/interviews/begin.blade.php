@@ -11,6 +11,13 @@ use Carbon\Carbon;
 
 <!--<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>-->
 
+<!-- Page Expiry Script -->
+<script type="text/javascript" src="{{ asset('assets/custom/page-expiry.js') }}" defer></script>
+<!-- Page Expiry Script -->
+<!-- Cache Control Script -->
+<script type="text/javascript" src="{{ asset('assets/custom/cache-control.js') }}" defer></script>
+<!-- Cache Control Script -->
+
 <div class="body flex-grow-1 px-3">
   
   <div class="card">
@@ -149,7 +156,8 @@ use Carbon\Carbon;
               </form>
             </div>
             <div class="col">
-              <form action="{{ url('find_respondent') }}" method="GET" class="float-end">
+              <form action="{{ url('find_respondent') }}" method="post" class="float-end">
+                @csrf
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
                 <input type="hidden" name="interview_id" value="{{ $interview_id }}">

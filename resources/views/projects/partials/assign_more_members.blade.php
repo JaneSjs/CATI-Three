@@ -1,22 +1,17 @@
-<div class="modal fade" id="assignMembers" data-coreui-backdrop="static" tabindex="-1" aria-labelledby="surveyLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+<div class="modal fade" id="assignMoreMembers" data-coreui-backdrop="static" tabindex="-1" aria-labelledby="assignUsers" aria-hidden="true">
+  <div class="modal-dialog modal-xl bg-success">
     <div class="modal-content">
-      <form method="post" action="{{ route('projects.update', $project->id) }}">
+      <form method="post" action="{{ route('projects.assign_more_users', $project->id) }}">
         @csrf
         @method('PATCH')
         <div class="modal-header">
-          <h5 class="modal-title" id="surveyLabel">
-            Assign Member(s) To {{ $project->name }}
+          <h5 class="modal-title" id="assignUsers">
+            Assign More Members(s) To {{ $project->name }}
           </h5>
           <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <input type="hidden" name="project_id" value="{{ $project->id }}">
-          <input type="hidden" name="name" value="{{ $project->name }}">
-          <input type="hidden" name="type" value="{{ $project->type }}">
-          <input type="hidden" name="database" value="{{ $project->database }}">
-          <input type="hidden" name="start_date" value="{{ $project->start_date }}">
-          <input type="hidden" name="end_date" value="{{ $project->end_date }}">
 
           <!-- Members Input -->
           <div class="col mt-3 mb-4">
@@ -38,8 +33,8 @@
           <!-- End Members Input -->  
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">
-            Update
+          <button type="submit" class="btn btn-success">
+            Assign More Members
           </button>
         </div>
       </form>

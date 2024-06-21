@@ -104,12 +104,19 @@
             </a>
           @endcan
           </div>
-          <div class="btn-group mt-2" role="group" aria-label="Create Survey and Assign Members to Projects Button">
+          <div class="btn-group btn-sm mt-2" role="group" aria-label="Create Survey and Assign Members To The Projects">
             @canany(['admin','manager','coordinator','supervisor'])
-              <!-- Trigger Members Assignment Modal -->
-              <button type="button" class="btn btn-outline-success btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignMembers">
-                Assign Members
+              <button type="button" class="btn btn-outline-success btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignMoreMembers">
+                Assign More Members
               </button>
+              @include('projects.partials.assign_more_members')
+            @endcan
+
+            @canany(['admin'])
+              <button type="button" class="btn btn-secondary btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignSpecificMembers">
+                Assign Specific Members
+              </button>
+              @include('projects.partials.assign_specific_members')
             @endcan
 
             @canany(['admin','ceo','head','manager','scripter'])
@@ -119,10 +126,6 @@
               </button>
             @endcan
           </div>
-          <!-- Assign Members Modal -->
-          @include('projects.partials.assign_members')
-          <!-- End Assign Members Modal -->
-
           <!-- Create Survey Modal -->
           @include('projects.partials.create_survey')
           <!-- End Create Survey Modal -->
@@ -136,7 +139,7 @@
               <li class="list-group-item list-group-item-action active" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
                   <h6 class="mb-1">
-                      {{ count($total_members) }} Project Team Members
+                      {{ count($all_members) }} Project Team Members
                   </h6>
                 </div>
               </li>

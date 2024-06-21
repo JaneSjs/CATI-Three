@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,9 +27,19 @@ class ExpirePage
         {
             Log::alert('Expired Page Detected');
 
-            return response('Page Expired', Response::HTTP_GONE);
+            return response('Page Expired', Response::HTTP_GONE)->header('X-Page-Expired', 'true');
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        if ($response instanceof HttpResponse)
+        {
+            $response->header('X-Page-Expired', 'false');
+        }
+        elseif ($response instanceof Response) {
+            $response->headers->set('X-Page-Expired', 'false');
+        }
+
+        return $response;
     }
 }

@@ -145,7 +145,7 @@ class ProjectController extends Controller
         $data['members'] = $project->users()->paginate(10);
         $data['dpia'] = $project->dpia();
         $data['surveys'] = $project->surveys;
-        $data['total_members'] = $project->users()->get();
+        $data['all_members'] = $project->users()->get();
 
         return view('projects.show', $data);
     }
@@ -177,13 +177,12 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $data['project'] = $project;
+        $data['members'] = $project->users()->paginate(10);
 
-        $data['users'] = User::with('roles')
-                            ->whereHas('roles', function (Builder $query)
-                            {
-                                $query->whereIn('name', ['Supervisor','Scripter','Manager','QC']);
-                            })->get();
-        //dd($data['project']);
+        $data['users'] = User::whereHas('roles', function ($query)
+        {
+            $query->whereIn('name', ['Manager','Scripter', 'QC']);
+        })->get();
 
         return view('projects.edit', $data);
     }
@@ -204,13 +203,6 @@ class ProjectController extends Controller
                 'start_date' => Carbon::parse($request->date('start_date')),
                 'end_date' => Carbon::parse($request->date('end_date')),
             ]);
-
-            // Include Curently Authenticated User To Project Assigned Users
-            $users = array_merge([(string) auth()->user()->id], $request->users ?? []);
-
-            //dd($users);
-
-            $project->users()->sync($users);
 
             return redirect()->back()->with('success', 'Project Updated Successfully.');
         } else {
@@ -307,5 +299,29 @@ class ProjectController extends Controller
         $data['users'] = $project_members;
 
         return view('projects.attendance_list', $data);
+    }
+
+    /**
+     * Assign Users To Project
+     */
+    public function assignUsers(Request $request)
+    {
+        $project_id = $request->input('project_id');
+        $project = Project::find($project_id);
+        
+        // Include Curently Authenticated User To Project Assigned Users
+        $users = array_merge([(string) auth()->user()->id], $request->users ?? []);
+
+        if ($request->method() == 'PATCH') {
+            $project->users()->syncWithoutDetaching($users);
+
+            return back()->with('success', 'More members added to the project');
+        } else {
+            $project->users()->sync($users);
+
+            return back()->with('success', 'Only Selected Members Are now In the Project');
+        }
+
+
     }
 }

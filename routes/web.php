@@ -62,6 +62,12 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function ()
 // Project  Routes
 Route::middleware(['auth','verified'])->group(function ()
 {
+	// Search Projects Route
+	Route::get('search_projects', [ProjectController::class, 'search_projects']);
+	// Assign Users To Project Route
+	Route::patch('projects.assign_more_users', [ProjectController::class, 'assignUsers'])->name('projects.assign_more_users');
+	Route::put('projects.assign_specific_users', [ProjectController::class, 'assignUsers'])->name('projects.assign_specific_users');
+
 	Route::middleware('scripter')->get('survey_creator', [ProjectController::class, 'creator']);
 
 	// Respondents Import
@@ -96,10 +102,6 @@ Route::middleware(['auth','verified'])->group(function ()
 	// Respondent Feedback
 	Route::patch('respondent_feedback', [RespondentController::class, 'respondent_feedback'])->name('respondent_feedback');
 
-	// Search projects route
-	Route::get('search_projects', [ProjectController::class, 'search_projects']);
-
-
     // Extra Respondents routes
 	Route::get('search_respondents', [RespondentController::class, 'search_respondents']);
 
@@ -107,7 +109,8 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	Route::middleware(['expire.page'])->group(function ()
 	{
-		Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
+		
+		Route::post('find_respondent', [InterviewController::class, 'find_respondent']);
 		Route::post('search_respondent', [InterviewController::class, 'search_respondent']);
 	});
 

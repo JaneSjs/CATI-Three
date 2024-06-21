@@ -6,13 +6,21 @@
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col-9">
+        <div class="col">
           <h2>
             Edit {{ $project->name }}
           </h2>
         </div>
-        <div class="col-12">
+        <div class="col">
           @include('partials.alerts')
+        </div>
+        <div class="col">
+          @canany(['admin','manager'])
+            <button type="button" class="btn btn-outline-success btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignMoreMembers">
+              Assign Other Members
+            </button>
+            @include('projects.partials.assign_more_members')
+          @endcan
         </div>
       </div>
     </div>
@@ -49,7 +57,7 @@
           </div>
         </div>
 
-        <div class="mb-3">
+        <!--<div class="mb-3">
           <label for="users" class="form-label">
             Assign Someone
           </label>
@@ -63,7 +71,7 @@
             @endif
           </select>
           <div id="user" class="form-text">Assign Someone</div>
-        </div>
+        </div>-->
 
         <div class="row mb-3">
           <div class="col">
