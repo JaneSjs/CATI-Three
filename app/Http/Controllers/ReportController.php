@@ -84,7 +84,9 @@ class ReportController extends Controller
      */
     public function interviewers($project_id)
     {
-        $data['project'] = $project = Project::with('interviews')->find($project_id);
+        //$data['project'] = $project = Project::with('interviews')->find($project_id);
+        $data['project'] = $project = Project::find($project_id);
+
         $data['total_interviews'] = $total_interviews = Interview::where('project_id', $project_id)->get();
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
 
@@ -104,7 +106,19 @@ class ReportController extends Controller
             $data['progress'] = 0;
         }
 
-        $data['interviewers'] = User::orderBy('first_name')
+        // $data['interviewers'] = User::orderBy('first_name')
+        //                             ->with(['interviews' => function ($query) use ($project_id)
+        //                             {
+        //                                 $query->where('project_id', $project_id)
+        //                                       ->select('user_id', 
+        //                                         DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
+        //                                         DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews')
+        //                                             )
+        //                                        ->groupBy('user_id');
+        //                             }])
+        //                             ->paginate(20);
+
+        $data['interviewers'] = $project->users()->orderBy('first_name')
                                     ->with(['interviews' => function ($query) use ($project_id)
                                     {
                                         $query->where('project_id', $project_id)
@@ -115,6 +129,7 @@ class ReportController extends Controller
                                                ->groupBy('user_id');
                                     }])
                                     ->paginate(20);
+        //dd($data['interviewers']);
 
         return view('reports.interviewers', $data);
     }
