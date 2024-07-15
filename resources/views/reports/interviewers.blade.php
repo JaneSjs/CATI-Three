@@ -81,30 +81,26 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $interviewer->first_name . ' ' . $interviewer->last_name }}
               </th>
-              <td>
-                {{ count($interviewer->interviews) }}
-              </td>
-              <td>
+              <td class="table-info">
                 @php
-                  $totalApproved = 0;
-                  foreach($interviewer->interviews as $interview)
-                  {
-                    $totalApproved += $interview->total_approved_interviews;
-                  }
-
-                  echo $totalApproved
+                  $total_interviews = $interviewer->interviews->sum('total_interviews')
                 @endphp
+
+                {{ $total_interviews ?? 0 }}
               </td>
-              <td>
+              <td class="table-success">
                 @php
-                  $totalApproved = 0;
-                  foreach($interviewer->interviews as $interview)
-                  {
-                    $totalApproved += $interview->total_cancelled_interviews;
-                  }
-
-                  echo $totalApproved
+                  $total_approved_interviews = $interviewer->interviews->sum('total_approved_interviews')
                 @endphp
+
+                {{ $total_approved_interviews ?? 0 }}
+              </td>
+              <td class="table-danger">
+                @php
+                  $total_cancelled_interviews = $interviewer->interviews->sum('total_cancelled_interviews')
+                @endphp
+
+                {{ $total_cancelled_interviews ?? 0 }}
               </td>
               <td></td>
               <td></td>
