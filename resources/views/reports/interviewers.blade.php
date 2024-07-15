@@ -39,7 +39,7 @@ use Carbon\Carbon;
         <li class="list-group-item">
           Sample Size: 
           <span class="badge bg-primary rounded-pill">
-            {{ $quota['sample_size'] }}
+            {{ $sample_size }}
           </span>
         </li>
         <li class="list-group-item">

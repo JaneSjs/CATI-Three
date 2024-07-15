@@ -87,7 +87,15 @@ class ReportController extends Controller
         $data['project'] = $project = Project::with('interviews')->find($project_id);
         $data['total_interviews'] = $total_interviews = Interview::where('project_id', $project_id)->get();
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
-        $data['sample_size'] = $sample_size = $quota->sample_size;
+
+        if ($quota) {
+            $sample_size = $quota->sample_size;
+        } else {
+            $sample_size = 0;
+            session()->flash('danger', "Quota's have have not been set for this project");
+        }
+
+        $data['sample_size'] = $sample_size;
 
         //  Calculate the progress
         if ($quota && $sample_size > 0) {
