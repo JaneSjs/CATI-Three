@@ -61,7 +61,7 @@ use Carbon\Carbon;
       <div class="table-responsive">
         <table class="table table-striped-columns table-hover table-sm caption-top">
           <caption class="text-primary">
-           Interviewers Performance Report
+           {{ $total_interviewers }} Interviewers
           </caption>
           <thead class="table-warning">
             <tr>
@@ -76,7 +76,7 @@ use Carbon\Carbon;
             </tr>
           </thead>
           <tbody>
-            @foreach($project->users as $interviewer)
+            @foreach($interviewers as $interviewer)
             <tr>
               <th scope="row">
                 {{ $interviewer->first_name . ' ' . $interviewer->last_name }}
