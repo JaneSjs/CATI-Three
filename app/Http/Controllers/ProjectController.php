@@ -315,11 +315,11 @@ class ProjectController extends Controller
         if ($request->method() == 'PATCH') {
             $project->users()->syncWithoutDetaching($users);
 
-            return back()->with('success', 'More members added to the project');
+            return back()->with('success', 'More Members Have Been Assigned To the project');
         } else {
             $project->users()->sync($users);
 
-            return back()->with('success', 'Only Selected Members Are now In the Project');
+            return back()->with('success', 'Other Members Have Been Unassigned From The Project');
         }
 
 

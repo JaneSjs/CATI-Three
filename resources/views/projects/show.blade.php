@@ -99,7 +99,7 @@
             </a>
           @endcan
           @canany(['admin','ceo','head','manager'])
-            <a href="" class="btn btn-outline-success btn-sm" title="Project Recordings (Coming Soon!)">
+            <a href="javascript:void(0)" class="btn btn-outline-success btn-sm" title="Project Recordings (Coming Soon!)" onclick="event.preventDefault();">
                 Recordings
             </a>
           @endcan
