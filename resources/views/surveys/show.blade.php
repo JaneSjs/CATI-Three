@@ -15,13 +15,13 @@
             <strong class="text-warning">
               {{ $survey->survey_name }}.
             </strong>
-            @can(['interviewer'])
+            @canany(['ceo','interviewer'])
              You are interviewing 
              <strong class="text-primary">
                {{ $respondent->name }}
              </strong>
             @endcan
-            @can('admin')
+            @canany(['admin','ceo'])
              @if($survey->updated_by)
               was last scripted by : <span>{{ $survey->updated_by }}</span>
              @endif
@@ -32,23 +32,12 @@
             <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
               Script
             </a>
-            <a href="" class="btn btn-outline-primary" title="Change The Survey Stage">
-              Staging
-            </a>
-            <a href="" class="btn btn-outline-primary" title="View Tool">
-              Tool
-            </a>
-            <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results" title="Survey Results Actions">
-              Results
-            </button>
-            <a href="" class="btn btn-outline-primary" title="View Analytics" rel="noopener">
-              Analytics
-            </a>
+            
           </div>
           @endcan
 
           <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
-            @can(['interviewer'])
+            @canany(['ceo','interviewer'])
             <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
@@ -192,13 +181,13 @@
     
     @if($survey->iframe_url)
       <!-- Iframe -->
-        @canany(['admin', 'interviewer', 'respondent'])
+        @canany(['admin','ceo','interviewer','respondent'])
           @include('surveys.iframe')
         @endcan
       <!-- End Iframe -->
     @else
       <!-- Survey Schema -->
-      @canany(['admin', 'interviewer', 'respondent'])
+      @canany(['admin','ceo','interviewer','respondent'])
         @include('surveys.schema')
       @endcan
       <!-- End Survey Schema -->
@@ -210,7 +199,7 @@
     
 
     <div class="card-footer">
-      @can(['interviewer'])
+      @canany(['ceo','interviewer'])
       <div class="row">
         <div class="col text-start">
           <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
@@ -230,47 +219,7 @@
   </div>
 </div>
 
-<!-- Survey Results Modal -->
-
-<div class="modal fade" id="results" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">
-          Available Data Formats For Download
-        </h5>
-        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-            <a href="{{ url('csv_export', $survey->id) }}" class="btn btn-outline-warning" title="CSV Format">
-              <i class="fas fa-file-csv"></i>
-              CSV
-            </a>
-            <a href="{{ url('xlsx_export', $survey->id) }}" class="btn btn-outline-dark" title="Excel Format">
-              <i class="far fa-file-spreadsheet" style="color: #3d3846;"></i>
-              Excel
-            </a>
-            <a href="{{ url('pdf_export', $survey->id) }}" class="btn btn-outline-dark" title="Portable Document Format">
-              <i class="fas fa-file-pdf" style="color: #ef2929;"></i>
-              PDF
-            </a>
-            <a href="" class="btn btn-outline-primary" title="JSON Format">
-              <i class="fas fa-brackets-curly"></i>
-              JSON
-            </a>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- End Survey Results Modal -->
-
-@can(['interviewer'])
+@canany(['ceo','interviewer'])
 <!-- Interview Feedback Modal -->
 <div class="modal fade" id="interview_feedback" tabindex="-1" aria-labelledby="interview_feedback" aria-hidden="true">
   <div class="modal-dialog">
@@ -305,7 +254,7 @@
 <!-- End Interview Feedback Modal -->
 @endcan
 
-@can(['interviewer'])
+@canany(['ceo','interviewer'])
 <!-- Complete Interview Modal -->
 <div class="modal fade" id="complete_interview" tabindex="-1" aria-labelledby="complete_interview" aria-hidden="true">
   <div class="modal-dialog">

@@ -1,4 +1,4 @@
-@can(['interviewer'])
+@canany(['ceo','interviewer'])
 <!-- Interview Termination Feedback Modal -->
 <div class="modal fade" id="interview_termination_feedback" tabindex="-1" aria-labelledby="interview_termination_feedback" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">
@@ -115,7 +115,7 @@
 
 @endcan
 
-@canany('qc')
+@canany(['qc'])
 <!-- QC Interview Cancellation Modal -->
 <div class="modal fade" id="qc_interview_cancellation" tabindex="-1" aria-labelledby="qc_interview_cancellation" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">

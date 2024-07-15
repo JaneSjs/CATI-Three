@@ -124,6 +124,71 @@
                       <thead>
                         <tr>
                           <th>
+                            Gender
+                          </th>
+                          <th>
+                            Targets
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Female
+                          </td>
+                          <td>
+                            {{ $quota['female_target'] ?? 'Not Set' }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Male
+                          </td>
+                          <td>
+                            {{ $quota['male_target'] ?? 'Not Set' }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                            Gender
+                          </th>
+                          <th>
+                            Achieved
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($interviewed_respondents_by_gender as $gender_data)
+                          <tr>
+                            <td>{{ $gender_data->gender }}</td>
+                            <td>{{ $gender_data->count }}</td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered">
+
+                      <thead>
+                        <tr>
+                          <th>
                             Religion
                           </th>
                           <th>
@@ -234,70 +299,9 @@
                   </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="col">
-                  <div class="table-responsive">
-                    <table class="table table-sm table-striped table-bordered">
-
-                      <thead>
-                        <tr>
-                          <th>
-                            Gender
-                          </th>
-                          <th>
-                            Targets
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            Female
-                          </td>
-                          <td>
-                            {{ $quota['female_target'] ?? 'Not Set' }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            Male
-                          </td>
-                          <td>
-                            {{ $quota['male_target'] ?? 'Not Set' }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div class="col">
-                  <div class="table-responsive">
-                    <table class="table table-sm table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>
-                            Gender
-                          </th>
-                          <th>
-                            Achieved
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach($interviewed_respondents_by_gender as $gender_data)
-                          <tr>
-                            <td>{{ $gender_data->gender }}</td>
-                            <td>{{ $gender_data->count }}</td>
-                          </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
               
+              <hr>
+
               <div class="row">
                 <div class="col">
                   <div class="table-responsive">
@@ -721,6 +725,8 @@
                 </div>
               </div>
 
+              <hr>
+
               <div class="row">
                 <div class="col">
                   <div class="table-responsive">
@@ -776,6 +782,8 @@
                 </div>
               </div>
 
+              <hr>
+
               <div class="row">
                 <div class="col">
                   <div class="table-responsive">
@@ -830,6 +838,8 @@
                   </div>
                 </div>
               </div>
+
+              <hr>
 
               <div class="row">
                 <div class="col">
@@ -893,6 +903,8 @@
                   </div>
                 </div>
               </div>
+
+              <hr>
 
             </div>
             </div>

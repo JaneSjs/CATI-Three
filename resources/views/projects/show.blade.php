@@ -235,6 +235,12 @@
                   <td>
                     
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
+                      @canany(['admin','ceo'])
+                        <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
+                          Preview Survey
+                        </a>
+                      @endcan
+
                       @canany(['interviewer'])
                         @if($survey->stage == 'Production')
                         <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
@@ -268,9 +274,9 @@
                       @endcan
                       
                       @canany(['admin','ceo','head','manager','scripter'])
-                      <a href="" class="btn btn-outline-primary" title="Pending SurveyJs Developer Licence">
+                      <!--<a href="" class="btn btn-outline-primary" title="Pending SurveyJs Developer Licence">
                         Tool
-                      </a>
+                      </a>-->
                       @endcan
 
                       @canany(['admin','ceo','head','manager'])
