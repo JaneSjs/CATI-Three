@@ -39,7 +39,7 @@ use Carbon\Carbon;
         <li class="list-group-item">
           Sample Size: 
           <span class="badge bg-primary rounded-pill">
-            ?
+            {{ $quota['sample_size'] }}
           </span>
         </li>
         <li class="list-group-item">
@@ -49,10 +49,13 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
-          Excess Interviews: 
-          <span class="badge bg-danger rounded-pill">
-            ?
-          </span>
+          Progress: 
+          {{ $progress }}
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ $progress  }}%;">
+              {{ $progress }}%
+            </div>
+          </div>
         </li>
       </ul>
       <div class="table-responsive">
@@ -113,9 +116,6 @@ use Carbon\Carbon;
                     Pay Wage Via M-Pesa
                   </button>
                   <!-- Let Wages button Appear Only When The Project is Closed -->
-                  <button class="btn btn-outline-success btn-sm">
-                    Pay LT Via M-Pesa
-                  </button>
                 </div>
               </td>
             </tr>
@@ -135,9 +135,6 @@ use Carbon\Carbon;
                     Pay All Wages At Once
                   </button>
                   <!-- Let Wages button Appear Only When The Project is Closed -->
-                  <button class="btn btn-success btn-sm">
-                    Pay All LT At Once
-                  </button>
                 </div>
               </td>
             </tr>

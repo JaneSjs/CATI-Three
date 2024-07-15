@@ -6,6 +6,7 @@ use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
 use App\Models\Interview;
 use App\Models\Project;
+use App\Models\Quota;
 use App\Models\Report;
 use App\Models\User;
 use App\Reports\MyReport;
@@ -81,16 +82,24 @@ class ReportController extends Controller
     /**
      * Interviewers Report Per Project
      */
-    public function interviewers($projectId)
+    public function interviewers($project_id)
     {
-        $data['project'] = $project = Project::with('interviews')->find($projectId);
-        $data['total_interviews'] = Interview::where('project_id', $projectId)->get();
-        //dd($data);
+        $data['project'] = $project = Project::with('interviews')->find($project_id);
+        $data['total_interviews'] = $total_interviews = Interview::where('project_id', $project_id)->get();
+        $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
+        $data['sample_size'] = $sample_size = $quota->sample_size;
+
+        //  Calculate the progress
+        if ($quota && $sample_size > 0) {
+            $data['progress'] = (count($total_interviews) / $sample_size) * 100;
+        } else {
+            $data['progress'] = 0;
+        }
 
         $data['interviewers'] = User::orderBy('first_name')
-                                    ->with(['interviews' => function ($query) use ($projectId)
+                                    ->with(['interviews' => function ($query) use ($project_id)
                                     {
-                                        $query->where('project_id', $projectId)
+                                        $query->where('project_id', $project_id)
                                               ->select('user_id', 
                                                 DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
                                                 DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews')
