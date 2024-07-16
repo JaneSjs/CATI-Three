@@ -87,7 +87,7 @@ class ReportController extends Controller
         $data['project'] = $project = Project::find($project_id);
 
         $data['all_interview_attempts'] = $all_interview_attempts = Interview::where('project_id', $project_id)->get();
-        $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->get();
+        $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->where('interview_status', 'Interview Completed')->get();
 
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
 
@@ -102,7 +102,7 @@ class ReportController extends Controller
 
         //  Calculate the progress
         if ($quota && $sample_size > 0) {
-            $data['progress'] = (count($total_interviews) / $sample_size) * 100;
+            $data['progress'] = (count($completed_interviews) / $sample_size) * 100;
         } else {
             $data['progress'] = 0;
         }
@@ -114,7 +114,7 @@ class ReportController extends Controller
                                               ->select('user_id', 
                                                 DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
                                                 DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'),
-                                                DB::raw('sum(case when quality_control != "Cancelled" then 1 else 0 end) as total_interviews')
+                                                DB::raw('sum(case when interview_status = "Interview Completed" then 1 else 0 end) as completed_interviews')
                                                     )
                                                ->groupBy('user_id');
                                     }])

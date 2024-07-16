@@ -43,9 +43,15 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
-          Total Interviews: 
+          Interview Attempts: 
+          <span class="badge bg-info rounded-pill">
+            {{ count($all_interview_attempts) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          Completed Interviews: 
           <span class="badge bg-success rounded-pill">
-            {{ count($total_interviews) }}
+            {{ count($completed_interviews) }}
           </span>
         </li>
         <li class="list-group-item">
@@ -66,7 +72,7 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Name</th>
-              <th>Total Interviews</th>
+              <th>Completed Interviews</th>
               <th>Approved Interviews</th>
               <th>Cancelled Interviews</th>
               <th>Performance</th>
@@ -83,7 +89,7 @@ use Carbon\Carbon;
               </th>
               <td class="table-info">
                 @php
-                  $total_interviews = $interviewer->interviews->sum('total_interviews')
+                  $total_interviews = $interviewer->interviews->sum('completed_interviews')
                 @endphp
 
                 {{ $total_interviews ?? 0 }}
