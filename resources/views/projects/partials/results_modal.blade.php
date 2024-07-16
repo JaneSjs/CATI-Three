@@ -30,6 +30,12 @@
                       <i class="fa-solid fa-file-export"></i>
                       Survey Results JSON
                     </a>
+                    @canany(['admin'])
+                    <a href="{{ route('json_export_all_data', $survey->id) }}" class="btn btn-outline-danger btn-sm" title="JSON Format">
+                      <i class="fa-solid fa-download"></i>
+                      All Survey Results JSON
+                    </a>
+                    @endcan
                     <a href="{{ route('xml_export', $survey->id) }}" class="btn btn-outline-info btn-sm" title="XML Format">
                       <i class="fa-solid fa-file-arrow-down"></i>
                       Survey Results XML

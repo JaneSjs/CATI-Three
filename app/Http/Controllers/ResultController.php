@@ -206,6 +206,78 @@ class ResultController extends Controller
     }
 
     /**
+     * JSON Results Export
+     */
+    public function jsonExportAllData(int $schemaId)
+    {
+        $survey = Schema::find($schemaId);
+        $surveyName = $survey->survey_name;
+
+        $fileName = 'TIFA-JSON-All-Data' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ];
+
+        $results = Result::query()
+            ->join('interviews', 'results.interview_id', '=', 'interviews.id')
+            ->join('users', 'results.user_id', '=', 'users.id')
+            ->leftJoin('respondents', 'interviews.respondent_id', '=', 'respondents.id')
+            ->select(
+                'interviews.id as interview_id',
+                DB::raw('CONCAT(users.first_name, " ", users.last_name) as interviewer_name'),
+                'interviews.respondent_id',
+                'interviews.respondent_name',
+                'interviews.phone_called',
+                'interviews.start_time',
+                'interviews.end_time',
+                'respondents.occupation',
+                'respondents.region',
+                'respondents.county',
+                'respondents.sub_county',
+                'respondents.constituency',
+                'respondents.ward',
+                'respondents.gender',
+                'respondents.dob',
+                'respondents.exact_age',
+                'respondents.education_level',
+                'respondents.marital_status',
+                'respondents.religion',
+                'respondents.income',
+                'respondents.Lsm',
+                'respondents.ethnic_group',
+                'respondents.employment_status',
+                'respondents.age_group',
+                'results.content',
+            )
+            ->where('results.schema_id', $schemaId)
+            ->where('interviews.interview_status', 'Interview Completed')
+            // ->where(function ($query)
+            // {
+            //     $query->where('interviews.quality_control', '<>', 'Cancelled')
+            //           ->orWhereNull('interviews.quality_control');
+            // })
+            ->get();
+
+        //dd($results);
+        if (count($results) == 0)
+        {
+            return back()->with('warning', 'The Survey Is Pending Quality Control');
+        }
+        // Decode the JSON Content column
+        $results->map(function ($result)
+        {
+            $result->content = json_decode($result->content, true);
+            return $result;
+        });
+
+        $resultsJson = $results->toJson(JSON_PRETTY_PRINT);
+
+        return response($resultsJson, 200, $headers);
+    }
+
+    /**
      *  XML Export Solution
      */
     public function xml_export(int $schemaId)
