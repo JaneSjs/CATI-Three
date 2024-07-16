@@ -86,7 +86,9 @@ class ReportController extends Controller
     {
         $data['project'] = $project = Project::find($project_id);
 
-        $data['total_interviews'] = $total_interviews = Interview::where('project_id', $project_id)->get();
+        $data['all_interview_attempts'] = $all_interview_attempts = Interview::where('project_id', $project_id)->get();
+        $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->get();
+
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
 
         if ($quota) {

@@ -41,7 +41,7 @@
     </li>
     @endcan
 
-    @canany(['admin','ceo'])
+    @canany(['admin'])
     <li class="nav-title">User Management</li>
     <li class="nav-item">
       <a class="nav-link" href="{{ route('roles.index') }}">
@@ -59,7 +59,7 @@
     </li>
     @endcan
 
-    @canany(['admin','ceo','head'])
+    @canany(['admin'])
     <li class="nav-item">
       <a class="nav-link" href="{{ route('users.index') }}">
         <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
