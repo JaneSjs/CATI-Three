@@ -52,9 +52,9 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Name</th>
-              <th>QC'd Interviews</th>
-              <th>Approved Interviews</th>
-              <th>Cancelled Interviews</th>
+              <th>Total QC'd </th>
+              <th>Total Approvals</th>
+              <th>Total Cancelled</th>
               <th>Performance</th>
               <th>Rate</th>
               <th>Total Payable</th>

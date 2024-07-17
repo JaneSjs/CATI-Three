@@ -15,16 +15,7 @@ use Carbon\Carbon;
       </h3>
       <div class="row">
         <div class="col">
-          <!-- @canany(['admin','ceo','manager'])
-          <form action="{{ url('search_users') }}" method="GET">
-            <div class="input-group">
-              <input type="search" name="query" class="form-control" placeholder="Search Interviewers..." aria-label="Search interviewer..." aria-describedby="search_interviewers" value="{{ request()->get('query') }}">
-              <button type="submit" class="btn btn-outline-info" id="search_interviewers">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          </form>
-          @endcan -->
+          
         </div>
         <div class="col">
           @include('partials.alerts')
@@ -43,7 +34,26 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
-          QC Rate:          <span class="badge bg-primary rounded-pill">
+          QC Rate: 
+          <span class="badge rounded-pill
+            @if(count($completed_interviews) == 0)
+              bg-danger
+            @else
+              @php
+                $qc_rate = round(($qcd_interviews / count($completed_interviews) ) * 100);
+              @endphp
+
+              @if($qc_rate < 25)
+                bg-warning
+              @elseif($qc_rate < 50)
+                bg-primary
+              @elseif($qc_rate < 75)
+                bg-warning
+              @else
+                bg-success
+              @endif
+            @endif
+          ">
             @if(count($completed_interviews) == 0)
               0 %
             @else

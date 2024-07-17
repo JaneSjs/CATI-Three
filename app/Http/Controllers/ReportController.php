@@ -128,13 +128,12 @@ class ReportController extends Controller
     }
 
     /**
-     * Interviewers Report Per Project
+     * QCs Report Per Project
      */
     public function qcs($project_id)
     {
         $data['project'] = $project = Project::find($project_id);
 
-        $data['all_interview_attempts'] = $all_interview_attempts = Interview::where('project_id', $project_id)->get();
         $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->where('interview_status', 'Interview Completed')->get();
         $data['qcd_interviews'] = Interview::where('project_id', $project_id)->where('quality_control', '!=', null)->count();
 
@@ -156,20 +155,31 @@ class ReportController extends Controller
             $data['progress'] = 0;
         }
 
-        $data['qcs'] = $project->users()->orderBy('first_name')
-                                    ->with(['interviews' => function ($query) use ($project_id)
+        $data['qcs'] = $project->users()
+                                ->whereHas('roles', function ($query)
+                                {
+                                    $query->where('name', 'QC');
+                                })
+                                ->orderBy('first_name')
+                                ->with(['interviews' => function ($query) use ($project_id)
                                     {
                                         $query->where('project_id', $project_id)
                                               ->select('user_id', 
-                                                DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
+                                                DB::raw('sum(case when quality_control != null then 1 else 0 end) as total_qcd'),
                                                 DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'),
-                                                DB::raw('sum(case when interview_status = "Interview Completed" then 1 else 0 end) as completed_interviews')
+                                                DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_cancelled_interviews')
                                                     )
                                                ->groupBy('user_id');
                                     }])
-                                    ->paginate(20);
+                                ->paginate(20);
 
-        $data['total_qcs'] = $project->users()->orderBy('first_name')->count();
+        $data['total_qcs'] = $project->users()
+                                    ->whereHas('roles', function ($query)
+                                    {
+                                        $query->where('name', 'QC');
+                                    })
+                                    ->orderBy('first_name')
+                                    ->count();
         //dd($data['total_interviewers']);
 
         return view('reports.qcs', $data);
