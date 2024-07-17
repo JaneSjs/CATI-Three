@@ -48,7 +48,7 @@ use Carbon\Carbon;
             @if(count($completed_interviews) == 0)
               0 %
             @else
-              {{ ($qcd_interviews / count($completed_interviews) ) * 100 }} %
+              {{ round(($qcd_interviews / count($completed_interviews) ) * 100) }} %
             @endif
           </span>
         </li>
