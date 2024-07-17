@@ -11,11 +11,11 @@ use Carbon\Carbon;
   <div class="card">
     <div class="card-header">
       <h3 class="card-title text-primary">
-        {{ $project->name }} Interviewers Performance Report
+        {{ $project->name }} Performance Report
       </h3>
       <div class="row">
         <div class="col">
-          @canany(['admin','ceo','manager'])
+          <!-- @canany(['admin','ceo','manager'])
           <form action="{{ url('search_users') }}" method="GET">
             <div class="input-group">
               <input type="search" name="query" class="form-control" placeholder="Search Interviewers..." aria-label="Search interviewer..." aria-describedby="search_interviewers" value="{{ request()->get('query') }}">
@@ -24,7 +24,7 @@ use Carbon\Carbon;
               </button>
             </div>
           </form>
-          @endcan
+          @endcan -->
         </div>
         <div class="col">
           @include('partials.alerts')
@@ -37,15 +37,19 @@ use Carbon\Carbon;
     <div class="card-body">
       <ul class="list-group list-group-horizontal">
         <li class="list-group-item">
-          Sample Size: 
-          <span class="badge bg-primary rounded-pill">
-            {{ $sample_size }}
-          </span>
-        </li>
-        <li class="list-group-item">
           Interview Attempts: 
           <span class="badge bg-info rounded-pill">
             {{ count($all_interview_attempts) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          QC Rate: 
+          <span class="badge bg-primary rounded-pill">
+            @if(count($completed_interviews) == 0)
+              0 %
+            @else
+              {{ ($qcd_interviews / count($completed_interviews) ) * 100 }} %
+            @endif
           </span>
         </li>
         <li class="list-group-item">
