@@ -108,8 +108,13 @@ class ReportController extends Controller
             $data['progress'] = 0;
         }
 
-        $data['interviewers'] = $project->users()->orderBy('first_name')
-                                    ->with(['interviews' => function ($query) use ($project_id)
+        $data['interviewers'] = $project->users()
+                                        ->whereHas('roles', function ($query)
+                                {
+                                    $query->where('name', 'Interviewer');
+                                })
+                                        ->orderBy('first_name')
+                                        ->with(['interviews' => function ($query) use ($project_id)
                                     {
                                         $query->where('project_id', $project_id)
                                               ->select('user_id', 
@@ -119,9 +124,14 @@ class ReportController extends Controller
                                                     )
                                                ->groupBy('user_id');
                                     }])
-                                    ->paginate(20);
+                                        ->paginate(20);
 
-        $data['total_interviewers'] = $project->users()->orderBy('first_name')->count();
+        $data['total_interviewers'] = $project->users()
+                                    ->whereHas('roles', function ($query)
+                                    {
+                                        $query->where('name', 'Interviewer');
+                                    })
+                                    ->count();
         //dd($data['total_interviewers']);
 
         return view('reports.interviewers', $data);
@@ -165,7 +175,7 @@ class ReportController extends Controller
                                     {
                                         $query->where('project_id', $project_id)
                                               ->select('user_id', 
-                                                DB::raw('sum(case when quality_control != null then 1 else 0 end) as total_qcd'),
+                                                DB::raw('sum(case when quality_control is not null then 1 else 0 end) as total_qcd'),
                                                 DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'),
                                                 DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_cancelled_interviews')
                                                     )
@@ -178,7 +188,6 @@ class ReportController extends Controller
                                     {
                                         $query->where('name', 'QC');
                                     })
-                                    ->orderBy('first_name')
                                     ->count();
         //dd($data['total_interviewers']);
 
