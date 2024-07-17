@@ -127,4 +127,52 @@ class ReportController extends Controller
         return view('reports.interviewers', $data);
     }
 
+    /**
+     * Interviewers Report Per Project
+     */
+    public function qcs($project_id)
+    {
+        $data['project'] = $project = Project::find($project_id);
+
+        $data['all_interview_attempts'] = $all_interview_attempts = Interview::where('project_id', $project_id)->get();
+        $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->where('interview_status', 'Interview Completed')->get();
+        $data['qcd_interviews'] = Interview::where('project_id', $project_id)->where('quality_control', '!=', null)->count();
+
+        $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
+
+        if ($quota) {
+            $sample_size = $quota->sample_size;
+        } else {
+            $sample_size = 0;
+            session()->flash('danger', "Quota's have have not been set for this project");
+        }
+
+        $data['sample_size'] = $sample_size;
+
+        //  Calculate the progress
+        if ($quota && $sample_size > 0) {
+            $data['progress'] = (count($completed_interviews) / $sample_size) * 100;
+        } else {
+            $data['progress'] = 0;
+        }
+
+        $data['qcs'] = $project->users()->orderBy('first_name')
+                                    ->with(['interviews' => function ($query) use ($project_id)
+                                    {
+                                        $query->where('project_id', $project_id)
+                                              ->select('user_id', 
+                                                DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
+                                                DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'),
+                                                DB::raw('sum(case when interview_status = "Interview Completed" then 1 else 0 end) as completed_interviews')
+                                                    )
+                                               ->groupBy('user_id');
+                                    }])
+                                    ->paginate(20);
+
+        $data['total_qcs'] = $project->users()->orderBy('first_name')->count();
+        //dd($data['total_interviewers']);
+
+        return view('reports.qcs', $data);
+    }
+
 }

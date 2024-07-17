@@ -78,7 +78,7 @@
                     <a href="{{ route('interviewers_report', $project->id) }}" class="btn btn-outline-primary btn-sm">
                       Interviewers
                     </a>
-                    <a href="javascript:void" class="btn btn-outline-info btn-sm" title="Coming Soon">
+                    <a href="{{ route('qcs_report', $project->id) }}" class="btn btn-outline-info btn-sm">
                       QC's
                     </a>
                     <a href="javascript:void" class="btn btn-secondary btn-sm" title="Coming Soon">

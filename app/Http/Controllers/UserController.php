@@ -298,14 +298,14 @@ class UserController extends Controller
      */
     public function clients()
     {
-        $rolesToFilter = ['Client', '', null];
+        $rolesToFilter = ['Client'];
 
-        $data['users'] = User::where(function ($query) use ($rolesToFilter)
+        $data['clients'] = User::where(function ($query) use ($rolesToFilter)
         {
             $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
             {
                 $subQuery->whereIn('name', $rolesToFilter);
-            })->orWhereDoesntHave('roles');
+            });
         })->paginate(10);
 
         return view('users.clients', $data);

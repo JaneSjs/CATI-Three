@@ -14,7 +14,7 @@
           @include('partials/alerts')
         </div>
         <div class="col text-end">
-          <div class="btn-group btn-group-sm" role="group" aria-label="Management Actions">
+          <div class="btn-group btn-group-sm" role="group" aria-label="Add Client">
             <a href="{{ route('users.create') }}" class="btn btn-outline-success">
               Add Client
               <i class="fa-regular fa-face-smile"></i>
@@ -43,44 +43,44 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($users as $user)
+                @foreach($clients as $client)
                 <tr>
                   <th scope="row">
                     <i class="fas fa-eye"></i>
-                    <a href="{{ route('users.show', $user->id) }}">
-                      {{ $user->first_name . ' ' . $user->last_name  }}
+                    <a href="{{ route('clients.show', $client->id) }}">
+                      {{ $client->first_name . ' ' . $client->last_name  }}
                     </a>
                   </th>
                   <td>
-                    {{ $user->phone_1 }}
-                    @if($user->phone_2)
+                    {{ $client->phone_1 }}
+                    @if($client->phone_2)
                     <hr>
-                      {{ $user->phone_2 }}
+                      {{ $client->phone_2 }}
                     @endif
-                    @if($user->phone_3)
+                    @if($client->phone_3)
                     <hr>
-                      {{ $user->phone_3 }}
+                      {{ $client->phone_3 }}
                     @endif
                   </td>
                   <td>
-                    {{ $user->email }}
+                    {{ $client->email }}
                   </td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
+                      <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
                         <i class="fas fa-pen"></i>
                       </a>
                       @can('supervisor')
-                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $user->last_name }}">
+                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $client->last_name }}">
                         <i class="fas fa-user-tie"></i>
                       </button>
                       @endcan
 
                       @can('supervisor')
-                      <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                      <form action="{{ route('clients.destroy', $client->id) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $user->last_name }}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $client->last_name }}">
                           <i class="fas fa-trash-alt"></i>
                         </button>
                       </form>
@@ -91,14 +91,14 @@
                 @endforeach
               </tbody>
               <tfoot>
-                {{ $users->links() }}
+                {{ $clients->links() }}
               </tfoot>
             </table>
           </div>
         </div>
         @canany(['admin','ceo','head','supervisor'])
           <div class="col-3 bg-secondary">
-           {{ count($users) }} Clients
+           {{ count($clients) }} Clients
           </div>
         @endcan
       </div>

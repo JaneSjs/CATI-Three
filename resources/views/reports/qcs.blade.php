@@ -11,20 +11,11 @@ use Carbon\Carbon;
   <div class="card">
     <div class="card-header">
       <h3 class="card-title text-primary" style="text-decoration: underline;">
-        {{ $project->name }} Interviewers Performance Report
+        {{ $project->name }} Quality Control Report
       </h3>
       <div class="row">
         <div class="col">
-          <!-- @canany(['admin','ceo','manager'])
-          <form action="{{ url('search_users') }}" method="GET">
-            <div class="input-group">
-              <input type="search" name="query" class="form-control" placeholder="Search Interviewers..." aria-label="Search interviewer..." aria-describedby="search_interviewers" value="{{ request()->get('query') }}">
-              <button type="submit" class="btn btn-outline-info" id="search_interviewers">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          </form>
-          @endcan -->
+          
         </div>
         <div class="col">
           @include('partials.alerts')
@@ -36,12 +27,7 @@ use Carbon\Carbon;
     </div>
     <div class="card-body">
       <ul class="list-group list-group-horizontal">
-        <li class="list-group-item">
-          Interview Attempts: 
-          <span class="badge bg-info rounded-pill">
-            {{ count($all_interview_attempts) }}
-          </span>
-        </li>
+        
         <li class="list-group-item">
           QC Rate:          <span class="badge bg-primary rounded-pill">
             @if(count($completed_interviews) == 0)
@@ -57,25 +43,16 @@ use Carbon\Carbon;
             {{ count($completed_interviews) }}
           </span>
         </li>
-        <li class="list-group-item">
-          Progress: 
-          {{ $progress }}
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ $progress  }}%;">
-              {{ $progress }}%
-            </div>
-          </div>
-        </li>
       </ul>
       <div class="table-responsive">
         <table class="table table-striped-columns table-hover table-sm caption-top">
           <caption class="text-primary">
-           {{ $total_interviewers }} Interviewers
+           {{ $total_qcs }} QC's
           </caption>
           <thead class="table-warning">
             <tr>
               <th scope="col">Name</th>
-              <th>Completed Interviews</th>
+              <th>QC'd Interviews</th>
               <th>Approved Interviews</th>
               <th>Cancelled Interviews</th>
               <th>Performance</th>
@@ -85,28 +62,28 @@ use Carbon\Carbon;
             </tr>
           </thead>
           <tbody>
-            @foreach($interviewers as $interviewer)
+            @foreach($qcs as $qc)
             <tr>
               <th scope="row">
-                {{ $interviewer->first_name . ' ' . $interviewer->last_name }}
+                {{ $qc->first_name . ' ' . $qc->last_name }}
               </th>
               <td class="table-info">
                 @php
-                  $total_interviews = $interviewer->interviews->sum('completed_interviews')
+                  $total_interviews = $qc->interviews->sum('completed_interviews')
                 @endphp
 
                 {{ $total_interviews ?? 0 }}
               </td>
               <td class="table-success">
                 @php
-                  $total_approved_interviews = $interviewer->interviews->sum('total_approved_interviews')
+                  $total_approved_interviews = $qc->interviews->sum('total_approved_interviews')
                 @endphp
 
                 {{ $total_approved_interviews ?? 0 }}
               </td>
               <td class="table-danger">
                 @php
-                  $total_cancelled_interviews = $interviewer->interviews->sum('total_cancelled_interviews')
+                  $total_cancelled_interviews = $qc->interviews->sum('total_cancelled_interviews')
                 @endphp
 
                 {{ $total_cancelled_interviews ?? 0 }}
@@ -145,7 +122,7 @@ use Carbon\Carbon;
             </tr>
           </tbody>
           <tfoot>
-            {{ $interviewers->links() }}
+            {{ $qcs->links() }}
           </tfoot>
         </table>
       </div>

@@ -88,9 +88,15 @@
     @endcan
 
     @canany(['admin','ceo','head','manager'])
+    <li class="nav-item" title="Jobs Kona is Coming Soon">
+      <a class="nav-link" href="javascript:void">
+        <i class="fa-solid fa-laptop-file nav-icon" style="color: #e5a50a;"></i>
+        Jobs Kona
+      </a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" href="{{ url('clients') }}">
-        <i class="fa-solid fa-face-smile fa-shake nav-icon" style="color: #e5a50a;"></i>
+        <i class="fa-solid fa-face-smile nav-icon" style="color: #e5a50a;"></i>
         Clients
       </a>
     </li>
