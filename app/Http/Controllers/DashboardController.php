@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Role;
 use App\Models\Schema;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
@@ -154,30 +155,30 @@ class DashboardController extends Controller
      */
     public function interviews_dashboard($project_id)
     {
+        $today = Carbon::today('Africa/Nairobi');
+        $user = User::find(auth()->user()->id);
+
         $data['project'] = Project::find($project_id);
 
-        $data['user_interviews'] = User::find(auth()->user()->id)
-                                    ->interviews()
+        $data['user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', '!=', 'Cancelled')
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
 
-        $data['todays_user_interviews'] = User::find(auth()->user()->id)
-                                    ->interviews()
+        $data['todays_user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
+                                    ->whereDate('created_at', $today)
                                     ->where('interview_status', 'Interview Completed')
-                                    ->where(function ($query)
-                                    {
-                                        $query->where('quality_control', 'Approved')
-                                        ->orWhereNull('quality_control');
-                                    })
+                                    ->where('quality_control', '!=', 'Cancelled')
                                     ->orderBy('id', 'DESC')
                                     ->get();
 
-        $data['total_user_interviews'] = User::find(auth()->user()->id)
-                                    ->interviews()
+        //dd($data['todays_user_interviews']);
+        //dd(today());
+
+        $data['total_user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
                                     ->where('interview_status', 'Interview Completed')
                                     ->where(function ($query)
