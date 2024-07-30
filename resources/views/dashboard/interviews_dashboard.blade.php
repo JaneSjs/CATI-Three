@@ -10,7 +10,7 @@
     <h4 class="card-title mb-0">
       My 
       <span class="text-info">{{ $project->name }}</span>
-      Interview Report.
+      Interview Performance Report.
     </h4>
   </div>
   <div class="card-body">
@@ -103,14 +103,14 @@
                   </p>
                 </dd>
                 <dt>
-                  <a href="#" 
+                  <!--<a href="#" 
                           class="btn btn-dark btn-xs" 
                           target="_blank"
                           title="Go To Interview (Currently Not Working)"
                           onclick="return false;"
                         >
                     Preview
-                  </a>
+                  </a>-->
                 </dt>
               </dl>
             </td>

@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\Schema;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
@@ -151,11 +152,11 @@ class DashboardController extends Controller
     }
 
     /**
-     * Project Dashboard (Interviewer)
+     * Project Dashboard (Interviewer's Performance)
      */
     public function interviews_dashboard($project_id)
     {
-        $today = Carbon::today('Africa/Nairobi');
+        $today = Carbon::today()->format('Y-m-d');
         $user = User::find(auth()->user()->id);
 
         $data['project'] = Project::find($project_id);
@@ -163,7 +164,11 @@ class DashboardController extends Controller
         $data['user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
                                     ->where('interview_status', 'Interview Completed')
-                                    ->where('quality_control', '!=', 'Cancelled')
+                                    ->where(function (Builder $query)
+                                    {
+                                        $query->WhereNull('quality_control')
+                                              ->orWhere('quality_control', 'Approved');
+                                    })
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
 
@@ -171,20 +176,24 @@ class DashboardController extends Controller
                                     ->where('project_id', $project_id)
                                     ->whereDate('created_at', $today)
                                     ->where('interview_status', 'Interview Completed')
-                                    ->where('quality_control', '!=', 'Cancelled')
+                                    ->where(function (Builder $query)
+                                    {
+                                        $query->WhereNull('quality_control')
+                                              ->orWhere('quality_control', 'Approved');
+                                    })
                                     ->orderBy('id', 'DESC')
                                     ->get();
 
-        //dd($data['todays_user_interviews']);
-        //dd(today());
+        //dd(count($data['user_interviews']));
+        //dd($today);
 
         $data['total_user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
                                     ->where('interview_status', 'Interview Completed')
-                                    ->where(function ($query)
+                                    ->where(function (Builder $query)
                                     {
-                                        $query->where('quality_control', 'Approved')
-                                        ->orWhereNull('quality_control');
+                                        $query->WhereNull('quality_control')
+                                              ->orWhere('quality_control', 'Approved');
                                     })
                                     ->orderBy('id', 'DESC')
                                     ->get();

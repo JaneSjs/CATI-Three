@@ -6,7 +6,7 @@ use Carbon\Carbon;
   <div class="card-header">
     <div class="row">
       <div class="col">
-        <form action="{{ url('search_interviews') }}" method="post">
+        <!-- <form action="{{ url('search_interviews') }}" method="post">
           @csrf
           <input type="hidden" name="survey_id" value="{{ $survey->id }}">
           <div class="input-group">
@@ -15,7 +15,7 @@ use Carbon\Carbon;
               <i class="fa fa-search"></i>
             </button>
           </div>
-        </form>
+        </form> -->
       </div>
       <div class="col">
         <h5 class="text-primary">

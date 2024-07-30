@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
 	JsSIP.debug.enable('JsSIP:*');
 
-	var socket = new JsSIP.WebSocketInterface('ws://192.168.5.57:5066');
+	var socket = new JsSIP.WebSocketInterface('wss://pabx.tifaresearch.com:7443/ws');
 	var configuration = {
 		sockets : [socket],
-		uri : 'sip:1000@192.168.5.57',
+		uri : 'sip:1000@pabx.tifaresearch.com',
 		password: 'Tifa2023'
 	};
 
