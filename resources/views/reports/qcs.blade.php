@@ -62,31 +62,19 @@ use Carbon\Carbon;
             </tr>
           </thead>
           <tbody>
-            @foreach($qcs as $qc)
-            <tr>
+            @foreach($qcPerformance as $performance )
+            <tr> 
               <th scope="row">
-                {{ $qc->first_name . ' ' . $qc->last_name }}
+                {{ $performance->qc_name }}
               </th>
               <td class="table-info">
-                @php
-                  $total_interviews = $qc->interviews->sum('completed_interviews')
-                @endphp
-
-                {{ $total_interviews ?? 0 }}
+                {{ $performance->total_qcd ?? 0 }}
               </td>
               <td class="table-success">
-                @php
-                  $total_approved_interviews = $qc->interviews->sum('total_approved_interviews')
-                @endphp
-
-                {{ $total_approved_interviews ?? 0 }}
+                {{ $performance->total_approved ?? 0 }}
               </td>
               <td class="table-danger">
-                @php
-                  $total_cancelled_interviews = $qc->interviews->sum('total_cancelled_interviews')
-                @endphp
-
-                {{ $total_cancelled_interviews ?? 0 }}
+                {{ $performance->total_cancelled ?? 0 }}
               </td>
               <td></td>
               <td></td>
@@ -122,7 +110,7 @@ use Carbon\Carbon;
             </tr>
           </tbody>
           <tfoot>
-            {{ $qcs->links() }}
+            {{ $qcPerformance->links() }}
           </tfoot>
         </table>
       </div>

@@ -165,27 +165,26 @@ class ReportController extends Controller
             $data['progress'] = 0;
         }
 
-        $data['qcs'] = $project->users()
+        $data['qcs'] = $qcs = $project->users()
                                 ->whereHas('roles', function ($query)
                                 {
                                     $query->where('name', 'QC');
                                 })
                                 ->orderBy('first_name')
-                                ->withCount([
-        'interviews as total_qcd' => function ($query) use ($project_id) {
-            $query->where('project_id', $project_id)
-                  ->whereNotNull('quality_control');
-        },
-        'interviews as total_cancelled_interviews' => function ($query) use ($project_id) {
-            $query->where('project_id', $project_id)
-                  ->where('quality_control', 'Cancelled');
-        },
-        'interviews as total_approved_interviews' => function ($query) use ($project_id) {
-            $query->where('project_id', $project_id)
-                  ->where('quality_control', 'Approved');
-        },
-    ])
-                                ->paginate(20);
+                                ->get();
+
+        $data['qcPerformance'] = DB::table('interviews')
+        ->select(
+            'qc_id',
+            'qc_name',
+            DB::raw('COUNT(*) as total_qcd'),
+            DB::raw('SUM(CASE WHEN quality_control = "Approved" THEN 1 ELSE 0 END) as total_approved'),
+            DB::raw('SUM(CASE WHEN quality_control = "Cancelled" THEN 1 ELSE 0 END) as total_cancelled')
+        )
+        ->where('project_id', $project_id)
+        ->whereNotNull('qc_id')
+        ->groupBy('qc_id', 'qc_name')
+        ->paginate(10);
 
         $data['total_qcs'] = $project->users()
                                     ->whereHas('roles', function ($query)
