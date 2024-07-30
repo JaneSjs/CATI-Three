@@ -93,7 +93,7 @@ class ReportController extends Controller
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
 
         if ($quota) {
-            $sample_size = $quota->sample_size;
+            $sample_size = $quota->male_target + $quota->female_target;
         } else {
             $sample_size = 0;
             session()->flash('danger', "Quota's have have not been set for this project");
@@ -150,7 +150,7 @@ class ReportController extends Controller
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
 
         if ($quota) {
-            $sample_size = $quota->sample_size;
+            $sample_size = $quota->male_target + $quota->female_target;
         } else {
             $sample_size = 0;
             session()->flash('danger', "Quota's have have not been set for this project");
@@ -171,16 +171,20 @@ class ReportController extends Controller
                                     $query->where('name', 'QC');
                                 })
                                 ->orderBy('first_name')
-                                ->with(['interviews' => function ($query) use ($project_id)
-                                    {
-                                        $query->where('project_id', $project_id)
-                                              ->select('user_id', 
-                                                DB::raw('sum(case when quality_control is not null then 1 else 0 end) as total_qcd'),
-                                                DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'),
-                                                DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_cancelled_interviews')
-                                                    )
-                                               ->groupBy('user_id');
-                                    }])
+                                ->withCount([
+        'interviews as total_qcd' => function ($query) use ($project_id) {
+            $query->where('project_id', $project_id)
+                  ->whereNotNull('quality_control');
+        },
+        'interviews as total_cancelled_interviews' => function ($query) use ($project_id) {
+            $query->where('project_id', $project_id)
+                  ->where('quality_control', 'Cancelled');
+        },
+        'interviews as total_approved_interviews' => function ($query) use ($project_id) {
+            $query->where('project_id', $project_id)
+                  ->where('quality_control', 'Approved');
+        },
+    ])
                                 ->paginate(20);
 
         $data['total_qcs'] = $project->users()

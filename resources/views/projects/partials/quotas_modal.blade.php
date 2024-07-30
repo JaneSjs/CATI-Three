@@ -18,14 +18,14 @@
           <input type="hidden" name="schema_id"  value="{{ $survey->id }}">
 
           <div class="row">
-            <div class="col">
+            <!-- <div class="col">
               <div class="mb-3">
                 <label for="sample_size" class="form-label">
                   Sample Size
                 </label>
                 <input id="sample_size" type="number" name="sample_size" class="form-control" placeholder="Sample Size">
               </div>
-            </div>
+            </div> -->
             <div class="col">
               <div class="mb-3">
                 <label for="male" class="form-label">
