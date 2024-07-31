@@ -119,12 +119,20 @@
               @include('projects.partials.assign_specific_members')
             @endcan
 
-            @canany(['admin','ceo','head','manager','scripter'])
+            @if(count($surveys) == 7)
               <!-- Trigger Survey Modal -->
-              <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
-                Create Survey
-              </button>
-            @endcan
+                <button type="button" class="btn btn-warning btn-sm" onclick="alert('Browser Limit Exceeded.(Heavy JSON may Slow Down Your Browser)')">
+                  Create Survey
+                </button>
+            @else
+              @canany(['admin','ceo','head','manager','scripter'])
+                <!-- Trigger Survey Modal -->
+                <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
+                  Create Survey
+                </button>
+              @endcan
+            @endif
+           
           </div>
           <!-- Create Survey Modal -->
           @include('projects.partials.create_survey')
