@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 <script type="text/javascript" src="{{ asset('assets/web_rtc/jssip-3.4.2.min.js') }}"></script>
 
-<!--<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>-->
+<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>
 
 <!-- Page Expiry Script -->
 <script type="text/javascript" src="{{ asset('assets/custom/page-expiry.js') }}" defer></script>

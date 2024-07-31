@@ -29,7 +29,8 @@ use Carbon\Carbon;
       <ul class="list-group list-group-horizontal">
         
         <li class="list-group-item">
-          QC Rate:          <span class="badge bg-primary rounded-pill">
+          QC Rate:
+          <span class="badge bg-primary rounded-pill">
             @if(count($completed_interviews) == 0)
               0 %
             @else
@@ -38,7 +39,13 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
-          Completed Interviews: 
+          All Complete Interviews: 
+          <span class="badge bg-info rounded-pill">
+            {{ count($completed_interviews) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          QC'd Interviews: 
           <span class="badge bg-success rounded-pill">
             {{ count($completed_interviews) }}
           </span>
