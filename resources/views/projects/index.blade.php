@@ -52,9 +52,10 @@ use Carbon\Carbon;
                   DPIA Control Panel
                 </th>
               @endcan
+
               @canany(['admin','ceo','head','manager','dpo'])
               <th scope="col" title="Data Protection Impact Assessment">
-                DPIA Status
+                Project Manager
               </th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
@@ -73,28 +74,26 @@ use Carbon\Carbon;
                   {{ $project->name }}
                 </a>
               </td>
-              @canany(['dpo'])
+              
               <td>
                 <a href="{{ route('dpias.show', $project->id) }}">
-                  DPIA Documents
+                  DPIA Documents ({{ $project->dpia->dpia_approval ?? 'Not Approved' }})
                 </a>
               </td>
-              @endcan
+              
               
               @canany(['admin','ceo','head','manager','dpo'])
-              <td>
-                {{ $project->dpia->dpia_approval ?? 'Not Approved' }}
-              </td>
               <?php
-                  $start_date = Carbon::parse($project->start_date);
-                  $end_date = Carbon::parse($project->end_date);
-                ?>
+                $start_date = Carbon::parse($project->start_date);
+                $end_date = Carbon::parse($project->end_date);
+              ?>
               <td>
-                
-                
+                {{ $start_date->format('d/m/Y') }}
               </td>
               <td>
-                {{ $end_date->diffForHumans() }}
+                {{ $end_date->format('d/m/Y') }}
+              </td>
+              <td>
               </td>
               <td>
                 <div class="btn-group btn-xs" role="group" aria-label="Project Actions">

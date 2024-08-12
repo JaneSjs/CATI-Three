@@ -119,7 +119,7 @@
         <!-- Roles Input -->
         <div class="col mb-4">
           @foreach($roles as $role)
-            <div class="form-check form-check-inline">
+            <!-- <div class="form-check form-check-inline">
               <input type="checkbox" name="roles[]" class="form-check-input @error('roles') is-invalid @enderror" id="{{ $role->name }}" value="{{ $role->id }}">
               <label class="form-check-label" for="{{ $role->name }}">
                 {{ $role->name }}
@@ -130,8 +130,21 @@
                   {{ $message }}
                 </div>
               @enderror
-            </div>
+            </div> -->
           @endforeach
+
+          <div class="form-check form-check-inline">
+            <input type="checkbox" name="roles[]" class="form-check-input @error('roles') is-invalid @enderror" id="client" value="9">
+            <label class="form-check-label" for="client">
+              Client
+            </label>
+
+            @error('roles')
+              <div class="invalid-feedback bg-light rounded text-center" role="alert">
+                {{ $message }}
+              </div>
+            @enderror
+            </div>
         </div>
         <!-- End Roles Input -->      
         </div>

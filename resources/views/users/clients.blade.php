@@ -8,7 +8,9 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          Clients
+          <h4 class="text-primary">
+            Clients
+          </h4>
         </div>
         <div class="col">
           @include('partials/alerts')
@@ -29,15 +31,17 @@
         <div class="col-9">
           <div class="table-responsive">
             <table class="table caption-top table-striped table-bordered">
-              @canany(['admin','ceo','head'])
-              <caption>
-               Call Center Clients
-              </caption>
+              @canany(['admin','ceo','head','manager'])
+                <caption>
+                  Clients List
+                </caption>
               @endcan
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
+                  @canany(['admin'])
                   <th scope="col">Phone No</th>
+                  @endcan
                   <th scope="col">Email</th>
                   <th>Actions</th>
                 </tr>
@@ -47,45 +51,43 @@
                 <tr>
                   <th scope="row">
                     <i class="fas fa-eye"></i>
-                    <a href="{{ route('clients.show', $client->id) }}">
+                    <a href="{{ route('users.show', $client->id) }}">
                       {{ $client->first_name . ' ' . $client->last_name  }}
                     </a>
                   </th>
-                  <td>
-                    {{ $client->phone_1 }}
-                    @if($client->phone_2)
-                    <hr>
-                      {{ $client->phone_2 }}
-                    @endif
-                    @if($client->phone_3)
-                    <hr>
-                      {{ $client->phone_3 }}
-                    @endif
-                  </td>
+                  @canany(['admin'])
+                    <td>
+                      {{ $client->phone_1 }}
+                      @if($client->phone_2)
+                      <hr>
+                        {{ $client->phone_2 }}
+                      @endif
+                      @if($client->phone_3)
+                      <hr>
+                        {{ $client->phone_3 }}
+                      @endif
+                    </td>
+                  @endcan
                   <td>
                     {{ $client->email }}
                   </td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
+                      @canany(['admin','ceo','head','manager'])
+                      <a href="{{ route('users.edit', $client->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
                         <i class="fas fa-pen"></i>
                       </a>
-                      @can('supervisor')
-                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $client->last_name }}">
-                        <i class="fas fa-user-tie"></i>
-                      </button>
                       @endcan
-
-                      @can('supervisor')
-                      <form action="{{ route('clients.destroy', $client->id) }}" method="post">
+                      @canany(['admin'])
+                      <form action="{{ route('users.destroy', $client->id) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $client->last_name }}">
                           <i class="fas fa-trash-alt"></i>
                         </button>
                       </form>
-                      @endcan
                     </div>
+                    @endcan
                   </td>
                 </tr>
                 @endforeach

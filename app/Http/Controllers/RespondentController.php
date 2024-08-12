@@ -90,6 +90,9 @@ class RespondentController extends Controller
      */
     public function project_survey_respondents($projectId, $surveyId)
     {
+        $data['projects'] = Project::orderBy('id', 'desc')->get();
+        $data['surveys'] = Schema::orderBy('id', 'desc')->get();
+
         //dd($projectId . '-' . $surveyId);
         if($projectId !== null)
         {
@@ -604,5 +607,38 @@ class RespondentController extends Controller
         $survey_name = $survey ? $survey->survey_name : '';
 
         return (new RespondentsExport($project_id, $survey_id))->download('TIFA-' . $project_name . '-' . $survey_name . '-respondents.xlsx');
+    }
+
+    /**
+     * Transfer Respondents
+     */
+    public function tranferRespondents(Request $request)
+    {
+        $previous_survey_id = $request->input('previous_survey_id');
+
+        $current_project_id = $request->input('current_project_id');
+        $current_survey_id = $request->input('current_survey_id');
+
+        //dd($previous_survey_id . '-'. $current_project_id . '-' . '-' . $current_survey_id);
+
+        $transferRespondents = Respondent::where('schema_id', $previous_survey_id)
+        ->update([
+            'project_id' => $current_project_id,
+            'schema_id' => $current_survey_id,
+            'interview_status' => 'Transferred',
+            'interview_date_time' => null
+        ]);
+
+        Respondent::where('schema_id', $current_survey_id)->searchable();
+        //dd($transferRespondents);
+
+        if ($transferRespondents > 0)
+        {
+            return back()->with('success', $transferRespondents . ' Respondents Transferred');
+        }
+        else
+        {
+            return back()->with('info', 'No Respondents Found For Transfer');
+        }
     }
 }

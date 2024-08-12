@@ -60,15 +60,19 @@ use Carbon\Carbon;
             @endif
           @endcan
           @canany(['admin','dpo'])
-            <button type="button" class="btn btn-outline-warning btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
+            <button type="button" class="btn btn-warning btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
               Bulk Soft Delete
             </button>
             <button type="button" class="btn btn-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
               Unlock
             </button>
-
-            @include('respondents/partials/modals')
           @endcan
+          @canany(['admin','head','manager'])
+            <button type="button" class="btn btn-primary btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#transferRespondents">
+              Transfer 
+            </button>
+          @endcan
+          @include('respondents/partials/modals')
           </div>
         </div>
       </div>

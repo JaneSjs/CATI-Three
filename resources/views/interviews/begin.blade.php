@@ -25,11 +25,11 @@ use Carbon\Carbon;
       <div class="row">
         <div class="col">
           @if($project)
-            <h3 class="text-primary">
+            <h3 id="project_name" class="text-primary">
               {{ $project->name }}
             </h3>
             <hr>
-            <h5 class="text-warning">
+            <h5 id="survey_name" class="text-warning">
               {{ $survey->survey_name }}
             </h5>
           @else

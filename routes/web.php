@@ -123,6 +123,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::patch('restore_respondents', [RespondentController::class, 'restoreRespondents'])->name('restore_respondents');
 
 	Route::patch('unlock_respondents', [RespondentController::class, 'unlockRespondents'])->name('unlock_respondents');
+	Route::patch('transfer_respondents', [RespondentController::class, 'tranferRespondents'])->name('transfer_respondents');
 
 	
 	Route::get('operations/survey/{id}', [QuotaController::class, 'show'])->name('operations');

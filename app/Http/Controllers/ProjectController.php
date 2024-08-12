@@ -54,7 +54,7 @@ class ProjectController extends Controller
             $user = User::find(auth()->user()->id);
 
             $data['projects'] = $user->projects()->orderBy('id', 'DESC')->paginate(10);
-        }       
+        }   
 
         return view('projects.index', $data);
     }

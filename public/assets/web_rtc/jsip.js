@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 	const username = document.getElementById('username').innerHTML;
 	const resNumber = document.getElementById('respondent_number').innerHTML;
 	const ext_number = document.getElementById('extension_number').innerHTML;
+	const project_name = document.getElementById('project_name').innerHTML;
+	const survey_name = document.getElementById('survey_name').innerHTML;
 	
 	respondent_number = 'sip:0788491402@pabx.tifaresearch.com';
 	//respondent_number = 'sip:0788491402@10.65.83.138';
@@ -55,6 +57,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 		"X-Taskid: 13",
 		"X-Interviewer: " + username,
 		"X-Respondent: " + resNumber,
+		"X-Project:" + project_name,
+		"X-Survey: " + survey_name,
 		], /* 13 is value from the database */
 		'pcConfig': {
             'iceServers': [
