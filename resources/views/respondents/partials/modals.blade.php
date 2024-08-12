@@ -161,7 +161,7 @@
         <form action="{{ route('transfer_respondents') }}" method="post">
           @csrf
           @method('PATCH')
-          <input type="text" name="previous_survey_id" value="{{ $survey->id }}">
+          <input type="hidden" name="previous_survey_id" value="{{ $survey->id }}">
           <div class="row">
             <div class="col mb-3">
               <label for="currentProjectId" class="form-label">
