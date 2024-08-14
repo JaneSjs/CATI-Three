@@ -615,6 +615,10 @@ class RespondentController extends Controller
     public function tranferRespondents(Request $request)
     {
         $previous_survey_id = $request->input('previous_survey_id');
+        $previous_survey = Schema::find($previous_survey_id);
+
+        $previous_project_id = $request->input('previous_project_id');
+        $previous_project = Schema::find($previous_project_id);
 
         $current_project_id = $request->input('current_project_id');
         $current_survey_id = $request->input('current_survey_id');
@@ -625,7 +629,7 @@ class RespondentController extends Controller
         ->update([
             'project_id' => $current_project_id,
             'schema_id' => $current_survey_id,
-            'interview_status' => 'Transferred',
+            'interview_status' => 'Transferred From ' . $previous_project->name . ' (' . $previous_survey->survey_name . ')',
             'interview_date_time' => null
         ]);
 

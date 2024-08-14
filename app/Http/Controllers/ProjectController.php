@@ -23,11 +23,12 @@ class ProjectController extends Controller
     {
         if (Gate::allows('admin') || auth()->user()->id == 1)
         {
-            $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
+            $data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
             //dd('Admin');
-        } elseif (Gate::allows('ceo'))
+        }
+        elseif (Gate::allows('ceo'))
         {
-            $data['projects'] = Project::orderBy('id', 'DESC')->paginate(10);
+            $data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
             //dd('CEO');
         }
         elseif (Gate::allows('head'))
@@ -36,6 +37,11 @@ class ProjectController extends Controller
             //dd('Head');
         }
         elseif (Gate::allows('dpo'))
+        {
+            $data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
+            //dd('DPO');
+        }
+        elseif (Gate::allows('finance'))
         {
             $data['projects'] = Project::with('users')->orderBy('id', 'DESC')->paginate(10);
             //dd('DPO');
@@ -53,7 +59,10 @@ class ProjectController extends Controller
             //dd('Here');
             $user = User::find(auth()->user()->id);
 
-            $data['projects'] = $user->projects()->orderBy('id', 'DESC')->paginate(10);
+            $data['projects'] = $user->projects()
+                ->where('end_date', '>', now())
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
         }   
 
         return view('projects.index', $data);

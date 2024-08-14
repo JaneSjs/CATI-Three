@@ -16,6 +16,10 @@ use Carbon\Carbon;
           <h6>
             {{ $survey->survey_name }} Respondents
           </h6>
+          <br>
+          <a href="{{ route('projects.show', $project->id) }}">
+            Go To {{ $project->name }}
+          </a>
         </div>
         <div class="col-4">
           <form action="{{ url('search_respondents') }}" method="GET">
@@ -34,45 +38,43 @@ use Carbon\Carbon;
           @include('partials/alerts')
 
           <div class="btn-group">
-          @canany(['admin','ceo','head','manager','coordinator','dpo'])
             @if($survey->database == 'Processor')
-              
-              <form action="{{ route('respondents.export') }}" method="post">
-                @csrf
-                <input type="hidden" name="project_id" value="{{ $project->id }}">
-                <input type="hidden" name="survey_id" value="{{ $survey->id }}">
-                <button type="submit" class="btn btn-outline-info btn-sm mt-1" title="Export respondents">
-                  <i class="fas fa-download"></i>
-                  Export
-                </button>
-              </form>
+              @canany(['admin','ceo','dpo'])
+                <form action="{{ route('respondents.export') }}" method="post">
+                  @csrf
+                  <input type="hidden" name="project_id" value="{{ $project->id }}">
+                  <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+                  <button type="submit" class="btn btn-outline-info btn-sm mt-1" title="Export respondents">
+                    <i class="fas fa-download"></i>
+                    Export
+                  </button>
+                </form>
+              @endcan
               <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm mt-1" title="Import respondents">
                 Import 
                 <i class="fas fa-upload"></i>
               </a>
             @elseif($survey->database == 'Controller')
-              
-
               <button type="button" class="btn btn-success btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#rdms">
-              RDMS
-              <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
-            </button>
+                RDMS
+                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+              </button>
             @endif
-          @endcan
-          @canany(['admin','dpo'])
-            <button type="button" class="btn btn-warning btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
-              Bulk Soft Delete
-            </button>
-            <button type="button" class="btn btn-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
-              Unlock
-            </button>
-          @endcan
-          @canany(['admin','head','manager'])
-            <button type="button" class="btn btn-primary btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#transferRespondents">
-              Transfer 
-            </button>
-          @endcan
-          @include('respondents/partials/modals')
+
+            @canany(['admin','dpo'])
+              <button type="button" class="btn btn-warning btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
+                Bulk Soft Delete
+              </button>
+              <button type="button" class="btn btn-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
+                Unlock
+              </button>
+            @endcan
+            @canany(['admin','head','manager'])
+              <button type="button" class="btn btn-primary btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#transferRespondents">
+                Transfer 
+              </button>
+            @endcan
+            @include('respondents/partials/modals')
           </div>
         </div>
       </div>

@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('pabxes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('respondent_id');
+            $table->bigInteger('user_id')->comment('Caller/Interviewer');
+            $table->bigInteger('project_id')->nullable();
+            $table->bigInteger('schema_id')->nullable();
+            $table->bigInteger('respondent_id')->nullable();
+            $table->string('phone_called');
+            $table->string('file_path');
 
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

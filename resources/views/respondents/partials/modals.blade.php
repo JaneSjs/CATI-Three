@@ -118,7 +118,7 @@
   <div class="modal-dialog bg-primary">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">
+        <h5 class="modal-title text-primary" id="staticBackdropLabel">
           Unlock Respondents
         </h5>
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
@@ -127,16 +127,25 @@
         <h6>
           Are you sure ?
         </h6>
-        <form action="{{ route('unlock_respondents') }}" method="post">
-          @csrf
-          @method('PATCH')
-          <input type="hidden" name="surveyId" value="{{ $survey->id }}">
-          <button type="submit" class="btn btn-sm btn-primary">
-            Unlock
-          </button>
-        </form>
       </div>
       <div class="modal-footer">
+        <div class="row">
+          <div class="col">
+            <form action="{{ route('unlock_respondents') }}" method="post">
+              @csrf
+              @method('PATCH')
+              <input type="hidden" name="surveyId" value="{{ $survey->id }}">
+              <button type="submit" class="btn btn-success btn-sm">
+                Yes
+              </button>
+            </form>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-primary btn-sm" data-coreui-dismiss="modal" aria-label="No">
+              No
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -155,12 +164,15 @@
       </div>
       <div class="modal-body text-start">
         <p>
-          Transfer Respondents To A Different Project or Survey.
+          Transfer Respondents From 
+          <strong class="text-primary">{{ $survey->survey_name }}</strong>
+          To:
         </p>
         <hr>
         <form action="{{ route('transfer_respondents') }}" method="post">
           @csrf
           @method('PATCH')
+          <input type="hidden" name="previous_project_id" value="{{ $project->id }}">
           <input type="hidden" name="previous_survey_id" value="{{ $survey->id }}">
           <div class="row">
             <div class="col mb-3">

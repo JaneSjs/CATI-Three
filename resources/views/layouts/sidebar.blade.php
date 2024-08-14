@@ -162,30 +162,30 @@
     @endcan
 
     @canany(['admin','ceo'])
-    <li class="nav-group">
+    <li class="nav-group" title="Coming Soon">
       <a class="nav-title nav-link nav-group-toggle" href="#">
-        Reports
+        Performance Reports
       </a>
       <ul class="nav-group-items">
-        <li class="nav-item" title="Project Managers Report">
+        <li class="nav-item" title="Project Managers Report Coming Soon">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rectangle nav-icon" style="color: #fff;"></i>
             Project Managers
           </a>
         </li>
-        <li class="nav-item" title="Supervisors Report">
+        <li class="nav-item" title="Supervisors Report Coming Soon">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-viewfinder nav-icon" style="color: #fff;"></i>
             Supervisors
           </a>
         </li>
-        <li class="nav-item" title="QC's Report">
+        <li class="nav-item" title="QC's Report Coming Soon">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-between-lines nav-icon" style="color: #fff;"></i>
             QC's
           </a>
         </li>
-        <li class="nav-item" title="Interviewers Report">
+        <li class="nav-item" title="Interviewers Report Coming Soon">
           <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rays nav-icon" style="color: #fff;"></i>
             Interviewers

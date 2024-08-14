@@ -38,15 +38,24 @@ use Carbon\Carbon;
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-striped-columns table-hover table-sm caption-top">
+          @canany(['interviewer'])
           <caption class="text-danger">
            Active Projects
           </caption>
+          @endcan
           <thead class="table-warning">
             <tr>
               <th scope="col">Id</th>
               <th scope="col">
                 Project
               </th>
+
+              @canany(['admin','ceo','head','finance','dpo'])
+                <th scope="col">
+                 Manager
+                </th>
+              @endcan
+
               @canany(['admin','dpo'])
                 <th scope="col" title="Data Protection Impact Assessment">
                   DPIA Control Panel
@@ -54,9 +63,6 @@ use Carbon\Carbon;
               @endcan
 
               @canany(['admin','ceo','head','manager','dpo'])
-              <th scope="col" title="Data Protection Impact Assessment">
-                Project Manager
-              </th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
               <th scope="col">Actions</th>
@@ -74,12 +80,19 @@ use Carbon\Carbon;
                   {{ $project->name }}
                 </a>
               </td>
-              
+              @canany(['admin','ceo','head','finance','dpo'])
+                <td>
+                  <!-- Display Project Manger's Name -->
+                </td>
+              @endcan
+
+              @canany(['admin','dpo'])
               <td>
                 <a href="{{ route('dpias.show', $project->id) }}">
                   DPIA Documents ({{ $project->dpia->dpia_approval ?? 'Not Approved' }})
                 </a>
               </td>
+              @endcan
               
               
               @canany(['admin','ceo','head','manager','dpo'])
@@ -92,8 +105,6 @@ use Carbon\Carbon;
               </td>
               <td>
                 {{ $end_date->format('d/m/Y') }}
-              </td>
-              <td>
               </td>
               <td>
                 <div class="btn-group btn-xs" role="group" aria-label="Project Actions">
