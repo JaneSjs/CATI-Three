@@ -39,11 +39,12 @@ use Carbon\Carbon;
             <button type="button" class="btn btn-outline-danger btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkPermanentDeleteRespondents">
               Permanent Bulk Delete
             </button>
+            @include('respondents/partials/bulk_delete_modal')
             <button type="button" class="btn btn-outline-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#restoreDeletedRespondents">
               Restore Them
             </button>
 
-            @include('respondents/partials/modals')
+            @include('respondents/partials/restore_soft_deleted_modal')
           @endcan
           </div>
         </div>

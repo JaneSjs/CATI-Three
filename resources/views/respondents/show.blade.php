@@ -7,7 +7,6 @@ use Carbon\Carbon;
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
@@ -65,16 +64,18 @@ use Carbon\Carbon;
               <button type="button" class="btn btn-warning btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#bulkSoftDeleteRespondents">
                 Bulk Soft Delete
               </button>
+              @include('respondents/partials/bulk_soft_delete_modal')
               <button type="button" class="btn btn-info btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#unlockRespondents">
                 Unlock
               </button>
+              @include('respondents/partials/unlock_modal')
             @endcan
             @canany(['admin','head','manager'])
               <button type="button" class="btn btn-primary btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#transferRespondents">
                 Transfer 
               </button>
+              @include('respondents/partials/transfer_modal')
             @endcan
-            @include('respondents/partials/modals')
           </div>
         </div>
       </div>
