@@ -108,12 +108,9 @@ Route::middleware(['auth','verified'])->group(function ()
 
 	Route::patch('update_respondent', [RespondentController::class, 'updateRespondent'])->name('update_respondent');
 
-	Route::middleware(['expire.page'])->group(function ()
-	{
-		
-		Route::post('find_respondent', [InterviewController::class, 'find_respondent']);
-		Route::post('search_respondent', [InterviewController::class, 'search_respondent']);
-	});
+
+	Route::get('find_respondent', [InterviewController::class, 'find_respondent']);
+	Route::get('search_respondent', [InterviewController::class, 'search_respondent']);
 
 	Route::get('project_survey_respondents/{project_id}/{survey_id}', [RespondentController::class, 'project_survey_respondents'])->name('project_survey_respondents');
 	Route::get('soft_deleted_respondents/{project_id}/{survey_id}', [RespondentController::class, 'softDeletedRespondents'])->name('soft_deleted_respondents');

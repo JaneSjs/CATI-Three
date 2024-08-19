@@ -7,9 +7,9 @@ use Carbon\Carbon;
     
 @section('content')
 
-<script type="text/javascript" src="{{ asset('assets/web_rtc/jssip-3.4.2.min.js') }}"></script>
+<!-- <script type="text/javascript" src="{{ asset('assets/web_rtc/jssip-3.4.2.min.js') }}"></script>
 
-<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script>
+<script src="{{ asset('assets/web_rtc/jsip.js') }}" defer></script> -->
 
 <!-- Page Expiry Script -->
 <script type="text/javascript" src="{{ asset('assets/custom/page-expiry.js') }}" defer></script>
@@ -139,8 +139,7 @@ use Carbon\Carbon;
 
           <div class="row">
             <div class="col">
-              <form action="{{ url('search_respondent') }}" method="post">
-                @csrf
+              <form action="{{ url('search_respondent') }}">
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
                 <input type="hidden" name="interview_id" value="{{ $interview_id }}">
@@ -156,8 +155,7 @@ use Carbon\Carbon;
               </form>
             </div>
             <div class="col">
-              <form action="{{ url('find_respondent') }}" method="post" class="float-end">
-                @csrf
+              <form action="{{ url('find_respondent') }}" class="float-end">
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
                 <input type="hidden" name="survey_id" value="{{ $survey->id }}">
                 <input type="hidden" name="interview_id" value="{{ $interview_id }}">

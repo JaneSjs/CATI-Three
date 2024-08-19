@@ -216,7 +216,8 @@ class RespondentController extends Controller
 
             ]);
 
-            return to_route('projects.index')->with('success', 'Thanks for updating the respondent');
+            //return to_route('projects.index')->with('success', 'Thanks for updating the respondent');
+            return back()->with('success', 'Thanks for updating the respondent');
         }
         else
         {
