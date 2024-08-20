@@ -209,11 +209,27 @@
                   </td>
 
                   @canany(['qc'])
-                  <td>
-                    <a href="{{ route('surveys.show', $survey->id) }}">
-                      {{ $survey->survey_name }}
-                    </a>
-                  </td>
+                    @if(auth()->user()->national_id)
+                      <td>
+                        <a href="{{ route('surveys.show', $survey->id) }}">
+                          {{ $survey->survey_name }}
+                        </a>
+                      </td>
+                    @else
+                      <div class="alert alert-warning">
+                        <h6>
+                          Please Update The Following To Proceed:
+                        </h6>
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            National Id Number
+                          </li>
+                          <li class="list-group-item">
+                            Phone Number
+                          </li>
+                        </ul>
+                      </div>
+                    @endif
                   @else
                   <td title="@canany(['admin','ceo','head','manager','coordinator','dpo']) {{ $survey->type }} @endcan">
                     {{ $survey->survey_name }}
