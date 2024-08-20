@@ -184,6 +184,11 @@ use Carbon\Carbon;
                 <li class="list-group-item">
                   Phone Number
                 </li>
+                <li class="list-group-item">
+                  <a href="{{ route('profiles.show', auth()->user()->id) }}">
+                    Click Here To Update
+                  </a>
+                </li>
               </ul>
             </div>
           @endif

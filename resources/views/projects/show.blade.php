@@ -222,10 +222,15 @@
                         </h6>
                         <ul class="list-group">
                           <li class="list-group-item">
-                            National Id Number
+                            Your National Id Number
                           </li>
                           <li class="list-group-item">
-                            Phone Number
+                            Your Phone Number
+                          </li>
+                          <li class="list-group-item">
+                            <a href="{{ route('profiles.show', auth()->user()->id) }}">
+                              Click Here To Update
+                            </a>
                           </li>
                         </ul>
                       </div>
