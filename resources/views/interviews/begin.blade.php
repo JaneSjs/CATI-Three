@@ -137,6 +137,7 @@ use Carbon\Carbon;
         
         <div class="col-9">
 
+          @if(auth()->user()->national_id)
           <div class="row">
             <div class="col">
               <form action="{{ url('search_respondent') }}">
@@ -147,7 +148,7 @@ use Carbon\Carbon;
                 <div class="input-group">
                   <input type="search" name="query" class="form-control" placeholder="Search for a respondent..." value="{{ request()->get('query') }}">
                   <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary text-light" title="Search">
+                    <button type="submit" class="btn btn-primary text-light" title="Search for a respondent...">
                       <i class="fa fa-search"></i>
                     </button>
                   </div>
@@ -171,6 +172,21 @@ use Carbon\Carbon;
               </form>
             </div>
           </div>
+          @else
+            <div class="alert alert-warning">
+              <h6>
+                Please Update The Following To Proceed:
+              </h6>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  National Id Number
+                </li>
+                <li class="list-group-item">
+                  Phone Number
+                </li>
+              </ul>
+            </div>
+          @endif
 
           @if($respondent)
             <div class="mt-2">
