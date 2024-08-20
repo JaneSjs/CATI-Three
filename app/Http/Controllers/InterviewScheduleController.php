@@ -17,6 +17,7 @@ class InterviewScheduleController extends Controller
     {
         $project_id = $request->query('project_id');
         $schema_id = $request->query('schema_id');
+        //dd($schema_id);
 
         // Query Builder
         $query = InterviewSchedule::query();

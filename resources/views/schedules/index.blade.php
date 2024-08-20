@@ -25,6 +25,8 @@
           <thead class="table-warning">
             <tr>
               <th scope="col">Interview Id</th>
+              <th scope="col">Project</th>
+              <th scope="col">Survey</th>
               <th scope="col">Interview Links</th>
               <th scope="col">Status</th>
               <th scope="col"></th>
@@ -37,6 +39,12 @@
                   <strong class="text-primary">
                     {{ $scheduled_interview['interview_id'] }}
                   </strong>
+                </td>
+                <td>
+                  {{ $scheduled_interview->project->name }}
+                </td>
+                <td>
+                  {{ $scheduled_interview->survey->survey_name }}
                 </td>
                 <td>
                   <a href="{{ $scheduled_interview['interview_url'] }}" class="btn btn-outline-info" target="_blank">
