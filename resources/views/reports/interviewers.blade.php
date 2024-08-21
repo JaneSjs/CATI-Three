@@ -84,14 +84,30 @@ use Carbon\Carbon;
           </caption>
           <thead class="table-warning">
             <tr>
-              <th scope="col">Name</th>
-              <th>Interview Attempts</th>
-              <th>Completed Interviews</th>
-              <th>Approved Interviews</th>
-              <th>Cancelled Interviews</th>
-              <th>Rate</th>
-              <th>Total Payable</th>
-              <th title="Payments Feature Under Development">Pay</th>
+              <th scope="col">
+                Name
+              </th>
+              <th class="text-primary">
+                Interview Attempts
+              </th>
+              <th class="text-info">
+                Completed Interviews
+              </th>
+              <th class="text-success">
+                Approved Interviews
+              </th>
+              <th class="text-danger">
+                Cancelled Interviews
+              </th>
+              <th>
+              Rate
+            </th>
+              <th>
+              Total Payable
+            </th>
+            <th title="Payments Feature Under Development">
+              Pay
+            </th>
             </tr>
           </thead>
           <tbody>
@@ -100,7 +116,7 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $interviewer->first_name . ' ' . $interviewer->last_name }}
               </th>
-              <td>
+              <td class="table-primary">
                 @php
                   $interview_attempts = $interviewer->interviews->sum('interview_attempts');
                 @endphp
@@ -143,6 +159,7 @@ use Carbon\Carbon;
             @endforeach
             <tr>
               <td>Grand Total</td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
