@@ -134,6 +134,14 @@
                       <tbody>
                         <tr>
                           <td>
+                            Others
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             Female
                           </td>
                           <td>
@@ -197,6 +205,14 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <tr>
+                          <td>
+                            Others
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
                         <tr>
                           <td>
                             Atheist
@@ -318,6 +334,14 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <tr>
+                          <td>
+                            Others
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
                         <tr>
                           <td>
                             BARINGO
