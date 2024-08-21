@@ -124,6 +124,79 @@
                       <thead>
                         <tr>
                           <th>
+                            Settings
+                          </th>
+                          <th>
+                            Targets
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Others
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Rural
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Urban
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                            Settings
+                          </th>
+                          <th>
+                            Achieved
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($interviewed_respondents_by_setting as $setting_data)
+                          <tr>
+                            <td>{{ $setting_data->setting }}</td>
+                            <td>{{ $setting_data->count }}</td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-striped table-bordered">
+
+                      <thead>
+                        <tr>
+                          <th>
                             Gender
                           </th>
                           <th>
@@ -239,6 +312,14 @@
                         </tr>
                         <tr>
                           <td>
+                            Hindu
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             Mainstream Protestant (Anglican, Presbyterian, AIC, etc.)
                           </td>
                           <td>
@@ -296,7 +377,7 @@
                       <thead>
                         <tr>
                           <th>
-                            Religions
+                            Religion
                           </th>
                           <th>
                             Achieved
@@ -862,73 +943,6 @@
                   </div>
                 </div>
               </div>
-
-              <hr>
-
-              <div class="row">
-                <div class="col">
-                  <div class="table-responsive">
-                    <table class="table table-sm table-striped table-bordered">
-
-                      <thead>
-                        <tr>
-                          <th>
-                            Settings
-                          </th>
-                          <th>
-                            Targets
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            Rural
-                          </td>
-                          <td>
-                            
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            Urban
-                          </td>
-                          <td>
-                            
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div class="col">
-                  <div class="table-responsive">
-                    <table class="table table-sm table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>
-                            Settings
-                          </th>
-                          <th>
-                            Achieved
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach($interviewed_respondents_by_setting as $setting_data)
-                          <tr>
-                            <td>{{ $setting_data->setting }}</td>
-                            <td>{{ $setting_data->count }}</td>
-                          </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <hr>
 
             </div>
             </div>
