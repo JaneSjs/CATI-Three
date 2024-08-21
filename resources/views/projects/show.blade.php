@@ -293,9 +293,11 @@
                       @endcan
 
                       @canany(['admin','scripter'])
-                        <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-dark" target="_blank">
-                          Script
-                        </a>
+                        @if($survey->stage != 'Production')
+                          <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-dark" target="_blank">
+                            Script
+                          </a>
+                        @endif
                       @endcan
 
                       @canany(['admin','manager','scripter'])

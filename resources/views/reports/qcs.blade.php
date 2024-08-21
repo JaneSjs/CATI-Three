@@ -27,7 +27,24 @@ use Carbon\Carbon;
     </div>
     <div class="card-body">
       <ul class="list-group list-group-horizontal">
-        
+        <li class="list-group-item">
+          Completed Interviews: 
+          <span class="badge bg-info rounded-pill">
+            {{ count($completed_interviews) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          QC'd Interviews: 
+          <span class="badge bg-success rounded-pill">
+            {{ $qcd_interviews }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          Not QC'd Interviews: 
+          <span class="badge bg-danger rounded-pill">
+            {{ $not_qcd_interviews }}
+          </span>
+        </li>
         <li class="list-group-item">
           QC Rate:
           <span class="badge bg-primary rounded-pill">
@@ -36,18 +53,6 @@ use Carbon\Carbon;
             @else
               {{ round(($qcd_interviews / count($completed_interviews) ) * 100) }} %
             @endif
-          </span>
-        </li>
-        <li class="list-group-item">
-          All Complete Interviews: 
-          <span class="badge bg-info rounded-pill">
-            {{ count($completed_interviews) }}
-          </span>
-        </li>
-        <li class="list-group-item">
-          QC'd Interviews: 
-          <span class="badge bg-success rounded-pill">
-            {{ count($completed_interviews) }}
           </span>
         </li>
       </ul>
@@ -62,7 +67,6 @@ use Carbon\Carbon;
               <th>Total QC'd </th>
               <th>Total Approvals</th>
               <th>Total Cancelled</th>
-              <th>Performance</th>
               <th>Rate</th>
               <th>Total Payable</th>
               <th>Pay</th>
@@ -85,9 +89,8 @@ use Carbon\Carbon;
               </td>
               <td></td>
               <td></td>
-              <td></td>
               <td>
-                <div class="btn-group">
+                <div class="btn-group" title="Feature Under Development">
                   <!-- Let Wages button Appear Only When The Project is Closed -->
                   <button class="btn btn-outline-success btn-sm">
                     Pay Wage Via M-Pesa
@@ -104,9 +107,8 @@ use Carbon\Carbon;
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <td>
-                <div class="btn-group">
+                <div class="btn-group" title="Feature Under Development">
                   <!-- Let Wages button Appear Only When The Project is Closed -->
                   <button class="btn btn-success btn-sm">
                     Pay All Wages At Once

@@ -120,7 +120,8 @@ class ReportController extends Controller
                                               ->select('user_id', 
                                                 DB::raw('sum(case when quality_control = "Approved" then 1 else 0 end) as total_approved_interviews'),
                                                 DB::raw('sum(case when quality_control = "Cancelled" then 1 else 0 end) as total_cancelled_interviews'),
-                                                DB::raw('sum(case when interview_status = "Interview Completed" then 1 else 0 end) as completed_interviews')
+                                                DB::raw('sum(case when interview_status = "Interview Completed" then 1 else 0 end) as completed_interviews'),
+                                                DB::raw('COUNT(id) as interview_attempts')
                                                     )
                                                ->groupBy('user_id');
                                     }])
@@ -146,6 +147,7 @@ class ReportController extends Controller
 
         $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->where('interview_status', 'Interview Completed')->get();
         $data['qcd_interviews'] = Interview::where('project_id', $project_id)->where('quality_control', '!=', null)->count();
+        $data['not_qcd_interviews'] = Interview::where('project_id', $project_id)->where('quality_control', null)->count();
 
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
 

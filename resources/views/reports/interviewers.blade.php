@@ -44,7 +44,7 @@ use Carbon\Carbon;
               @endphp
 
               @if($qc_rate < 25)
-                bg-warning
+                bg-warning text-dark
               @elseif($qc_rate < 50)
                 bg-primary
               @elseif($qc_rate < 75)
@@ -85,13 +85,13 @@ use Carbon\Carbon;
           <thead class="table-warning">
             <tr>
               <th scope="col">Name</th>
+              <th>Interview Attempts</th>
               <th>Completed Interviews</th>
               <th>Approved Interviews</th>
               <th>Cancelled Interviews</th>
-              <th>Performance</th>
               <th>Rate</th>
               <th>Total Payable</th>
-              <th>Pay</th>
+              <th title="Payments Feature Under Development">Pay</th>
             </tr>
           </thead>
           <tbody>
@@ -100,6 +100,13 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $interviewer->first_name . ' ' . $interviewer->last_name }}
               </th>
+              <td>
+                @php
+                  $interview_attempts = $interviewer->interviews->sum('interview_attempts');
+                @endphp
+
+                {{ $interview_attempts ?? 0 }}
+              </td>
               <td class="table-info">
                 @php
                   $total_interviews = $interviewer->interviews->sum('completed_interviews')
@@ -123,8 +130,7 @@ use Carbon\Carbon;
               </td>
               <td></td>
               <td></td>
-              <td></td>
-              <td>
+              <td title="Payments Feature Under Development">
                 <div class="btn-group">
                   <!-- Let Wages button Appear Only When The Project is Closed -->
                   <button class="btn btn-outline-success btn-sm">
@@ -142,9 +148,8 @@ use Carbon\Carbon;
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <td>
-                <div class="btn-group">
+                <div class="btn-group" title="Feature Under Development">
                   <!-- Let Wages button Appear Only When The Project is Closed -->
                   <button class="btn btn-success btn-sm">
                     Pay All Wages At Once
