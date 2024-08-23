@@ -2,7 +2,6 @@
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
@@ -60,27 +59,26 @@
                 </tr>
               </thead>
               <tbody>
+                <?php
+                  use Illuminate\Support\Carbon;
+
+                  $start_date = Carbon::parse($project->start_date);
+                  $end_date = Carbon::parse($project->end_date);
+                ?>
                 <tr>
                   @canany(['admin','ceo','head','manager','coordinator','scripter','dpo'])
-                  <td>{{ $project->start_date }}</td>
-                  <td>{{ $project->end_date }}</td>
+                  <td>{{ $start_date->format('d/m/Y') }}</td>
+                  <td>{{ $end_date->format('d/m/Y') }}</td>
                   @endcan
                   <td>
-                    <?php
-                      use Illuminate\Support\Carbon;
-
-                      $start_date = Carbon::parse($project->start_date);
-                      $end_date = Carbon::parse($project->end_date);
-
-                      echo $start_date->diffInDays($end_date) . ' days';
-                    ?>
+                    {{ $start_date->diffInDays($end_date) . ' days' }}
                   </td>
                   @canany(['admin','ceo','head','manager','finance'])
                   <td>
-                    <a href="{{ route('interviewers_report', $project->id) }}" class="btn btn-outline-primary btn-sm">
+                    <a href="{{ route('interviewers_project_report', $project->id) }}" class="btn btn-outline-primary btn-sm">
                       Interviewers
                     </a>
-                    <a href="{{ route('qcs_report', $project->id) }}" class="btn btn-outline-info btn-sm">
+                    <a href="{{ route('qcs_project_report', $project->id) }}" class="btn btn-outline-info btn-sm">
                       QC's
                     </a>
                     <a href="javascript:void" class="btn btn-secondary btn-sm" title="Coming Soon">
@@ -121,19 +119,19 @@
               @include('projects.partials.assign_specific_members')
             @endcan
 
-            @if(count($surveys) == 7)
-              <!-- Trigger Survey Modal -->
+            @canany(['admin','ceo','head','manager','scripter'])
+              @if(count($surveys) == 7)
+                <!-- Prevent Many Surveys Under A Single Project (Temporary Measure) -->
                 <button type="button" class="btn btn-warning btn-sm" onclick="alert('Browser Limit Exceeded.(Heavy JSON may Slow Down Your Browser)')">
                   Create Survey
                 </button>
-            @else
-              @canany(['admin','ceo','head','manager','scripter'])
+              @else
                 <!-- Trigger Survey Modal -->
                 <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                   Create Survey
                 </button>
-              @endcan
-            @endif
+              @endif
+            @endcan
            
           </div>
           <!-- Create Survey Modal -->
@@ -144,39 +142,42 @@
 
       <div class="row">
         @canany(['admin','head','ceo','manager'])
-        <div class="col-3">
-          <ul class="list-group">
-              <li class="list-group-item list-group-item-action active" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-                  <h6 class="mb-1">
-                      {{ count($all_members) }} Project Team Members
-                  </h6>
-                </div>
-              </li>
-
-            <dl class="list-group-item">
-              @foreach($members as $member)
-              <dt title="{{ $member->first_name . ' ' . $member->last_name }}">
-                <small>
-                  {{ $member->first_name . ' ' . $member->last_name }}
-                </small>
-              </dt>
-              <dd>
-                @foreach($member->roles as $role)
-                  <span class="badge text-light text-bg-info small">
-                    <small>{{ $role->name }}</small>
-                  </span>
+        <div class="col">
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead class="table-dark">
+                <tr>
+                  <th>
+                    {{ count($all_members) }} Members
+                  </th>
+                  <th>Roles</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($members as $member)
+                <tr title="{{ $member->first_name . ' ' . $member->last_name }}">
+                  <td>
+                    {{ $member->first_name . ' ' . $member->last_name }}
+                  </td>
+                  <td>
+                    @foreach($member->roles as $role)
+                      <span class="badge text-light text-bg-info">
+                        <small>{{ $role->name }}</small>
+                      </span>
+                    @endforeach
+                  </td>
+                </tr>
                 @endforeach
-              </dd>
-              @endforeach
-
-              {{ $members->links() }}
-            </dl>
-
-          </ul>
+              </tbody>
+              <tfoot>
+                {{ $members->links() }}
+              </tfoot>
+            </table>
+          </div>
+          
         </div>
         @endcan
-        <div class="col-9">
+        <div class="col">
           <hr>
 
           <div class="table-responsive">

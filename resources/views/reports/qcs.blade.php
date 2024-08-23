@@ -55,6 +55,12 @@ use Carbon\Carbon;
             @endif
           </span>
         </li>
+        <li class="list-group-item">
+          <a href="" class="btn btn-outline-primary btn-sm">
+            QC Report
+            <i class="fa-solid fa-download"></i>
+          </a>
+        </li>
       </ul>
       <div class="table-responsive">
         <table class="table table-striped-columns table-hover table-sm caption-top">

@@ -196,27 +196,22 @@ class RespondentController extends Controller
                 'occupation' => $request->input('occupation'),
                 'region' => $request->input('region'),
                 'county' => $request->input('county'),
-                'sub_county' => $request->input('sub_county'),
-                'constituency' => $request->input('constituency'),
-                'ward' => $request->input('ward'),
-                'sampling_point' => $request->input('sampling_point'),
+                //'sub_county' => $request->input('sub_county'),
+                //'constituency' => $request->input('constituency'),
+                //'ward' => $request->input('ward'),
                 'setting' => $request->input('setting'),
                 'gender' => $request->input('gender'),
                 'dob' => $request->input('dob'),
+                'age_group' => $request->input('age_group'),
                 'exact_age' => $request->input('exact_age'),
                 'education_level' => $request->input('education_level'),
                 'marital_status' => $request->input('marital_status'),
                 'religion' => $request->input('religion'),
                 'income' => $request->input('income'),
-                'lsm' => $request->input('Lsm'),
                 'ethnic_group' => $request->input('ethnic_group'),
                 'employment_status' => $request->input('employment_status'),
-                'age_group' => $request->input('age_group'),
-                'interview_status' => $request->input('interview_status'),
-
             ]);
 
-            //return to_route('projects.index')->with('success', 'Thanks for updating the respondent');
             return back()->with('success', 'Thanks for updating the respondent');
         }
         else

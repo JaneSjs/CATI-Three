@@ -82,7 +82,7 @@ class ReportController extends Controller
     /**
      * Interviewers Report Per Project
      */
-    public function interviewers($project_id)
+    public function interviewers_project($project_id)
     {
         $data['project'] = $project = Project::find($project_id);
 
@@ -141,7 +141,7 @@ class ReportController extends Controller
     /**
      * QCs Report Per Project
      */
-    public function qcs($project_id)
+    public function qcs_project_report($project_id)
     {
         $data['project'] = $project = Project::find($project_id);
 

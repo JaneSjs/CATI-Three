@@ -55,12 +55,15 @@
             <th scope="col">Interview Id</th>
             @canany(['admin','ceo','head','manager'])
             <th scope="col">Interviewer</th>
-            <th scope="col">Respondent Details</th>
+            <th scope="col">Respondent</th>
             @endcan
             <th scope="col">Interview Details</th>
-            @canany(['admin','coordinator'])
+            @canany(['admin','ceo','coordinator'])
               <th scope="col">QC Name</th>
             @endcan
+            <th>
+              Date
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -114,9 +117,12 @@
                 </dt>
               </dl>
             </td>
-            @canany(['admin','coordinator'])
+            @canany(['admin','ceo','coordinator'])
             <td></td>
             @endcan
+            <td>
+              {{ $end_time->format('d/m/Y') }}
+            </td>
           </tr>
           @endforeach
         </tbody>

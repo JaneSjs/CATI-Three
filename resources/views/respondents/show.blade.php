@@ -100,9 +100,10 @@ use Carbon\Carbon;
                 @foreach($respondents as $respondent)
                 <tr>
                   <td>
-                    <a href="{{ route('respondents.show', $respondent->id) }}">                  
+                    <div title="Click To View Respondent Details" data-coreui-toggle="modal" data-coreui-target="#viewRespondent-{{ $respondent->id }}">
                       {{ $respondent->name }}
-                    </a>
+                    </div>
+                    @include('respondents/partials/view_respondent_modal')              
                     <hr>
                     <small>
                       {{ $respondent->phone_1 }}
@@ -127,9 +128,13 @@ use Carbon\Carbon;
                   </td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('respondents.edit', $respondent->id) }}" class="btn btn-sm btn-outline-info" title="Update respondent Details">
+                      <button type="button" class="btn btn-sm btn-outline-info" title="Update respondent Details" data-coreui-toggle="modal" data-coreui-target="#editRespondentDetails-{{ $respondent->id }}">
                         <i class="fas fa-pen"></i>
-                      </a>
+                      </button>
+                      @include('respondents/partials/edit_respondent_details_modal')
+
+                      
+
                       @canany(['admin','dpo'])
                       <form action="{{ route('respondents.destroy', $respondent->id) }}" method="post">
                         @csrf
