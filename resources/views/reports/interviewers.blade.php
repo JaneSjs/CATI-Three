@@ -37,25 +37,25 @@ use Carbon\Carbon;
           QC Rate: 
           <span class="badge rounded-pill
             @if(count($completed_interviews) == 0)
-              bg-danger
+              bg-secondary text-dark
             @else
               @php
                 $qc_rate = round(($qcd_interviews / count($completed_interviews) ) * 100);
               @endphp
 
               @if($qc_rate < 25)
-                bg-warning text-dark
+                bg-danger
               @elseif($qc_rate < 50)
-                bg-primary
+                bg-info
               @elseif($qc_rate < 75)
-                bg-warning
+                bg-primary
               @else
                 bg-success
               @endif
             @endif
           ">
             @if(count($completed_interviews) == 0)
-              0 %
+              0%
             @else
               {{ round(($qcd_interviews / count($completed_interviews) ) * 100) }} %
             @endif
@@ -82,7 +82,7 @@ use Carbon\Carbon;
           <caption class="text-primary">
            {{ $total_interviewers }} Interviewers
           </caption>
-          <thead class="table-warning">
+          <thead class="table-success">
             <tr>
               <th scope="col">
                 Name

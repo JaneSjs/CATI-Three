@@ -46,7 +46,7 @@
             <table class="table table-sm caption-top">
               <thead class="table-success">
                 <tr>
-                  @canany(['admin','ceo','head','manager','coordinator','scripter','dpo'])
+                  @canany(['admin','ceo','head','manager','finance','coordinator','scripter','dpo'])
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
                   @endcan
@@ -66,7 +66,7 @@
                   $end_date = Carbon::parse($project->end_date);
                 ?>
                 <tr>
-                  @canany(['admin','ceo','head','manager','coordinator','scripter','dpo'])
+                  @canany(['admin','ceo','head','manager','finance','coordinator','scripter','dpo'])
                   <td>{{ $start_date->format('d/m/Y') }}</td>
                   <td>{{ $end_date->format('d/m/Y') }}</td>
                   @endcan
@@ -104,16 +104,16 @@
             </a>
           @endcan
           </div>
-          <div class="btn-group btn-sm mt-2" role="group" aria-label="Create Survey and Assign Members To The Projects">
+          <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Create Survey and Assign Members To The Projects">
             @canany(['admin','manager','coordinator','supervisor'])
-              <button type="button" class="btn btn-outline-success btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignMoreMembers">
+              <button type="button" class="btn btn-outline-success" data-coreui-toggle="modal" data-coreui-target="#assignMoreMembers">
                 Assign More Members
               </button>
               @include('projects.partials.assign_more_members')
             @endcan
 
             @canany(['admin'])
-              <button type="button" class="btn btn-secondary btn-sm" data-coreui-toggle="modal" data-coreui-target="#assignSpecificMembers">
+              <button type="button" class="btn btn-secondary" data-coreui-toggle="modal" data-coreui-target="#assignSpecificMembers">
                 Assign Specific Members
               </button>
               @include('projects.partials.assign_specific_members')
@@ -122,12 +122,12 @@
             @canany(['admin','ceo','head','manager','scripter'])
               @if(count($surveys) == 7)
                 <!-- Prevent Many Surveys Under A Single Project (Temporary Measure) -->
-                <button type="button" class="btn btn-warning btn-sm" onclick="alert('Browser Limit Exceeded.(Heavy JSON may Slow Down Your Browser)')">
+                <button type="button" class="btn btn-warning" onclick="alert('Browser Limit Exceeded.(Heavy JSON may Slow Down Your Browser)')">
                   Create Survey
                 </button>
               @else
                 <!-- Trigger Survey Modal -->
-                <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
+                <button type="button" class="btn btn-warning" data-coreui-toggle="modal" data-coreui-target="#createSurvey">
                   Create Survey
                 </button>
               @endif
@@ -140,8 +140,8 @@
         </div>
       </div>
 
-      <div class="row">
-        @canany(['admin','head','ceo','manager'])
+      <div class="row m-3">
+        @canany(['admin','ceo','head','manager'])
         <div class="col">
           <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -242,7 +242,7 @@
                   </td>
                   @endcan
                   
-                  @canany(['admin','head','manager','coordinator','scripter','dpo'])
+                  @canany(['admin','ceo','head','manager','coordinator','scripter','dpo','client'])
                   <td>
                     @if($survey->stage == 'Draft')
                       <span class="badge bg-warning">
@@ -267,7 +267,7 @@
                   <td>
                     
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-                      @canany(['admin','ceo'])
+                      @canany(['admin','ceo','client'])
                         <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
                           Preview Survey
                         </a>

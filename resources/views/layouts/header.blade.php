@@ -5,10 +5,8 @@
       <i class="fas fa-bars"></i>
     </button>
     <a class="header-brand d-md-none" href="#">
-      <img src="{{ asset('assets/images/company-logo.png') }}" alt="TIFA Logo" height="50px" width="50px">
+      <img src="{{ asset('assets/images/company-logo.png') }}" alt="Company Logo" height="50px" width="50px">
     </a>
-
-    
 
     <ul class="header-nav d-none d-md-flex">
       @can('admin')
@@ -59,7 +57,7 @@
 
             <a class="dropdown-item" href="#" disabled>
               <i class="fas fa-bell" ></i>
-              Notices
+              Notifications
               <span class="badge badge-sm bg-success ms-2">
                42
               </span>

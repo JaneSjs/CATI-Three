@@ -32,7 +32,6 @@
             <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
               Script
             </a>
-            
           </div>
           @endcan
 
@@ -47,9 +46,9 @@
               <i class="fa-regular fa-comment-dots"></i>
             </button>-->
             <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
-            Terminate Interview
-            <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
-          </button>
+              Terminate Interview
+              <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+            </button>
             
 
             <p id="call_route" class="d-none">
@@ -199,7 +198,7 @@
     
 
     <div class="card-footer">
-      @canany(['ceo','interviewer'])
+      @canany(['ceo','client','interviewer'])
       <div class="row">
         <div class="col text-start">
           <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
@@ -219,7 +218,7 @@
   </div>
 </div>
 
-@canany(['ceo','interviewer'])
+@canany(['ceo','client','interviewer'])
 <!-- Interview Feedback Modal -->
 <div class="modal fade" id="interview_feedback" tabindex="-1" aria-labelledby="interview_feedback" aria-hidden="true">
   <div class="modal-dialog">
@@ -254,7 +253,7 @@
 <!-- End Interview Feedback Modal -->
 @endcan
 
-@canany(['ceo','interviewer'])
+@canany(['ceo','client','interviewer'])
 <!-- Complete Interview Modal -->
 <div class="modal fade" id="complete_interview" tabindex="-1" aria-labelledby="complete_interview" aria-hidden="true">
   <div class="modal-dialog">

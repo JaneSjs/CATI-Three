@@ -1,5 +1,5 @@
 <div class="modal fade" id="createSurvey" data-coreui-backdrop="static" tabindex="-1" aria-labelledby="surveyLabel" aria-hidden="true">
-<div class="modal-dialog">
+<div class="modal-dialog bg-warning">
   <div class="modal-content">
     <form method="post" action="{{ route('surveys.store') }}">
       @csrf
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-warning">
           Create
         </button>
       </div>

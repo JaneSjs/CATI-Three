@@ -29,7 +29,7 @@ use Carbon\Carbon;
               {{ $project->name }}
             </h3>
             <hr>
-            <h5 id="survey_name" class="text-warning">
+            <h5 id="survey_name" class="bg-warning">
               {{ $survey->survey_name }}
             </h5>
           @else
@@ -225,7 +225,7 @@ use Carbon\Carbon;
                 @endcan
                   
                 <li class="list-group-item">
-                  {{ $respondent->age ?? 'Age is Undefined'}}
+                  {{ $respondent->age }}
                   <button class="btn btn-outline-info btn-sm float-end" data-coreui-toggle="modal" data-coreui-target="#editRespondentDetails-{{ $respondent->id }}" title="Click To Update Respondent's Details">
                     Incorrect Respondent's Details ?
                   </button>

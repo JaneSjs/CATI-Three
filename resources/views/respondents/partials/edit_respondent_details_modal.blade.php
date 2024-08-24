@@ -45,21 +45,48 @@
               </div>
               <div class="col mb-3">
                 <label for="phone_2" class="form-label">
-                  Gender
+                  Age Group
                 </label>
-                <select class="form-select form-select-sm" name="gender" id="gender" aria-label="Respondent Gender">
-                  <option value="" @selected(is_null($respondent->gender))>
-                    Select Gender
+                <select class="form-select form-select-sm" name="age_group" id="age_group" aria-label="Respondent Age Group">
+                  <option value="" @selected(is_null($respondent->age_group))>
+                    Select Age Group
                   </option>
-                  <option value="Male" @selected($respondent->gender == 'Male')>
-                    Male
+                  <option value="15-17" @selected($respondent->age_group == '15-17')>
+                    15-17
                   </option>
-                  <option value="Female" @selected($respondent->gender == 'Female')>
-                    Female
+                  <option value="18-24" @selected($respondent->age_group == '18-24')>
+                    18-24
+                  </option>
+                  <option value="25-29" @selected($respondent->age_group == '25-29')>
+                    25-29
+                  </option>
+                  <option value="30-34" @selected($respondent->age_group == '30-34')>
+                    30-34
+                  </option>
+                  <option value="35-39" @selected($respondent->age_group == '35-39')>
+                    35-39
+                  </option>
+                  <option value="40-44" @selected($respondent->age_group == '40-44')>
+                    40-44
+                  </option>
+                  <option value="45-49" @selected($respondent->age_group == '45-49')>
+                    45-49
+                  </option>
+                  <option value="50-54" @selected($respondent->age_group == '50-54')>
+                    50-54
+                  </option>
+                  <option value="55-59" @selected($respondent->age_group == '55-59')>
+                    55-59
+                  </option>
+                  <option value="60-64" @selected($respondent->age_group == '60-64')>
+                    60-64
+                  </option>
+                  <option value="65+" @selected($respondent->age_group == '65+')>
+                    65+
                   </option>
                 </select>
-                <div id="gender" class="form-text">
-                  gender
+                <div id="ageGroup" class="form-text">
+                  Respondent Age Group
                 </div>
               </div>
             </div>

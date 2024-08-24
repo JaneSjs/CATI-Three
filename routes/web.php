@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\ConverterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DpiaController;
@@ -135,8 +136,8 @@ Route::middleware(['auth','verified'])->group(function ()
 	// File Converters
 	Route::post('jsonToCsv', [ConverterController::class, 'jsonToCsv'])->name('jsonToCsv');
 
-
     Route::resource('analytics', AnalyticsController::class);
+    Route::resource('applicants', ApplicantController::class);
     Route::resource('converters', ConverterController::class);
     Route::resource('dpias', DpiaController::class);
     Route::resource('exported_files', ExportedFileController::class);

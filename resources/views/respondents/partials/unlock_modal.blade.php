@@ -19,7 +19,7 @@
             <form action="{{ route('unlock_respondents') }}" method="post">
               @csrf
               @method('PATCH')
-              <input type="hidden" name="surveyId" value="{{ $survey->id }}">
+              <input type="hidden" name="survey_id" value="{{ $survey->id }}">
               <button type="submit" class="btn btn-success btn-sm">
                 Yes
               </button>

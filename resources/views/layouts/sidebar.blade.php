@@ -88,12 +88,6 @@
     @endcan
 
     @canany(['admin','ceo','head','manager'])
-    <li class="nav-item" title="Jobs Kona is Coming Soon">
-      <a class="nav-link" href="javascript:void">
-        <i class="fa-solid fa-laptop-file nav-icon" style="color: #e5a50a;"></i>
-        Jobs Kona
-      </a>
-    </li>
     <li class="nav-item">
       <a class="nav-link" href="{{ url('clients') }}">
         <i class="fa-solid fa-face-smile nav-icon" style="color: #e5a50a;"></i>
@@ -102,10 +96,33 @@
     </li>
     @endcan
 
-    @canany(['admin','ceo','head','manager','coordinator','supervisor'])
+    @canany(['admin'])
+    <li class="nav-group" title="Jobs Kona is Coming Soon">
+      <a class="nav-link nav-group-toggle" href="#">
+        <i class="fa-solid fa-laptop-file nav-icon" style="color: #e5a50a;"></i>
+        Jobs Kona
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item" title="Job Listings">
+          <a href="javascript:void" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+            Job Listings
+          </a>
+        </li>
+        <li class="nav-item" title="Applicants">
+          <a href="{{ route('applicants.index') }}" class="nav-link" rel="noreferrer">
+            <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+            Applicants
+          </a>
+        </li>
+      </ul>
+    </li>
+    @endcan
+
+    @canany(['admin','ceo','head','manager'])
     <li class="nav-item">
-      <a class="nav-link" href="javascript:void(0)" target="_blank">
-        <i class="fa-solid fa-chart-simple fa-fade text-danger nav-icon" style="color: #fff;"></i> 
+      <a class="nav-link" href="http://dashboard.tifaresearch.com:3000" target="_blank">
+        <i class="fa-solid fa-chart-simple text-primary nav-icon" style="color: #fff;"></i> 
           Metabase
       </a>
     </li>
@@ -168,25 +185,25 @@
       </a>
       <ul class="nav-group-items">
         <li class="nav-item" title="Project Managers Report Coming Soon">
-          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+          <a href="javascript:void" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rectangle nav-icon" style="color: #fff;"></i>
             Project Managers
           </a>
         </li>
         <li class="nav-item" title="Supervisors Report Coming Soon">
-          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+          <a href="javascript:void" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-viewfinder nav-icon" style="color: #fff;"></i>
             Supervisors
           </a>
         </li>
         <li class="nav-item" title="QC's Report Coming Soon">
-          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+          <a href="javascript:void" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-between-lines nav-icon" style="color: #fff;"></i>
             QC's
           </a>
         </li>
         <li class="nav-item" title="Interviewers Report Coming Soon">
-          <a href="{{ url('interviewers_report') }}" class="nav-link" rel="noreferrer">
+          <a href="javascript:void" class="nav-link" rel="noreferrer">
             <i class="fa-solid fa-users-rays nav-icon" style="color: #fff;"></i>
             Interviewers
           </a>

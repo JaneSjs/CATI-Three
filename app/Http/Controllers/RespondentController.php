@@ -190,7 +190,7 @@ class RespondentController extends Controller
 
         if ($respondent)
         {
-            $respondent->update([
+            $update = $respondent->update([
                 'name' => $request->input('name'),
                 'phone_2' => $request->input('phone_2'),
                 'occupation' => $request->input('occupation'),
@@ -212,11 +212,15 @@ class RespondentController extends Controller
                 'employment_status' => $request->input('employment_status'),
             ]);
 
-            return back()->with('success', 'Thanks for updating the respondent');
+            if ($update) {
+                return back()->with('success', 'Thanks for updating the Respondent');
+            } else {
+                return back()->with('error', 'Error updating the Respondent');
+            }
         }
         else
         {
-            return to_route('projects.index')->with('error', 'Error updating the respondent');
+            return back()->with('error', 'Respondent was not found');
         }
     }
 
@@ -566,9 +570,9 @@ class RespondentController extends Controller
      */
     public function unlockRespondents(Request $request)
     {
-        $surveyId = $request->input('surveyId');
+        $survey_id = $request->input('survey_id');
 
-        $unlockRespondents = Respondent::where('schema_id', $surveyId)
+        $unlockedRespondents = Respondent::where('schema_id', $survey_id)
         ->where('interview_status', 'Locked')
         ->update([
             'interview_status' => 'Unlocked',
@@ -577,9 +581,12 @@ class RespondentController extends Controller
 
         //dd($unlockRespondents);
 
-        if ($unlockRespondents > 0)
+        if ($unlockedRespondents > 0)
         {
-            return back()->with('success', $unlockRespondents . ' Respondents Unlocked');
+            // Re-Index The Respondents
+            Respondent::where('schema_id', $survey_id)->searchable();
+
+            return back()->with('success', $unlockedRespondents . ' Respondents Unlocked');
         }
         else
         {

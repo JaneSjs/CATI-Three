@@ -56,7 +56,7 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
-          <a href="" class="btn btn-outline-primary btn-sm">
+          <a href="javascript:void" class="btn btn-outline-primary btn-sm">
             QC Report
             <i class="fa-solid fa-download"></i>
           </a>
@@ -67,15 +67,29 @@ use Carbon\Carbon;
           <caption class="text-primary">
            {{ $total_qcs }} QC's
           </caption>
-          <thead class="table-warning">
+          <thead class="table-success">
             <tr>
-              <th scope="col">Name</th>
-              <th>Total QC'd </th>
-              <th>Total Approvals</th>
-              <th>Total Cancelled</th>
-              <th>Rate</th>
-              <th>Total Payable</th>
-              <th>Pay</th>
+              <th scope="col">
+                Name
+              </th>
+              <th class="text-primary">
+                Total QC'd
+              </th>
+              <th class="text-success">
+                Total Approved
+              </th>
+              <th class="text-danger">
+                Total Cancelled
+              </th>
+              <th>
+                Rate
+              </th>
+              <th>
+                Total Payable
+              </th>
+              <th>
+                Pay
+              </th>
             </tr>
           </thead>
           <tbody>
