@@ -17,20 +17,19 @@ class InterviewScheduleController extends Controller
     {
         $project_id = $request->query('project_id');
         $schema_id = $request->query('schema_id');
-        //dd($schema_id);
 
         // Query Builder
         $query = InterviewSchedule::query();
 
-        //dd($project_id,$schema_id);
-        if($project_id !== null)
-        {
-            $query->where('project_id', $project_id);
-        }
-
         if($schema_id !== null)
         {
+            //dd($schema_id);
             $query->where('schema_id', $schema_id);
+        }
+        elseif($project_id !== null)
+        {
+            //dd($project_id);
+            $query->where('project_id', $project_id);
         }
 
         $data['scheduled_interviews'] = $query->where('interview_status', 'Scheduled')->paginate(10);

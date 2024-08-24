@@ -12,9 +12,9 @@
         <img src="{{ $applicant->gender === 'Male' ? asset('assets/images/male-avatar.png') : asset('assets/images/female-avatar.png') }}" alt="{{ $applicant->first_name . ' ' . $applicant->last_name }} Profile Image"
               class="rounded-circle img-fluid" style="width: 100%;" title="{{ $applicant->gender }}">
         <div class="card-body">
-          <h4 class="card-title">
+          <h5 class="card-title">
             {{ $applicant->first_name . ' ' . $applicant->last_name }}
-          </h4>
+          </h5>
           <div class="row">
             <div class="col">
               <ul class="list-group">
@@ -58,7 +58,7 @@
             <a href="{{ route('profiles.show', $applicant->id) }}" class="btn btn-outline-primary">
               See Profile
             </a>
-            <button class="btn btn-outline-info">
+            <button class="btn btn-outline-warning">
               Recruit
             </button>
           </div>
@@ -67,6 +67,9 @@
     </div>
   @endforeach
 
+  <div>
+    {{ $applicants->links }}
+  </div>
 </div>
 
 @endsection

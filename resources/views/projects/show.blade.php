@@ -89,6 +89,25 @@
                 </tr>
               </tbody>
             </table>
+            <table class="table table-sm caption-top">
+
+              <tbody>
+                <tr>
+                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
+                  <td>
+                    <form action="{{ route('interview_schedules.index') }}">
+                      <input type="hidden" name="project_id" value="{{ $project->id }}">
+                      
+                      <button type="submit" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-file-pen"></i>
+                        Scheduled Interviews
+                      </button>
+                    </form>
+                  </td>
+                  @endcan
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="col-4">
