@@ -14,14 +14,10 @@
               <thead class="table-dark">
                 <tr>
                   <th scope="col">Interview Id</th>
-                  @canany(['admin','ceo','head','manager'])
                   <th scope="col">Interviewer</th>
                   <th scope="col">Respondent Details</th>
-                  @endcan
                   <th scope="col">Interview Details</th>
-                  @canany(['admin','coordinator'])
-                    <th scope="col">QC Name</th>
-                  @endcan
+                  <th scope="col">QC Name</th>
                 </tr>
               </thead>
               <tbody>
@@ -30,7 +26,6 @@
                   <th scope="row">
                     {{ $interview->id }}
                   </th>
-                  @canany(['admin','ceo','head','manager'])
                   <td>
                     {{ $interview->user->first_name . ' ' .$interview->user->last_name }}
                   </td>
@@ -46,7 +41,6 @@
                     R_ID - {{ $interview->respondent->r_id ?? '' }}
                   
                   </td>
-                  @endcan
                   <td>
                     <dl>
                       <dt>
@@ -79,9 +73,9 @@
                       </dt>
                     </dl>
                   </td>
-                  @canany(['admin','coordinator'])
-                  <td></td>
-                  @endcan
+                  <td>
+                    {{ $interview->qc_name }}
+                  </td>
                 </tr>
                 @endforeach
               </tbody>
