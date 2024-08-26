@@ -32,7 +32,7 @@ class InterviewScheduleController extends Controller
             $query->where('project_id', $project_id);
         }
 
-        $data['scheduled_interviews'] = $query->where('interview_status', 'Scheduled')->paginate(10);
+        $data['scheduled_interviews'] = $query->where('interview_status', 'Scheduled')->paginate(10)->withQueryString();
         //dd($data);
 
         return view('schedules.index', $data);

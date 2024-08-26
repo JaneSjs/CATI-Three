@@ -30,12 +30,29 @@ class InterviewController extends Controller
      */
     public function index(Request $request)
     {
-        $project_id = $request->input('project_id');
+        $project_id = $request->query('project_id');
+        $schema_id = $request->query('schema_id');
 
-        $data['project'] = Project::find($project_id);
-        $data['interviews'] = Interview::where('project_id', $project_id)->orderBy('id', 'DESC')->paginate(10);
+        // Query Builder
+        $query = Interview::query();
 
-        $total_interviews = Interview::where('project_id', $project_id)->get();
+        if($schema_id !== null)
+        {
+            //dd($schema_id);
+            $data['survey'] = Schema::find($schema_id);
+            $query->where('schema_id', $schema_id);
+        }
+        elseif($project_id !== null)
+        {
+            //dd($project_id);
+            $data['project'] = Project::find($project_id);
+            $query->where('project_id', $project_id);
+        }
+
+        $data['interviews'] = $query->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+
+
+        $total_interviews = $query->orderBy('id', 'DESC')->get();
 
         $data['total_interviews'] = count($total_interviews);
 
