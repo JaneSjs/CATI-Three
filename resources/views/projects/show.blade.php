@@ -12,10 +12,12 @@
           </h5>
           <h2 class="text-primary">{{ $project->name }}</h2>
           @canany(['admin','interviewer'])
-            <a href="{{ route('interviews_dashboard', $project->id) }}" class="btn btn-outline-primary float-end" id="dpiaBtn">
+            <div class="btn-group btn-group-sm">
+              <a href="{{ route('interviews_dashboard', $project->id) }}" class="btn btn-outline-primary float-end" id="dpiaBtn">
               <i class="fa-solid fa-gauge nav-icon"></i>
-              Dashboard
-            </a>
+                Dashboard
+              </a>
+            </div>
           @endcan
           @canany(['admin','manager','coordinator','client'])
             <div class="toast show">
@@ -93,7 +95,17 @@
 
               <tbody>
                 <tr>
-                  @canany(['admin','ceo','head','manager','coordinator','scripter'])
+                  @canany(['admin','ceo','head','manager','coordinator'])
+                  <td>
+                    <form action="{{ route('interviews.index') }}">
+                      <input type="hidden" name="project_id" value="{{ $project->id }}">
+                      
+                      <button type="submit" class="btn btn-outline-info btn-sm">
+                        <i class="fa-solid fa-file-list"></i>
+                        All Interviews
+                      </button>
+                    </form>
+                  </td>
                   <td>
                     <form action="{{ route('interview_schedules.index') }}">
                       <input type="hidden" name="project_id" value="{{ $project->id }}">
@@ -106,7 +118,7 @@
                   </td>
                   @endcan
                 </tr>
-              </tbody>
+              </tbody>708635349
             </table>
           </div>
         </div>

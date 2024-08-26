@@ -17,6 +17,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelExcel;
@@ -27,9 +28,18 @@ class InterviewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $project_id = $request->input('project_id');
+
+        $data['project'] = Project::find($project_id);
+        $data['interviews'] = Interview::where('project_id', $project_id)->orderBy('id', 'DESC')->paginate(10);
+
+        $total_interviews = Interview::where('project_id', $project_id)->get();
+
+        $data['total_interviews'] = count($total_interviews);
+
+        return view('interviews.index', $data);
     }
 
     /**
