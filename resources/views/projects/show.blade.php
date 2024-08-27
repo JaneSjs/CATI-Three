@@ -118,7 +118,7 @@
                   </td>
                   @endcan
                 </tr>
-              </tbody>708635349
+              </tbody>
             </table>
           </div>
         </div>

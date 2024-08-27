@@ -64,15 +64,13 @@ class SchemaController extends Controller
     public function show(Schema $survey)
     {
         $data['survey'] = $survey;
-        //dd($survey);
-
         $data['results'] = $survey->results;
 
         $data['interviews'] = $survey->interviews()
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', NULL)
                                     ->orderBy('id', 'desc')
-                                    ->paginate(10);
+                                    ->paginate(100);
 
         //dd($data['interviews']);
 

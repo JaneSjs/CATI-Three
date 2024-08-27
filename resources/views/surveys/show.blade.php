@@ -3,9 +3,11 @@
 @section('content')
 
 <div class="body flex-grow-1 px-3">
+  @canany(['ceo','client','interviewer'])
   <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back">
     <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
   </button>
+  @endcan
   <div class="card">
     <div class="card-header">
 
@@ -21,34 +23,22 @@
                {{ $respondent->name }}
              </strong>
             @endcan
-            @canany(['admin','ceo'])
-             @if($survey->updated_by)
-              was last scripted by : <span>{{ $survey->updated_by }}</span>
-             @endif
-            @endcan
+            
           </p>
-          @canany(['admin','ceo','head','manager','scripter'])
-          <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
-            <a href="{{ route('surveys.edit', $survey->id) }}" class="btn btn-outline-warning" target="_blank" rel="noreferrer">
-              Script
-            </a>
-          </div>
-          @endcan
+          
 
           <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
-            @canany(['ceo','interviewer'])
+            @canany(['interviewer'])
             <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
             </button>
-            <!--<button type="button" class="btn btn-info btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_feedback">
-              Interview Feedback
-              <i class="fa-regular fa-comment-dots"></i>
-            </button>-->
+           
             <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
               Terminate Interview
               <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
             </button>
+            @include('interviews/modals')
             
 
             <p id="call_route" class="d-none">
@@ -154,14 +144,23 @@
         <div class="col text-end">
           @include('partials.alerts')
 
-          @if($survey->iframe_url == null)
-          <button type="button" class="btn btn-primary text-light text-end">
-            Survey Version 
-            <span class="badge text-bg-secondary">
-              {{ $survey->version ?? 0 }}
-            </span>
-          </button>
-          @endif
+          @canany(['admin','ceo','head'])
+            @if($survey->iframe_url == null)
+              <div class="toast show">
+                <div class="toast-header">
+                  <strong class="me-auto">
+                    Survey Version
+                    <span class="badge text-light text-bg-primary">
+                      {{ $survey->version ?? 0 }}
+                    </span>
+                  </strong>
+                </div>
+                <div class="toast-body text-start text-primary">
+                  Last Scripted By: @if($survey->updated_by) {{ $survey->updated_by }} @endif
+                </div>
+              </div>
+            @endif
+          @endcan
           
           <hr>
           @canany(['admin'])
@@ -186,7 +185,7 @@
       <!-- End Iframe -->
     @else
       <!-- Survey Schema -->
-      @canany(['admin','ceo','interviewer','respondent'])
+      @canany(['admin','ceo','client','interviewer','respondent'])
         @include('surveys.schema')
       @endcan
       <!-- End Survey Schema -->
