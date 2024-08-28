@@ -98,7 +98,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::patch('update_interview_status', [RespondentController::class, 'updateRespondentInterviewStatus'])->name('update_interview_status');
 
 	// Export Interviews
-	Route::get('interviews_xlsx_export/{id}', [InterviewController::class, 'xlsx_export']);
+	Route::post('interviews_xlsx_export', [InterviewController::class, 'xlsx_export'])->name('interviews_xlsx_export');
 	// Interview Feedback
 	Route::patch('interview_feedback', [InterviewController::class, 'interview_feedback'])->name('interview_feedback');
 	// Respondent Feedback

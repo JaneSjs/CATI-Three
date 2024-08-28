@@ -9,44 +9,64 @@
   <div class="card mb-4">
     <div class="card-header">
       <div class="row">
-        <div class="col-9">
-          <h6>
-            {{ $interview->project->name . ' (' . $interview->survey->survey_name . ')'  }}
-          </h6>
-          <hr>
-          <p class="float-start text-primary">
-            <?php
-              $interview_date = Carbon::parse($interview->created_at)
-            ?> 
-
-            <strong>
-              {{ $interview->user->first_name . ' ' . $interview->user->last_name }}'s
-            </strong> 
-            Interview with 
-            <strong>
-              {{ $interview->respondent->name ?? 'Respondent ('. $interview->phone_called . ') deleted from the System' . ' ' . $interview_date->diffForHumans() }}
-            </strong>. 
-          </p>
-          @canany(['admin','ceo','head','manager','scripter'])
-          <div class="btn-group btn-group-sm float-end" role="group" aria-label="Interview Actions">
-            <button type="button" class="btn btn-outline-primary" data-coreui-toggle="modal" data-coreui-target="#results" title="Survey Results Actions">
-              Download This Interview
+        <div class="col">
+          <?php
+            $interview_date = Carbon::parse($interview->created_at)
+          ?>
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead class="table-dark">
+                <tr>
+                  <th>
+                    {{ $interview->project->name }}
+                  </th>
+                  <th>
+                    {{ $interview->survey->survey_name }}
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>
+                      Interviewer:
+                    </strong> {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
+                  </td>
+                  <td>
+                    <strong>
+                      Respondent:
+                    </strong> {{ $interview->respondent->name ?? '('. $interview->respondent_name . ') was deleted from the System' }}
+                  </td>
+                  <td>
+                    This Interview was conducted {{ $interview_date->diffForHumans() }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col float-end">
+          @canany(['admin','ceo','head','manager','scripter','qc'])
+            <button type="button" class="btn btn-outline-danger" data-coreui-toggle="modal" data-coreui-target="#results" title="Download This Interview">
+              <i class="fa-solid fa-file-pdf"></i>
             </button>
-          </div>
           @endcan
+          @if($interview->feedback)
+            <div class="callout callout-info">
+              {{ $interview->feedback }}
+            </div>
+          @endif
         </div>
-        <div class="col-3">
-
-          @include('partials.alerts')
-          
-        </div>
-        @if($interview->feedback)
-        <div class=" col-3 text-end">
-          <div class="callout callout-info">
-            {{ $interview->feedback }}
-          </div>
-        </div>
-        @endif
+        <figure>
+          <figcaption>Interview Recording(s)</figcaption>
+          <audio controls>
+            <source src="{{ asset('assets/audios/sample-audio.wav') }}" type="audio/wav">
+            <track kind="subtitles" src="not_available_at_the_moment.vtt" srclang="en" label="English">
+            <track kind="subtitles" src="not_available_at_the_moment.vtt" srclang="sw" label="Kiswahili">
+            Your browser is not able to play audio recordings.
+          </audio>
+        </figure>
       </div>
       <div class="row">
         <div class="col">
@@ -94,26 +114,10 @@
           </div>
           @endif
         </div>
-        <div class="col">
-          <figure>
-            <figcaption>Interview Recording(s)</figcaption>
-            <audio controls>
-              <source src="{{ asset('assets/audios/sample-audio.wav') }}" type="audio/wav">
-              <track kind="subtitles" src="not_available_at_the_moment.vtt" srclang="en" label="English">
-              <track kind="subtitles" src="not_available_at_the_moment.vtt" srclang="sw" label="Kiswahili">
-              Your browser is not able to play audio recordings.
-            </audio>
-          </figure>
-        </div>
       </div> 
     </div>
     <div class="card-body">
-      @canany(['coding'])
-        @include('interviews/coding')
-      @endcan
-
       @canany(['qc'])
-
         @if(!$interview->survey_url === null)
           <!-- Iframe -->
             @canany(['admin', 'interviewer', 'respondent'])
@@ -124,7 +128,6 @@
         @else
           @include('interviews/survey_results')
         @endif
-        
       @endcan
     </div>
     <div class="card-footer">
@@ -161,10 +164,6 @@
   <p id="survey_id">{{ $interview->survey->id  }}</p>
   <p id="interview_id">{{ $interview->id  }}</p>
   <p id="result_url">{{ route('api.results.show', $interview->id)  }}</p>
-</div>
-  
-  
-
 </div>
 
 @include('interviews/modals')

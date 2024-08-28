@@ -25,9 +25,11 @@ use Carbon\Carbon;
       <div class="row">
         <div class="col">
           @if($project)
-            <h3 id="project_name" class="text-primary">
-              {{ $project->name }}
-            </h3>
+            <a href="{{ route('projects.show', $project->id) }}">
+              <h3 id="project_name" class="text-primary">
+                {{ $project->name }}
+              </h3>
+            </a>
             <hr>
             <h5 id="survey_name" class="bg-warning">
               {{ $survey->survey_name }}

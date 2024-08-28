@@ -15,14 +15,14 @@
   </p>
   <!-- For Patching Survey Results-->
   <p id="patch_result_url" style="display: none;">
-    {{ url('api/results') }}
+    {{ route('api.results.update', $interview->id) }}
   </p>
 
   <p id="user_id" style="display: none;">
     {{ auth()->user()->id }}
   </p>
   <p id="interview_id" style="display: none;">
-    {{ $interview->id ?? 1}}
+    {{ $interview->id ?? 1 }}
   </p>
   <p id="project_id" style="display: none;">
     {{ $interview->project_id ?? '' }}
@@ -44,7 +44,7 @@
     <option value="sw">Kiswahili</option>
     <option value="bg">Bulgarian</option>
   </select>
-  <!-- EndTranslations-->
+  <!-- End Translations-->
 
   <survey params="survey: model"></survey>
 

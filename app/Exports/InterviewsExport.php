@@ -9,22 +9,37 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class InterviewsExport implements FromQuery, WithHeadings
 {
-    protected $schemaId;
+    protected $project_id;
+    protected $schema_id;
 
-    function __construct(int $schemaId)
+    function __construct(int $project_id = null, int $schema_id)
     {
-        $this->schemaId = $schemaId;
+        $this->project_id = $project_id;
+        $this->schema_id = $schema_id;
     }
 
     public function query()
     {
-        return Interview::query()
+        if (is_null($this->project_id))
+        {
+            return Interview::query()
                 ->select([
                     'id','user_id','project_id','schema_id','respondent_id','respondent_name','ext_no','phone_called','interview_status','qc_name','quality_control','qc_feedback','start_time','end_time','feedback'
                 ])
-                ->where('schema_id', $this->schemaId)
+                ->where('schema_id', $this->schema_id)
                 ->whereNotNull('interview_status')
                 ->orderBy('id');
+        }
+        else
+        {
+            return Interview::query()
+                ->select([
+                    'id','user_id','project_id','schema_id','respondent_id','respondent_name','ext_no','phone_called','interview_status','qc_name','quality_control','qc_feedback','start_time','end_time','feedback'
+                ])
+                ->where('project_id', $this->project_id)
+                ->whereNotNull('interview_status')
+                ->orderBy('id');
+        }
     }
 
 
@@ -43,7 +58,7 @@ class InterviewsExport implements FromQuery, WithHeadings
 
             $mappedInterviews[] = [
                 $interview->id,
-                $interview->user_id,
+                $interview->user->first_name ?? 'None',
                 $interview->project_id,
                 $interview->schema_id,
                 $interview->respondent_id,
@@ -66,11 +81,23 @@ class InterviewsExport implements FromQuery, WithHeadings
 
     public function headings(): array
     {
-        return [
-            [
-                'Survey ID: ' . $this->schemaId,
-            ],
-            ['Interview ID','Interviewer ID','Respondent ID','Respondent\'s Name','Caller\'s Extension Number','Phone Called','Interview Status','QC Name','Quality Control','Quality Control Feedback','Start Time','End Time','Interviewer Feedback','Interview Duration',]
-        ];
+        if (is_null($this->project_id))
+        {
+            return [
+                [
+                    'Survey ID: ' . $this->schema_id,
+                ],
+                ['Interview ID','Interviewer Name','Respondent ID','Respondent\'s Name','Caller\'s Extension Number','Phone Called','Interview Status','QC Name','Quality Control','Quality Control Feedback','Start Time','End Time','Interviewer Feedback','Interview Duration',]
+            ];
+        }
+        else
+        {
+            return [
+                [
+                    'Project ID: ' . $this->project_id,
+                ],
+                ['Interview ID','Interviewer Name','Respondent ID','Respondent\'s Name','Caller\'s Extension Number','Phone Called','Interview Status','QC Name','Quality Control','Quality Control Feedback','Start Time','End Time','Interviewer Feedback','Interview Duration',]
+            ];
+        }
     }
 }

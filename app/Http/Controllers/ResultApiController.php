@@ -68,12 +68,12 @@ class ResultApiController extends Controller
 
            return response()->json([
             'id' => $result->id,
-            'message' => 'Result stored successfully'
+            'message' => 'Survey Results Stored Successfully'
            ], 201);
         } else {
             // You can send email and/or sms notification
            return response()->json([
-            'message' => 'Failed to store results.'
+            'message' => 'Failed To Store Survey Results.'
            ], 500);
         }
     }
@@ -100,22 +100,47 @@ class ResultApiController extends Controller
     public function update(Request $request, string $id)
     {
         dd('Patch');
-        $survey_result = Result::find($id);
+        //dd(auth()->user()->id);
+        $content      = json_encode($request->content);
+        $user_id      = (int) $request->input('user_id');
+        $schema_id    = (int) $request->input('survey_id');
+        $interview_id = (int) $request->input('interview_id');
+        $project_id   = (int) $request->input('project_id');
+        $respondent_id     = (int) $request->input('respondent_id');
+        $latitude     = (int) $request->input('latitude');
+        $longitude    = (int) $request->input('longitude');
+        $altitude     = (int) $request->input('altitude');
+        $altitude_accuracy = (int) $request->input('altitude_accuracy');
+        $position_accuracy = (int) $request->input('position_accuracy');
+        $heading   = (int) $request->input('heading');
+        $speed     = (int) $request->input('speed');
+        $timestamp = (int) $request->input('timestamp');
+        //dd($project_id);
 
-        $content = $request->input('content');
+        $result = Result::where('interview_id', $interview_id)
+                        ->where('user_id', $user_id)
+                        ->first();
 
+        if ($result) {
 
+            $result->update([
+                'content'     => $content,
+            ]);
 
-        $result = $survey_result->update([
-            'id' => $id,
-            'user_id' => auth()->user()->id,
-            'survey_schema_id' => 1,
-            // 'ip_address' => $request->ip(),
-            // 'user_agent' => $request->userAgent(),
-            'content' => $content,
-        ]);
+            // Update Respondent 'interview_status' and 'interview_date_time' columns here
 
-        return response()->json($result, 200);
+            $this->updateRespondentInterviewStatus($respondent_id, $project_id);
+
+           return response()->json([
+            'id' => $result->id,
+            'message' => 'Survey Results Updated Successfully'
+           ], 201);
+        } else {
+            // You can send email and/or sms notification
+           return response()->json([
+            'message' => 'Failed To Update Survey Results.'
+           ], 500);
+        }
     }
 
     /**

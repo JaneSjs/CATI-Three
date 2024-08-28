@@ -4,7 +4,7 @@
 
 <div class="body flex-grow-1 px-3">
   @canany(['ceo','client','interviewer'])
-  <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back">
+  <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back" id="terminateInterviewButton1">
     <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
   </button>
   @endcan
@@ -17,7 +17,7 @@
             <strong class="text-warning">
               {{ $survey->survey_name }}.
             </strong>
-            @canany(['ceo','interviewer'])
+            @canany(['ceo','client','interviewer'])
              You are interviewing 
              <strong class="text-primary">
                {{ $respondent->name }}
@@ -27,14 +27,14 @@
           </p>
           
 
-          <div class="btn-group btn-sm float-end" role="group" aria-label="Project Actions">
+          <div class="btn-group btn-sm float-end" role="group" aria-label="Interview Actions" id="interviewActionButtons">
             @canany(['interviewer'])
             <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
             </button>
            
-            <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
+            <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" >
               Terminate Interview
               <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
             </button>
@@ -156,13 +156,12 @@
                   </strong>
                 </div>
                 <div class="toast-body text-start text-primary">
-                  Last Scripted By: @if($survey->updated_by) {{ $survey->updated_by }} @endif
+                  Last Scripted By: @if($survey->updated_by) {{ $survey->updated_by }} at {{ $survey->updated_at }} @endif
                 </div>
               </div>
             @endif
           @endcan
           
-          <hr>
           @canany(['admin'])
             <div class="alert alert-info">
               <p> 
@@ -179,7 +178,7 @@
     
     @if($survey->iframe_url)
       <!-- Iframe -->
-        @canany(['admin','ceo','interviewer','respondent'])
+        @canany(['admin','ceo','client','interviewer','respondent'])
           @include('surveys.iframe')
         @endcan
       <!-- End Iframe -->
@@ -198,59 +197,21 @@
 
     <div class="card-footer">
       @canany(['ceo','client','interviewer'])
-      <div class="row">
-        <div class="col text-start">
-          <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback">
-            Terminate Interview
-            <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
-          </button>
-        </div>
-        <div class="col text-end">
-          <button type="button" class="btn btn-success invisible" data-coreui-toggle="modal" data-coreui-target="#complete_interview" id="completeInterview">
-            Complete Interview
-            <i class="fa-solid fa-check" style="color: #ffffff;"></i>
-          </button>
-        </div>
+      <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" id="terminateInterviewButton2">
+        Terminate Interview
+        <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+      </button>
+
+      <div class="d-grid">
+        <button type="button" class="btn btn-success btn-lg btn-block invisible" data-coreui-toggle="modal" data-coreui-target="#complete_interview" id="completeInterview">
+          Complete Interview
+          <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+        </button>
       </div>
       @endcan
     </div>
   </div>
 </div>
-
-@canany(['ceo','client','interviewer'])
-<!-- Interview Feedback Modal -->
-<div class="modal fade" id="interview_feedback" tabindex="-1" aria-labelledby="interview_feedback" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="interview_feedback">
-          Interview Feedback
-        </h5>
-        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="{{ route('interview_feedback') }}" method="post">
-        @csrf
-        @method('PATCH')
-        <input type="hidden" name="interview_id" value="{{ $interview->id }}">
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="feedback_input" class="form-label">
-                
-            </label>
-            <textarea class="form-control" name="feedback" id="feedback_input" rows="7"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">
-            Submit feedback
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- End Interview Feedback Modal -->
-@endcan
 
 @canany(['ceo','client','interviewer'])
 <!-- Complete Interview Modal -->

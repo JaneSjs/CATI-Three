@@ -123,23 +123,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         credentials: "same-origin",
       };
 
-
       const response = await fetch(url, options);
+
       if (response.ok) {
         const surveyResult = await response.json();
         resultId = surveyResult.id;
 
-        // Display Interview Complete Button
+        // Display Interview Complete Button and Hide The Terminate Button
         setTimeout(() => {
           console.log("Complete Interview Button To Be Visible");
-          document.getElementById('completeInterview').classList.remove('invisible')
+          document.getElementById('completeInterview').classList.remove('invisible');
+          document.getElementById('terminateInterviewButton1').classList.add('invisible');
+          document.getElementById('terminateInterviewButton2').classList.add('invisible');
+          document.getElementById('interviewActionButtons').classList.add('invisible');
         }, 100);
 
         // Toastify Notifications
         Toastify({
-          text: "Results Recorded Successfully",
+          text: "Results Recorded Successfully. Please Complete The Interview",
           duration: 8000,
-          destination: "https://cati.tifaresearch.com/projects",
           newWindow: true,
           close: true,
           gravity: "top", // `top` or `bottom`
@@ -211,7 +213,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   {
     let nextPage = sender.currentPage.visibleIndex + 1;
     let httpMethod = "POST";
-
     let url = post_result_url;
 
     saveSurveyResults(url, survey.data, nextPage, httpMethod);
@@ -221,13 +222,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   {
     let nextPage = sender.currentPage.visibleIndex + 1;
     let httpMethod = "PATCH";
-
-    if (!resultId)
-    {
-      console.error("resultId is not available");
-    }
-
-    let url = patch_result_url + "/" + resultId;
+    let url = patch_result_url;
 
     saveSurveyResults(url, survey.data, nextPage, httpMethod);
   }
@@ -239,13 +234,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     //const currentPage = sender.currentPage;
 
     // console.log('Survey Data:', surveyData);
-    // if (!resultId)
-    // {
-    //   console.error("resultId is not available");
-    // } 
 
     // httpMethod = "PATCH";
-    // let url = patch_result_url + "/" + resultId;
 
     httpMethod = "POST";
     let url = post_result_url;

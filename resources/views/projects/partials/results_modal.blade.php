@@ -21,11 +21,25 @@
               <tr>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="Scripter Actions">
-                    
-                    <a href="{{ url('interviews_xlsx_export', $survey->id) }}" class="btn btn-outline-dark btn-sm" title="Excel Format">
-                      <i class="fa-solid fa-file-excel" style="color: #3d3846;"></i>
-                      Interviews XLSX
-                    </a>
+
+                    <form action="{{ route('interviews_xlsx_export') }}" method="post">
+                      @csrf
+                      <input type="hidden" name="schema_id" value="{{ $survey->id }}">
+                      <button class="btn btn-outline-dark btn-sm" title="Excel Format">
+                        <i class="fa-solid fa-file-excel" style="color: #3d3846;"></i>
+                        Project Interviews XLSX
+                      </button>
+                    </form>
+
+                    <form action="{{ route('interviews_xlsx_export') }}" method="post">
+                      @csrf
+                      <input type="hidden" name="schema_id" value="{{ $survey->id }}">
+                      <button class="btn btn-outline-dark btn-sm" title="Excel Format">
+                        <i class="fa-solid fa-file-excel" style="color: #3d3846;"></i>
+                        {{ $survey->survey_name }} Interviews XLSX
+                      </button>
+                    </form>
+
                     <a href="{{ route('json_export', $survey->id) }}" class="btn btn-outline-primary btn-sm" title="JSON Format">
                       <i class="fa-solid fa-file-export"></i>
                       Survey Results JSON

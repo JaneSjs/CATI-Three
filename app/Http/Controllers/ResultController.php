@@ -11,6 +11,7 @@ use App\Jobs\ExportSurveyResults;
 use App\Jobs\MailSurveyResults;
 use App\Mail\SurveyResultsExport;
 use App\Models\Interview;
+use App\Models\Project;
 use App\Models\Respondent;
 use App\Models\Result;
 use App\Models\Schema;
@@ -136,12 +137,24 @@ class ResultController extends Controller
     /**
      * JSON Results Export
      */
-    public function json_export(int $schemaId)
+    public function json_export(Request $request)
     {
-        $survey = Schema::find($schemaId);
-        $surveyName = $survey->survey_name;
+        $schema_id = $request->input('schema_id');
+        $project_id = $request->input('project_id');
 
-        $fileName = 'TIFA-JSON-' . str_replace(' ', '-', $surveyName) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
+        if (!is_null($project_id))
+        {
+            $project = Project::find($project_id);
+            $name = $project->name;
+        }
+        else
+        {
+            dd($schema_id);
+            $survey = Schema::find($schema_id);
+            $name = $survey->survey_name;
+        }
+
+        $fileName = 'TIFA-JSON-' . str_replace(' ', '-', $name) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
 
         $headers = [
             'Content-Type' => 'application/json',
@@ -179,7 +192,13 @@ class ResultController extends Controller
                 'respondents.age_group',
                 'results.content',
             )
-            ->where('results.schema_id', $schemaId)
+            ->when($project_id, function ($query, $project_id)
+            {
+                return $query->where('results.project_id', $project_id);
+            }, function ($query) use ($schema_id)
+            {
+                return $query->where('results.schema_id', $schema_id);
+            })
             ->where('interviews.interview_status', 'Interview Completed')
             ->where(function ($query)
             {
@@ -189,10 +208,12 @@ class ResultController extends Controller
             ->get();
 
         //dd($results);
-        if (count($results) == 0)
+        //if (count($results) == 0)
+        if($results->isEmpty())
         {
             return back()->with('warning', 'The Survey Is Pending Quality Control');
         }
+
         // Decode the JSON Content column
         $results->map(function ($result)
         {
