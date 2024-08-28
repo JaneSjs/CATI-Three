@@ -24,7 +24,7 @@
 
                     <form action="{{ route('interviews_xlsx_export') }}" method="post">
                       @csrf
-                      <input type="hidden" name="schema_id" value="{{ $survey->id }}">
+                      <input type="hidden" name="project_id" value="{{ $project->id }}">
                       <button class="btn btn-outline-dark btn-sm" title="Excel Format">
                         <i class="fa-solid fa-file-excel" style="color: #3d3846;"></i>
                         Project Interviews XLSX

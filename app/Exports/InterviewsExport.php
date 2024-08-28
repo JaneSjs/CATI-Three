@@ -12,7 +12,7 @@ class InterviewsExport implements FromQuery, WithHeadings
     protected $project_id;
     protected $schema_id;
 
-    function __construct(int $project_id = null, int $schema_id)
+    function __construct(int $project_id = null, int $schema_id = null)
     {
         $this->project_id = $project_id;
         $this->schema_id = $schema_id;
