@@ -62,6 +62,18 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
+          Approved Interviews: 
+          <span class="badge bg-success rounded-pill">
+            {{ count($approved_interviews) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          Cancelled Interviews: 
+          <span class="badge bg-danger rounded-pill">
+            {{ count($cancelled_interviews) }}
+          </span>
+        </li>
+        <li class="list-group-item">
           Completed Interviews: 
           <span class="badge bg-success rounded-pill">
             {{ count($completed_interviews) }}

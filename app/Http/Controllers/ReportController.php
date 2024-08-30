@@ -88,6 +88,9 @@ class ReportController extends Controller
 
         $data['all_interview_attempts'] = $all_interview_attempts = Interview::where('project_id', $project_id)->get();
         $data['completed_interviews'] = $completed_interviews = Interview::where('project_id', $project_id)->where('interview_status', 'Interview Completed')->get();
+        $data['approved_interviews'] = $approved_interviews = Interview::where('project_id', $project_id)->where('quality_control', 'Approved')->get();
+        $data['cancelled_interviews'] = $cancelled_interviews = Interview::where('project_id', $project_id)->where('quality_control', 'Cancelled')->get();
+
         $data['qcd_interviews'] = Interview::where('project_id', $project_id)->where('quality_control', '!=', null)->count();
 
         $data['quota'] = $quota =  Quota::where('project_id', $project_id)->first();
