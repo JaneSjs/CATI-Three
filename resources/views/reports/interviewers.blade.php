@@ -34,6 +34,26 @@ use Carbon\Carbon;
           </span>
         </li>
         <li class="list-group-item">
+          Completed Interviews: 
+          <span class="badge bg-success rounded-pill">
+            {{ count($completed_interviews) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          Approved Interviews: 
+          <span class="badge bg-success rounded-pill">
+            {{ count($approved_interviews) }}
+          </span>
+        </li>
+        <li class="list-group-item">
+          Cancelled Interviews: 
+          <span class="badge bg-danger rounded-pill">
+            {{ count($cancelled_interviews) }}
+          </span>
+        </li>
+      </ul>
+      <ul class="list-group">
+        <li class="list-group-item">
           QC Rate: 
           <span class="badge rounded-pill
             @if(count($completed_interviews) == 0)
@@ -59,24 +79,6 @@ use Carbon\Carbon;
             @else
               {{ round(($qcd_interviews / count($completed_interviews) ) * 100) }} %
             @endif
-          </span>
-        </li>
-        <li class="list-group-item">
-          Approved Interviews: 
-          <span class="badge bg-success rounded-pill">
-            {{ count($approved_interviews) }}
-          </span>
-        </li>
-        <li class="list-group-item">
-          Cancelled Interviews: 
-          <span class="badge bg-danger rounded-pill">
-            {{ count($cancelled_interviews) }}
-          </span>
-        </li>
-        <li class="list-group-item">
-          Completed Interviews: 
-          <span class="badge bg-success rounded-pill">
-            {{ count($completed_interviews) }}
           </span>
         </li>
         <li class="list-group-item">
