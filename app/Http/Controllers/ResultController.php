@@ -139,19 +139,25 @@ class ResultController extends Controller
      */
     public function json_export(Request $request)
     {
-        $schema_id = $request->input('schema_id');
         $project_id = $request->input('project_id');
+        $schema_id = $request->input('schema_id');
+        $name = 'Undefined';
 
-        if (!is_null($project_id))
+        if ($request->has('project_id'))
         {
             $project = Project::find($project_id);
-            $name = $project->name;
+            $name = $project->name ?? 'Project Not Found';
+            //dd('Project Id:' . $project_id);
+        }
+        elseif ($request->has('schema_id'))
+        {
+            $survey = Schema::find($schema_id);
+            $name = $survey->survey_name ?? 'Survey Not Found';
+            //dd('Schema Id:' . $schema_id . ' ' . ($name));
         }
         else
         {
-            dd($schema_id);
-            $survey = Schema::find($schema_id);
-            $name = $survey->survey_name;
+            return back()->with('error', 'To Download Survey Results, It Has To Belong To Either a Project or a Survey');
         }
 
         $fileName = 'TIFA-JSON-' . str_replace(' ', '-', $name) . '-' . now()->format('Y-m-d-H-i') . '-Results.json';
@@ -192,10 +198,14 @@ class ResultController extends Controller
                 'respondents.age_group',
                 'results.content',
             )
-            ->when($project_id, function ($query, $project_id)
-            {
-                return $query->where('results.project_id', $project_id);
-            }, function ($query) use ($schema_id)
+            /**
+             * There is no project_id column on the results table.
+             */
+            // ->when($project_id, function ($query, $project_id)
+            // {
+            //     return $query->where('results.project_id', $project_id);
+            // })
+            ->when($schema_id, function ($query) use ($schema_id)
             {
                 return $query->where('results.schema_id', $schema_id);
             })

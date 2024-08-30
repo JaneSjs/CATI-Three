@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Create the SurveyJS instance with the generated model
         survey = new Survey.Model(surveyJson);
+        //survey.applyTheme(ContrastLight);
 
         // Render survey inside the page
         ko.applyBindings({

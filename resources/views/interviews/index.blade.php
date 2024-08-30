@@ -13,11 +13,13 @@
             <table class="table table-striped table-sm table-bordered">
               <thead class="table-dark">
                 <tr>
-                  <th scope="col">Interview Id</th>
-                  <th scope="col">Interviewer</th>
+                  <th scope="col" title="Interview Id">
+                    #
+                  </th>
+                  <th scope="col">Interviewer Details</th>
                   <th scope="col">Respondent Details</th>
                   <th scope="col">Interview Details</th>
-                  <th scope="col">QC Name</th>
+                  <th scope="col">QC Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,12 +30,14 @@
                   </th>
                   <td>
                     {{ $interview->user->first_name . ' ' .$interview->user->last_name }}
+                    <hr>
+                    Ext No Used: {{ $interview->ext_no  }}
                   </td>
                   
                   <td>
                     {{ $interview->respondent->name ?? '' }}
                     <hr>
-                    Phone Called - 890 {{ $interview->phone_called }}
+                    Phone Called - 890{{ $interview->phone_called }}
                   
                     <hr>
                     Id - {{ $interview->respondent->id ?? '' }}
@@ -42,6 +46,12 @@
                   
                   </td>
                   <td>
+                    <button type="button" class="btn btn-warning" disabled>
+                      {{ $interview->survey->survey_name }} 
+                      <span class="badge bg-info">
+                        Version {{ $interview->survey->version }}
+                      </span>
+                    </button>
                     <dl>
                       <dt>
                         {{ $interview->interview_status ?? '' }}
@@ -75,6 +85,10 @@
                   </td>
                   <td>
                     {{ $interview->qc_name }}
+                    <hr>
+                    {{ $interview->quality_control }}
+                    <hr>
+                    {{ $interview->qc_feedback }}
                   </td>
                 </tr>
                 @endforeach

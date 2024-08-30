@@ -82,7 +82,7 @@ Route::middleware(['auth','verified'])->group(function ()
 	Route::get('xlsx_export/{id}', [ResultController::class, 'xlsx_export']);
 	Route::get('xlsx_sheets_export/{id}', [ResultController::class, 'xlsx_sheets_export']);
 	Route::get('csv_export/{id}', [ResultController::class, 'csv_export']);
-	Route::get('json_export/{id}', [ResultController::class, 'json_export'])->name('json_export');
+	Route::post('json_export', [ResultController::class, 'json_export'])->name('json_export');
 	Route::get('json_export_all_data/{id}', [ResultController::class, 'jsonExportAllData'])->name('json_export_all_data');
 	Route::get('xml_export/{id}', [ResultController::class, 'xml_export'])->name('xml_export');
 	Route::get('exported_files/{schemaId}', [ExportedFileController::class, 'exported_files'])->name('exported_files');
