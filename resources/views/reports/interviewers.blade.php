@@ -52,7 +52,7 @@ use Carbon\Carbon;
           </span>
         </li>
       </ul>
-      <ul class="list-group">
+      <ul class="list-group list-group-horizontal">
         <li class="list-group-item">
           QC Rate: 
           <span class="badge rounded-pill
@@ -91,6 +91,7 @@ use Carbon\Carbon;
           </div>
         </li>
       </ul>
+
       <div class="table-responsive">
         <table class="table table-striped-columns table-hover table-sm caption-top">
           <caption class="text-primary">
