@@ -80,7 +80,6 @@ class SchemaController extends Controller
                                         ->groupBy('respondent_id')
                                         ->havingRaw('COUNT(*) > 1')
                                         ->pluck('respondent_id');
-        dd($duplicate_respondent_ids);
 
         $data['duplicate_interviews'] = $survey->interviews()
                                     ->whereIn('respondent_id', $duplicate_respondent_ids)
@@ -89,7 +88,7 @@ class SchemaController extends Controller
                                     ->orderBy('id', 'desc')
                                     ->paginate(100);
 
-        //dd($data['interviews']);
+        dd('All Interviews: ' . $data['interviews'] . ' Duplicate Interviews: ' . $data['duplicate_interviews']);
 
         return view('surveys.show', $data);
         
