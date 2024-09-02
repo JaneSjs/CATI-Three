@@ -72,6 +72,7 @@ class SchemaController extends Controller
                                     ->orderBy('id', 'desc')
                                     ->paginate(100);
 
+        // Find Possible Duplicate Interviews
         $duplicate_respondent_ids = $survey->interviews()
                                         ->select('respondent_id')
                                         ->where('interview_status', 'Interview Completed')
@@ -79,8 +80,8 @@ class SchemaController extends Controller
                                         ->groupBy('respondent_id')
                                         ->havingRaw('COUNT(*) > 1')
                                         ->pluck('respondent_id');
+        dd($duplicate_respondent_ids);
 
-        // Fetch Possible Duplicate Interviews
         $data['duplicate_interviews'] = $survey->interviews()
                                     ->whereIn('respondent_id', $duplicate_respondent_ids)
                                     ->where('interview_status', 'Interview Completed')

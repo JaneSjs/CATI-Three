@@ -26,7 +26,6 @@
             
           </p>
           
-
           <div class="btn-group btn-sm float-end" role="group" aria-label="Interview Actions" id="interviewActionButtons">
             @canany(['interviewer'])
             <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
@@ -203,7 +202,7 @@
       </button>
 
       <div class="d-grid">
-        <button type="button" class="btn btn-success btn-lg btn-block invisible" data-coreui-toggle="modal" data-coreui-target="#complete_interview" id="completeInterview">
+        <button type="button" class="btn btn-success btn-lg btn-block p-4 invisible" data-coreui-toggle="modal" data-coreui-target="#complete_interview" id="completeInterview" title="Click To Complete The Interview">
           Complete Interview
           <i class="fa-solid fa-check" style="color: #ffffff;"></i>
         </button>

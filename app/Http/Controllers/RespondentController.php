@@ -621,7 +621,7 @@ class RespondentController extends Controller
         $previous_survey = Schema::find($previous_survey_id);
 
         $previous_project_id = $request->input('previous_project_id');
-        $previous_project = Schema::find($previous_project_id);
+        $previous_project = Project::find($previous_project_id);
 
         $current_project_id = $request->input('current_project_id');
         $current_survey_id = $request->input('current_survey_id');
