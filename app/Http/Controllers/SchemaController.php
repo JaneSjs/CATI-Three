@@ -72,6 +72,22 @@ class SchemaController extends Controller
                                     ->orderBy('id', 'desc')
                                     ->paginate(100);
 
+        $duplicate_respondent_ids = $survey->interviews()
+                                        ->select('respondent_id')
+                                        ->where('interview_status', 'Interview Completed')
+                                        ->where('quality_control', NULL)
+                                        ->groupBy('respondent_id')
+                                        ->havingRaw('COUNT(*) > 1')
+                                        ->pluck('respondent_id');
+
+        // Fetch Possible Duplicate Interviews
+        $data['duplicate_interviews'] = $survey->interviews()
+                                    ->whereIn('respondent_id', $duplicate_respondent_ids)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where('quality_control', NULL)
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(100);
+
         //dd($data['interviews']);
 
         return view('surveys.show', $data);

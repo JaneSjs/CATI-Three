@@ -22,12 +22,86 @@ use Carbon\Carbon;
           Interviews Quality Control Panel
         </h5>
       </div>
+      <div class="col">
+        <div class="btn-group btn-sm">
+          <button class="btn btn-outline-danger" data-coreui-toggle="collapse" data-coreui-target="#possibleDuplicateInterviews" role="button" aria-expanded="false" aria-controls="possibleDuplicateInterviews" title="Click To Toggle">
+            Possible Duplicates
+          </button>
+          <button class="btn btn-outline-primary" data-coreui-toggle="collapse" data-coreui-target="#allInterviews" role="button" aria-expanded="false" aria-controls="allInterviews" title="Click To Toggle">
+            All Interviews
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="card-body">
-    <div class="table-responsive">
+    <div id="allInterviews" class="collapse table-responsive">
       <table class="table">
-        <thead>
+        <caption class="text-primary">
+          All Interviews
+        </caption>
+        <thead class="bg-info text-light">
+          <tr>
+            <th>Interviewer</th>
+            <th>Respondent</th>
+            <th>Phone</th>
+            <th>Date Time</th>
+            <th>
+              Sort By Duration
+              <i class="fa-solid fa-sort"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @if($interviews)
+            @foreach($interviews as $interview)
+            <tr>
+              <td>
+                {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
+              </td>
+              <td>
+                {{ $interview->respondent->name ?? $interview->respondent_name }}
+              </td>
+              <td>
+                {{ $interview->phone_called ?? $interview->respondent->phone_1 }}
+              </td>
+              <td>
+                <?php
+                  $interview_date = Carbon::parse($interview->created_at)
+                ?>
+                {{ $interview_date->format('jS M Y H:i \H\r\s') }}
+              </td>
+              <td>
+                <?php
+                $start_time = Carbon::parse($interview->start_time);
+                $end_time   = Carbon::parse($interview->end_time);
+                ?>
+                {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }} 
+              </td>
+              <td>
+                <a href="{{ route('interviews.show', $interview->id) }}" class="btn btn-dark">
+                  Show Interview
+                </a>
+              </td>
+            </tr>
+            @endforeach
+          @else
+           <tr>
+             No Interview to QC
+           </tr>
+          @endif
+        </tbody>
+        <tfoot>
+          {{ $interviews->links() }}
+        </tfoot>
+      </table>
+    </div>
+    <div id="possibleDuplicateInterviews" class="collapse show table-responsive">
+      <table class="table">
+        <caption class="text-danger">
+          Possible Duplicate Interviews
+        </caption>
+        <thead class="bg-danger">
           <tr>
             <th>Interviewer</th>
             <th>Respondent</th>
