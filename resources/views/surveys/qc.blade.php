@@ -153,7 +153,7 @@ use Carbon\Carbon;
           @endif
         </tbody>
         <tfoot>
-          {{ $interviews->links() }}
+          {{ $duplicate_interviews->links() }}
         </tfoot>
       </table>
     </div>
