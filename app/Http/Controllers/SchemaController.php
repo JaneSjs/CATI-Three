@@ -70,7 +70,7 @@ class SchemaController extends Controller
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', NULL)
                                     ->orderBy('id', 'desc')
-                                    ->paginate(100);
+                                    ->paginate(100)->withQueryString();
 
         // Find Possible Duplicate Interviews
         $duplicate_respondent_ids = $survey->interviews()
@@ -86,7 +86,7 @@ class SchemaController extends Controller
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', NULL)
                                     ->orderBy('id', 'desc')
-                                    ->paginate(100);
+                                    ->paginate(100)->withQueryString();
 
         //dd('All Interviews: ' . count($data['interviews']) . ' Duplicate Interviews: ' . count($data['duplicate_interviews']));
 
