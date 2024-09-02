@@ -114,8 +114,8 @@ use Carbon\Carbon;
           </tr>
         </thead>
         <tbody>
-          @if($interviews)
-            @foreach($interviews as $interview)
+          @if($duplicate_interviews)
+            @foreach($duplicate_interviews as $interview)
             <tr>
               <td>
                 {{ $interview->user->first_name . ' ' . $interview->user->last_name }}

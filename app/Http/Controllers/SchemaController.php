@@ -88,7 +88,7 @@ class SchemaController extends Controller
                                     ->orderBy('id', 'desc')
                                     ->paginate(100);
 
-        dd('All Interviews: ' . count($data['interviews']) . ' Duplicate Interviews: ' . count($data['duplicate_interviews']));
+        //dd('All Interviews: ' . count($data['interviews']) . ' Duplicate Interviews: ' . count($data['duplicate_interviews']));
 
         return view('surveys.show', $data);
         
