@@ -66,11 +66,16 @@ class SchemaController extends Controller
         $data['survey'] = $survey;
         $data['results'] = $survey->results;
 
-        $data['interviews'] = $survey->interviews()
+        $data['pending_interviews'] = $survey->interviews()
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', NULL)
                                     ->orderBy('id', 'desc')
                                     ->paginate(100)->withQueryString();
+
+        $data['total_pending_interviews'] = $survey->interviews()
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where('quality_control', NULL)
+                                    ->count();
 
         // Find Possible Duplicate Interviews
         $duplicate_respondent_ids = $survey->interviews()
@@ -87,6 +92,12 @@ class SchemaController extends Controller
                                     ->where('quality_control', NULL)
                                     ->orderBy('id', 'desc')
                                     ->paginate(100)->withQueryString();
+
+        $data['total_duplicate_interviews'] = $survey->interviews()
+                                    ->whereIn('respondent_id', $duplicate_respondent_ids)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where('quality_control', NULL)
+                                    ->count();
 
         //dd('All Interviews: ' . count($data['interviews']) . ' Duplicate Interviews: ' . count($data['duplicate_interviews']));
 

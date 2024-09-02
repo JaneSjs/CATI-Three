@@ -12,11 +12,11 @@ use Carbon\Carbon;
       </div>
       <div class="col">
         <div class="btn-group btn-sm">
-          <button class="btn btn-outline-danger" data-coreui-toggle="collapse" data-coreui-target="#possibleDuplicateInterviews" role="button" aria-expanded="false" aria-controls="possibleDuplicateInterviews" title="Click To Toggle">
-            Possible Duplicates
+          <button class="btn btn-outline-danger" data-coreui-toggle="collapse" data-coreui-target="#possibleDuplicateInterviews" role="button" aria-expanded="false" aria-controls="possibleDuplicateInterviews" title="Toggle">
+            {{ $total_duplicate_interviews }} Possible Duplicates
           </button>
-          <button class="btn btn-outline-primary" data-coreui-toggle="collapse" data-coreui-target="#allInterviews" role="button" aria-expanded="false" aria-controls="allInterviews" title="Click To Toggle">
-            All Interviews
+          <button class="btn btn-outline-primary" data-coreui-toggle="collapse" data-coreui-target="#allInterviews" role="button" aria-expanded="false" aria-controls="allInterviews" title="Toggle">
+            {{ $total_pending_interviews }} Pending Interviews
           </button>
         </div>
       </div>
@@ -53,8 +53,8 @@ use Carbon\Carbon;
           </tr>
         </thead>
         <tbody>
-          @if($interviews)
-            @foreach($interviews as $interview)
+          @if($pending_interviews)
+            @foreach($pending_interviews as $interview)
             <tr>
               <td>
                 {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
@@ -92,7 +92,7 @@ use Carbon\Carbon;
           @endif
         </tbody>
         <tfoot>
-          {{ $interviews->links() }}
+          {{ $pending_interviews->links() }}
         </tfoot>
       </table>
     </div>
