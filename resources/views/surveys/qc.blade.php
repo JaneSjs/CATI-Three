@@ -7,7 +7,7 @@ use Carbon\Carbon;
     <div class="row">
       <div class="col">
         <h5 class="text-primary">
-          Interviews Quality Control Panel
+          {{ $survey->survey_name ?? '' }} Interviews Quality Control Panel
         </h5>
       </div>
       <div class="col">
@@ -15,7 +15,7 @@ use Carbon\Carbon;
           <button class="btn btn-outline-danger" data-coreui-toggle="collapse" data-coreui-target="#possibleDuplicateInterviews" role="button" aria-expanded="false" aria-controls="possibleDuplicateInterviews" title="Toggle">
             {{ $total_duplicate_interviews }} Possible Duplicates
           </button>
-          <button class="btn btn-outline-primary" data-coreui-toggle="collapse" data-coreui-target="#allInterviews" role="button" aria-expanded="false" aria-controls="allInterviews" title="Toggle">
+          <button class="btn btn-outline-primary" data-coreui-toggle="collapse" data-coreui-target="#pendingInterviews" role="button" aria-expanded="false" aria-controls="pendingInterviews" title="Toggle">
             {{ $total_pending_interviews }} Pending Interviews
           </button>
         </div>
@@ -35,10 +35,10 @@ use Carbon\Carbon;
     </div>
   </div>
   <div class="card-body">
-    <div id="allInterviews" class="collapse table-responsive">
+    <div id="pendingInterviews" class="collapse table-responsive">
       <table class="table">
         <caption class="text-primary">
-          All Interviews
+          {{ $total_pending_interviews }} Pending Interviews
         </caption>
         <thead class="bg-info text-light">
           <tr>
@@ -53,8 +53,7 @@ use Carbon\Carbon;
           </tr>
         </thead>
         <tbody>
-          @if($pending_interviews)
-            @foreach($pending_interviews as $pending_interview)
+            @forelse($pending_interviews as $pending_interview)
             <tr>
               <td>
                 {{ $pending_interview->user->first_name . ' ' . $pending_interview->user->last_name }}
@@ -84,12 +83,11 @@ use Carbon\Carbon;
                 </a>
               </td>
             </tr>
-            @endforeach
-          @else
+          @empty
            <tr>
              No Interview to QC
            </tr>
-          @endif
+          @endforelse
         </tbody>
         <tfoot>
           {{ $pending_interviews->links() }}
@@ -99,7 +97,7 @@ use Carbon\Carbon;
     <div id="possibleDuplicateInterviews" class="collapse show table-responsive">
       <table class="table">
         <caption class="text-danger">
-          Possible Duplicate Interviews
+          {{ $total_duplicate_interviews }} Possible Duplicate Interviews
         </caption>
         <thead class="bg-danger">
           <tr>
