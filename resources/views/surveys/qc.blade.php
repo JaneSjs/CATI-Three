@@ -54,32 +54,32 @@ use Carbon\Carbon;
         </thead>
         <tbody>
           @if($pending_interviews)
-            @foreach($pending_interviews as $interview)
+            @foreach($pending_interviews as $pending_interview)
             <tr>
               <td>
-                {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
+                {{ $pending_interview->user->first_name . ' ' . $pending_interview->user->last_name }}
               </td>
               <td>
-                {{ $interview->respondent->name ?? $interview->respondent_name }}
+                {{ $pending_interview->respondent->name ?? $pending_interview->respondent_name }}
               </td>
               <td>
-                {{ $interview->phone_called ?? $interview->respondent->phone_1 }}
+                {{ $pending_interview->phone_called ?? $pending_interview->respondent->phone_1 }}
               </td>
               <td>
                 <?php
-                  $interview_date = Carbon::parse($interview->created_at)
+                  $interview_date = Carbon::parse($pending_interview->created_at)
                 ?>
                 {{ $interview_date->format('jS M Y H:i \H\r\s') }}
               </td>
               <td>
                 <?php
-                $start_time = Carbon::parse($interview->start_time);
-                $end_time   = Carbon::parse($interview->end_time);
+                $start_time = Carbon::parse($pending_interview->start_time);
+                $end_time   = Carbon::parse($pending_interview->end_time);
                 ?>
                 {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }} 
               </td>
               <td>
-                <a href="{{ route('interviews.show', $interview->id) }}" class="btn btn-dark">
+                <a href="{{ route('interviews.show', $pending_interview->id) }}" class="btn btn-dark">
                   Show Interview
                 </a>
               </td>
@@ -115,32 +115,32 @@ use Carbon\Carbon;
         </thead>
         <tbody>
           @if($duplicate_interviews)
-            @foreach($duplicate_interviews as $interview)
+            @foreach($duplicate_interviews as $duplicate_interview)
             <tr>
               <td>
-                {{ $interview->user->first_name . ' ' . $interview->user->last_name }}
+                {{ $duplicate_interview->user->first_name . ' ' . $duplicate_interview->user->last_name }}
               </td>
               <td>
-                {{ $interview->respondent->name ?? $interview->respondent_name }}
+                {{ $duplicate_interview->respondent->name ?? $duplicate_interview->respondent_name }}
               </td>
               <td>
-                {{ $interview->phone_called ?? $interview->respondent->phone_1 }}
+                {{ $duplicate_interview->phone_called ?? $duplicate_interview->respondent->phone_1 }}
               </td>
               <td>
                 <?php
-                  $interview_date = Carbon::parse($interview->created_at)
+                  $interview_date = Carbon::parse($duplicate_interview->created_at)
                 ?>
                 {{ $interview_date->format('jS M Y H:i \H\r\s') }}
               </td>
               <td>
                 <?php
-                $start_time = Carbon::parse($interview->start_time);
-                $end_time   = Carbon::parse($interview->end_time);
+                $start_time = Carbon::parse($duplicate_interview->start_time);
+                $end_time   = Carbon::parse($duplicate_interview->end_time);
                 ?>
                 {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }} 
               </td>
               <td>
-                <a href="{{ route('interviews.show', $interview->id) }}" class="btn btn-dark">
+                <a href="{{ route('interviews.show', $duplicate_interview->id) }}" class="btn btn-dark">
                   Show Interview
                 </a>
               </td>
