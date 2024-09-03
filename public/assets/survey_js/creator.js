@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
         showLogicTab: true,
         isAutoSave: false,
         showTranslationTab: true,
-        availableLanguages: ["en", "fr"],
+        showThemeTab: true,
+        availableLanguages: ["en", "bg","sw"],
       };
 
       const creator = new SurveyCreator.SurveyCreator(creatorOptions);

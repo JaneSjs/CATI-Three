@@ -6,6 +6,7 @@
 @section('content')
 
 <div class="body flex-grow-1 px-3">
+  @include('partials/errors')
   <div class="card mb-4">
     <div class="card-header">
       <div class="row">

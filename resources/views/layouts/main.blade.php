@@ -31,7 +31,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/core-ui/css/coreui.min.css') }}"> -->
 
     <!-- Toastify CSS (For Notifications) -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/toastify/toastify.min.css') }}">
     <!-- End Toastify CSS (For Notifications) -->
     
     <!-- Favicon -->
@@ -60,8 +60,8 @@
                   </a>
                 </li>
                 <li class="list-group-item">
-                  <a href="https://www.google.com/chrome/" target="_blank" title="Google Chrome">
-                    <img src="{{ asset('assets/images/google-chrome.png') }}" alt="Google Chrome" height="30px" width="30px">
+                  <a href="https://brave.com/download/" target="_blank" title="Brave Browser">
+                    <img src="{{ asset('assets/images/brave_browser_logo_icon.png') }}" alt="Brave Browser" height="30px" width="30px">
                   </a>
                 </li>
               </ul>

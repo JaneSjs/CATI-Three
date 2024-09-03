@@ -47,9 +47,10 @@ use Carbon\Carbon;
             <th>Phone</th>
             <th>Date Time</th>
             <th>
-              Sort By Duration
+              Sort
               <i class="fa-solid fa-sort"></i>
             </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -78,7 +79,7 @@ use Carbon\Carbon;
                 {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }} 
               </td>
               <td>
-                <a href="{{ route('interviews.show', $pending_interview->id) }}" class="btn btn-dark">
+                <a href="{{ route('interviews.show', $pending_interview->id) }}" class="btn btn-dark btn-sm">
                   Show Interview
                 </a>
               </td>

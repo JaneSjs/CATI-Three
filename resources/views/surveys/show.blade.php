@@ -14,16 +14,15 @@
       <div class="row">
         <div class="col">
           <p class="float-start">
-            <strong class="text-warning">
+            <strong class="text-primary">
               {{ $survey->survey_name }}.
             </strong>
             @canany(['ceo','client','interviewer'])
              You are interviewing 
-             <strong class="text-primary">
+             <strong class="text-info">
                {{ $respondent->name }}
              </strong>
             @endcan
-            
           </p>
           
           <div class="btn-group btn-sm float-end" role="group" aria-label="Interview Actions" id="interviewActionButtons">

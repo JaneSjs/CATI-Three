@@ -1,4 +1,5 @@
 <!-- SurveyJs Resources -->
+
     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/knockout-latest.js') }}"></script>
 
     <!-- Default V2 theme -->
@@ -11,5 +12,6 @@
     <script type="text/javascript" src="{{ asset('assets/survey_js/resources/survey-knockout-ui.min.js') }}"></script>
     <script src="{{ asset('assets/survey_js/resources/survey.i18n.min.js') }}"></script>
 
-    
+    <script src="{{ asset('assets/survey_js/resources/survey-js-ui.min.js') }}"></script>
+
 <!-- End SurveyJs Resources -->

@@ -137,16 +137,21 @@
       <div class="modal-body">
           <div class="mb-3">
             <label for="qc_feedback" class="form-label text-primary">
-              Reason for cancelling the interview.
+              Reason for cancelling this interview.
             </label>
-            <textarea class="form-control" name="qc_feedback" id="qc_feedback" rows="7" required>
+            <textarea class="form-control @error('qc_feedback') is-invalid @enderror" name="qc_feedback" id="qc_feedback" rows="7" required>
               
             </textarea>
+            @error('qc_feedback')
+            <div class="invalid-feedback bg-light rounded text-center" role="alert">
+              {{ $message }}
+            </div>
+            @enderror
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-danger btn-block">
-            Submit 
+          <button type="submit" class="btn btn-outline-danger btn-block">
+            Submit QC Feedback
           </button>
         </div> 
     </form>
