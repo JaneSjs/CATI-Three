@@ -35,7 +35,7 @@ use Carbon\Carbon;
     </div>
   </div>
   <div class="card-body">
-    <div id="pendingInterviews" class="collapse table-responsive">
+    <div id="pendingInterviews" class="collapse show table-responsive">
       <table class="table">
         <caption class="text-primary">
           {{ $total_pending_interviews }} Pending Interviews
@@ -53,7 +53,7 @@ use Carbon\Carbon;
           </tr>
         </thead>
         <tbody>
-            @forelse($pending_interviews as $pending_interview)
+          @forelse($pending_interviews as $pending_interview)
             <tr>
               <td>
                 {{ $pending_interview->user->first_name . ' ' . $pending_interview->user->last_name }}
@@ -94,7 +94,7 @@ use Carbon\Carbon;
         </tfoot>
       </table>
     </div>
-    <div id="possibleDuplicateInterviews" class="collapse show table-responsive">
+    <div id="possibleDuplicateInterviews" class="collapse table-responsive">
       <table class="table">
         <caption class="text-danger">
           {{ $total_duplicate_interviews }} Possible Duplicate Interviews
