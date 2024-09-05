@@ -139,6 +139,7 @@
             @method('PATCH')
             <input type="hidden" name="quality_control" value="Approved">
             <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
+            <input type="text" name="feedback" value="Approved">
 
             <button type="submit" class="btn btn-outline-success floar-start">
               Approve This Interview

@@ -22,7 +22,7 @@ class UpdateInterviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'qc_feedback' => 'required|max:255',
+            //'qc_feedback' => 'required|max:255',
         ];
     }
 }

@@ -25,7 +25,6 @@ class ReportController extends Controller
 
         $data['report'] = $report;
 
-
         $data['dataSource'] = $report->dataStore("respondents");
 
         return view('reports.index', $data);
