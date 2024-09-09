@@ -22,7 +22,7 @@ class ApplicantController extends Controller
             {
                 $subQuery->whereIn('name', $rolesToFilter);
             });
-        })->paginate(6);
+        })->paginate(4);
 
         return view('applicants.index', $data);
     }

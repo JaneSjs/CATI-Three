@@ -60,12 +60,14 @@
               TIFA Research Ltd
             </p>
             <div class="d-flex justify-content-center mb-2">
-              <a href="{{ route('profiles.edit', $user->id) }}" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">
-                <div class="icon me-2">
-                  <i class="fa-solid fa-user"></i>
-                </div>
-                Update Profile
-              </a>
+              @if(auth()->user()->id === $user->id || auth()->user()->id === 1)
+                <a href="{{ route('profiles.edit', $user->id) }}" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">
+                  <div class="icon me-2">
+                    <i class="fa-solid fa-pen"></i>
+                  </div>
+                  Update Profile
+                </a>
+              @endif
             </div>
           </div>
         </div>

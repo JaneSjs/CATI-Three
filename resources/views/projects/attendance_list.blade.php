@@ -111,7 +111,7 @@
             @foreach($users as $user)
             <tr>
               <td>
-                <a href="{{ route('users.show', $user->id) }}">
+                <a href="{{ route('profiles.show', $user->id) }}">
                   {{ $user->first_name . ' ' . $user->last_name  }}
                 </a>
               </td>

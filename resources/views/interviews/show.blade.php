@@ -134,21 +134,12 @@
     <div class="card-footer">
       <div class="row">
         <div class="col">
-          <form method="post" action="{{ route('interviews.update', $interview->id) }}">
-            @csrf
-            @method('PATCH')
-            <input type="hidden" name="quality_control" value="Approved">
-            <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
-            <input type="text" name="feedback" value="Approved">
-
-            <button type="submit" class="btn btn-outline-success floar-start">
-              Approve This Interview
-              <i class="fas fa-check"></i>
-            </button>
-          </form>
+          <button type="button" class="btn btn-outline-success floar-start" data-coreui-toggle="modal" data-coreui-target="#qc_interview_approval">
+            Approve This Interview
+            <i class="fas fa-check"></i>
+          </button>
         </div>
         <div class="col">
-          
           <button type="button" class="btn btn-outline-danger float-end" data-coreui-toggle="modal" data-coreui-target="#qc_interview_cancellation">
             Cancel This Interview
             <i class="fas fa-times"></i>

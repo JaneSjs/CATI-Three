@@ -125,7 +125,7 @@
         <div class="col-4">
           <div class="btn-group" role="group" aria-label="Create Survey and Assign Members to Projects Button">
           @canany(['admin','ceo','head','manager','coordinator','dpo','finance'])
-            <a href="{{ route('attendanceList', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Attendance List">
+            <a href="{{ route('attendance_list', $project->id) }}" class="btn btn-outline-primary btn-sm" title="Project Attendance List">
               Attendance List
             </a>
           @endcan

@@ -7,7 +7,6 @@
         <h5 class="modal-title" id="interviewTerminationFeedback">
           Respondent Feedback
         </h5>
-
         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="{{ route('respondent_feedback') }}" method="post">
@@ -116,6 +115,116 @@
 @endcan
 
 @canany(['qc'])
+<!-- QC Interview Approval Modal -->
+<div class="modal fade" id="qc_interview_approval" tabindex="-1" aria-labelledby="qc_interview_approval" data-coreui-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="qc_interview_approval">
+          Interview Quality.
+        </h5>
+
+        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form method="post" action="{{ route('interviews.update', $interview->id) }}">
+      @csrf
+      @method('PATCH')
+      <input type="hidden" name="quality_control" value="Cancelled">
+      <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
+
+      <div class="modal-body">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="professional_language" class="form-label text-primary" name="professional_language">
+              Language Used Was Professional ?
+
+            </label>
+            <select id="professional_language" class="form-select @error('professional_language') is-invalid @enderror">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+            @error('professional_language')
+            <div class="invalid-feedback bg-light rounded text-center" role="alert">
+              {{ $message }}
+            </div>
+            @enderror
+          </div>
+          <div class="col">
+            <label for="script_compliance" class="form-label text-primary" name="script_compliance">
+              Script Compliance ?
+            </label>
+            <select id="script_compliance" class="form-select @error('script_compliance') is-invalid @enderror" name="script_compliance">
+              <option value="Script Compliance: Good">Good</option>
+              <option value="Script Compliance: Fair">Fair</option>
+              <option value="Script Compliance: Bad">Bad</option>
+            </select>
+            @error('script_compliance')
+            <div class="invalid-feedback bg-light rounded text-center" role="alert">
+              {{ $message }}
+            </div>
+            @enderror
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="audio_complete" class="form-label text-primary" name="audio_complete">
+              Audio Was Complete
+            </label>
+            <select id="audio_complete" class="form-select @error('audio_complete') is-invalid @enderror">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+            @error('audio_complete')
+            <div class="invalid-feedback bg-light rounded text-center" role="alert">
+              {{ $message }}
+            </div>
+            @enderror
+          </div>
+
+          <div class="col">
+            <label for="clear_audio" class="form-label text-primary" name="clear_audio">
+              Audio Was Clear
+            </label>
+            <select id="clear_audio" class="form-select @error('clear_audio') is-invalid @enderror">
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+            @error('clear_audio')
+            <div class="invalid-feedback bg-light rounded text-center" role="alert">
+              {{ $message }}
+            </div>
+            @enderror
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="qc_feedback" class="form-label text-primary" name="qc_feedback">
+              Interview Integrity
+            </label>
+            <select id="qc_feedback" class="form-select @error('qc_feedback') is-invalid @enderror" name="qc_feedback">
+              <option value="Interview Integrity: Yes">Yes</option>
+              <option value="Interview Integrity: No">No</option>
+            </select>
+            @error('qc_feedback')
+            <div class="invalid-feedback bg-light rounded text-center" role="alert">
+              {{ $message }}
+            </div>
+            @enderror
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-success btn-block">
+            Approve Interview
+          </button>
+        </div> 
+    </form>
+    </div>
+  </div>
+</div>
+<!-- End QC Interview Approval Modal -->
+
 <!-- QC Interview Cancellation Modal -->
 <div class="modal fade" id="qc_interview_cancellation" tabindex="-1" aria-labelledby="qc_interview_cancellation" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">

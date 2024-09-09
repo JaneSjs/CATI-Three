@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col">
           <h3>
-            {{ $survey->name }}
+            {{ $survey->project->name }}
           </h3>
         </div>
         <div class="col">
@@ -46,9 +46,11 @@
           <div class="card">
             <div class="card-header">
               <h3>
-                (#{{ $survey->id }}) <span class="text-info" style="text-decoration: underline;">
+                (#{{ $survey->id }}) 
+                <a href="{{ route('projects.show', $survey->project->id) }}">
                   {{ $survey->survey_name }}
-                </span> Operations Dashboard
+                </a>
+                Quotas Dashboard
               </h3>
             </div>
             <div class="card-body">
