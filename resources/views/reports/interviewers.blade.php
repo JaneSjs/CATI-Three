@@ -102,6 +102,9 @@ use Carbon\Carbon;
               <th scope="col">
                 Name
               </th>
+              <th>
+                Phone
+              </th>
               <th class="text-primary">
                 Interview Attempts
               </th>
@@ -131,6 +134,9 @@ use Carbon\Carbon;
               <th scope="row">
                 {{ $interviewer->first_name . ' ' . $interviewer->last_name }}
               </th>
+              <td>
+                {{ $interviewer->phone_1 }}
+              </td>
               <td class="table-primary">
                 @php
                   $interview_attempts = $interviewer->interviews->sum('interview_attempts');

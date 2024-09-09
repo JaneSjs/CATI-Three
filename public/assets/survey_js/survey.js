@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   const interview_id = document.getElementById("interview_id").textContent;
   const project_id = document.getElementById("project_id").textContent;
   const respondent_id = document.getElementById("respondent_id").textContent;
+  const post_result_url = document.getElementById("post_result_url").innerHTML;
+  const patch_result_url = document.getElementById("patch_result_url").innerHTML;
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
+  let resultId;
+  let survey; // Declare the survey variable outside fetchSurvey()
+  let geolocationData;
 
   console.log('survey url:', survey_url);
   console.log('survey id:',survey_id);
@@ -12,10 +18,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   console.log('interview id:',interview_id);
   console.log('project id:',project_id);
   console.log('respondent id:',respondent_id);
+  console.log('POST Result Url: ',post_result_url);
+  console.log('PATCH Result Url: ',patch_result_url);
+  console.log('CSRF Token: ', csrf);
 
-  let survey; // Declare the survey variable outside fetchSurvey()
-  let geolocationData;
-
+  //Fetch Survey Schema and Render it on the page
   async function fetchSurvey() {
     try {
       const response = await fetch(survey_url);
@@ -70,14 +77,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   /**
    * Collecting Survey Results
    */
-  const post_result_url = document.getElementById("post_result_url").innerHTML;
-  const patch_result_url = document.getElementById("patch_result_url").innerHTML;
-  const csrf = document.querySelector('meta[name="csrf-token"]').content;
-  let resultId;
-
-  console.log('POST Result Url: ',post_result_url);
-  console.log('PATCH Result Url: ',patch_result_url);
-  console.log('CSRF Token: ', csrf);
+  
 
   async function saveSurveyResults(url, json, page = null, httpMethod = "POST")
   {
@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
+  // Survey Navigation methods
   function surveyStartPage(sender)
   {
     let nextPage = sender.currentPage.visibleIndex + 1;

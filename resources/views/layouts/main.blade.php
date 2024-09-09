@@ -18,7 +18,7 @@
     <meta name="theme-color" content="#ffffff">
 
     @if(request()->segment(1) === 'analytics')
-      @include('layouts.old-analytics-resources')
+      @include('layouts.analytics-resources')
     @else
       @include('layouts.survey-js')
     @endif

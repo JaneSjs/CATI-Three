@@ -31,12 +31,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       // Container element for the SurveyJS Analytics rendering
       const vizPanel = new SurveyAnalytics.VisualizationPanel(
-        surveySchema,
+        survey.getAllQuestions(),
         surveyResults,
         vizPanelOptions
       );
 
-      vizPanel.render("surveyVizPanel");
+      vizPanel.render(document.getElementById("surveyVizPanel"));
     })
     .catch(error => {
       console.error("Error fetching data:", error);

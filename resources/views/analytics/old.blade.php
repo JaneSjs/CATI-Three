@@ -94,7 +94,7 @@ var survey = new Survey.Model(json);
 var surveyResultNode = document.getElementById("surveyResult");
 surveyResultNode.innerHTML = "";
 
-$.get("{{route('analytics.results', $survey_id)}}", function (data) {
+$.get("{{route('analytics.results', $survey->id)}}", function (data) {
     var visPanel = new SurveyAnalytics.VisualizationPanel(survey.getAllQuestions(), data, {labelTruncateLength: 27});
     visPanel.showHeader = true;
 
