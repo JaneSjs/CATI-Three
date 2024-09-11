@@ -65,7 +65,7 @@
                         Start Time: ({{ $interview->start_time ?? '' }}).
                         @if($interview->end_time)
                           | End Time: ({{ $interview->end_time ?? '' }})
-                        @elseif($interview->respondent->feedback)
+                        @elseif(isset($interview->respondent->feedback))
                           <strong>
                             Interview Did Not End because the respondent {{ $interview->respondent->feedback }}
                           </strong>
