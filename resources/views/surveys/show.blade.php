@@ -3,30 +3,34 @@
 @section('content')
 
 <div class="body flex-grow-1 px-3">
-  @canany(['ceo','client','interviewer'])
+  @canany(['interviewer'])
   <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back" id="terminateInterviewButton1">
     <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
   </button>
   @endcan
+
   <div class="card">
     <div class="card-header">
+      <p id="userIsInterviewer" class="d-">
+        {{ isset($userIsInterviewer) ? $userIsInterviewer : 'true' }}
+      </p>
 
       <div class="row">
         <div class="col">
           <p class="float-start">
             <strong class="text-primary">
-              {{ $survey->survey_name }}.
+              {{ $survey->project->name . ' ' . $survey->survey_name }}.
             </strong>
-            @canany(['ceo','client','interviewer'])
+            @canany(['interviewer'])
              You are interviewing 
              <strong class="text-info">
-               {{ $respondent->name }}
+               {{ $respondent->name ?? '' }}
              </strong>
             @endcan
           </p>
           
+          @canany(['interviewer'])
           <div class="btn-group btn-sm float-end" role="group" aria-label="Interview Actions" id="interviewActionButtons">
-            @canany(['interviewer'])
             <button type="button" class="btn btn-warning btn-sm" data-coreui-toggle="modal" data-coreui-target="#interview_schedule">
               Schedule Interview
               <i class="fa-regular fa-clock"></i>
@@ -136,8 +140,8 @@
               }
             </script>
             @include('interviews/modals')
-            @endcan
           </div>
+          @endcan
         </div>
         <div class="col text-end">
           @include('partials.alerts')
@@ -171,6 +175,18 @@
             </div>
           @endcan
         </div>
+        <div class="col">
+          <!--Translations-->
+          <label for="languages">
+            Translations
+          </label>
+          <select id="languages" class="form-select form-select-sm m-2" style="width: 20vw;">
+            <option value="en">English</option>
+            <option value="sw">Kiswahili</option>
+            <option value="bg">Bulgarian</option>
+          </select>
+          <!-- End Translations-->
+        </div>
       </div>
     </div>
     
@@ -194,7 +210,7 @@
     
 
     <div class="card-footer">
-      @canany(['ceo','client','interviewer'])
+      @canany(['interviewer'])
       <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" id="terminateInterviewButton2">
         Terminate Interview
         <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
@@ -211,7 +227,7 @@
   </div>
 </div>
 
-@canany(['ceo','client','interviewer'])
+@canany(['interviewer'])
 <!-- Complete Interview Modal -->
 <div class="modal fade" id="complete_interview" tabindex="-1" aria-labelledby="complete_interview" aria-hidden="true">
   <div class="modal-dialog">

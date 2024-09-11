@@ -1,4 +1,4 @@
-@canany(['ceo','client','interviewer'])
+@canany(['interviewer'])
 <!-- Interview Termination Feedback Modal -->
 <div class="modal fade" id="interview_termination_feedback" tabindex="-1" aria-labelledby="interviewTerminationFeedback" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">

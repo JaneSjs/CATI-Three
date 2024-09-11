@@ -118,7 +118,7 @@
       </div> 
     </div>
     <div class="card-body">
-      @canany(['admin','ceo','head','manager','qc'])
+      @canany(['qc'])
         @if(!$interview->survey_url === null)
           <!-- Iframe -->
             @canany(['admin', 'interviewer', 'respondent'])
@@ -132,7 +132,6 @@
       @endcan
     </div>
     <div class="card-footer">
-      @can('qc')
       <div class="row">
         <div class="col">
           <button type="button" class="btn btn-outline-success floar-start" data-coreui-toggle="modal" data-coreui-target="#qc_interview_approval">
@@ -147,7 +146,7 @@
           </button>
         </div>
       </div>  
-      @endcan
+      
     </div>
    
   </div>

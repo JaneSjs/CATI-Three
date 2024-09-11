@@ -62,23 +62,23 @@
                         @endif
                       </dt>
                       <dd>
-                        Start Time: ({{ $interview->start_time ?? '' }})
+                        Start Time: ({{ $interview->start_time ?? '' }}).
                         @if($interview->end_time)
-                        | End Time: ({{ $interview->end_time ?? '' }})
+                          | End Time: ({{ $interview->end_time ?? '' }})
+                        @elseif($interview->respondent->feedback)
+                          <strong>
+                            Interview Did Not End because the respondent {{ $interview->respondent->feedback }}
+                          </strong>
+                        @else
+                          Interview Did Not End.
                         @endif
                       </dd>
                       <dt>
-                        <a href="{{ route('begin_survey', [
-                            'project_id' => $interview->project->id, 
-                            'survey_id' => $interview->schema_id,
-                            'interview_id' => $interview->id,
-                            'respondent_id' => $interview->respondent_id,
-                              ]) }}" 
-                          class="btn btn-dark btn-xs" 
-                          target="_blank"
-                          title="Go To Interview"
+                        <a href="{{ route('interviews.show', $interview->id) }}" 
+                          class="btn btn-outline-dark btn-xs"
+                          title="Preview The Interview"
                         >
-                          Preview
+                          Preview Interview
                         </a>
                       </dt>
                     </dl>

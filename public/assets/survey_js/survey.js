@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const survey_url = document.getElementById("survey_url").textContent;
   const survey_id  = document.getElementById("survey_id").textContent;
   const user_id    = document.getElementById("user_id").textContent;
+  const userIsInterviewer = document.getElementById("userIsInterviewer").textContent;
   const interview_id = document.getElementById("interview_id").textContent;
   const project_id = document.getElementById("project_id").textContent;
   const respondent_id = document.getElementById("respondent_id").textContent;
@@ -12,15 +13,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   let survey; // Declare the survey variable outside fetchSurvey()
   let geolocationData;
 
-  console.log('survey url:', survey_url);
+  console.log('survey url:',survey_url);
   console.log('survey id:',survey_id);
   console.log('user id:',user_id);
+  console.log('Interviewer:',userIsInterviewer);
   console.log('interview id:',interview_id);
   console.log('project id:',project_id);
   console.log('respondent id:',respondent_id);
   console.log('POST Result Url: ',post_result_url);
   console.log('PATCH Result Url: ',patch_result_url);
-  console.log('CSRF Token: ', csrf);
+  console.log('CSRF Token: ',csrf);
 
   //Fetch Survey Schema and Render it on the page
   async function fetchSurvey() {
@@ -46,8 +48,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           model: survey
         });
 
-        // Add the onComplete event handler
-        survey.onComplete.add(surveyComplete);
+        if (userIsInterviewer.trim().toLowerCase() === 'true') {
+          // Add the onComplete event handler
+          survey.onComplete.add(surveyComplete);
+        }
 
         // Store Geolocation details in a variable
         geolocationData = await getCurrentPosition();
@@ -77,8 +81,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   /**
    * Collecting Survey Results
    */
-  
-
   async function saveSurveyResults(url, json, page = null, httpMethod = "POST")
   {
     try {
@@ -165,7 +167,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         Toastify({
           text: "Something Went Wrong. Results Not Submitted Successfully",
           duration: 9000,
-          destination: "https://cati.tifaresearch.com/projects",
+          //destination: "https://cati.tifaresearch.com/projects",
           newWindow: true,
           close: true,
           gravity: "top", // `top` or `bottom`

@@ -66,6 +66,18 @@ class SchemaController extends Controller
         $data['survey'] = $survey;
         $data['results'] = $survey->results;
 
+        $user = User::find(auth()->user()->id);
+        //dd($data);
+
+        if ($user->hasAnyRoles(['Interviewer']))
+        {
+            $data['userIsInterviewer'] = 'true';
+        }
+        else
+        {
+            $data['userIsInterviewer'] = 'false';
+        }
+
         $data['pending_interviews'] = $survey->interviews()
                                     ->where('interview_status', 'Interview Completed')
                                     ->where('quality_control', NULL)

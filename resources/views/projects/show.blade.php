@@ -276,7 +276,7 @@
                   @canany(['admin','ceo','head','manager','coordinator','scripter','dpo','client'])
                   <td>
                     @if($survey->stage == 'Draft')
-                      <span class="badge bg-warning">
+                      <span class="badge bg-warning text-dark">
                         Draft Stage
                       </span>
                     @elseif($survey->stage == 'Pilot')
@@ -299,8 +299,8 @@
                     
                     <div class="btn-group btn-group-sm float-end" role="group" aria-label="Scripter Actions">
                       @canany(['admin','ceo','client'])
-                        <a href="{{ route('begin_interview', [$project->id, $survey->id, 1]) }}" class="btn btn-outline-dark">
-                          Preview Survey
+                        <a href="{{ route('surveys.show', $survey->id) }}" class="btn btn-outline-dark">
+                          Preview Questionnaire
                         </a>
                       @endcan
 
