@@ -55,10 +55,16 @@
                     <dl>
                       <dt>
                         {{ $interview->interview_status ?? '' }}
-                        @if($interview->quality_control)
-                          <span class="badge bg-info">
-                            {{ $interview->quality_control }}
-                          </span>
+                        @if(isset($interview->quality_control))
+                          @if($interview->quality_control == 'Cancelled')
+                            <span class="badge bg-danger">
+                              {{ $interview->quality_control }}
+                            </span>
+                          @else
+                            <span class="badge bg-success">
+                              {{ $interview->quality_control }}
+                            </span>
+                          @endif
                         @endif
                       </dt>
                       <dd>
@@ -86,9 +92,11 @@
                   <td>
                     {{ $interview->qc_name }}
                     <hr>
-                    {{ $interview->quality_control }}
-                    <hr>
-                    {{ $interview->qc_feedback }}
+                    <div class="@if($interview->quality_control == 'Cancelled') text-danger @else text-success @endif">
+                      {{ $interview->quality_control }}
+                      <hr>
+                      {{ $interview->qc_feedback }}
+                    </div>
                   </td>
                 </tr>
                 @endforeach
