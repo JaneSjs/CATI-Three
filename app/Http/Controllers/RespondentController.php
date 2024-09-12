@@ -530,13 +530,19 @@ class RespondentController extends Controller
      */
     function respondent_feedback(Request $request)
     {
+        $inputs = $request->only('predefined_feedback', 'unique_feedback');
+
+        $feedback = array_filter([$inputs['predefined_feedback'] ?? null, $inputs['unique_feedback'] ?? null]);
+
+        $feedbackString = implode(', ', $feedback);
+
         $respondent_id = $request->input('respondent_id');
         $project_id = $request->input('project_id');
 
         $respondent = Respondent::find($respondent_id);
 
         $feedback = $respondent->update([
-            'feedback' => $request->input('feedback'),
+            'feedback' => $feedbackString,
             'interview_status' => 'Unlocked On Feedback',
             'interview_date_time' => null
         ]);

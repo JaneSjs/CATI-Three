@@ -37,7 +37,7 @@
 
 <!-- Respondent Feedback Modal -->
 <div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" data-coreui-backdrop="static" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="respondent_feedback">
@@ -51,13 +51,50 @@
         @method('PATCH')
         <input type="hidden" name="respondent_id" value="{{ $respondent->id }}">
         <input type="hidden" name="project_id" value="{{ $project->id }}">
+        <input type="hidden" name="schema_id" value="{{ $survey->id }}">
         <div class="modal-body">
           <div class="mb-3">
-            <label for="feedback_input" class="form-label text-primary">
-              Enter Feedback.
+            <label for="predefined_feedback" class="form-label text-primary">
+              Predefined Feedbacks
             </label>
-            <textarea class="form-control" name="feedback" id="feedback_input" rows="7" required>
-              {{ $respondent->feedback ?? '' }}
+            <select id="predefined_feedback" class="form-select" name="predefined_feedback">
+              <option value="{{ $respondent->feedback ?? '' }}" selected>
+                {{ $respondent->feedback ?? '' }}
+              </option>
+              <option value="Phone Was Not Answered">
+                Phone Was Not Answered
+              </option>
+              <option value="Phone Was Hanged Up">
+                Phone Was Hanged Up
+              </option>
+              <option value="Mteja Alipigiwa na {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }} Na Hakupatikana {{ date('d/m/Y H:m') }}">
+                Mteja Wa Nambari Uliopigwa Hapatikani Kwa Sasa
+              </option>
+              @foreach($feedbacks as $feedback)
+                <option value="{{ $feedback }}" {{ $feedback == $respondent->feedback ? 'selected' : '' }}>
+                  {{ $feedback }}
+                </option>
+              @endforeach
+            </select>
+
+            <script defer>
+              $(document).ready(function () {
+                $('.form-select').select2({
+                  dropdownParent: $('#respondent_feedback'),
+                  placeholder: 'Chagua  moja',
+                  width: '100%'
+                });
+                $.fn.select2.defaults.set("theme", "classic");
+              });
+            </script>
+          </div>
+          <hr>
+          <div class="mb-3">
+            <label for="unique_feedback" class="form-label bg-warning text-dark">
+              Type Unique Feedback Here.
+            </label>
+            <textarea class="form-control" name="unique_feedback" id="unique_feedback" rows="7">
+              {{ old('unique_feedback') }}
             </textarea>
           </div>
         </div>

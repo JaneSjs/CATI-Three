@@ -95,7 +95,7 @@
 
               <tbody>
                 <tr>
-                  @canany(['admin','ceo','head','manager','coordinator'])
+                  @canany(['admin','ceo','head','manager','coordinator','dpo'])
                   <td>
                     <form action="{{ route('interviews.index') }}">
                       <input type="hidden" name="project_id" value="{{ $project->id }}">

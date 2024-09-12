@@ -33,6 +33,15 @@
     <!-- Toastify CSS (For Notifications) -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/toastify/toastify.min.css') }}">
     <!-- End Toastify CSS (For Notifications) -->
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- End jQuery -->
+    
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- End Select2 -->
     
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/jpg" href="{{ asset('favicon.jpeg') }}"/>

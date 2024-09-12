@@ -532,6 +532,7 @@ class InterviewController extends Controller
         $data['project'] = Project::find($projectId);
 
         $data['survey'] = Schema::find($surveyId);
+        $data['feedbacks'] = DB::table('respondents')->pluck('feedback');
         $data['interview_id'] = $request->input('interview_id');
 
         //dd($data);
@@ -649,8 +650,8 @@ class InterviewController extends Controller
         $data['respondent'] = $randomRespondent;
 
         $data['project'] = Project::find($projectId);
-
         $data['survey'] = Schema::find($surveyId);
+        $data['feedbacks'] = DB::table('respondents')->pluck('feedback');
         $data['interview_id'] = $request->input('interview_id');
 
         //dd($data);
