@@ -1,3 +1,4 @@
+@can('interviewer')
 <!-- Respondent Feedback Modal -->
 <div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" data-coreui-backdrop="static" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -162,3 +163,4 @@
   </div>
 </div>
 <!-- End Respondent Feedback Modal -->
+@endcan
