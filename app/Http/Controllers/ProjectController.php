@@ -190,7 +190,7 @@ class ProjectController extends Controller
 
         $data['users'] = User::whereHas('roles', function ($query)
         {
-            $query->whereIn('name', ['Manager','Scripter', 'QC']);
+            $query->whereIn('name', ['Manager','Scripter','Supervisor', 'QC']);
         })->get();
 
         return view('projects.edit', $data);
