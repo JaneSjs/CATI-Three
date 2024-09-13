@@ -43,11 +43,14 @@ Route::middleware(['auth'])->group(function ()
 Route::middleware(['auth','verified'])->group(function ()
 {
 	Route::get('search_users', [UserController::class, 'search']);
+	Route::patch('reset_ext_no', [UserController::class, 'resetExtenNo'])->name('reset_ext_no');
 	Route::post('search_interviews', [SchemaController::class, 'searchInterviews']);
 
 	Route::resource('users', UserController::class);
 	Route::get('attendance_list/project/{id}', [ProjectController::class, 'attendanceList'])->name('attendance_list');
-	Route::get('clients', [UserController::class, 'clients']);
+
+	Route::get('clients', [UserController::class, 'clients'])->name('clients');
+	Route::get('interviewers', [UserController::class, 'interviewers'])->name('interviewers');
 });
 
 // Admin Routes

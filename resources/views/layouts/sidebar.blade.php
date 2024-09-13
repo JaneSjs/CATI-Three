@@ -89,9 +89,19 @@
 
     @canany(['admin','ceo','head','manager'])
     <li class="nav-item">
-      <a class="nav-link" href="{{ url('clients') }}">
+      <a class="nav-link" href="{{ route('clients') }}">
         <i class="fa-solid fa-face-smile nav-icon" style="color: #e5a50a;"></i>
         Clients
+      </a>
+    </li>
+    @endcan
+
+    @canany(['admin','ceo','supervisor'])
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('interviewers') }}">
+        <i class="fa-solid fa-headphones nav-icon" style="color: #e5a50a;"></i>
+        <!--<i class="cis-headphones nav-icon" style="color: #e5a50a;"></i>-->
+        Interviewers
       </a>
     </li>
     @endcan

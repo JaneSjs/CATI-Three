@@ -293,8 +293,7 @@ class UserController extends Controller
     
 
     /**
-     * Return users who have the role of client
-     * or those who have no roles yet.
+     * Return users who have the Client role.
      */
     public function clients()
     {
@@ -310,6 +309,47 @@ class UserController extends Controller
 
         return view('users.clients', $data);
     }
+
+    /**
+     * Return users who have the Interviewer role.
+     */
+    public function interviewers()
+    {
+        $rolesToFilter = ['Interviewer'];
+
+        $data['interviewers'] = User::where(function ($query) use ($rolesToFilter)
+        {
+            $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
+            {
+                $subQuery->whereIn('name', $rolesToFilter);
+            });
+        })->paginate(10);
+
+        $data['total_interviewers'] = count($data['interviewers']);
+
+        return view('users.interviewers', $data);
+    }
+
+    /**
+     * Reset Extention No
+    */
+    public function resetExtenNo(Request $request)
+    {
+        //dd('Here');
+        if ($request->has(['user_id']))
+        {
+            $user_id = $request->input('user_id');
+
+            $user = User::find($user_id);
+
+            $user->update([
+                'ext_no' => null,
+            ]);
+
+            return back()->with('success', 'Extention Number Has Been Reset Successfully');
+        }
+    }
+
 
     /**
      * Search System Users

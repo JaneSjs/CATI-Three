@@ -2,119 +2,104 @@
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
       <div class="row">
         <div class="col">
-          Interviewers
+          <h4 class="text-primary">
+            Interviewers
+          </h4>
         </div>
         <div class="col">
           @include('partials/alerts')
-        </div>
-        <div class="col text-end">
-          <div class="btn-group btn-group-sm" role="group" aria-label="Supervisor Actions">
-            <a href="{{ route('users.create') }}" class="btn btn-outline-success">
-              Add Interviewer
-            </a>
-            <button type="button" class="btn btn-outline-primary">
-              Print Attendance List
-            </button>
-          </div>
         </div>
       </div>
     </div>
     <div class="card-body">
       <div class="row">
 
-        <div class="col-10">
+        <div class="col-9">
           <div class="table-responsive">
             <table class="table caption-top table-striped table-bordered">
-              @canany(['admin','ceo','head'])
-              <caption>
-               Call Center Agents
-              </caption>
+              @canany(['admin','ceo','head','manager'])
+                <caption>
+                  Interviewers List
+                </caption>
               @endcan
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
+                  @canany(['admin'])
                   <th scope="col">Phone No</th>
-                  <th scope="col">LT</th>
+                  @endcan
                   <th scope="col">Ext No</th>
-                  <th scope="col">Signature</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach($users as $user)
+                @foreach($interviewers as $interviewer)
                 <tr>
                   <th scope="row">
                     <i class="fas fa-eye"></i>
-                    <a href="{{ route('users.show', $user->id) }}">
-                      {{ $user->first_name . ' ' . $user->last_name  }}
+                    <a href="{{ route('users.show', $interviewer->id) }}">
+                      {{ $interviewer->first_name . ' ' . $interviewer->last_name  }}
                     </a>
                   </th>
+                  @canany(['admin'])
+                    <td>
+                      {{ $interviewer->phone_1 }}
+                      @if($interviewer->phone_2)
+                      <hr>
+                        {{ $interviewer->phone_2 }}
+                      @endif
+                      @if($interviewer->phone_3)
+                      <hr>
+                        {{ $interviewer->phone_3 }}
+                      @endif
+                    </td>
+                  @endcan
                   <td>
-                    {{ $user->phone_1 }}
-                    @if($user->phone_2)
-                    <hr>
-                      {{ $user->phone_2 }}
-                    @endif
-                    @if($user->phone_3)
-                    <hr>
-                      {{ $user->phone_3 }}
-                    @endif
-                  </td>
-                  <td>
-                    
-                  </td>
-                  <td>
-                    {{ $user->ext_no }}
-                  </td>
-                  <td>
-                    
+                    {{ $interviewer->ext_no }}
                   </td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
-                        <i class="fas fa-pen"></i>
-                      </a>
-                      @canany(['coordinator','supervisor'])
-                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $user->last_name }}">
-                        <i class="fas fa-user-tie"></i>
+                      @canany(['admin','ceo','supervisor'])
+                      <button type="button" class="btn btn-outline-primary" title="Reset Ext No {{ $interviewer->ext_no }}" data-coreui-toggle="modal" data-coreui-target="#resetExtNo-{{ $interviewer->id }}">
+                        <div class="icon me-2">
+                          <i class="fa-solid fa-square-phone"></i>
+                        </div>Reset Ext No
                       </button>
+                      @include('users.modals.reset_ext_no')
                       @endcan
-
                       @canany(['admin'])
-                      <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                      <form action="{{ route('users.destroy', $interviewer->id) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $user->last_name }}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove {{ $interviewer->last_name }}">
                           <i class="fas fa-trash-alt"></i>
                         </button>
                       </form>
-                      @endcan
                     </div>
+                    @endcan
                   </td>
                 </tr>
                 @endforeach
               </tbody>
               <tfoot>
-                {{ $users->links() }}
+                {{ $interviewers->links() }}
               </tfoot>
             </table>
           </div>
         </div>
         @canany(['admin','ceo','head','supervisor'])
-          <div class="col-2 bg-secondary">
-           {{ count($project_interviewers) }} Interviewers
+          <div class="col-3 bg-secondary">
+           {{ count($interviewers) }} Interviewers
           </div>
         @endcan
       </div>
     </div>
   </div>
 </div>
-
 
 @endsection
