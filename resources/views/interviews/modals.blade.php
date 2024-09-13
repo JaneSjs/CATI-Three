@@ -35,79 +35,7 @@
 </div>
 <!-- End Interview Termination Feedback Modal -->
 
-<!-- Respondent Feedback Modal -->
-<div class="modal fade" id="respondent_feedback" tabindex="-1" aria-labelledby="respondent_feedback" data-coreui-backdrop="static" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="respondent_feedback">
-          Respondent Feedback
-        </h5>
 
-        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="{{ route('respondent_feedback') }}" method="post">
-        @csrf
-        @method('PATCH')
-        <input type="hidden" name="respondent_id" value="{{ $respondent->id }}">
-        <input type="hidden" name="project_id" value="{{ $project->id }}">
-        <input type="hidden" name="schema_id" value="{{ $survey->id }}">
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="predefined_feedback" class="form-label text-primary">
-              Predefined Feedbacks
-            </label>
-            <select id="predefined_feedback" class="form-select" name="predefined_feedback">
-              <option value="{{ $respondent->feedback ?? '' }}" selected>
-                {{ $respondent->feedback ?? '' }}
-              </option>
-              <option value="Phone Was Not Answered">
-                Phone Was Not Answered
-              </option>
-              <option value="Phone Was Hanged Up">
-                Phone Was Hanged Up
-              </option>
-              <option value="Mteja Alipigiwa na {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }} Na Hakupatikana {{ date('d/m/Y H:m') }}">
-                Mteja Wa Nambari Uliopigwa Hapatikani Kwa Sasa
-              </option>
-              @foreach($feedbacks as $feedback)
-                <option value="{{ $feedback }}" {{ $feedback == $respondent->feedback ? 'selected' : '' }}>
-                  {{ $feedback }}
-                </option>
-              @endforeach
-            </select>
-
-            <script defer>
-              $(document).ready(function () {
-                $('.form-select').select2({
-                  dropdownParent: $('#respondent_feedback'),
-                  placeholder: 'Chagua  moja',
-                  width: '100%'
-                });
-                $.fn.select2.defaults.set("theme", "classic");
-              });
-            </script>
-          </div>
-          <hr>
-          <div class="mb-3">
-            <label for="unique_feedback" class="form-label bg-warning text-dark">
-              Type Unique Feedback Here.
-            </label>
-            <textarea class="form-control" name="unique_feedback" id="unique_feedback" rows="7">
-              {{ old('unique_feedback') }}
-            </textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success btn-block">
-            Submit Feedback
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<!-- End Respondent Feedback Modal -->
 
 <!-- Schedule Interview Modal -->
 <div class="modal fade" id="interview_schedule" tabindex="-1" aria-labelledby="interview_schedule" data-coreui-backdrop="static" aria-hidden="true">

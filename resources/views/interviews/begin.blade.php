@@ -52,7 +52,7 @@ use Carbon\Carbon;
               Respondent Feedback
               <i class="fa-solid fa-comment" style="color: #ffffff;"></i>
             </button>
-            @include('interviews/modals')
+            @include('interviews/modals/feedback')
           @else
             <div class="btn-group float-end" role="group" aria-label="Project Actions">
               @can(['interviewer'])
@@ -73,72 +73,69 @@ use Carbon\Carbon;
           
     </div>
     <div class="card-body">
-
       <div class="row">
-        
         <div class="col-3">
-            @if($respondent)
-            <form method="post" action="{{ route('interviews.store') }}">
-              @csrf
-              <div class="d-none">
+          @if($respondent)
+          <form method="post" action="{{ route('interviews.store') }}">
+            @csrf
+            <div class="d-none">
 
-                <input type="hidden" name="project_id" value="{{ $project->id }}">
+              <input type="hidden" name="project_id" value="{{ $project->id }}">
 
-                <input type="hidden" name="survey_id" value="{{ $survey->id }}">
+              <input type="hidden" name="survey_id" value="{{ $survey->id }}">
 
-                <input type="hidden" name="interview_id" value="{{ $interview_id }}">
+              <input type="hidden" name="interview_id" value="{{ $interview_id }}">
 
-                <input type="hidden" name="respondent_id" value="{{ $respondent->id ?? 0 }}">
+              <input type="hidden" name="respondent_id" value="{{ $respondent->id ?? 0 }}">
 
-                <input type="hidden" name="respondent_name" value="{{ $respondent->name ?? '' }}">
+              <input type="hidden" name="respondent_name" value="{{ $respondent->name ?? '' }}">
 
-                <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
+              <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
 
-                <input type="hidden" name="phone_called" value="{{ $respondent->phone_1 ?? 0 }}">
+              <input type="hidden" name="phone_called" value="{{ $respondent->phone_1 ?? 0 }}">
 
-              </div>
+            </div>
 
-              <button type="submit" class="btn btn-success btn-sm">
-                Begin Survey
-              </button>
+            <button type="submit" class="btn btn-success btn-sm">
+              Begin Survey
+            </button>
               
-            </form>
+          </form>
 
-            <p id="call_route" class="d-none">
-              {{ route('call') }}
-            </p>
-            <p id="exten" class="d-none">
-              IAX2/{{ auth()->user()->ext_no }}
-            </p>
-            <p id="respondent_number" class="d-none">
-              890{{ $respondent->phone_1 ?? 0 }}
-            </p>
-            <!-- <p id="respondent_number" class="d-none">
-              {{ $respondent->phone_1 ?? 0 }}
-            </p> -->
-            <p id="extension_number" class="d-none">
-              {{ auth()->user()->ext_no }}
-            </p>
+          <p id="call_route" class="d-none">
+            {{ route('call') }}
+          </p>
+          <p id="exten" class="d-none">
+            IAX2/{{ auth()->user()->ext_no }}
+          </p>
+          <p id="respondent_number" class="d-none">
+            890{{ $respondent->phone_1 ?? 0 }}
+          </p>
+          <!-- <p id="respondent_number" class="d-none">
+            {{ $respondent->phone_1 ?? 0 }}
+          </p> -->
+          <p id="extension_number" class="d-none">
+            {{ auth()->user()->ext_no }}
+          </p>
 
             
-            <button type="button" onclick="call()" class="btn btn-outline-info mt-3" title="Call {{ $respondent->name ?? '' }}">
-              <i class="fas fa-phone fa-bounce"></i>
-              {{ auth()->user()->ext_no ?? 'Ext Number Not Assigned' }}
-            </button>
+          <button type="button" onclick="call()" class="btn btn-outline-info mt-3" title="Call {{ $respondent->name ?? '' }}">
+            <i class="fas fa-phone fa-bounce"></i>
+            {{ auth()->user()->ext_no ?? 'Ext Number Not Assigned' }}
+          </button>
 
-            @canany(['admin'])
-              <div class="btn-group btn-group-sm" role="group" aria-label="WebRTC">
-                <button id="callButton" type="button" class="btn btn-primary">
+          @canany(['admin'])
+            <div class="btn-group btn-group-sm" role="group" aria-label="WebRTC">
+              <button id="callButton" type="button" class="btn btn-primary">
                   Call
-                </button>
-                <button id="hungupButton" type="button" class="btn btn-danger">
+              </button>
+              <button id="hungupButton" type="button" class="btn btn-danger">
                   Hung Up
-                </button>
-              </div>
-            @endcan
+              </button>
+            </div>
+          @endcan
 
-            @endif
-
+          @endif
         </div>
         
         <div class="col-9">

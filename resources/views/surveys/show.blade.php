@@ -4,7 +4,7 @@
 
 <div class="body flex-grow-1 px-3">
   @canany(['interviewer'])
-  <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" title="Go Back" id="terminateInterviewButton1">
+  <button type="button" class="btn btn-primary mb-2 mt-2" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback" title="Go Back" id="terminateInterviewButton1">
     <i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i>
   </button>
   @endcan
@@ -36,7 +36,7 @@
               <i class="fa-regular fa-clock"></i>
             </button>
            
-            <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" >
+            <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback" >
               Terminate Interview
               <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
             </button>
@@ -211,7 +211,7 @@
 
     <div class="card-footer">
       @canany(['interviewer'])
-      <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#interview_termination_feedback" id="terminateInterviewButton2">
+      <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#respondent_feedback" id="terminateInterviewButton2">
         Terminate Interview
         <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
       </button>
@@ -268,5 +268,7 @@
 </div>
 <!-- Complete Interview Modal -->
 @endcan
+
+@include('interviews/modals/feedback')
 
 @endsection
