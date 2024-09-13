@@ -32,7 +32,10 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-outline-primary">
+          <a href="{{ asset('Zoiper/Zoiper_Free_3.15_Setup.exe') }}" class="btn btn-danger float-start" title="Download Zoiper" download>
+            <i class="fa-solid fa-download"></i>
+          </a>
+          <button type="submit" class="btn btn-outline-primary float-end">
             Update Ext No
           </button>
         </div>
