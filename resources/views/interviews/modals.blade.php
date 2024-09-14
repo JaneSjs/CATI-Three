@@ -95,7 +95,7 @@
       <form method="post" action="{{ route('interviews.update', $interview->id) }}">
       @csrf
       @method('PATCH')
-      <input type="hidden" name="quality_control" value="Cancelled">
+      <input type="hidden" name="quality_control" value="Approved">
       <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
 
       <div class="modal-body">
