@@ -45,7 +45,21 @@
           </div>
         </div>
       </div>
-      
+      <div class="col-sm-6 col-lg-3">
+        <div class="card mb-4 text-white bg-danger">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-4 fw-semibold">
+                {{ $todays_user_interviews->count() }} 
+                <span class="fs-6 fw-normal">
+                  <i class="fas fa-calendar fa-xl"></i>
+                </span>
+              </div>
+              <div>Cancelled Interviews</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     @if($user_interviews)
     <div class="table-responsive">
@@ -58,8 +72,8 @@
             <th scope="col">Respondent</th>
             @endcan
             <th scope="col">Interview Details</th>
-            @canany(['admin','ceo','coordinator'])
-              <th scope="col">QC Name</th>
+            @canany(['admin','ceo','interviewer'])
+              <th scope="col">Quality Check</th>
             @endcan
             <th>
               Date
@@ -106,19 +120,47 @@
                   </p>
                 </dd>
                 <dt>
-                  <!--<a href="#" 
-                          class="btn btn-dark btn-xs" 
-                          target="_blank"
-                          title="Go To Interview (Currently Not Working)"
-                          onclick="return false;"
-                        >
-                    Preview
-                  </a>-->
+                  
+                  <form method="post" action="{{ route('interviews.store') }}">
+                  @csrf
+                  <div class="d-none">
+
+                    <input type="hidden" name="project_id" value="{{ $project->id }}">
+
+                    <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
+
+                    <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+
+                    <input type="hidden" name="respondent_id" value="{{ $interview->respondent->id }}">
+
+                    <input type="hidden" name="respondent_name" value="{{ $interview->respondent->name ?? $interview->respondent_name }}">
+
+                    <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
+
+                    <input type="hidden" name="phone_called" value="{{ $interview->phone_called }}">
+
+                  </div>
+
+                  <button type="submit" class="btn btn-outline-success btn-sm">
+                    Survey Link
+                  </button>
+                    
+                </form>
                 </dt>
               </dl>
             </td>
-            @canany(['admin','ceo','coordinator'])
-            <td></td>
+            @canany(['admin','ceo','interviewer'])
+            <td>
+              @if(isset($interview->qc_name))
+                QC: {{ $interview->qc_name }}
+                <hr>
+              @endif
+              <div class="@if($interview->quality_control == 'Cancelled') text-danger @else text-success @endif">
+                {{ $interview->quality_control }}
+                <hr>
+                {{ $interview->qc_feedback }}
+              </div>
+            </td>
             @endcan
             <td>
               {{ $end_time->format('d/m/Y') }}

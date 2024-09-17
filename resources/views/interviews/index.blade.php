@@ -19,7 +19,7 @@
                   <th scope="col">Interviewer Details</th>
                   <th scope="col">Respondent Details</th>
                   <th scope="col">Interview Details</th>
-                  <th scope="col">QC Details</th>
+                  <th scope="col">Quality Check</th>
                 </tr>
               </thead>
               <tbody>

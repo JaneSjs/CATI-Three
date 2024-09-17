@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Meilisearch\Client;
+use PhpParser\Node\Stmt\Else_;
 
 class InterviewController extends Controller
 {
@@ -278,20 +279,26 @@ class InterviewController extends Controller
      */
     public function begin_survey(Request $request, $project_id, $survey_id, $interview_id, $respondent_id)
     {
-        /**
-         * Check where the link is coming from
-         */
-        $referer = $request->header('referer');
-        //dd($referer);
-
-        if ($referer && strpos($referer, 'interview_schedules') !== false)
+        $user = User::find(auth()->user()->id);
+        
+        if ($user->hasAnyRoles(['Interviewer']))
         {
-            $interview_status = 'Scheduled Interview In Progress';
-            $scheduled_interview_status = 'Interview Picked By' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
-            //dd($interview_status);
+            /**
+             * Check where the link is coming from
+             */
+            $referer = $request->header('referer');
 
-            $this->updateInterviewStatus($interview_id, $interview_status, $scheduled_interview_status);
+            if ($referer && strpos($referer, 'interview_schedules') !== false)
+            {
+                $interview_status = 'Scheduled Interview In Progress';
+                $scheduled_interview_status = 'Interview Picked By' . auth()->user()->first_name . ' ' . auth()->user()->last_name;
+                //dd($interview_status);
+
+                $this->updateInterviewStatus($interview_id, $interview_status, $scheduled_interview_status);
+            }
+
         }
+        
 
         $respondent = Respondent::find($respondent_id);
         //dd($respondent);
@@ -326,6 +333,10 @@ class InterviewController extends Controller
             } else {
                 return to_route('projects.index')->with('warning', 'Project, Survey, Interview, and Respondent have not been found');
             }
+        }
+        else
+        {
+            return back()->with('warning', 'Respondent Was Not Found');
         }
     }
 
