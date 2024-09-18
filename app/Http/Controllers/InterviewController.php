@@ -53,7 +53,7 @@ class InterviewController extends Controller
         $data['interviews'] = $query->orderBy('id', 'DESC')->paginate(100)->withQueryString();
 
 
-        $total_interviews = $query->orderBy('id', 'DESC')->get();
+        $total_interviews = $query->get();
 
         $data['total_interviews'] = count($total_interviews);
 
