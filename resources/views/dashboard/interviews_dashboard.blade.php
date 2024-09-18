@@ -176,7 +176,7 @@
                   @endisset
                 @endif
                 <dt>
-                  @if( $isset($interview->respondent) && $interview->interview_status != 'Interview Completed')
+                  @if( isset($interview->respondent) && $interview->interview_status != 'Interview Completed')
                     <form method="post" action="{{ route('interviews.store') }}">
                       @csrf
                       <div class="d-none">
