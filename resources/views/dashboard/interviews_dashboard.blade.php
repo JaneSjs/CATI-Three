@@ -155,6 +155,7 @@
                   <dt class="text-danger">
                     Incomplete Interview
                   </dt>
+                  @isset($interview->respondent->interview_status)
                   @if($interview->respondent->interview_status == 'Locked')
                     <dd class="text-danger">
                       You have {{ $interview->respondent->interview_status }} this respondent.
@@ -172,6 +173,7 @@
                       If you choose to terminate the interview, remember to update feedback accordingly.
                     </p>
                   @endif
+                  @endisset
                 @endif
                 <dt>
                   @if($interview->interview_status != 'Interview Completed')
