@@ -71,9 +71,14 @@
                         @endif
                       </dt>
                       <dd>
-                        Start Time: ({{ $interview->start_time ?? '' }}).
+                        Start Time: 
+                        <span class="text-primary">
+                          ({{ $interview->start_time ?? '' }}).
+                        </span>
                         @if($interview->end_time)
-                          | End Time: ({{ $interview->end_time ?? '' }})
+                          <span class="text-success">
+                            | End Time: ({{ $interview->end_time ?? '' }})
+                          </span>
                         @elseif(isset($interview->respondent->feedback))
                           <strong>
                             Interview Did Not End because the respondent {{ $interview->respondent->feedback }}
