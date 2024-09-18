@@ -16,22 +16,38 @@
   <div class="card-body">
     <div class="row">
       <div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-primary">
+        <div class="card mb-4 text-white bg-secondary">
           <div class="card-body pb-0 d-flex justify-content-between align-items-start">
             <div>
               <div class="fs-4 fw-semibold">
-                {{ $total_user_interviews->count() }} 
+                {{ $user_interview_attempts }} 
                 <span class="fs-6 fw-normal">
                   <i class="fas fa-headphones fa-beat fa-xl"></i>
                 </span>
               </div>
-              <div>Total Interviews</div>
+              <div>Interview Attempts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card mb-4 text-white bg-primary">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-4 fw-semibold">
+                {{ $net_user_interviews }} 
+                <span class="fs-6 fw-normal">
+                  <i class="fas fa-headphones fa-beat fa-xl"></i>
+                </span>
+              </div>
+              <div>Total Net Interviews</div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-success">
+        <div class="card mb-4 text-white bg-info">
           <div class="card-body pb-0 d-flex justify-content-between align-items-start">
             <div>
               <div class="fs-4 fw-semibold">
@@ -46,13 +62,28 @@
         </div>
       </div>
       <div class="col-sm-6 col-lg-3">
+        <div class="card mb-4 text-white bg-success">
+          <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fs-4 fw-semibold">
+                {{ $approved_user_interviews }} 
+                <span class="fs-6 fw-normal">
+                  <i class="fas fa-check fa-xl"></i>
+                </span>
+              </div>
+              <div>Approved Interviews</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
         <div class="card mb-4 text-white bg-danger">
           <div class="card-body pb-0 d-flex justify-content-between align-items-start">
             <div>
               <div class="fs-4 fw-semibold">
-                {{ $todays_user_interviews->count() }} 
+                {{ $cancelled_user_interviews }} 
                 <span class="fs-6 fw-normal">
-                  <i class="fas fa-calendar fa-xl"></i>
+                  <i class="fas fa-times fa-xl"></i>
                 </span>
               </div>
               <div>Cancelled Interviews</div>
@@ -87,65 +118,87 @@
               {{ $interview->id }}
             </th>
             @canany(['admin','ceo','head','manager'])
-            <td>
-              {{ $interview->user->first_name . ' ' .$interview->user->last_name }}
-            </td>
+              <td>
+                {{ $interview->user->first_name . ' ' .$interview->user->last_name }}
+              </td>
                   
-            <td>
-              {{ $interview->respondent->name ?? '' }}
-              <hr>
-              Phone Called - 890 {{ $interview->phone_called }}
-                  
-              <hr>
-              Id - {{ $interview->respondent->id ?? '' }}
-              <hr>
-              R_ID - {{ $interview->respondent->r_id ?? '' }}
-            </td>
+              <td>
+                {{ $interview->respondent->name ?? '' }}
+                <hr>
+                Phone Called - 890 {{ $interview->phone_called }}
+                    
+                <hr>
+                Id - {{ $interview->respondent->id ?? '' }}
+                <hr>
+                R_ID - {{ $interview->respondent->r_id ?? '' }}
+              </td>
             @endcan
             <td>
+              <?php
+                $start_time = Carbon::parse($interview->start_time ?? '' );
+                $end_time   = Carbon::parse($interview->end_time ?? '' );
+              ?>
               <dl>
+                @if($interview->interview_status == 'Interview Completed')
+                  <dt class="text-primary">
+                    {{ $interview->interview_status ?? '' }}
+                  </dt>
+                  <dd>
+                    <p>
+                      Duration
+                      <span class="badge bg-primary">
+                        {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }}
+                      </span>
+                    </p>
+                  </dd>
+                @else
+                  <dt class="text-danger">
+                    Incomplete Interview
+                  </dt>
+                  @if($interview->respondent->interview_status == 'Locked')
+                    <dd class="text-danger">
+                      You have {{ $interview->respondent->interview_status }} this respondent.
+                    </dd>
+                    <p>
+                      You should either  
+                      <span class="text-success">
+                        complete
+                      </span> or 
+                      <span class="text-danger">
+                        terminate
+                      </span> this interview to release the respondent.
+                    </p>
+                    <p>
+                      If you choose to terminate the interview, remember to update feedback accordingly.
+                    </p>
+                  @endif
+                @endif
                 <dt>
-                  {{ $interview->interview_status ?? '' }}
-                </dt>
-                <dd>
-                  <?php
-                    $start_time = Carbon::parse($interview->start_time ?? '' );
-                    $end_time   = Carbon::parse($interview->end_time ?? '' );
-                  ?>
-                  <p>
-                    Duration
-                    <span class="badge bg-primary">
-                      {{ $start_time->diff($end_time)->format('%h Hr %i Min %s Sec'); }}
-                    </span>
-                  </p>
-                </dd>
-                <dt>
-                  
+                  @if($interview->interview_status != 'Interview Completed')
                   <form method="post" action="{{ route('interviews.store') }}">
-                  @csrf
-                  <div class="d-none">
+                    @csrf
+                    <div class="d-none">
 
-                    <input type="hidden" name="project_id" value="{{ $project->id }}">
+                      <input type="hidden" name="project_id" value="{{ $project->id }}">
 
-                    <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
+                      <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
 
-                    <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+                      <input type="hidden" name="interview_id" value="{{ $interview->id }}">
 
-                    <input type="hidden" name="respondent_id" value="{{ $interview->respondent->id }}">
+                      <input type="hidden" name="respondent_id" value="{{ $interview->respondent->id }}">
 
-                    <input type="hidden" name="respondent_name" value="{{ $interview->respondent->name ?? $interview->respondent_name }}">
+                      <input type="hidden" name="respondent_name" value="{{ $interview->respondent->name ?? $interview->respondent_name }}">
 
-                    <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
+                      <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
 
-                    <input type="hidden" name="phone_called" value="{{ $interview->phone_called }}">
+                      <input type="hidden" name="phone_called" value="{{ $interview->phone_called }}">
 
-                  </div>
-
-                  <button type="submit" class="btn btn-outline-success btn-sm">
-                    Survey Link
-                  </button>
-                    
-                </form>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                      Interview Link
+                    </button>
+                  </form>
+                  @endif
                 </dt>
               </dl>
             </td>

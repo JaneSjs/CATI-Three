@@ -161,14 +161,18 @@ class DashboardController extends Controller
 
         $data['project'] = Project::find($project_id);
 
+        $data['user_interview_attempts'] = $user->interviews()
+                                            ->where('project_id', $project_id)
+                                            ->count();
+
         $data['user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
-                                    ->where('interview_status', 'Interview Completed')
-                                    ->where(function (Builder $query)
-                                    {
-                                        $query->WhereNull('quality_control')
-                                              ->orWhere('quality_control', 'Approved');
-                                    })
+                                    // ->where('interview_status', 'Interview Completed')
+                                    // ->where(function (Builder $query)
+                                    // {
+                                    //     $query->WhereNull('quality_control')
+                                    //           ->orWhere('quality_control', 'Approved');
+                                    // })
                                     ->orderBy('id', 'DESC')
                                     ->paginate(10);
 
@@ -187,7 +191,7 @@ class DashboardController extends Controller
         //dd(count($data['user_interviews']));
         //dd($today);
 
-        $data['total_user_interviews'] = $user->interviews()
+        $data['net_user_interviews'] = $user->interviews()
                                     ->where('project_id', $project_id)
                                     ->where('interview_status', 'Interview Completed')
                                     ->where(function (Builder $query)
@@ -196,7 +200,27 @@ class DashboardController extends Controller
                                               ->orWhere('quality_control', 'Approved');
                                     })
                                     ->orderBy('id', 'DESC')
-                                    ->get();
+                                    ->count();
+
+        $data['approved_user_interviews'] = $user->interviews()
+                                    ->where('project_id', $project_id)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where(function (Builder $query)
+                                    {
+                                        $query->Where('quality_control', 'Approved');
+                                    })
+                                    ->orderBy('id', 'DESC')
+                                    ->count();
+
+        $data['cancelled_user_interviews'] = $user->interviews()
+                                    ->where('project_id', $project_id)
+                                    ->where('interview_status', 'Interview Completed')
+                                    ->where(function (Builder $query)
+                                    {
+                                        $query->Where('quality_control', 'Cancelled');
+                                    })
+                                    ->orderBy('id', 'DESC')
+                                    ->count();
 
         return view('dashboard.interviews_dashboard', $data);
     }
