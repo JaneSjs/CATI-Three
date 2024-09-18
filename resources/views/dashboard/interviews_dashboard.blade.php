@@ -176,30 +176,30 @@
                   @endisset
                 @endif
                 <dt>
-                  @if($interview->interview_status != 'Interview Completed')
-                  <form method="post" action="{{ route('interviews.store') }}">
-                    @csrf
-                    <div class="d-none">
+                  @if( $isset($interview->respondent) && $interview->interview_status != 'Interview Completed')
+                    <form method="post" action="{{ route('interviews.store') }}">
+                      @csrf
+                      <div class="d-none">
 
-                      <input type="hidden" name="project_id" value="{{ $project->id }}">
+                        <input type="hidden" name="project_id" value="{{ $project->id }}">
 
-                      <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
+                        <input type="hidden" name="survey_id" value="{{ $interview->survey->id }}">
 
-                      <input type="hidden" name="interview_id" value="{{ $interview->id }}">
+                        <input type="hidden" name="interview_id" value="{{ $interview->id }}">
 
-                      <input type="hidden" name="respondent_id" value="{{ $interview->respondent->id }}">
+                        <input type="hidden" name="respondent_id" value="{{ $interview->respondent->id }}">
 
-                      <input type="hidden" name="respondent_name" value="{{ $interview->respondent->name ?? $interview->respondent_name }}">
+                        <input type="hidden" name="respondent_name" value="{{ $interview->respondent->name ?? $interview->respondent_name }}">
 
-                      <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
+                        <input type="hidden" name="ext_no" value="{{ auth()->user()->ext_no }}">
 
-                      <input type="hidden" name="phone_called" value="{{ $interview->phone_called }}">
+                        <input type="hidden" name="phone_called" value="{{ $interview->phone_called }}">
 
-                    </div>
-                    <button type="submit" class="btn btn-outline-primary btn-sm">
-                      Interview Link
-                    </button>
-                  </form>
+                      </div>
+                      <button type="submit" class="btn btn-outline-primary btn-sm">
+                        Interview Link
+                      </button>
+                    </form>
                   @endif
                 </dt>
               </dl>

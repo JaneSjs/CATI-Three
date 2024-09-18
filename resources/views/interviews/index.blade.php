@@ -36,6 +36,9 @@
                   
                   <td>
                     {{ $interview->respondent->name ?? '' }}
+                    <span class="@if($interview->respondent->interview_status == 'Locked') text-danger @else text-primary @endif">
+                      {{ $interview->respondent->interview_status }}
+                    </span>
                     <hr>
                     Phone Called - 890{{ $interview->phone_called }}
                   

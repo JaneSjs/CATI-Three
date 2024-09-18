@@ -50,7 +50,7 @@ class InterviewController extends Controller
             $query->where('project_id', $project_id);
         }
 
-        $data['interviews'] = $query->orderBy('id', 'DESC')->paginate(10)->withQueryString();
+        $data['interviews'] = $query->orderBy('id', 'DESC')->paginate(100)->withQueryString();
 
 
         $total_interviews = $query->orderBy('id', 'DESC')->get();
