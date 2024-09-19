@@ -218,7 +218,7 @@
             </td>
             @endcan
             <td>
-              {{ $end_time->format('d/m/Y') }}
+              {{ $end_time->format('d/m/Y h:m') }}
             </td>
           </tr>
           @endforeach

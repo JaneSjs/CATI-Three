@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Interview;
 use App\Models\InterviewSchedule;
+use App\Models\Project;
+use App\Models\Schema;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,11 +26,15 @@ class InterviewScheduleController extends Controller
         if($schema_id !== null)
         {
             //dd($schema_id);
+            $data['schema'] = Schema::find($schema_id);
+
             $query->where('schema_id', $schema_id);
         }
         elseif($project_id !== null)
         {
             //dd($project_id);
+            $data['project'] = Project::find($project_id);
+            
             $query->where('project_id', $project_id);
         }
 
