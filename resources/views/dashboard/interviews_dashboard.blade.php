@@ -16,7 +16,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-sm-6 col-lg-3">
-        <div class="card mb-4 text-white bg-secondary">
+        <div class="card mb-4 text-white bg-dark">
           <div class="card-body pb-0 d-flex justify-content-between align-items-start">
             <div>
               <div class="fs-4 fw-semibold">
@@ -123,8 +123,6 @@
               </td>
                   
               <td>
-                {{ $interview->respondent->name ?? '' }}
-                <hr>
                 Phone Called - 890 {{ $interview->phone_called }}
                     
                 <hr>
@@ -153,12 +151,12 @@
                   </dd>
                 @else
                   <dt class="text-danger">
-                    Incomplete Interview
+                    Incomplete Interview with {{ $interview->respondent->name ?? 'Deleted Respondent' }}
                   </dt>
                   @isset($interview->respondent->interview_status)
                   @if($interview->respondent->interview_status == 'Locked')
                     <dd class="text-danger">
-                      You have {{ $interview->respondent->interview_status }} this respondent.
+                      You have {{ $interview->respondent->interview_status . ' ' . $interview->respondent->name }} in this Interview.
                     </dd>
                     <p>
                       You should either  

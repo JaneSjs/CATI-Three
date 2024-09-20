@@ -205,7 +205,7 @@ use Carbon\Carbon;
                 $last_called = Carbon::parse($respondent->updated_at);
                ?>
                 <span class="bg-info text-light border border-info mx-2">
-                  Last Called Approx {{ $last_called->diffForHumans() ?? '' }}
+                  Last Interview Attempt Was Made Approximately {{ $last_called->diffForHumans() ?? '' }}.
                 </span>
                 <span class="bg-warning border border-info mx-auto">
                   {{ $respondent->feedback ?? '' }}
