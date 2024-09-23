@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
@@ -291,32 +292,56 @@ class ProjectController extends Controller
 
         $users = $project->users();
 
-        //dd($users);
-
-        $rolesToFilter = ['Interviewer', 'Supervisor', 'QC', 'Coordinator'];
-
-        $project_members = $users->where(function ($query) use ($rolesToFilter)
-        {
-            $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
-            {
-                $subQuery->whereIn('name', $rolesToFilter);
-            })->orWhereDoesntHave('roles');
-        })->get();
-
         $today = Carbon::today();
 
-        foreach ($project_members as $member)
+        // Managers. Supervisors and Coordinators
+        $rolesToFilter = ['Manager','Supervisor', 'Coordinator'];
+
+        $data['senior_members'] = $project->users()
+                                    ->whereHas('roles', function ($query) use ($rolesToFilter)
+                                    {
+                                            $query->whereIn('name', $rolesToFilter);
+                                    })
+                                    ->with('roles')
+                                    ->get();
+
+        // QC's                                    
+        $data['qcs'] = $project->users()
+                            ->whereHas('roles', function ($query)
+                            {
+                                $query->where('name', 'QC');
+                            })
+                            ->with('roles')
+                            ->get();
+
+        foreach ($data['qcs'] as $qc)
         {
-            $member->todays_completed_interviews = $member->interviews()
-                                                    ->where('project_id', $project->id)
-                                                    ->whereDate('created_at', $today)
-                                                    ->where('interview_status', 'Interview Completed')
-                                                    ->count();
+            $qc->todays_qcd_interviews = DB::table('interviews')
+                                    ->where('project_id', $project->id)
+                                    ->whereDate('created_at', $today)
+                                    ->where('qc_id', $qc->id)
+                                    ->whereNotNull('qc_id')
+                                    ->count();
         }
 
-        //$data['project_interviewers'] = $project_members;
+        // Interviewers
 
-        $data['users'] = $project_members;
+        $data['interviewers'] = $project->users()
+                            ->whereHas('roles', function ($query)
+                            {
+                                $query->where('name', 'Interviewer');
+                            })
+                            ->with('roles')
+                            ->get();
+
+        foreach ($data['interviewers'] as $interviewer)
+      {
+            $interviewer->todays_completed_interviews = $interviewer->interviews()
+                            ->where('project_id', $project->id)
+                            ->whereDate('created_at', $today)
+                            ->where('interview_status', 'Interview Completed')
+                            ->count();
+        }
 
         return view('projects.attendance_list', $data);
     }

@@ -97,29 +97,116 @@
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered table-sm">
-          <thead class="table-success">
+          <thead class="table-primary">
+            <caption>
+              Project Managers, Coordinators and Supervisors
+            </caption>
             <tr>
               <th scope="col">Name</th>
+              <th scope="col">Phone No</th>
+              <th scope="col">Role</th>
+              <th scope="col">LT</th>
+              <th scope="col">Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($senior_members as $member)
+            <tr>
+              <td>
+                <a href="{{ route('profiles.show', $member->id) }}">
+                  {{ $member->first_name . ' ' . $member->last_name  }}
+                </a>
+              </td>
+              <td>{{ $member->phone_1 }}</td>
+              <td>
+                @if($member->roles->isNotEmpty())
+                  {{ $member->roles->pluck('name')->join(', ') }}
+                @endif
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <hr>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <caption>
+            QC's
+          </caption>
+          <thead class="table-success">
+            <tr>
+              <th scope="col">QC Name</th>
               <th scope="col">National ID</th>
               <th scope="col">Phone No</th>
-              <th scope="col">Ext No</th>
+              <th scope="col">Role</th>
               <th scope="col">Today's Interviews</th>
               <th scope="col">LT</th>
               <th scope="col">Signature</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($users as $user)
+            @foreach($qcs as $qc)
             <tr>
               <td>
-                <a href="{{ route('profiles.show', $user->id) }}">
-                  {{ $user->first_name . ' ' . $user->last_name  }}
+                <a href="{{ route('profiles.show', $qc->id) }}">
+                  {{ $qc->first_name . ' ' . $qc->last_name  }}
                 </a>
               </td>
-              <td>{{ $user->national_id }}</td>
-              <td>{{ $user->phone_1 }}</td>
-              <td>{{ $user->ext_no }}</td>
-              <td>{{ $user->todays_completed_interviews ?? 0 }}</td>
+              <td>{{ $qc->national_id }}</td>
+              <td>{{ $qc->phone_1 }}</td>
+              <td>
+                @if($qc->roles->isNotEmpty())
+                  {{ $qc->roles->pluck('name')->join(', ') }}
+                @endif
+              </td>
+              <td>{{ $qc->todays_qcd_interviews ?? 0 }}</td>
+              <td></td>
+              <td></td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <hr>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <caption>
+            Interviewers
+          </caption>
+          <thead class="table-success">
+            <tr>
+              <th scope="col">Interviewer</th>
+              <th scope="col">National ID</th>
+              <th scope="col">Phone No</th>
+              <th scope="col">Ext No</th>
+              <th scope="col">Role</th>
+              <th scope="col">Today's Interviews</th>
+              <th scope="col">LT</th>
+              <th scope="col">Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($interviewers as $interviewer)
+            <tr>
+              <td>
+                <a href="{{ route('profiles.show', $interviewer->id) }}">
+                  {{ $interviewer->first_name . ' ' . $interviewer->last_name  }}
+                </a>
+              </td>
+              <td>{{ $interviewer->national_id }}</td>
+              <td>{{ $interviewer->phone_1 }}</td>
+              <td>{{ $interviewer->ext_no }}</td>
+              <td>
+                @if($interviewer->roles->isNotEmpty())
+                  {{ $interviewer->roles->pluck('name')->join(', ') }}
+                @endif
+              </td>
+              <td>{{ $interviewer->todays_completed_interviews ?? 0 }}</td>
               <td></td>
               <td></td>
             </tr>
@@ -133,7 +220,7 @@
         {{ $project->name }} Attendance List
       </h6>
       <h6>
-        Date: <span>{{ date('d-m-y') }}</span>
+        Date: <span>{{ date('d-m-y H:i') . 'Hrs' }}</span>
       </h6>
     </div>
   </div>
