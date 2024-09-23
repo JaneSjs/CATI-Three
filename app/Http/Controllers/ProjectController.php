@@ -284,9 +284,9 @@ class ProjectController extends Controller
      * Return users who have the role of Interviewer
      * or those who have no roles yet.
      */
-    public function attendanceList($id)
+    public function attendanceList($project_id)
     {
-        $project = Project::find($id);
+        $project = Project::find($project_id);
         $data['project'] = $project;
 
         $users = $project->users();
@@ -303,7 +303,18 @@ class ProjectController extends Controller
             })->orWhereDoesntHave('roles');
         })->get();
 
-        $data['project_interviewers'] = $project_members;
+        $today = Carbon::today();
+
+        foreach ($project_members as $member)
+        {
+            $member->todays_completed_interviews = $member->interviews()
+                                                    ->where('project_id', $project->id)
+                                                    ->whereDate('created_at', $today)
+                                                    ->where('interview_status', 'Interview Completed')
+                                                    ->count();
+        }
+
+        //$data['project_interviewers'] = $project_members;
 
         $data['users'] = $project_members;
 

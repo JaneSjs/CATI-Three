@@ -103,6 +103,7 @@
               <th scope="col">National ID</th>
               <th scope="col">Phone No</th>
               <th scope="col">Ext No</th>
+              <th scope="col">Today's Interviews</th>
               <th scope="col">LT</th>
               <th scope="col">Signature</th>
             </tr>
@@ -118,6 +119,7 @@
               <td>{{ $user->national_id }}</td>
               <td>{{ $user->phone_1 }}</td>
               <td>{{ $user->ext_no }}</td>
+              <td>{{ $user->todays_completed_interviews ?? 0 }}</td>
               <td></td>
               <td></td>
             </tr>
