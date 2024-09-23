@@ -11,8 +11,8 @@
           Bulk Import Respondents
         </div>
         <div class="col col-3">
-          <a href="{{ asset('Templates/Respondents-Import-Template.xlsx') }}" class="btn btn-outline-warning" download>
-            Download Template
+          <a href="{{ asset('Templates/Respondents-Import-Template.xlsx') }}" class="btn btn-warning" title="Click To Download Template" download>
+            Use This Template
             <i class="fas fa-download"></i>
           </a>
         </div>

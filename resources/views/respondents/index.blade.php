@@ -7,34 +7,20 @@ use Carbon\Carbon;
     
 @section('content')
 
-
 <div class="body flex-grow-1 px-3">
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col">
-          <h5>
+        <div class="col-3">
+          <h6>
             All Respondents
-          </h5>
-          @canany(['admin','dpo'])
-            <div class="btn-group" role="group" aria-label="Respondents Deletion">
-              <form action="" method="post">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-secondary">
-                  Remove All
-                </button>
-              </form>
-              <a href="" class="btn btn-sm btn-danger">
-                Removed Respondents
-              </a>
-            </div>
-          @endcan
+          </h6>
         </div>
-        <div class="col">
+        <div class="col-4">
           <form action="{{ url('search_respondents') }}" method="GET">
+            @csrf
             <div class="input-group">
-              <input type="search" name="query" class="form-control" placeholder="Search for respondents..." aria-label="Search for respondents..." aria-describedby="search_respondents" value="{{ request()->get('query') }}">
+              <input type="search" name="query" class="form-control" placeholder="Search for respondents..." aria-label="Search for respondents..." aria-describedby="search_respondents" value="">
               <button type="submit" class="btn btn-outline-info" id="search_respondents">
                 <i class="fa fa-search"></i>
               </button>
@@ -42,27 +28,42 @@ use Carbon\Carbon;
           </form>
         </div>
 
-        <div class="col text-end">
+        <div class="col-5 text-end">
 
           @include('partials/alerts')
 
+          <div class="btn-group">
+              @canany(['admin','ceo','dpo'])
+                <form action="{{ route('respondents.export') }}" method="post">
+                  @csrf
+                  
+                  <button type="submit" class="btn btn-outline-info btn-sm mt-1" title="Export respondents">
+                    <i class="fas fa-download"></i>
+                    Export
+                  </button>
+                </form>
+              @endcan
+              <a href="{{ url('respondents/import') }}" class="btn btn-outline-success btn-sm mt-1" title="Import respondents">
+                Import 
+                <i class="fas fa-upload"></i>
+              </a>
+              <button type="button" class="btn btn-success btn-sm mt-1" data-coreui-toggle="modal" data-coreui-target="#rdms">
+                RDMS
+                <i class="fa-solid fa-server nav-icon" style="color: #fff;"></i>
+              </button>
+
+          </div>
         </div>
       </div>
     </div>
     <div class="card-body">
       <div class="row">
 
-        <div class="col-9">
+        <div class="col-8">
           <div class="table-responsive">
-            <table class="table caption-top">
-              @canany(['admin','ceo','head','dpo'])
-              <caption>
-               All Respondents
-              </caption>
-              @endcan
+            <table class="table table-sm caption-top">
               <thead class="table-success">
                 <tr>
-                  <th scope="col">Id</th>
                   <th scope="col">Name</th>
                   <th scope="col">Gender</th>
                   <th scope="col">Interview Status</th>
@@ -74,14 +75,15 @@ use Carbon\Carbon;
               <tbody>
                 @foreach($respondents as $respondent)
                 <tr>
-                  <th scope="row">
-                    {{ $respondent->id ?? '-' }}
-                  </th>
                   <td>
-                    <i class="fas fa-eye"></i>
-                    <a href="{{ route('respondents.show', $respondent->id) }}">                  
+                    <div title="Click To View Respondent Details" data-coreui-toggle="modal" data-coreui-target="#viewRespondent-{{ $respondent->id }}">
                       {{ $respondent->name }}
-                    </a>
+                    </div>
+                    @include('respondents/partials/view_respondent_modal')              
+                    <hr>
+                    <small>
+                      {{ $respondent->phone_1 }}
+                    </small>
                   </td>
                   <td>
                     {{ $respondent->gender ?? '-' }}
@@ -102,19 +104,14 @@ use Carbon\Carbon;
                   </td>
                   <td>
                     <div class="btn-group">
-                      @canany(['admin'])
-                      <a href="{{ route('respondents.edit', $respondent->id) }}" class="btn btn-sm btn-outline-info" title="Update respondent Details">
+                      <button type="button" class="btn btn-sm btn-outline-info" title="Update respondent Details" data-coreui-toggle="modal" data-coreui-target="#editRespondentDetails-{{ $respondent->id }}">
                         <i class="fas fa-pen"></i>
-                      </a>
-                      @endcan
-
-                      @can('supervisor')
-                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $respondent->last_name }}">
-                        <i class="fas fa-respondent-tie"></i>
                       </button>
-                      @endcan
+                      @include('respondents/partials/edit_respondent_details_modal')
 
-                      @canany(['admin','head','manager','coordinator','dpo'])
+                      
+
+                      @canany(['admin','dpo'])
                       <form action="{{ route('respondents.destroy', $respondent->id) }}" method="post">
                         @csrf
                         @method('DELETE')
@@ -135,9 +132,9 @@ use Carbon\Carbon;
           </div>
         </div>
         @canany(['admin','ceo','head','manager','coordinator','dpo'])
-        <div class="col-3 bg-dark">
+        <div class="col-4 bg-dark">
           <ul class="list-group mt-5">
-            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
+            <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Survey">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">
                   Total Respondents
@@ -147,6 +144,7 @@ use Carbon\Carbon;
                 {{ $total_respondents }}
               </span>
             </li>
+            
             <li class="list-group-item d-flex justify-content-between align-items-start" title="Total Respondents For This Project">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">
@@ -187,15 +185,7 @@ use Carbon\Carbon;
                 {{ $female_respondents }}
               </span>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Respondents</div>
-                Available for Interviewing
-              </div>
-              <span class="badge bg-primary rounded-pill">
-                {{ $respondents_available_for_interviewing }}
-              </span>
-            </li>
+            
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Respondents</div>
@@ -226,9 +216,7 @@ use Carbon\Carbon;
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
                 <div class="fw-bold">Locked</div>
-                 - Engaged to an Ongoing interview <br>
-                 - Scheduled  for an interview <br>
-                 - Has completed an Interview  within the Past 6 months
+                 - Engaged to an Ongoing or Scheduled interview
               </div>
               <span class="badge bg-info rounded-pill">
                 {{ $locked_respondents }}

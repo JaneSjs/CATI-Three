@@ -99,7 +99,7 @@ class RespondentController extends Controller
             $project = Project::find($projectId);
 
             $data['project'] = $project;
-            $respondents = $project->respondents()->orderBy('id', 'desc')->paginate(10);
+            $respondents = $project->respondents()->orderBy('id', 'desc')->paginate(20);
             //dd($respondents);
             $data['respondents'] = $respondents;
         }
@@ -109,7 +109,7 @@ class RespondentController extends Controller
             $survey  = Schema::find($surveyId);
 
             $data['survey'] = $survey;
-            $respondents = $survey->respondents()->orderBy('id', 'desc')->paginate(10);
+            $respondents = $survey->respondents()->orderBy('id', 'desc')->paginate(20);
             //dd($respondents);
             $data['respondents'] = $respondents;
         }
