@@ -143,7 +143,7 @@
               <th scope="col">National ID</th>
               <th scope="col">Phone No</th>
               <th scope="col">Role</th>
-              <th scope="col">Today's Interviews</th>
+              <th scope="col">Today's QC'd Interviews</th>
               <th scope="col">LT</th>
               <th scope="col">Signature</th>
             </tr>
@@ -180,7 +180,7 @@
           </caption>
           <thead class="table-success">
             <tr>
-              <th scope="col">Interviewer</th>
+              <th scope="col">Interviewer's Name</th>
               <th scope="col">National ID</th>
               <th scope="col">Phone No</th>
               <th scope="col">Ext No</th>
