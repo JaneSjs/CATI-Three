@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   console.log('Results url:', result_url);
 
-
   let survey; // Declare the survey variable outside fetchSurvey()
 
 
@@ -63,7 +62,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             // Remove The Complete button that appears at the end of the survey
-            survey.show = false;
+            //survey.show = false;
+            survey.showCompleteButton = false;
 
           } else {
             throw new Error('Error fetching survey results');

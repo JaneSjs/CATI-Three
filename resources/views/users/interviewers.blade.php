@@ -64,7 +64,7 @@
                   </td>
                   <td>
                     <div class="btn-group">
-                      @canany(['admin','ceo','supervisor'])
+                      @canany(['admin','ceo','dpo','supervisor'])
                       <button type="button" class="btn btn-outline-primary" title="Reset Ext No {{ $interviewer->ext_no }}" data-coreui-toggle="modal" data-coreui-target="#resetExtNo-{{ $interviewer->id }}">
                         <div class="icon me-2">
                           <i class="fa-solid fa-square-phone"></i>

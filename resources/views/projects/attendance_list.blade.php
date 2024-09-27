@@ -79,18 +79,7 @@
           </div>
         </div>
         <div class="col">
-          <div class="d-flex justify-content-between mt-3">
-            <ul class="list-unstyled">
-              <li><strong>Supervisors:</strong></li>
-              <li>Name 1</li>
-              <li>Name 2</li>
-            </ul>
-            <ul class="list-unstyled">
-              <li><strong>Coordinators:</strong></li>
-              <li>Name 1</li>
-              <li>Name 2</li>
-            </ul>
-          </div>
+          
         </div>
       </div>
     </div>

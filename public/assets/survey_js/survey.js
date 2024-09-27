@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const surveyResult = await response.json();
         resultId = surveyResult.id;
 
-        // Display Interview Complete Button and Hide The Terminate Button
+        // Display Complete Interview Button and Hide The Terminate Interview Button
         setTimeout(() => {
           console.log("Complete Interview Button To Be Visible");
           document.getElementById('completeInterview').classList.remove('invisible');

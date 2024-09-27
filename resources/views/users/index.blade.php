@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col">
           <h5>
-            System Users
+            All System Users
           </h5>
         </div>
         <div class="col">
@@ -43,7 +43,7 @@
         <div class="col-9">
           <div class="table-responsive">
             <table class="table caption-top">
-              @canany(['admin','ceo','head'])
+              @canany(['admin','ceo','dpo'])
               <caption>
                All System Users
               </caption>
@@ -51,10 +51,10 @@
               <thead class="table-success">
                 <tr>
                   <th scope="col">Name</th>
-                  @can('admin')
+                  @canany(['admin','dpo'])
                     <th scope="col">Role(s)</th>
                   @endcan
-                  @canany(['admin','supervisor'])
+                  @canany(['admin','dpo','supervisor'])
                     <th scope="col">Ext No</th>
                   @endcan
                   <th>Actions</th>
@@ -69,7 +69,7 @@
                       {{ $user->first_name . ' ' . $user->last_name  }}
                     </a>
                   </th>
-                  @can('admin')
+                  @canany(['admin','dpo'])
                     <td class="bg-warning">
                       @foreach($user->roles as $role)
                           <span class="badge bg-secondary text-dark">
@@ -78,23 +78,17 @@
                       @endforeach
                     </td>
                   @endcan
-                  @canany(['admin','supervisor'])
+                  @canany(['admin','dpo','supervisor'])
                     <td class="">
                       {{ $user->ext_no }}
                     </td>
                   @endcan
                   <td>
                     <div class="btn-group">
+                      @canany(['admin','dpo'])
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-info" title="Update User Details">
                         <i class="fas fa-pen"></i>
                       </a>
-                      @can('supervisor')
-                      <button type="button" class="btn btn-sm btn-outline-primary" title="Recruit {{ $user->last_name }}">
-                        <i class="fas fa-user-tie"></i>
-                      </button>
-                      @endcan
-
-                      @can('supervisor')
                       <form action="{{ route('users.destroy', $user->id) }}" method="post">
                         @csrf
                         @method('DELETE')
@@ -114,7 +108,7 @@
             </table>
           </div>
         </div>
-        @canany(['admin','ceo'])
+        @canany(['admin','ceo','dpo'])
         <div class="col-3 bg-secondary">
           Total System Users = {{ $allUsers }}
         </div>

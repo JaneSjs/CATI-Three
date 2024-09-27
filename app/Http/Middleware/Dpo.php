@@ -20,6 +20,6 @@ class Dpo
             return $next($request);
         }
 
-        return redirect()->route('dashboard')->with('danger', 'Action not allowed');
+        return redirect()->route('dashboard')->with('danger', 'Only Data Protection Officer Can Perform This Action.');
     }
 }

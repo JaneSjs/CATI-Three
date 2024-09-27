@@ -22,22 +22,31 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Gate::allows(['admin','ceo']) || auth()->user()->id == 1){
-            $allUsers = User::all();
-            $data['allUsers'] = count($allUsers);
+        if (Gate::any(['admin','ceo']) || auth()->user()->id == 1)
+        {
+            $data['allUsers'] = User::all()->count();
 
-            $data['users'] = User::paginate(10);
+            $data['users'] = User::paginate(20);
         }
-        elseif (Gate::allows('head')) {
-            $data['users'] = User::paginate(10);
+        elseif (Gate::any(['dpo']))
+        {
+            $data['allUsers'] = User::all()->count();
+
+            $rolesToFilter = ['Head','Manager','Finance','Scripter','Coordinator','Supervisor','QC','Client','Interviewer','Respondent'];
+
+            $data['users'] = User::where(function ($query) use ($rolesToFilter)
+            {
+                $query->whereHas('roles', function ($subQuery) use ($rolesToFilter)
+                {
+                    $subQuery->whereIn('name', $rolesToFilter);
+                })
+                ->orwhereDoesntHave('roles');
+            })->paginate(20);
         }
         else
         {
-            $role = Role::where('name', 'Interviewer')
-                           ->find(auth()->id());
-            //dd($role);
-
-            $data['users'] = [];
+            //dd(auth()->user()->roles);
+            return back()->with('error', 'Authorization Error');    
         }
 
         return view('users.index', $data);
@@ -142,32 +151,21 @@ class UserController extends Controller
     {
         $data['user'] = $user;
 
-        if (Gate::allows('admin') || auth()->user()->id == 1){
+        if (Gate::allows('admin') || auth()->user()->id == 1)
+        {
             $data['roles'] = Role::all();
         }
-        elseif (Gate::allows('head'))
+        elseif (Gate::any(['head','dpo']))
         {
             $data['roles'] = Role::where('name', 'Interviewer')
                                 ->orwhere('name', 'Client')
+                                ->orwhere('name', 'QC')
                                 ->orwhere('name', 'Supervisor')
                                 ->orwhere('name', 'Manager')
                                 ->orwhere('name', 'Scripter')
                                 ->orwhere('name', 'Coordinator')
                                 ->orderBy('name')
                                 ->get();
-        }
-        elseif (Gate::allows('manager'))
-        {
-            //dd('Manager');
-            $data['roles'] = Role::where('name', 'Interviewer')
-                                ->orwhere('name', 'Client')
-                                ->orwhere('name', 'Supervisor')
-                                ->orwhere('name', 'Scripter')
-                                ->orwhere('name', 'Coordinator')
-                                ->orwhere('name', 'QC')
-                                ->get();
-
-            //dd($data);
         }
         else
         {

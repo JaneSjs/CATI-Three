@@ -4,6 +4,15 @@
     <img src="{{ asset('assets/images/company-logo.png') }}" class="sidebar-brand-full" width="90" height="46" alt="TIFA Logo">
   </div>
   <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+    @canany(['admin','ceo','head','manager'])
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url('dashboard') }}" aria-label="Dashboard">
+        <i class="fa-solid fa-gauge nav-icon" style="color: #fff;"></i> 
+        Dashboard
+      </a>
+    </li>
+    @endcan
+
     @canany(['admin'])
     <li class="nav-group">
       <a class="nav-link nav-group-toggle" href="#">
@@ -32,79 +41,87 @@
     </li>
     @endcan
 
-    @canany(['admin','ceo','head','manager'])
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url('dashboard') }}">
-        <i class="fa-solid fa-gauge nav-icon" style="color: #fff;"></i> 
-        Dashboard
+    @if(auth()->id() === 1 || auth()->user()->canany(['admin','dpo']) )
+    <li class="nav-group">
+      <a class="nav-link nav-title nav-group-toggle" href="#">
+        User Management
       </a>
+      <ul class="nav-group-items">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('users.index') }}">
+            <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i>
+            Sytem Users
+          </a>
+        </li>
+        @if(auth()->user()->can('admin'))
+        <li class="nav-item" title="SurveyJS Documentation">
+          <a class="nav-link" href="{{ route('roles.index') }}">
+            <i class="fa-solid fa-user-lock nav-icon" style="color: #fff;"></i> 
+            User Roles
+          </a>
+        </li>
+        @endif
+      </ul>
+    </li>
+    @endif
+    
+
+    @canany(['admin','ceo','head','manager','dpo'])
+    <li class="nav-group">
+      <a class="nav-link nav-title nav-group-toggle" href="#">
+        Learning
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item" title="SurveyJS Documentation">
+          <a href="https://surveyjs.io/survey-creator/documentation/end-user-guide/user-interface" class="nav-link" rel="noreferrer" target="_blank">
+            <i class="fa-solid fa-square-poll-horizontal nav-icon" style="color: #fff;"></i>
+            Survey Js
+          </a>
+        </li>
+        <li class="nav-item" title="Metabase Documentation">
+          <a href="https://www.metabase.com/learn/metabase-basics/getting-started/introduction" class="nav-link" rel="noreferrer" target="_blank">
+            <i class="fa-solid fa-chart-line nav-icon" style="color: #fff;"></i>
+            Metabase
+          </a>
+        </li>
+      </ul>
     </li>
     @endcan
 
-    @canany(['admin'])
-    <li class="nav-title">User Management</li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('roles.index') }}">
-        <i class="fa-solid fa-user-lock nav-icon" style="color: #fff;"></i> 
-        User Roles
+    <li class="nav-group">
+      <a class="nav-link nav-title nav-group-toggle" href="#">
+        Research
       </a>
-    </li>
-    @elseif(auth()->user()->id == 1)
-    <li class="nav-title">User Management</li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('roles.index') }}">
-        <i class="fa-solid fa-user-lock nav-icon" style="color: #fff;"></i> 
-        User Roles
-      </a>
-    </li>
-    @endcan
+      <ul class="nav-group-items">
+        @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client','dpo','finance'])
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('projects.index') }}">
+            <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
+            Projects
+          </a>
+        </li>
+        @endcan
 
-    @canany(['admin'])
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('users.index') }}">
-        <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
-        Users
-      </a>
-    </li>
-    @elseif(auth()->user()->id == 1)
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('users.index') }}">
-        <i class="fa-solid fa-users-gear nav-icon" style="color: #fff;"></i> 
-        Users
-      </a>
-    </li>
-    @endcan
-    <li class="nav-title">
-      Research
-    </li>
+        @canany(['admin','ceo','head','manager'])
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('clients') }}">
+            <i class="fa-solid fa-face-smile nav-icon" style="color: #e5a50a;"></i>
+            Clients
+          </a>
+        </li>
+        @endcan
 
-    @canany(['admin','ceo','head','manager','scripter','coordinator','supervisor','interviewer','qc','client','dpo','finance'])
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('projects.index') }}">
-        <i class="fa-solid fa-folder-open nav-icon" style="color: #fff;"></i> 
-        Projects
-      </a>
+        @canany(['admin','ceo','supervisor'])
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('interviewers') }}">
+            <i class="fa-solid fa-headphones nav-icon" style="color: #e5a50a;"></i>
+            <!--<i class="cis-headphones nav-icon" style="color: #e5a50a;"></i>-->
+            Interviewers
+          </a>
+        </li>
+        @endcan
+      </ul>
     </li>
-    @endcan
-
-    @canany(['admin','ceo','head','manager'])
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('clients') }}">
-        <i class="fa-solid fa-face-smile nav-icon" style="color: #e5a50a;"></i>
-        Clients
-      </a>
-    </li>
-    @endcan
-
-    @canany(['admin','ceo','supervisor'])
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('interviewers') }}">
-        <i class="fa-solid fa-headphones nav-icon" style="color: #e5a50a;"></i>
-        <!--<i class="cis-headphones nav-icon" style="color: #e5a50a;"></i>-->
-        Interviewers
-      </a>
-    </li>
-    @endcan
 
     @canany(['admin'])
     <li class="nav-group" title="Jobs Kona is Coming Soon">
