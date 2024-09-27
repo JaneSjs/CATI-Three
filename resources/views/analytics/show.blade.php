@@ -4,7 +4,7 @@
 
 <div class="container">
     <h3 class="text-info text-center">
-        Pending SurveyJs Developer Licence
+        Survey Results Analytics
     </h3>
 	<p id="result_url" style="display: none;">
         {{ route("api.results.show", $result->id ?? '') }}

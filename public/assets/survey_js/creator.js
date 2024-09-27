@@ -54,6 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const creator = new SurveyCreator.SurveyCreator(creatorOptions);
 
+      // Activate Developer Licence
+      Survey.slk(
+    "ZWViMzAzMzctMjllZC00Njg3LThjZmQtMTQwNzM4MTQxNjE5OzE9MjAyNS0wOS0yNywyPTIwMjUtMDktMjcsND0yMDI1LTA5LTI3"
+);
+
+
       if (Schema && Schema.content) {
         const parsedSchema = JSON.parse(Schema.content);
 

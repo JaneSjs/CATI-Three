@@ -16,14 +16,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         const surveySchema = await surveySchemaResponse.json();
         const surveyResults = await surveyResultsResponse.json();
 
-        return [surveySchemaResponse, surveyResultsResponse];
+        return [surveySchema, surveyResults];
       })
     .then(([surveySchema, surveyResults]) => {
 
       console.log('Survey Schema: ', surveySchema);
       console.log('Survey Results: ', surveyResults);
 
+      // Activate Developer Licence
+      Survey.slk(
+    "ZWViMzAzMzctMjllZC00Njg3LThjZmQtMTQwNzM4MTQxNjE5OzE9MjAyNS0wOS0yNywyPTIwMjUtMDktMjcsND0yMDI1LTA5LTI3"
+);
+
       const survey = new Survey.Model(surveySchema);
+
+      // Extract and Parse content from surveyResults.result
+      const parsedResults = surveyResults.result.map(entry => JSON.parse(entry.content));
 
       const vizPanelOptions = {
         allowHideQuestions: false
@@ -31,8 +39,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       // Container element for the SurveyJS Analytics rendering
       const vizPanel = new SurveyAnalytics.VisualizationPanel(
+        // How Do I Pass only the needed questions ?
         survey.getAllQuestions(),
-        surveyResults,
+        parsedResults,
         vizPanelOptions
       );
 
