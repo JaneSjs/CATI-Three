@@ -60,8 +60,8 @@ class Schema extends Model
     }
 
     /**
-     * Processed Respondents 
-     * 
+     * Processed Respondents
+     *
      * This Survey has many respondents.
      */
     public function respondents(): HasMany
@@ -84,4 +84,8 @@ class Schema extends Model
     {
         return $this->hasMany(Result::class);
     }
+
+    protected $casts = [
+        'content'  =>  'array',
+    ];
 }

@@ -1,10 +1,26 @@
 import './bootstrap';
 
-import { createApp } from "vue";
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
 
-import Dashboard from "./components/Dashboard.vue";
+
+createInertiaApp({
+    resolve: name => {
+        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+        return pages[`./Pages/${name}.vue`]
+    },
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .mount(el)
+    },
+})
+
+// import { createApp } from "vue";
+
+// import Dashboard from "./components/Dashboard.vue";
 
 
-createApp({
-    components: { Dashboard }
-}).mount("#app");
+// createApp({
+//     components: { Dashboard }
+// }).mount("#app");

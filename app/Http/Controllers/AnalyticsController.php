@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAnalyticsRequest;
 use App\Models\Analytics;
 use App\Models\Result;
 use App\Models\Schema;
+use Inertia\Inertia;
 
 class AnalyticsController extends Controller
 {
@@ -79,6 +80,14 @@ class AnalyticsController extends Controller
 
         $results = $survey->results()->get()->pluck('content');
 
-        return view('analytics.new', compact('survey', 'results'));
+
+        // dd($survey);
+
+        return Inertia::render('Dashboard', [
+            'survey' => $survey->content,
+            'results' => $results
+          ]);
+
+
     }
 }
