@@ -26,7 +26,6 @@
     @endif
 
 
-    @inertiaHead
 
     <!-- Vendors styles-->
     <link rel="stylesheet" href="{{ asset('assets/core-ui/css/simplebar.css') }}">
@@ -55,7 +54,6 @@
 </head>
 
 <body>
-    @inertia
     @include('layouts.sidebar')
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
         @include('layouts.header')
