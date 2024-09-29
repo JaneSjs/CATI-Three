@@ -80,12 +80,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       const vizPanelOptions = {
         allowHideQuestions: false
       };
-
+debugger
       // Container element for the SurveyJS Analytics rendering
+
+      const dummyResults = [
+        {
+            "question1": "1",
+            "question2": "2"
+        },
+        {
+            "question1": "3",
+            "question2": "4"
+        },
+        {
+            "question1": "6",
+            "question2": "7"
+        }
+        ];
       const vizPanel = new SurveyAnalytics.VisualizationPanel(
         // How Do I Pass only the needed questions ?
         survey.getAllQuestions(),
-        parsedResults,
+        dummyResults,
         vizPanelOptions
       );
 
