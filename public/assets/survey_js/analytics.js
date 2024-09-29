@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         const surveySchema = await surveySchemaResponse.json();
         const surveyResults = await surveyResultsResponse.json();
 
+        console.log("Survey Results Fresh From The Database", surveyResults.result);
+
         return [surveySchema, surveyResults];
       })
     .then(([surveySchema, surveyResults]) => {
