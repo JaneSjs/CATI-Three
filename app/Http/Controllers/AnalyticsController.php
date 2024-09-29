@@ -70,4 +70,15 @@ class AnalyticsController extends Controller
     {
         //
     }
+
+
+    public function analytics_new($schema)
+    {
+
+        $survey = Schema::findOrFail($schema);
+
+        $results = $survey->results()->get()->pluck('content');
+        // dd($results);
+        return view('analytics.new', compact('survey', 'results'));
+    }
 }
