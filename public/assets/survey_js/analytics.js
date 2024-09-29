@@ -27,11 +27,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       Survey.slk(
     "ZWViMzAzMzctMjllZC00Njg3LThjZmQtMTQwNzM4MTQxNjE5OzE9MjAyNS0wOS0yNywyPTIwMjUtMDktMjcsND0yMDI1LTA5LTI3"
 );
-
-      const survey = new Survey.Model(surveySchema);
-
       // Extract and Parse content from surveyResults.result
       const parsedResults = surveyResults.result.map(entry => JSON.parse(entry.content));
+      const parsedSchema = JSON.parse(surveySchema.survey.content);
+
+      const survey = new Survey.Model(parsedSchema);
+
+
 
       const vizPanelOptions = {
         allowHideQuestions: false
