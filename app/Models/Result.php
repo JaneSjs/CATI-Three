@@ -59,4 +59,9 @@ class Result extends Model
     {
         return $this->belongsTo(Interview::class);
     }
+
+
+    protected $casts = [
+        'content'  =>  'array',
+    ];
 }

@@ -10,15 +10,17 @@ const props = defineProps<{
     results: any;
 }>();
 
-// console.log(props.survey);
+console.log(props.survey);
 const survey = new Model(props.survey);
+const results = props.results;
 
 
 onMounted(() => {
+    // console.log(survey.getAllQuestions());
     console.log(props.results);
     const dashboard = new VisualizationPanel(
         survey.getAllQuestions(),
-        props.results,
+        results,
     );
     dashboard.render(
         document.getElementById("summaryContainer") as HTMLElement

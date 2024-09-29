@@ -24,7 +24,7 @@
         @endphp
 
         <div id="app">
-            <dashboard :survey='{{ json_encode($survey) }}' :results='{{ json_encode($results) }}' />
+            <dashboard :survey='{{ json_encode($survey) }}' :results='{!! json_encode($results) !!}' />
         </div>
     </div>
 </body>
