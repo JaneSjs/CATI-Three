@@ -2,7 +2,7 @@
 <footer class="footer sticky-bottom no-print">
         <div>
                 @env('production')
-                        <p>CATI Version 3.0</p>
+                        <p>CATI Version 3.1</p>
                 @else
                         <b>Laravel Version</b>
                         {{ Illuminate\Foundation\Application::VERSION }}

@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
   
-  const SchemaUrl = document.getElementById("survey_url").textContent;
-  const ResultsUrl = document.getElementById("result_url").textContent;
+  const survey_url = document.getElementById("survey_url").textContent;
+  const result_url = document.getElementById("result_url").textContent;
   const survey_id  = document.getElementById("survey_id").textContent;
+  const dev_licence = document.getElementById("dev_licence").textContent;
 
-  Promise.all([fetch(SchemaUrl), fetch(ResultsUrl)])
+  Promise.all([fetch(survey_url), fetch(result_url)])
     .then(async responses => {
         if (!responses[0].ok || !responses[1].ok)
         {
@@ -24,16 +25,55 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log('Survey Results: ', surveyResults);
 
       // Activate Developer Licence
-      Survey.slk(
-    "ZWViMzAzMzctMjllZC00Njg3LThjZmQtMTQwNzM4MTQxNjE5OzE9MjAyNS0wOS0yNywyPTIwMjUtMDktMjcsND0yMDI1LTA5LTI3"
-);
+      Survey.slk(dev_licence);
+      console.log("Developer Licence", dev_licence);
+
       // Extract and Parse content from surveyResults.result
-      const parsedResults = surveyResults.result.map(entry => JSON.parse(entry.content));
+      let parsedResults = [];
+
+      try
+      {
+        if (Array.isArray(surveyResults.result))
+        {
+          parsedResults = surveyResults.result.map((result, index) => {
+            try
+            {
+              console.log(`Parsing result content at index ${index}: `, result.content);
+
+              parsedContent = JSON.parse(result.content);
+
+              return parsedContent;
+            }
+            catch(e)
+            {
+              console.error("Error Parsing Result Content at index ${index}:", result.content, e);
+              // Skip this result if parsing fails
+              return null;
+            }
+          }).filter(Boolean); // Remove null entries.
+        }
+        else if (typeof surveyResults.result === "object")
+        {
+          // Wrap the object inside an array
+          parsedResults = [JSON.parse(surveyResults.result.content)];
+        }
+        else
+        {
+          console.log("Survey result format is unrecognized");
+        }
+      }
+      catch(error)
+      {
+        console.log("Error Parsing Survey Results:", error);
+      }
+
+      // Parsed Results needs to be an array of survey response objects
+      console.log('Parsed Results: ', parsedResults);
+
+
       const parsedSchema = JSON.parse(surveySchema.survey.content);
 
       const survey = new Survey.Model(parsedSchema);
-
-
 
       const vizPanelOptions = {
         allowHideQuestions: false

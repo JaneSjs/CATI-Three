@@ -127,6 +127,18 @@ return [
     'cipher' => 'AES-256-CBC',
 
     /*
+    |-------------------------------------------------------------------------
+    | Survey JS Developer Licence
+    |-------------------------------------------------------------------------
+    |
+    | This licence key is used to activate premium freatures from the SurveyJS
+    | Form Library.
+    |
+    */
+
+    'dev_licence' => env('DEVELOPER_LICENCE', 'developer key not found'),
+
+    /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------

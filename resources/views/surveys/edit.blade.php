@@ -15,7 +15,7 @@
     <!-- End Favicon -->
     
     <title> 
-        {{ $survey->survey_name ?? ' ' }}
+        {{ $survey->survey_name ?? ' ' }} Questionnaire Designer
     </title>
 
     <!-- ... -->
@@ -48,6 +48,7 @@
     
 </head>
 <body>
+    <p id="dev_licence" style="display: none;">{{ config('app.dev_licence') }}</p>
     <p id="patch_url" style="display: none;">
         {{ route('api.surveys.update', $survey->id) }}
     </p>
