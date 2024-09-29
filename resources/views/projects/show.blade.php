@@ -358,7 +358,10 @@
                         Operations
                       </a>
 
-                      <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
+                      <!-- <a href="{{ route('analytics.show', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
+                        Analytics
+                      </a> -->
+                      <a href="{{ route('analytics_new', $survey->id) }}" class="btn btn-outline-success" title="View Analytics" rel="noopener" target="_blank">
                         Analytics
                       </a>
                       @endcan

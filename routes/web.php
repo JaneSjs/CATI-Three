@@ -150,11 +150,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('quotas', QuotaController::class);
 });
 
-Route::get('analytics_new/{id}', [AnalyticsController::class, 'analytics_new'])->middleware('auth');
-
 Route::middleware('guest')->get('/', [UserController::class, 'login']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('interviews_dashboard/project/{id}', [DashboardController::class, 'interviews_dashboard'])->name('interviews_dashboard');
+
+    Route::get('analytics_new/{id}', [AnalyticsController::class, 'analytics_new'])->name('analytics_new');
 });
